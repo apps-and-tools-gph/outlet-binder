@@ -1,0 +1,67 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Set up Outlet & Appliance Binding",
+        "description": "Adds a management panel for binding Plug-in Electrical Appliances to smart-plug endpoints. No configuration is needed to get started."
+      }
+    },
+    "abort": {
+      "single_instance_allowed": "Only a single instance of Outlet & Appliance Binding is allowed."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Configure Outlet & Appliance Binding",
+        "sections": {
+          "socket": {
+            "name": "Socket",
+            "data": {
+              "socket_region": "Change type to …"
+            },
+            "data_description": {
+              "socket_region": "Which regional socket shape the panel's socket icon shows.\n\n![The socket shapes, by code]({socket_key})"
+            }
+          },
+          "mode_options": {
+            "name": "Plugging / Unplugging",
+            "data": {
+              "mode": "Mode"
+            },
+            "data_description": {
+              "mode": "Only plug operations (plugging in, unplugging and moving between sockets) are staged. This includes the operations the Tools menu items perform.\n\nCreating, editing and deleting elements are always performed immediately.\n\nIn Batch mode, Undo and Redo step through the staged plug operations until you Commit or Flush them. Immediate mode has no Undo or Redo."
+            }
+          },
+          "mode_locked": {
+            "name": "Plugging / Unplugging",
+            "description": "Plug operations are waiting in the batch. So that none are lost by accident, Commit or Flush them with the buttons in the main page before switching to Immediate mode."
+          },
+          "debug": {
+            "name": "Developer",
+            "data": {
+              "debug_mode": "Debug mode"
+            },
+            "data_description": {
+              "debug_mode": "Enables developer-only behaviour not meant for a real install, starting with individual delete on Unmanaged Outlets, Appliances and Smart Devices."
+            }
+          }
+        }
+      }
+    }
+  },
+  "issues": {
+    "near_miss": {
+      "title": "Smart Device \"{device}\" not added",
+      "description": "\"{device}\" ({manufacturer} {model}) matches a known device pattern on make and model, but its entities don't fit that pattern, so it was not added as a Smart Device. The pattern file needs updating; nothing in Home Assistant needs changing.\n\nDetails for the pattern file:\n{reasons}"
+    }
+  },
+  "selector": {
+    "mode": {
+      "options": {
+        "batch": "Batch: adds plug operations to a batch, which take effect on Commit.",
+        "immediate": "Immediate: writes each change as soon as it's made."
+      }
+    }
+  }
+}

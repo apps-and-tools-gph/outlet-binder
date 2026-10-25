@@ -1,0 +1,20 @@
+# yaml-language-server: $schema=../../../../device_patterns_schema.yaml
+# monitoring uses unique_id_suffixes only: its unique_id
+# ("<child id>_current_power_w") can't be written as an identifier template.
+device:
+  kind: PLUG_IN
+sockets:
+  child_models: ["P304M"]
+  count: 4
+  default_name: 'Tapo P304M_\d+' # what tplink integration names an unrenamed Socket
+  on_off:
+    domain: switch
+    identified_by:
+      device: child
+      identifier: "{unique_id}"
+    unique_id_suffixes: ["00", "01", "02", "03"]
+  monitoring:
+    domain: sensor
+    device_class: power
+    unique_id_suffixes:
+      ["00_current_power_w", "01_current_power_w", "02_current_power_w", "03_current_power_w"]

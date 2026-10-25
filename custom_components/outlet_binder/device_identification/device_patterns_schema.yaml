@@ -1,0 +1,152 @@
+# JSON Schema (draft 2020-12) for one device pattern file --
+# custom_components/outlet_binder/device_identification/device_patterns/integration_domain/Manufacturer/Model/HwVersion-SwVersion.yaml.
+# Consumed by pattern_loader.py (a schema failure is logged and the file
+# skipped, the same as any other malformed pattern) and by an editor via
+# yaml-language-server's `# yaml-language-server: $schema=...` modeline.
+#
+# This schema is a first check only. It cannot express the rules that span
+# fields -- a role's unique_id_suffixes count matching sockets.count, on_off
+# and monitoring agreeing on whether they use unique_id_suffixes at all,
+# all_on_off never declaring unique_id_suffixes, and identified_by's
+# cross-field requirements. pattern_loader.py's own checks, run after this
+# schema passes, are the authority for those -- see device_patterns/README.md.
+$schema: "https://json-schema.org/draft/2020-12/schema"
+title: Device pattern
+type: object
+additionalProperties: false
+required:
+  - device
+  - sockets
+properties:
+  device:
+    description: >-
+      Whole-device concerns: whether the device has a plug of its own, and
+      its whole-device on/off switch if it has one.
+    type: object
+    additionalProperties: false
+    required:
+      - kind
+    properties:
+      kind:
+        description: >-
+          PLUG_IN if the device has a plug of its own and can be moved
+          between outlets (a smart plug or power strip); FIXED if it has no
+          plug and stays where it is installed (a smart wall outlet). Always
+          written out, since nothing guesses it.
+        type: string
+        enum: [PLUG_IN, FIXED]
+      all_on_off:
+        description: >-
+          Identifies a whole-device master on/off switch, if the device has
+          one (e.g. a multi-socket power strip's single strip-wide switch),
+          distinct from any individual socket's own on_off. No default; most
+          devices don't have one.
+        $ref: "#/$defs/role"
+  sockets:
+    description: Everything about deriving this device's individual CO Sockets.
+    type: object
+    additionalProperties: false
+    required:
+      - count
+      - on_off
+    properties:
+      count:
+        description: >-
+          How many CO Sockets this device has. A whole number written
+          without a decimal point (3, not 3.0) -- pattern_loader.py rejects
+          3.0 at load, since a plain `type: integer` accepts any
+          zero-fractional-part number per the JSON Schema spec, but a
+          standard schema-aware editor may not (issue #339).
+        type: integer
+      child_models:
+        description: >-
+          The model string(s) this device's own per-socket child HA devices
+          report, if any (a hub-plus-children device, e.g. a Tapo P304M
+          power strip). Folded into the parent device's entity list before
+          matching.
+        type: array
+        items:
+          type: string
+      default_name:
+        description: >-
+          A regular expression, matched against a Socket's whole name, for
+          the names this device's integration gives its Sockets before
+          anyone renames them (e.g. `Tapo P304M_\d+`). The "Appliances from
+          Socket names" dialog reads it to leave such Sockets out; it plays
+          no part in matching a device. Omit it if the device has no such
+          names.
+        type: string
+      on_off:
+        description: >-
+          Per-socket role identifying the entity that turns one socket
+          on/off. The only match-blocking role: it must resolve to exactly
+          `count` entities or the whole device fails to match.
+        $ref: "#/$defs/role"
+      monitoring:
+        description: >-
+          Per-socket role identifying a socket's usage-tracking entity, if
+          any. Best-effort: silently unresolved if absent/ambiguous, never a
+          reason to reject the device. No default -- a pattern declares it
+          explicitly whenever the device has one.
+        $ref: "#/$defs/role"
+$defs:
+  role:
+    description: >-
+      Describes how to find the entity/entities filling one role (on_off,
+      monitoring or all_on_off) -- see device_patterns/README.md's
+      Role-matching fields section.
+    type: object
+    additionalProperties: false
+    required:
+      - domain
+    properties:
+      domain:
+        description: >-
+          The HA entity domain to match, e.g. switch, sensor, binary_sensor.
+        type: string
+      device_class:
+        description: >-
+          The entity's device_class/original_device_class, e.g. power,
+          connectivity. Also disambiguates one specific entity among several
+          that otherwise match the same domain.
+        type: string
+      exclude_unique_id_suffixes:
+        description: >-
+          Entities whose unique_id ends with any of these are excluded from
+          matching.
+        type: array
+        items:
+          type: string
+      unique_id_suffixes:
+        description: >-
+          Ordered list of suffixes, one per socket position (index 0 ->
+          socket position 1, etc.), each matched against the full, literal
+          unique_id via endswith. on_off/monitoring only, never all_on_off.
+          Mutually exclusive with exclude_unique_id_suffixes.
+        type: array
+        items:
+          type: string
+      identified_by:
+        description: >-
+          Confirms an entity's identity exactly from HA's own identifier
+          data instead of guessing it from a unique_id suffix (issue #341).
+        $ref: "#/$defs/identified_by"
+  identified_by:
+    type: object
+    additionalProperties: false
+    required:
+      - device
+      - identifier
+    properties:
+      device:
+        description: >-
+          self compares against the matched device's own identifiers; child
+          compares against the identifiers of any of its folded children
+          (needs sockets.child_models).
+        type: string
+        enum: [self, child]
+      identifier:
+        description: >-
+          A template over {unique_id} (required) and {parent_identifier}
+          (device: child only) -- see device_patterns/README.md.
+        type: string

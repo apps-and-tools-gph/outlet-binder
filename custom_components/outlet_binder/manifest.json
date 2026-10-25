@@ -1,0 +1,15 @@
+{
+  "domain": "outlet_binder",
+  "name": "Outlet & Appliance Binding",
+  "after_dependencies": ["template", "input_text"],
+  "codeowners": ["@guyhindle"],
+  "config_flow": true,
+  "dependencies": ["http"],
+  "documentation": "https://github.com/apps-and-tools-gph/outlet-binder",
+  "integration_type": "service",
+  "iot_class": "calculated",
+  "issue_tracker": "https://github.com/apps-and-tools-gph/outlet-binder/issues",
+  "requirements": ["jsonschema==4.26.0"],
+  "single_config_entry": true,
+  "version": "0.1.1"
+}

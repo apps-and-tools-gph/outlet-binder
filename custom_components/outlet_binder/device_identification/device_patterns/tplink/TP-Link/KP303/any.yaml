@@ -1,0 +1,20 @@
+# yaml-language-server: $schema=../../../../device_patterns_schema.yaml
+# Identity comes from HA's identifier data, not a unique_id suffix: the
+# MAC itself can end in 00-02, so a suffix can't tell the master switch
+# from a socket.
+device:
+  kind: PLUG_IN
+  all_on_off:
+    domain: switch
+    identified_by:
+      device: self
+      identifier: "{unique_id}"
+sockets:
+  child_models: ["Socket for KP303(UK)"]
+  count: 3
+  on_off:
+    domain: switch
+    identified_by:
+      device: child
+      identifier: "{parent_identifier}_{unique_id}"
+    unique_id_suffixes: ["00", "01", "02"]

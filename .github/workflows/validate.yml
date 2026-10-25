@@ -1,0 +1,31 @@
+name: Validate
+
+on:
+  push:
+  pull_request:
+  # Daily, so a new Home Assistant release that breaks validation shows up
+  # even when nobody has pushed.
+  schedule:
+    - cron: "0 3 * * *"
+  workflow_dispatch:
+
+# Read-only, so an action that tracks a moving branch (hacs/action@main) cannot
+# write to the repository.
+permissions:
+  contents: read
+
+jobs:
+  hassfest:
+    name: Hassfest
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: home-assistant/actions/hassfest@master
+
+  validate-hacs:
+    name: HACS
+    runs-on: ubuntu-latest
+    steps:
+      - uses: hacs/action@main
+        with:
+          category: integration

@@ -1,0 +1,16 @@
+# yaml-language-server: $schema=../../../../device_patterns_schema.yaml
+# identified_by picks the main switch over the LED switch, whatever
+# accessory switches a firmware adds. device_class: power picks the live
+# power sensor over the three energy sensors.
+device:
+  kind: PLUG_IN
+sockets:
+  count: 1
+  on_off:
+    domain: switch
+    identified_by:
+      device: self
+      identifier: "{unique_id}"
+  monitoring:
+    domain: sensor
+    device_class: power
