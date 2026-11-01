@@ -1,0 +1,57 @@
+# JSON Schema (draft 2020-12) for OB's facility vocabulary,
+# custom_components/outlet_binder/core/device_identification/ob_facility_vocabulary.yaml (#211).
+# Consumed by facility_loader.py and by an editor via yaml-language-server's
+# `# yaml-language-server: $schema=...` modeline. Lives in schemas/, not in
+# device_patterns/: the pattern loader reads every *.yaml there. That a name
+# appears under one domain only, and that no two names in a domain give the same
+# entity id ending, are facility_loader.py's own checks: a schema cannot compare
+# two entries.
+$schema: "https://json-schema.org/draft/2020-12/schema"
+title: OB facility vocabulary
+type: object
+additionalProperties: false
+required:
+  - facilities
+properties:
+  facilities:
+    description: >-
+      The standard facilities, grouped by the HA entity domain they belong to
+      (sensor, switch, number, ...). Every integration's mapping to a facility
+      must use its domain.
+    type: object
+    minProperties: 1
+    propertyNames:
+      pattern: "^[a-z][a-z0-9]*(_[a-z0-9]+)*$"
+    additionalProperties:
+      $ref: "#/$defs/domain_group"
+$defs:
+  domain_group:
+    description: >-
+      The facilities of one HA entity domain, by key. A key is `ha_` (HA defines
+      the name) or `ob_` (the name is OB's own) and lowercase words joined by
+      `_`, so it never equals an HA or an integration word.
+    type: object
+    minProperties: 1
+    propertyNames:
+      pattern: "^(ha|ob)_[a-z0-9]+(_[a-z0-9]+)*$"
+    additionalProperties:
+      $ref: "#/$defs/standard_facility"
+  standard_facility:
+    description: What one standard facility is.
+    type: object
+    additionalProperties: false
+    required:
+      - entity_id_name
+      - display_name
+    properties:
+      entity_id_name:
+        description: >-
+          What the Appliance's entity id ends with, e.g. `power` in
+          `sensor.ob_beko_washing_machine_power`. Lowercase words joined by `_`.
+        type: string
+        pattern: "^[a-z][a-z0-9]*(_[a-z0-9]+)*$"
+      display_name:
+        description: >-
+          Follows the Appliance's name in an entity's friendly name.
+        type: string
+        minLength: 1

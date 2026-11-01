@@ -1,0 +1,99 @@
+# yaml-language-server: $schema=../../schemas/vocabulary_and_defaults_schema.yaml
+# Every entity id the TP-Link plugs and strips OB has patterns for (KP105, KP115,
+# KP303, P304M) can offer, and what OB makes of each. How to read the file, and
+# what each facility is: device_identification/ob_facility_vocabulary.yaml.
+#
+# The id is TP-Link's kasa feature id, which the tplink integration stores as the
+# entity's `translation_key` (homeassistant/components/tplink/entity.py). It is
+# listed under the HA domain of its entity.
+#
+# What follows an id is its default, and may be left out:
+#   device                the plug's or strip's own, not a socket's. An Appliance
+#                         never mirrors it.
+#   socket: <facility>    a socket has it, and an Appliance mirrors it as that
+#                         facility from OB's facility vocabulary.
+#   nothing               TP-Link offers it and OB has no name for it yet. The
+#                         Appliance still gets the vendor-named entity, and OB
+#                         raises a Repairs issue saying the default is missing.
+vocabulary:
+  binary_sensor:
+    # Whether the plug is connected to TP-Link's cloud.
+    cloud_connection: device
+
+    # The socket has overheated (a problem flag).
+    overheated:
+      socket: ob_overheated
+
+    # The socket is overloaded (a problem flag).
+    overloaded:
+      socket: ob_overloaded
+
+  button:
+    # The plug's restart button.
+    reboot: device
+
+  number:
+    # How many minutes the auto-off timer waits. TP-Link labels it "Turn off in".
+    auto_off_minutes:
+      socket: ob_auto_off_delay
+
+    # The socket's power-protection level. TP-Link labels it "Power protection".
+    power_protection_threshold:
+      socket: ob_overload_protection
+
+  sensor:
+    # When the auto-off timer will switch the socket off (a time).
+    auto_off_at:
+      socket: ob_auto_off_at
+
+    # Energy used this month.
+    consumption_this_month:
+      socket: ob_this_month_energy
+
+    # Energy used today, in kWh.
+    consumption_today:
+      socket: ob_today_energy
+
+    # Energy used in total, in kWh.
+    consumption_total:
+      socket: ha_energy
+
+    # Electric current, in amps. Not the same as `current_consumption` below,
+    # where "current" means "right now".
+    current:
+      socket: ha_current
+
+    # Power drawn right now, in watts.
+    current_consumption:
+      socket: ha_power
+
+    # The plug's own clock.
+    device_time: device
+
+    # Since when the socket has been on (a time).
+    on_since:
+      socket: ob_on_since
+
+    # The plug's Wi-Fi signal strength.
+    rssi: device
+
+    # The plug's Wi-Fi signal level, as a number of bars.
+    signal_level: device
+
+    # The Wi-Fi network the plug is on.
+    ssid: device
+
+    # Voltage.
+    voltage:
+      socket: ha_voltage
+
+  switch:
+    # Whether the auto-off timer is turned on.
+    auto_off_enabled:
+      socket: ob_auto_off_enabled
+
+    # Whether the plug updates its own firmware.
+    auto_update_enabled: device
+
+    # The plug's indicator LED.
+    led: device

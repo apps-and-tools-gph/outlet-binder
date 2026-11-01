@@ -1,7 +1,6 @@
 """OB-owned switch platform (#368).
 
-A `switch` entity per device with a plug that OB registers itself: an
-Appliance, or a CO whose `has_plug` is true. A permanent entity per device,
+A `switch` entity per CO whose `has_plug` is true that OB registers itself,
 repointed to its hosting CO Socket on every plug/unplug. A PCO's switch
 mirrors the one socket it is plugged into and nothing upstream of it; in a
 Unmanaged Outlet it is unavailable. Shape follows core's
@@ -9,26 +8,26 @@ Unmanaged Outlet it is unavailable. Shape follows core's
 entry owning many entities (switch_as_x is one config entry per wrapped
 entity).
 
+An Appliance's switches, On/Off included, are not made here: this platform
+registers with core/mirrors/sync.py, which makes them. It also runs this platform's
+`_sync_entities`, on the state it has just read and under its one lock, and
+prunes this platform's registry entries: one sync knows both sets, so neither
+can be applied over the other from an older read.
+
 No `device_entry` link: the hosting CO Socket changes on every replug, so
 linking to it would make the switch jump between device pages.
 
 ## One sync entry point
 
-`_sync_entities` is the only entry point -- run once at platform setup and
-once per `SIGNAL_SWITCHES_CHANGED` dispatcher signal (sent by
-websocket_api.py's `_sync_after_write` after every write, on the failure
-paths too). The whole set comes from `desired_switches`
-(`domain/device_switch.py`) and the live entities are keyed by `unique_id`,
+`_sync_entities` is the only entry point -- run by core/mirrors/sync.py on each of
+its syncs: once the switch platform registers, once per
+`SIGNAL_SWITCHES_CHANGED` dispatcher signal (sent by websocket_api.py's
+`_sync_after_write` after every write, on the failure paths too), and after
+HA's registries change. The whole set comes from `desired_switches`
+(`core/domain/device_switch.py`) and the live entities are keyed by `unique_id`,
 so the steps cannot disagree about which switches exist. It always does all
 of:
 
-- **Prune** -- remove registry entries whose device no longer has a switch. A
-  live entity's removal cascades automatically
-  (`Entity._async_process_registry_update_or_remove` reacts to
-  `EntityRegistry.async_remove` and calls the entity's own
-  `async_remove()`), so nothing further is needed for a currently-loaded
-  entity; a *not yet loaded* orphan (left over from a device deleted
-  while HA was off) is found by an id-membership scan.
 - **Rename** -- give the entity its *current* display name
   (`DeviceSwitch.async_rename`). HA fixes the name when an entity is first
   added, so without this a renamed device keeps its old friendly name until
@@ -47,7 +46,7 @@ of:
 - **Add** -- a switch not yet in `entities` gets a new `DeviceSwitch`,
   added through the stored `async_add_entities`.
 
-Unconditional on every signal, cheap on the common case (nothing plugged
+Unconditional on every sync, cheap on the common case (nothing plugged
 in changed), rather than gated on "did this write touch a device with a plug".
 
 History: docs/HISTORY-INDEX.md
@@ -55,25 +54,18 @@ History: docs/HISTORY-INDEX.md
 
 from __future__ import annotations
 
-import asyncio
-import logging
 from typing import Any
 
 from homeassistant.components.switch import SwitchEntity
 from homeassistant.core import CALLBACK_TYPE, Event, EventStateChangedData, HomeAssistant, callback
 from homeassistant.helpers import entity_registry as er
-from homeassistant.helpers.dispatcher import async_dispatcher_connect
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.event import async_track_state_change_event
 
 from . import OutletBinderConfigEntry
-from .const import DOMAIN, ENTITY_ID_PREFIX, SIGNAL_SWITCHES_CHANGED
-from .db.operations.state import get_full_state
-from .db.session import connection as db_connection
-from .domain.device_switch import SwitchSpec, desired_switches
-from .entity_slug import expected_switch_entity_id
-
-_LOGGER = logging.getLogger(__name__)
+from .core.const import ENTITY_ID_PREFIX
+from .core.domain.device_switch import SwitchSpec, desired_switches
+from .core.entity_slug import expected_switch_entity_id, reslug
 
 _UNAVAILABLE_STATES = (None, "unknown", "unavailable")
 
@@ -89,7 +81,7 @@ def _resolve_target(entity_registry: er.EntityRegistry, registry_id: str | None)
 
 
 class DeviceSwitch(SwitchEntity):
-    """Mirrors the hosting CO Socket's on/off state and forwards
+    """A PCO's plug: mirrors the hosting CO Socket's on/off state and forwards
     turn_on/turn_off to it. `homeassistant.turn_on`/`turn_off`, not
     `switch.turn_on`/`off`, kept domain-agnostic on purpose -- a
     switch->light repoint must keep working."""
@@ -189,63 +181,20 @@ class DeviceSwitch(SwitchEntity):
         )
 
 
-def _prune_orphaned_registry_entries(
-    entity_registry: er.EntityRegistry, specs: list[SwitchSpec]
-) -> None:
-    """Remove registry entries this platform owns whose device no longer has
-    a switch (#337) -- a deleted device, a CO that became fixed, a device
-    never loaded as a live entity this session (a leftover from a deletion
-    while HA was off). A currently-loaded entity's removal cascades from the
-    registry event (module docstring); this only needs to reach the
-    registry."""
-    expected = {spec.unique_id for spec in specs}
-    for entry in list(entity_registry.entities.values()):
-        if entry.domain != "switch" or entry.platform != DOMAIN:
-            continue
-        if not entry.unique_id.startswith(ENTITY_ID_PREFIX) or entry.unique_id in expected:
-            continue
-        entity_registry.async_remove(entry.entity_id)
-
-
-def _reslug(entity_registry: er.EntityRegistry, entity: DeviceSwitch, name: str) -> None:
-    """Rename `entity`'s entity_id back to what HA would derive from its
-    switch's *current* name, unconditionally every sync (#275) --
-    self-healing any drift, at the cost of one cheap comparison on the
-    common case where nothing changed. A collision is logged and left
-    alone (not worth building machinery for a rare, user-fixable
-    conflict)."""
-    expected = expected_switch_entity_id(name)
-    if entity.entity_id == expected:
-        return
-    try:
-        entity_registry.async_update_entity(entity.entity_id, new_entity_id=expected)
-    except ValueError:
-        _LOGGER.warning(
-            "Outlet & Appliance Binding: couldn't rename %s to %s -- "
-            "%s is already registered to a different entity. Rename "
-            "or remove the conflicting entity to clear this -- if two "
-            "devices swapped names, rename one of them to something "
-            "else, wait for a sync, then rename it to what you wanted.",
-            entity.entity_id,
-            expected,
-            expected,
-        )
-
-
 @callback
 def _sync_entities(
     hass: HomeAssistant,
     state: dict[str, Any],
     entities: dict[str, DeviceSwitch],
     async_add_entities: AddEntitiesCallback,
+    clashes: set[tuple[str, str]],
 ) -> None:
+    """Bring the PCO plugs in line with `state`. A drifted entity_id that
+    cannot be renamed back is added to `clashes` as (entity_id, expected)."""
     entity_registry = er.async_get(hass)
-    specs = desired_switches(
-        cos=state["cos"], appliances=state["appliances"], entity_id_prefix=ENTITY_ID_PREFIX
-    )
+    specs = desired_switches(cos=state["cos"], entity_id_prefix=ENTITY_ID_PREFIX)
     current_ids = {spec.unique_id for spec in specs}
 
-    _prune_orphaned_registry_entries(entity_registry, specs)
     for unique_id in [uid for uid in entities if uid not in current_ids]:
         del entities[unique_id]
 
@@ -256,7 +205,7 @@ def _sync_entities(
         if spec.unique_id in entities:
             entity = entities[spec.unique_id]
             entity.async_rename(spec.name)
-            _reslug(entity_registry, entity, spec.name)
+            reslug(entity_registry, entity.entity_id, expected_switch_entity_id(spec.name), clashes)
             entity.async_repoint(target)
             continue
 
@@ -273,22 +222,16 @@ async def async_setup_entry(
     entry: OutletBinderConfigEntry,
     async_add_entities: AddEntitiesCallback,
 ) -> None:
-    """Set up one `DeviceSwitch` per device with a plug, then keep them in
-    sync with every write via `SIGNAL_SWITCHES_CHANGED`."""
+    """Set up one `DeviceSwitch` per PCO with a plug, kept in sync by
+    core/mirrors/sync.py along with the Appliances' switches: it reads the state
+    once and applies both under one lock, so an older read is never applied
+    over a newer one."""
     entities: dict[str, DeviceSwitch] = {}
-    # The read runs on an executor thread, so two syncs could otherwise
-    # overlap and an older read be applied after a newer one. One at a
-    # time, each sync reads after the last has applied.
-    sync_lock = asyncio.Lock()
 
-    def _read_state() -> dict[str, Any]:
-        with db_connection(entry.runtime_data.db_path) as conn:
-            return get_full_state(conn)
+    @callback
+    def sync_plugs(state: dict[str, Any], clashes: set[tuple[str, str]]) -> None:
+        _sync_entities(hass, state, entities, async_add_entities, clashes)
 
-    async def _async_sync(*_args: Any) -> None:
-        async with sync_lock:
-            state = await hass.async_add_executor_job(_read_state)
-            _sync_entities(hass, state, entities, async_add_entities)
-
-    await _async_sync()
-    entry.async_on_unload(async_dispatcher_connect(hass, SIGNAL_SWITCHES_CHANGED, _async_sync))
+    await entry.runtime_data.mirrors.async_register(
+        "switch", async_add_entities, sync_plugs=sync_plugs
+    )

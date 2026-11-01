@@ -10,24 +10,36 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import ConfigEntryError
+from homeassistant.helpers.dispatcher import async_dispatcher_connect
 from homeassistant.helpers.typing import ConfigType
+from homeassistant.loader import async_get_integration
 
-from .const import (
+from .core.build_stamp import (
+    BUILD_STAMP_KEY,
+    DEPLOYED_COMMIT_DIR,
+    build_stamp,
+    read_deployed_commit,
+)
+from .core.const import (
     CONF_DEBUG_MODE,
     CONF_MODE,
     CONF_SOCKET_REGION,
     DEFAULT_DEBUG_MODE,
     DEFAULT_MODE,
     DEFAULT_SOCKET_REGION,
+    DOMAIN,
     MODE_IMMEDIATE,
     PANEL_URL_PATH,
+    SIGNAL_SWITCHES_CHANGED,
 )
-from .db.migrate import MigrationError
-from .db.session import async_bootstrap, get_db_path
-from .device_identification.pattern_loader import load_patterns
-from .domain.discovery import CoPattern
-from .panel import async_register_panel, async_register_static_path
-from .websocket_api import async_register_websocket_commands
+from .core.db.migrate import MigrationError
+from .core.db.session import async_bootstrap, get_db_path
+from .core.device_identification.facility_loader import ob_facility_vocabulary
+from .core.device_identification.pattern_loader import load_patterns
+from .core.domain.discovery import CoPattern
+from .core.mirrors.sync import MirrorSync
+from .core.panel import async_register_panel, async_register_static_path
+from .core.websocket_api import async_register_websocket_commands
 
 
 @dataclass(frozen=True)
@@ -41,12 +53,12 @@ class OutletBinderData:
     concurrent multi-thread use even with `check_same_thread=False` (that
     flag only disables the same-thread check, not concurrent access).
     Every db-layer call instead opens its own short-lived connection via
-    db/session.py's `connection` — negligible overhead for a local SQLite
+    core/db/session.py's `connection` — negligible overhead for a local SQLite
     file at this project's stated scale — so there's nothing to keep open,
     and nothing for `async_unload_entry` to close.
 
     `patterns` is loaded once here from the shipped YAML files
-    (device_identification/pattern_loader.py, docs/LLD.md §4), not re-read on every
+    (core/device_identification/pattern_loader.py, docs/LLD.md §4), not re-read on every
     `discover_cos` call.
 
     `immediate`, `debug_mode` and `socket_region` are resolved once here
@@ -63,6 +75,7 @@ class OutletBinderData:
 
     db_path: Path
     patterns: tuple[CoPattern, ...]
+    mirrors: MirrorSync
     immediate: bool
     debug_mode: bool
     socket_region: str
@@ -70,9 +83,17 @@ class OutletBinderData:
 
 type OutletBinderConfigEntry = ConfigEntry[OutletBinderData]
 
-# switch.py (#368) -- one DeviceSwitch per device with a plug. No other platform:
-# OB owns no other entity.
-PLATFORMS = [Platform.SWITCH]
+# switch.py (#368) -- one DeviceSwitch per device with a plug. The others each
+# register with core/mirrors/sync.py, which creates an Appliance's mirrors of its
+# socket's facilities in that domain.
+PLATFORMS = [
+    Platform.BINARY_SENSOR,
+    Platform.BUTTON,
+    Platform.NUMBER,
+    Platform.SELECT,
+    Platform.SENSOR,
+    Platform.SWITCH,
+]
 
 
 async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
@@ -82,6 +103,11 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
     matters.
     """
     await async_register_static_path(hass)
+    integration = await async_get_integration(hass, DOMAIN)
+    deployed_commit = await hass.async_add_executor_job(read_deployed_commit, DEPLOYED_COMMIT_DIR)
+    hass.data[BUILD_STAMP_KEY] = build_stamp(
+        str(integration.version) if integration.version else None, deployed_commit
+    )
     return True
 
 
@@ -91,17 +117,30 @@ async def async_setup_entry(hass: HomeAssistant, entry: OutletBinderConfigEntry)
         await async_bootstrap(hass)
     except MigrationError as err:
         # A schema migration failed and the database was already restored
-        # to its pre-migration state (see db/migrate.py) — this needs a
+        # to its pre-migration state (see core/db/migrate.py) — this needs a
         # human to look at it, not an automatic HA retry, so
         # ConfigEntryError rather than ConfigEntryNotReady.
         raise ConfigEntryError(str(err)) from err
     patterns = await hass.async_add_executor_job(load_patterns)
+    standard = await hass.async_add_executor_job(ob_facility_vocabulary)
+    db_path = get_db_path(hass)
+    mirrors = MirrorSync(
+        hass,
+        db_path=db_path,
+        patterns=patterns,
+        standard=standard,
+    )
+    entry.async_on_unload(
+        async_dispatcher_connect(hass, SIGNAL_SWITCHES_CHANGED, mirrors.async_sync)
+    )
+    entry.async_on_unload(mirrors.async_listen())
     immediate = entry.options.get(CONF_MODE, DEFAULT_MODE) == MODE_IMMEDIATE
     debug_mode = entry.options.get(CONF_DEBUG_MODE, DEFAULT_DEBUG_MODE)
     socket_region = entry.options.get(CONF_SOCKET_REGION, DEFAULT_SOCKET_REGION)
     entry.runtime_data = OutletBinderData(
-        db_path=get_db_path(hass),
+        db_path=db_path,
         patterns=patterns,
+        mirrors=mirrors,
         immediate=immediate,
         debug_mode=debug_mode,
         socket_region=socket_region,

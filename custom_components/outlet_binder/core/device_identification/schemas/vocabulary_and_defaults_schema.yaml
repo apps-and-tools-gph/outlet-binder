@@ -1,0 +1,59 @@
+# JSON Schema (draft 2020-12) for one integration's vocabulary-and-defaults file,
+# device_patterns/<integration_domain>/vocabulary_and_defaults.yaml (#681).
+# Consumed by facility_loader.py and by an editor via yaml-language-server's
+# `# yaml-language-server: $schema=...` modeline. It is a first check only: that
+# every `socket` facility is in OB's facility vocabulary and in its own domain, that
+# `ob_on_off` is never mapped, and that no facility is mapped twice are
+# facility_loader.py's checks, and the authority for those. A repeated id under
+# one domain is a duplicate YAML key, which the YAML loader refuses.
+$schema: "https://json-schema.org/draft/2020-12/schema"
+title: Integration vocabulary and defaults
+type: object
+additionalProperties: false
+required:
+  - vocabulary
+properties:
+  vocabulary:
+    description: >-
+      Every entity id the integration offers, grouped by the HA domain of the
+      entity, each with its optional default beside it. A default for an id
+      outside the vocabulary cannot be written. An id with no default still
+      gives the vendor-named entity, and OB raises a Repairs issue for it.
+    type: object
+    minProperties: 1
+    propertyNames:
+      pattern: "^[a-z][a-z0-9]*(_[a-z0-9]+)*$"
+    additionalProperties:
+      description: >-
+        The ids of one HA domain (sensor, switch, number, ...), each to its
+        default.
+      type: object
+      minProperties: 1
+      propertyNames:
+        pattern: "^[a-z][a-z0-9]*(_[a-z0-9]+)*$"
+      additionalProperties:
+        $ref: "#/$defs/default"
+$defs:
+  default:
+    description: >-
+      What OB makes of one id. Nothing (null) means the integration offers the
+      id and OB has no name for it yet. `device` means it exists only at the CO
+      level, such as the restart button or the Wi-Fi signal: a CO Socket has no
+      such facility, so an Appliance never mirrors it. `socket: <facility>`
+      means a CO Socket has it, and an Appliance mirrors it as that facility.
+    oneOf:
+      - type: "null"
+      - const: device
+      - type: object
+        additionalProperties: false
+        required:
+          - socket
+        properties:
+          socket:
+            description: >-
+              The facility's key (`ha_` or `ob_`, then lowercase words); it must
+              be in OB's facility vocabulary, in this domain. When the facility's entity
+              id ending differs from the integration's own id, an Appliance gets
+              two entities for it, one under each name.
+            type: string
+            pattern: "^(ha|ob)_[a-z0-9]+(_[a-z0-9]+)*$"

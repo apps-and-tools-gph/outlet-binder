@@ -14,7 +14,7 @@ from homeassistant.core import callback
 from homeassistant.data_entry_flow import section
 from homeassistant.helpers import selector
 
-from .const import (
+from .core.const import (
     CONF_DEBUG_MODE,
     CONF_MODE,
     CONF_SOCKET_REGION,
@@ -27,10 +27,10 @@ from .const import (
     SOCKET_REGION_LABELS,
     SOCKET_REGIONS,
 )
-from .db import edit_session
-from .db.session import connection as db_connection
-from .db.session import get_db_path
-from .panel import socket_key_url
+from .core.db import edit_session
+from .core.db.session import connection as db_connection
+from .core.db.session import get_db_path
+from .core.panel import socket_key_url
 
 # The options form's sections, top to bottom. Each option sits in a box of
 # its own; a section's fields arrive nested under its key, and are stored

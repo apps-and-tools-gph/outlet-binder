@@ -29,11 +29,11 @@ var e = globalThis, t = e.ShadowRoot && (e.ShadyCSS === void 0 || e.ShadyCSS.nat
 	let t = "";
 	for (let n of e.cssRules) t += n.cssText;
 	return a(t);
-})(e) : e, { is: l, defineProperty: u, getOwnPropertyDescriptor: d, getOwnPropertyNames: f, getOwnPropertySymbols: p, getPrototypeOf: m } = Object, h = globalThis, g = h.trustedTypes, _ = g ? g.emptyScript : "", ee = h.reactiveElementPolyfillSupport, v = (e, t) => e, te = {
+})(e) : e, { is: l, defineProperty: u, getOwnPropertyDescriptor: d, getOwnPropertyNames: f, getOwnPropertySymbols: ee, getPrototypeOf: p } = Object, m = globalThis, te = m.trustedTypes, ne = te ? te.emptyScript : "", re = m.reactiveElementPolyfillSupport, h = (e, t) => e, ie = {
 	toAttribute(e, t) {
 		switch (t) {
 			case Boolean:
-				e = e ? _ : null;
+				e = e ? ne : null;
 				break;
 			case Object:
 			case Array: e = e == null ? e : JSON.stringify(e);
@@ -58,23 +58,23 @@ var e = globalThis, t = e.ShadowRoot && (e.ShadyCSS === void 0 || e.ShadyCSS.nat
 		}
 		return n;
 	}
-}, ne = (e, t) => !l(e, t), re = {
+}, ae = (e, t) => !l(e, t), oe = {
 	attribute: !0,
 	type: String,
-	converter: te,
+	converter: ie,
 	reflect: !1,
 	useDefault: !1,
-	hasChanged: ne
+	hasChanged: ae
 };
-Symbol.metadata ??= Symbol("metadata"), h.litPropertyMetadata ??= /* @__PURE__ */ new WeakMap();
-var y = class extends HTMLElement {
+Symbol.metadata ??= Symbol("metadata"), m.litPropertyMetadata ??= /* @__PURE__ */ new WeakMap();
+var g = class extends HTMLElement {
 	static addInitializer(e) {
 		this._$Ei(), (this.l ??= []).push(e);
 	}
 	static get observedAttributes() {
 		return this.finalize(), this._$Eh && [...this._$Eh.keys()];
 	}
-	static createProperty(e, t = re) {
+	static createProperty(e, t = oe) {
 		if (t.state && (t.attribute = !1), this._$Ei(), this.prototype.hasOwnProperty(e) && ((t = Object.create(t)).wrapped = !0), this.elementProperties.set(e, t), !t.noAccessor) {
 			let n = Symbol(), r = this.getPropertyDescriptor(e, n, t);
 			r !== void 0 && u(this.prototype, e, r);
@@ -100,17 +100,17 @@ var y = class extends HTMLElement {
 		};
 	}
 	static getPropertyOptions(e) {
-		return this.elementProperties.get(e) ?? re;
+		return this.elementProperties.get(e) ?? oe;
 	}
 	static _$Ei() {
-		if (this.hasOwnProperty(v("elementProperties"))) return;
-		let e = m(this);
+		if (this.hasOwnProperty(h("elementProperties"))) return;
+		let e = p(this);
 		e.finalize(), e.l !== void 0 && (this.l = [...e.l]), this.elementProperties = new Map(e.elementProperties);
 	}
 	static finalize() {
-		if (this.hasOwnProperty(v("finalized"))) return;
-		if (this.finalized = !0, this._$Ei(), this.hasOwnProperty(v("properties"))) {
-			let e = this.properties, t = [...f(e), ...p(e)];
+		if (this.hasOwnProperty(h("finalized"))) return;
+		if (this.finalized = !0, this._$Ei(), this.hasOwnProperty(h("properties"))) {
+			let e = this.properties, t = [...f(e), ...ee(e)];
 			for (let n of t) this.createProperty(n, e[n]);
 		}
 		let e = this[Symbol.metadata];
@@ -171,14 +171,14 @@ var y = class extends HTMLElement {
 	_$ET(e, t) {
 		let n = this.constructor.elementProperties.get(e), r = this.constructor._$Eu(e, n);
 		if (r !== void 0 && !0 === n.reflect) {
-			let i = (n.converter?.toAttribute === void 0 ? te : n.converter).toAttribute(t, n.type);
+			let i = (n.converter?.toAttribute === void 0 ? ie : n.converter).toAttribute(t, n.type);
 			this._$Em = e, i == null ? this.removeAttribute(r) : this.setAttribute(r, i), this._$Em = null;
 		}
 	}
 	_$AK(e, t) {
 		let n = this.constructor, r = n._$Eh.get(e);
 		if (r !== void 0 && this._$Em !== r) {
-			let e = n.getPropertyOptions(r), i = typeof e.converter == "function" ? { fromAttribute: e.converter } : e.converter?.fromAttribute === void 0 ? te : e.converter;
+			let e = n.getPropertyOptions(r), i = typeof e.converter == "function" ? { fromAttribute: e.converter } : e.converter?.fromAttribute === void 0 ? ie : e.converter;
 			this._$Em = r;
 			let a = i.fromAttribute(t, e.type);
 			this[r] = a ?? this._$Ej?.get(r) ?? a, this._$Em = null;
@@ -187,7 +187,7 @@ var y = class extends HTMLElement {
 	requestUpdate(e, t, n, r = !1, i) {
 		if (e !== void 0) {
 			let a = this.constructor;
-			if (!1 === r && (i = this[e]), n ??= a.getPropertyOptions(e), !((n.hasChanged ?? ne)(i, t) || n.useDefault && n.reflect && i === this._$Ej?.get(e) && !this.hasAttribute(a._$Eu(e, n)))) return;
+			if (!1 === r && (i = this[e]), n ??= a.getPropertyOptions(e), !((n.hasChanged ?? ae)(i, t) || n.useDefault && n.reflect && i === this._$Ej?.get(e) && !this.hasAttribute(a._$Eu(e, n)))) return;
 			this.C(e, t, n);
 		}
 		!1 === this.isUpdatePending && (this._$ES = this._$EP());
@@ -251,89 +251,89 @@ var y = class extends HTMLElement {
 	updated(e) {}
 	firstUpdated(e) {}
 };
-y.elementStyles = [], y.shadowRootOptions = { mode: "open" }, y[v("elementProperties")] = /* @__PURE__ */ new Map(), y[v("finalized")] = /* @__PURE__ */ new Map(), ee?.({ ReactiveElement: y }), (h.reactiveElementVersions ??= []).push("2.1.2");
+g.elementStyles = [], g.shadowRootOptions = { mode: "open" }, g[h("elementProperties")] = /* @__PURE__ */ new Map(), g[h("finalized")] = /* @__PURE__ */ new Map(), re?.({ ReactiveElement: g }), (m.reactiveElementVersions ??= []).push("2.1.2");
 //#endregion
 //#region node_modules/lit-html/lit-html.js
-var ie = globalThis, ae = (e) => e, oe = ie.trustedTypes, se = oe ? oe.createPolicy("lit-html", { createHTML: (e) => e }) : void 0, ce = "$lit$", b = `lit$${Math.random().toFixed(9).slice(2)}$`, le = "?" + b, ue = `<${le}>`, x = document, de = () => x.createComment(""), fe = (e) => e === null || typeof e != "object" && typeof e != "function", pe = Array.isArray, me = (e) => pe(e) || typeof e?.[Symbol.iterator] == "function", he = "[ 	\n\f\r]", ge = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g, _e = /-->/g, ve = />/g, S = RegExp(`>|${he}(?:([^\\s"'>=/]+)(${he}*=${he}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`, "g"), ye = /'/g, be = /"/g, xe = /^(?:script|style|textarea|title)$/i, C = ((e) => (t, ...n) => ({
+var se = globalThis, ce = (e) => e, le = se.trustedTypes, ue = le ? le.createPolicy("lit-html", { createHTML: (e) => e }) : void 0, de = "$lit$", _ = `lit$${Math.random().toFixed(9).slice(2)}$`, fe = "?" + _, pe = `<${fe}>`, v = document, me = () => v.createComment(""), he = (e) => e === null || typeof e != "object" && typeof e != "function", ge = Array.isArray, _e = (e) => ge(e) || typeof e?.[Symbol.iterator] == "function", ve = "[ 	\n\f\r]", y = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g, ye = /-->/g, be = />/g, b = RegExp(`>|${ve}(?:([^\\s"'>=/]+)(${ve}*=${ve}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`, "g"), xe = /'/g, Se = /"/g, Ce = /^(?:script|style|textarea|title)$/i, x = ((e) => (t, ...n) => ({
 	_$litType$: e,
 	strings: t,
 	values: n
-}))(1), w = Symbol.for("lit-noChange"), T = Symbol.for("lit-nothing"), Se = /* @__PURE__ */ new WeakMap(), E = x.createTreeWalker(x, 129);
-function Ce(e, t) {
-	if (!pe(e) || !e.hasOwnProperty("raw")) throw Error("invalid template strings array");
-	return se === void 0 ? t : se.createHTML(t);
+}))(1), S = Symbol.for("lit-noChange"), C = Symbol.for("lit-nothing"), we = /* @__PURE__ */ new WeakMap(), w = v.createTreeWalker(v, 129);
+function Te(e, t) {
+	if (!ge(e) || !e.hasOwnProperty("raw")) throw Error("invalid template strings array");
+	return ue === void 0 ? t : ue.createHTML(t);
 }
-var we = (e, t) => {
-	let n = e.length - 1, r = [], i, a = t === 2 ? "<svg>" : t === 3 ? "<math>" : "", o = ge;
+var Ee = (e, t) => {
+	let n = e.length - 1, r = [], i, a = t === 2 ? "<svg>" : t === 3 ? "<math>" : "", o = y;
 	for (let t = 0; t < n; t++) {
 		let n = e[t], s, c, l = -1, u = 0;
-		for (; u < n.length && (o.lastIndex = u, c = o.exec(n), c !== null);) u = o.lastIndex, o === ge ? c[1] === "!--" ? o = _e : c[1] === void 0 ? c[2] === void 0 ? c[3] !== void 0 && (o = S) : (xe.test(c[2]) && (i = RegExp("</" + c[2], "g")), o = S) : o = ve : o === S ? c[0] === ">" ? (o = i ?? ge, l = -1) : c[1] === void 0 ? l = -2 : (l = o.lastIndex - c[2].length, s = c[1], o = c[3] === void 0 ? S : c[3] === "\"" ? be : ye) : o === be || o === ye ? o = S : o === _e || o === ve ? o = ge : (o = S, i = void 0);
-		let d = o === S && e[t + 1].startsWith("/>") ? " " : "";
-		a += o === ge ? n + ue : l >= 0 ? (r.push(s), n.slice(0, l) + ce + n.slice(l) + b + d) : n + b + (l === -2 ? t : d);
+		for (; u < n.length && (o.lastIndex = u, c = o.exec(n), c !== null);) u = o.lastIndex, o === y ? c[1] === "!--" ? o = ye : c[1] === void 0 ? c[2] === void 0 ? c[3] !== void 0 && (o = b) : (Ce.test(c[2]) && (i = RegExp("</" + c[2], "g")), o = b) : o = be : o === b ? c[0] === ">" ? (o = i ?? y, l = -1) : c[1] === void 0 ? l = -2 : (l = o.lastIndex - c[2].length, s = c[1], o = c[3] === void 0 ? b : c[3] === "\"" ? Se : xe) : o === Se || o === xe ? o = b : o === ye || o === be ? o = y : (o = b, i = void 0);
+		let d = o === b && e[t + 1].startsWith("/>") ? " " : "";
+		a += o === y ? n + pe : l >= 0 ? (r.push(s), n.slice(0, l) + de + n.slice(l) + _ + d) : n + _ + (l === -2 ? t : d);
 	}
-	return [Ce(e, a + (e[n] || "<?>") + (t === 2 ? "</svg>" : t === 3 ? "</math>" : "")), r];
-}, Te = class e {
+	return [Te(e, a + (e[n] || "<?>") + (t === 2 ? "</svg>" : t === 3 ? "</math>" : "")), r];
+}, De = class e {
 	constructor({ strings: t, _$litType$: n }, r) {
 		let i;
 		this.parts = [];
-		let a = 0, o = 0, s = t.length - 1, c = this.parts, [l, u] = we(t, n);
-		if (this.el = e.createElement(l, r), E.currentNode = this.el.content, n === 2 || n === 3) {
+		let a = 0, o = 0, s = t.length - 1, c = this.parts, [l, u] = Ee(t, n);
+		if (this.el = e.createElement(l, r), w.currentNode = this.el.content, n === 2 || n === 3) {
 			let e = this.el.content.firstChild;
 			e.replaceWith(...e.childNodes);
 		}
-		for (; (i = E.nextNode()) !== null && c.length < s;) {
+		for (; (i = w.nextNode()) !== null && c.length < s;) {
 			if (i.nodeType === 1) {
-				if (i.hasAttributes()) for (let e of i.getAttributeNames()) if (e.endsWith(ce)) {
-					let t = u[o++], n = i.getAttribute(e).split(b), r = /([.?@])?(.*)/.exec(t);
+				if (i.hasAttributes()) for (let e of i.getAttributeNames()) if (e.endsWith(de)) {
+					let t = u[o++], n = i.getAttribute(e).split(_), r = /([.?@])?(.*)/.exec(t);
 					c.push({
 						type: 1,
 						index: a,
 						name: r[2],
 						strings: n,
-						ctor: r[1] === "." ? ke : r[1] === "?" ? Ae : r[1] === "@" ? je : Oe
+						ctor: r[1] === "." ? je : r[1] === "?" ? Me : r[1] === "@" ? Ne : Ae
 					}), i.removeAttribute(e);
-				} else e.startsWith(b) && (c.push({
+				} else e.startsWith(_) && (c.push({
 					type: 6,
 					index: a
 				}), i.removeAttribute(e));
-				if (xe.test(i.tagName)) {
-					let e = i.textContent.split(b), t = e.length - 1;
+				if (Ce.test(i.tagName)) {
+					let e = i.textContent.split(_), t = e.length - 1;
 					if (t > 0) {
-						i.textContent = oe ? oe.emptyScript : "";
-						for (let n = 0; n < t; n++) i.append(e[n], de()), E.nextNode(), c.push({
+						i.textContent = le ? le.emptyScript : "";
+						for (let n = 0; n < t; n++) i.append(e[n], me()), w.nextNode(), c.push({
 							type: 2,
 							index: ++a
 						});
-						i.append(e[t], de());
+						i.append(e[t], me());
 					}
 				}
 			} else if (i.nodeType === 8) {
-				if (i.data === le) c.push({
+				if (i.data === fe) c.push({
 					type: 2,
 					index: a
 				});
 				else {
 					let e = -1;
-					for (; (e = i.data.indexOf(b, e + 1)) !== -1;) c.push({
+					for (; (e = i.data.indexOf(_, e + 1)) !== -1;) c.push({
 						type: 7,
 						index: a
-					}), e += b.length - 1;
+					}), e += _.length - 1;
 				}
 			}
 			a++;
 		}
 	}
 	static createElement(e, t) {
-		let n = x.createElement("template");
+		let n = v.createElement("template");
 		return n.innerHTML = e, n;
 	}
 };
-function D(e, t, n = e, r) {
-	if (t === w) return t;
-	let i = r === void 0 ? n._$Cl : n._$Co?.[r], a = fe(t) ? void 0 : t._$litDirective$;
-	return i?.constructor !== a && (i?._$AO?.(!1), a === void 0 ? i = void 0 : (i = new a(e), i._$AT(e, n, r)), r === void 0 ? n._$Cl = i : (n._$Co ??= [])[r] = i), i !== void 0 && (t = D(e, i._$AS(e, t.values), i, r)), t;
+function T(e, t, n = e, r) {
+	if (t === S) return t;
+	let i = r === void 0 ? n._$Cl : n._$Co?.[r], a = he(t) ? void 0 : t._$litDirective$;
+	return i?.constructor !== a && (i?._$AO?.(!1), a === void 0 ? i = void 0 : (i = new a(e), i._$AT(e, n, r)), r === void 0 ? n._$Cl = i : (n._$Co ??= [])[r] = i), i !== void 0 && (t = T(e, i._$AS(e, t.values), i, r)), t;
 }
-var Ee = class {
+var Oe = class {
 	constructor(e, t) {
 		this._$AV = [], this._$AN = void 0, this._$AD = e, this._$AM = t;
 	}
@@ -344,28 +344,28 @@ var Ee = class {
 		return this._$AM._$AU;
 	}
 	u(e) {
-		let { el: { content: t }, parts: n } = this._$AD, r = (e?.creationScope ?? x).importNode(t, !0);
-		E.currentNode = r;
-		let i = E.nextNode(), a = 0, o = 0, s = n[0];
+		let { el: { content: t }, parts: n } = this._$AD, r = (e?.creationScope ?? v).importNode(t, !0);
+		w.currentNode = r;
+		let i = w.nextNode(), a = 0, o = 0, s = n[0];
 		for (; s !== void 0;) {
 			if (a === s.index) {
 				let t;
-				s.type === 2 ? t = new De(i, i.nextSibling, this, e) : s.type === 1 ? t = new s.ctor(i, s.name, s.strings, this, e) : s.type === 6 && (t = new Me(i, this, e)), this._$AV.push(t), s = n[++o];
+				s.type === 2 ? t = new ke(i, i.nextSibling, this, e) : s.type === 1 ? t = new s.ctor(i, s.name, s.strings, this, e) : s.type === 6 && (t = new Pe(i, this, e)), this._$AV.push(t), s = n[++o];
 			}
-			a !== s?.index && (i = E.nextNode(), a++);
+			a !== s?.index && (i = w.nextNode(), a++);
 		}
-		return E.currentNode = x, r;
+		return w.currentNode = v, r;
 	}
 	p(e) {
 		let t = 0;
 		for (let n of this._$AV) n !== void 0 && (n.strings === void 0 ? n._$AI(e[t]) : (n._$AI(e, n, t), t += n.strings.length - 2)), t++;
 	}
-}, De = class e {
+}, ke = class e {
 	get _$AU() {
 		return this._$AM?._$AU ?? this._$Cv;
 	}
 	constructor(e, t, n, r) {
-		this.type = 2, this._$AH = T, this._$AN = void 0, this._$AA = e, this._$AB = t, this._$AM = n, this.options = r, this._$Cv = r?.isConnected ?? !0;
+		this.type = 2, this._$AH = C, this._$AN = void 0, this._$AA = e, this._$AB = t, this._$AM = n, this.options = r, this._$Cv = r?.isConnected ?? !0;
 	}
 	get parentNode() {
 		let e = this._$AA.parentNode, t = this._$AM;
@@ -378,7 +378,7 @@ var Ee = class {
 		return this._$AB;
 	}
 	_$AI(e, t = this) {
-		e = D(this, e, t), fe(e) ? e === T || e == null || e === "" ? (this._$AH !== T && this._$AR(), this._$AH = T) : e !== this._$AH && e !== w && this._(e) : e._$litType$ === void 0 ? e.nodeType === void 0 ? me(e) ? this.k(e) : this._(e) : this.T(e) : this.$(e);
+		e = T(this, e, t), he(e) ? e === C || e == null || e === "" ? (this._$AH !== C && this._$AR(), this._$AH = C) : e !== this._$AH && e !== S && this._(e) : e._$litType$ === void 0 ? e.nodeType === void 0 ? _e(e) ? this.k(e) : this._(e) : this.T(e) : this.$(e);
 	}
 	O(e) {
 		return this._$AA.parentNode.insertBefore(e, this._$AB);
@@ -387,36 +387,36 @@ var Ee = class {
 		this._$AH !== e && (this._$AR(), this._$AH = this.O(e));
 	}
 	_(e) {
-		this._$AH !== T && fe(this._$AH) ? this._$AA.nextSibling.data = e : this.T(x.createTextNode(e)), this._$AH = e;
+		this._$AH !== C && he(this._$AH) ? this._$AA.nextSibling.data = e : this.T(v.createTextNode(e)), this._$AH = e;
 	}
 	$(e) {
-		let { values: t, _$litType$: n } = e, r = typeof n == "number" ? this._$AC(e) : (n.el === void 0 && (n.el = Te.createElement(Ce(n.h, n.h[0]), this.options)), n);
+		let { values: t, _$litType$: n } = e, r = typeof n == "number" ? this._$AC(e) : (n.el === void 0 && (n.el = De.createElement(Te(n.h, n.h[0]), this.options)), n);
 		if (this._$AH?._$AD === r) this._$AH.p(t);
 		else {
-			let e = new Ee(r, this), n = e.u(this.options);
+			let e = new Oe(r, this), n = e.u(this.options);
 			e.p(t), this.T(n), this._$AH = e;
 		}
 	}
 	_$AC(e) {
-		let t = Se.get(e.strings);
-		return t === void 0 && Se.set(e.strings, t = new Te(e)), t;
+		let t = we.get(e.strings);
+		return t === void 0 && we.set(e.strings, t = new De(e)), t;
 	}
 	k(t) {
-		pe(this._$AH) || (this._$AH = [], this._$AR());
+		ge(this._$AH) || (this._$AH = [], this._$AR());
 		let n = this._$AH, r, i = 0;
-		for (let a of t) i === n.length ? n.push(r = new e(this.O(de()), this.O(de()), this, this.options)) : r = n[i], r._$AI(a), i++;
+		for (let a of t) i === n.length ? n.push(r = new e(this.O(me()), this.O(me()), this, this.options)) : r = n[i], r._$AI(a), i++;
 		i < n.length && (this._$AR(r && r._$AB.nextSibling, i), n.length = i);
 	}
 	_$AR(e = this._$AA.nextSibling, t) {
 		for (this._$AP?.(!1, !0, t); e !== this._$AB;) {
-			let t = ae(e).nextSibling;
-			ae(e).remove(), e = t;
+			let t = ce(e).nextSibling;
+			ce(e).remove(), e = t;
 		}
 	}
 	setConnected(e) {
 		this._$AM === void 0 && (this._$Cv = e, this._$AP?.(e));
 	}
-}, Oe = class {
+}, Ae = class {
 	get tagName() {
 		return this.element.tagName;
 	}
@@ -424,47 +424,47 @@ var Ee = class {
 		return this._$AM._$AU;
 	}
 	constructor(e, t, n, r, i) {
-		this.type = 1, this._$AH = T, this._$AN = void 0, this.element = e, this.name = t, this._$AM = r, this.options = i, n.length > 2 || n[0] !== "" || n[1] !== "" ? (this._$AH = Array(n.length - 1).fill(/* @__PURE__ */ new String()), this.strings = n) : this._$AH = T;
+		this.type = 1, this._$AH = C, this._$AN = void 0, this.element = e, this.name = t, this._$AM = r, this.options = i, n.length > 2 || n[0] !== "" || n[1] !== "" ? (this._$AH = Array(n.length - 1).fill(/* @__PURE__ */ new String()), this.strings = n) : this._$AH = C;
 	}
 	_$AI(e, t = this, n, r) {
 		let i = this.strings, a = !1;
-		if (i === void 0) e = D(this, e, t, 0), a = !fe(e) || e !== this._$AH && e !== w, a && (this._$AH = e);
+		if (i === void 0) e = T(this, e, t, 0), a = !he(e) || e !== this._$AH && e !== S, a && (this._$AH = e);
 		else {
 			let r = e, o, s;
-			for (e = i[0], o = 0; o < i.length - 1; o++) s = D(this, r[n + o], t, o), s === w && (s = this._$AH[o]), a ||= !fe(s) || s !== this._$AH[o], s === T ? e = T : e !== T && (e += (s ?? "") + i[o + 1]), this._$AH[o] = s;
+			for (e = i[0], o = 0; o < i.length - 1; o++) s = T(this, r[n + o], t, o), s === S && (s = this._$AH[o]), a ||= !he(s) || s !== this._$AH[o], s === C ? e = C : e !== C && (e += (s ?? "") + i[o + 1]), this._$AH[o] = s;
 		}
 		a && !r && this.j(e);
 	}
 	j(e) {
-		e === T ? this.element.removeAttribute(this.name) : this.element.setAttribute(this.name, e ?? "");
+		e === C ? this.element.removeAttribute(this.name) : this.element.setAttribute(this.name, e ?? "");
 	}
-}, ke = class extends Oe {
+}, je = class extends Ae {
 	constructor() {
 		super(...arguments), this.type = 3;
 	}
 	j(e) {
-		this.element[this.name] = e === T ? void 0 : e;
+		this.element[this.name] = e === C ? void 0 : e;
 	}
-}, Ae = class extends Oe {
+}, Me = class extends Ae {
 	constructor() {
 		super(...arguments), this.type = 4;
 	}
 	j(e) {
-		this.element.toggleAttribute(this.name, !!e && e !== T);
+		this.element.toggleAttribute(this.name, !!e && e !== C);
 	}
-}, je = class extends Oe {
+}, Ne = class extends Ae {
 	constructor(e, t, n, r, i) {
 		super(e, t, n, r, i), this.type = 5;
 	}
 	_$AI(e, t = this) {
-		if ((e = D(this, e, t, 0) ?? T) === w) return;
-		let n = this._$AH, r = e === T && n !== T || e.capture !== n.capture || e.once !== n.once || e.passive !== n.passive, i = e !== T && (n === T || r);
+		if ((e = T(this, e, t, 0) ?? C) === S) return;
+		let n = this._$AH, r = e === C && n !== C || e.capture !== n.capture || e.once !== n.once || e.passive !== n.passive, i = e !== C && (n === C || r);
 		r && this.element.removeEventListener(this.name, this, n), i && this.element.addEventListener(this.name, this, e), this._$AH = e;
 	}
 	handleEvent(e) {
 		typeof this._$AH == "function" ? this._$AH.call(this.options?.host ?? this.element, e) : this._$AH.handleEvent(e);
 	}
-}, Me = class {
+}, Pe = class {
 	constructor(e, t, n) {
 		this.element = e, this.type = 6, this._$AN = void 0, this._$AM = t, this.options = n;
 	}
@@ -472,18 +472,18 @@ var Ee = class {
 		return this._$AM._$AU;
 	}
 	_$AI(e) {
-		D(this, e);
+		T(this, e);
 	}
-}, Ne = ie.litHtmlPolyfillSupport;
-Ne?.(Te, De), (ie.litHtmlVersions ??= []).push("3.3.3");
-var Pe = (e, t, n) => {
+}, Fe = se.litHtmlPolyfillSupport;
+Fe?.(De, ke), (se.litHtmlVersions ??= []).push("3.3.3");
+var Ie = (e, t, n) => {
 	let r = n?.renderBefore ?? t, i = r._$litPart$;
 	if (i === void 0) {
 		let e = n?.renderBefore ?? null;
-		r._$litPart$ = i = new De(t.insertBefore(de(), e), e, void 0, n ?? {});
+		r._$litPart$ = i = new ke(t.insertBefore(me(), e), e, void 0, n ?? {});
 	}
 	return i._$AI(e), i;
-}, Fe = globalThis, Ie = class extends y {
+}, Le = globalThis, Re = class extends g {
 	constructor() {
 		super(...arguments), this.renderOptions = { host: this }, this._$Do = void 0;
 	}
@@ -493,7 +493,7 @@ var Pe = (e, t, n) => {
 	}
 	update(e) {
 		let t = this.render();
-		this.hasUpdated || (this.renderOptions.isConnected = this.isConnected), super.update(e), this._$Do = Pe(t, this.renderRoot, this.renderOptions);
+		this.hasUpdated || (this.renderOptions.isConnected = this.isConnected), super.update(e), this._$Do = Ie(t, this.renderRoot, this.renderOptions);
 	}
 	connectedCallback() {
 		super.connectedCallback(), this._$Do?.setConnected(!0);
@@ -502,25 +502,25 @@ var Pe = (e, t, n) => {
 		super.disconnectedCallback(), this._$Do?.setConnected(!1);
 	}
 	render() {
-		return w;
+		return S;
 	}
 };
-Ie._$litElement$ = !0, Ie.finalized = !0, Fe.litElementHydrateSupport?.({ LitElement: Ie });
-var Le = Fe.litElementPolyfillSupport;
-Le?.({ LitElement: Ie }), (Fe.litElementVersions ??= []).push("4.2.2");
+Re._$litElement$ = !0, Re.finalized = !0, Le.litElementHydrateSupport?.({ LitElement: Re });
+var ze = Le.litElementPolyfillSupport;
+ze?.({ LitElement: Re }), (Le.litElementVersions ??= []).push("4.2.2");
 //#endregion
 //#region node_modules/@lit/reactive-element/decorators/custom-element.js
-var Re = (e) => (t, n) => {
+var Be = (e) => (t, n) => {
 	n === void 0 ? customElements.define(e, t) : n.addInitializer(() => {
 		customElements.define(e, t);
 	});
-}, ze = {
+}, Ve = {
 	attribute: !0,
 	type: String,
-	converter: te,
+	converter: ie,
 	reflect: !1,
-	hasChanged: ne
-}, Be = (e = ze, t, n) => {
+	hasChanged: ae
+}, He = (e = Ve, t, n) => {
 	let { kind: r, metadata: i } = n, a = globalThis.litPropertyMetadata.get(i);
 	if (a === void 0 && globalThis.litPropertyMetadata.set(i, a = /* @__PURE__ */ new Map()), r === "setter" && ((e = Object.create(e)).wrapped = !0), a.set(n.name, e), r === "accessor") {
 		let { name: r } = n;
@@ -543,16 +543,16 @@ var Re = (e) => (t, n) => {
 	}
 	throw Error("Unsupported decorator location: " + r);
 };
-function Ve(e) {
-	return (t, n) => typeof n == "object" ? Be(e, t, n) : ((e, t, n) => {
+function Ue(e) {
+	return (t, n) => typeof n == "object" ? He(e, t, n) : ((e, t, n) => {
 		let r = t.hasOwnProperty(n);
 		return t.constructor.createProperty(n, e), r ? Object.getOwnPropertyDescriptor(t, n) : void 0;
 	})(e, t, n);
 }
 //#endregion
 //#region node_modules/@lit/reactive-element/decorators/state.js
-function O(e) {
-	return Ve({
+function E(e) {
+	return Ue({
 		...e,
 		state: !0,
 		attribute: !1
@@ -560,10 +560,10 @@ function O(e) {
 }
 //#endregion
 //#region node_modules/@lit/reactive-element/decorators/base.js
-var He = (e, t, n) => (n.configurable = !0, n.enumerable = !0, Reflect.decorate && typeof t != "object" && Object.defineProperty(e, t, n), n);
+var We = (e, t, n) => (n.configurable = !0, n.enumerable = !0, Reflect.decorate && typeof t != "object" && Object.defineProperty(e, t, n), n);
 //#endregion
 //#region node_modules/@lit/reactive-element/decorators/query.js
-function k(e, t) {
+function D(e, t) {
 	return (n, r, i) => {
 		let a = (t) => t.renderRoot?.querySelector(e) ?? null;
 		if (t) {
@@ -578,19 +578,93 @@ function k(e, t) {
 					}
 				};
 			})();
-			return He(n, r, { get() {
+			return We(n, r, { get() {
 				let n = e.call(this);
 				return n === void 0 && (n = a(this), (n !== null || this.hasUpdated) && t.call(this, n)), n;
 			} });
 		}
-		return He(n, r, { get() {
+		return We(n, r, { get() {
 			return a(this);
 		} });
 	};
 }
 //#endregion
 //#region node_modules/lit-html/directives/if-defined.js
-var Ue = (e) => e ?? T, We = "M13,13H11V7H13M13,17H11V15H13M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z", Ge = "M15,20H9V12H4.16L12,4.16L19.84,12H15V20Z", Ke = "M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z", qe = "M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z", Je = "M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z", Ye = "M12,15.5A3.5,3.5 0 0,1 8.5,12A3.5,3.5 0 0,1 12,8.5A3.5,3.5 0 0,1 15.5,12A3.5,3.5 0 0,1 12,15.5M19.43,12.97C19.47,12.65 19.5,12.33 19.5,12C19.5,11.67 19.47,11.34 19.43,11L21.54,9.37C21.73,9.22 21.78,8.95 21.66,8.73L19.66,5.27C19.54,5.05 19.27,4.96 19.05,5.05L16.56,6.05C16.04,5.66 15.5,5.32 14.87,5.07L14.5,2.42C14.46,2.18 14.25,2 14,2H10C9.75,2 9.54,2.18 9.5,2.42L9.13,5.07C8.5,5.32 7.96,5.66 7.44,6.05L4.95,5.05C4.73,4.96 4.46,5.05 4.34,5.27L2.34,8.73C2.21,8.95 2.27,9.22 2.46,9.37L4.57,11C4.53,11.34 4.5,11.67 4.5,12C4.5,12.33 4.53,12.65 4.57,12.97L2.46,14.63C2.27,14.78 2.21,15.05 2.34,15.27L4.34,18.73C4.46,18.95 4.73,19.03 4.95,18.95L7.44,17.94C7.96,18.34 8.5,18.68 9.13,18.93L9.5,21.58C9.54,21.82 9.75,22 10,22H14C14.25,22 14.46,21.82 14.5,21.58L14.87,18.93C15.5,18.67 16.04,18.34 16.56,17.94L19.05,18.95C19.27,19.03 19.54,18.95 19.66,18.73L21.66,15.27C21.78,15.05 21.73,14.78 21.54,14.63L19.43,12.97Z", Xe = "M21 11H3V9H21V11M21 13H3V15H21V13Z", Ze = "M6,13H18V11H6M3,6V8H21V6M10,18H14V16H10V18Z", Qe = "M21.8,13H20V21H13V17.67L15.79,14.88L16.5,15C17.66,15 18.6,14.06 18.6,12.9C18.6,11.74 17.66,10.8 16.5,10.8A2.1,2.1 0 0,0 14.4,12.9L14.5,13.61L13,15.13V9.65C13.66,9.29 14.1,8.6 14.1,7.8A2.1,2.1 0 0,0 12,5.7A2.1,2.1 0 0,0 9.9,7.8C9.9,8.6 10.34,9.29 11,9.65V15.13L9.5,13.61L9.6,12.9A2.1,2.1 0 0,0 7.5,10.8A2.1,2.1 0 0,0 5.4,12.9A2.1,2.1 0 0,0 7.5,15L8.21,14.88L11,17.67V21H4V13H2.25C1.83,13 1.42,13 1.42,12.79C1.43,12.57 1.85,12.15 2.28,11.72L11,3C11.33,2.67 11.67,2.33 12,2.33C12.33,2.33 12.67,2.67 13,3L17,7V6H19V9L21.78,11.78C22.18,12.18 22.59,12.59 22.6,12.8C22.6,13 22.2,13 21.8,13M7.5,12A0.9,0.9 0 0,1 8.4,12.9A0.9,0.9 0 0,1 7.5,13.8A0.9,0.9 0 0,1 6.6,12.9A0.9,0.9 0 0,1 7.5,12M16.5,12C17,12 17.4,12.4 17.4,12.9C17.4,13.4 17,13.8 16.5,13.8A0.9,0.9 0 0,1 15.6,12.9A0.9,0.9 0 0,1 16.5,12M12,6.9C12.5,6.9 12.9,7.3 12.9,7.8C12.9,8.3 12.5,8.7 12,8.7C11.5,8.7 11.1,8.3 11.1,7.8C11.1,7.3 11.5,6.9 12,6.9Z", $e = "M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z", et = "M12 2C7.04 2 3 6.04 3 11C3 14.91 5.5 18.24 9 19.47V22H11V19.94C11.33 20 11.66 20 12 20S12.67 20 13 19.94V22H15V19.47C18.5 18.23 21 14.9 21 11C21 6.04 16.96 2 12 2M14.25 14L11.25 17L9.75 15.5L11 14.25L9.75 13L12.75 10L14.25 11.5L13 12.75L14.25 14M16 9H8V7H16V9Z", tt = "M17,13H7V11H17M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z", nt = "M16,7V3H14V7H10V3H8V7H8C7,7 6,8 6,9V14.5L9.5,18V21H14.5V18L18,14.5V9C18,8 17,7 16,7Z", rt = "M20.84 22.73L15.31 17.2L14.5 18V21H9.5V18L6 14.5V9C6 8.7 6.1 8.41 6.25 8.14L1.11 3L2.39 1.73L22.11 21.46L20.84 22.73M18 14.5V9C18 8 17 7 16 7V3H14V7H10.2L17.85 14.65L18 14.5M10 3H8V4.8L10 6.8V3Z", it = "M4.22,2A2.22,2.22 0 0,0 2,4.22V19.78C2,21 3,22 4.22,22H19.78A2.22,2.22 0 0,0 22,19.78V4.22C22,3 21,2 19.78,2H4.22M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M8.27,7.54L6.27,11L8,12L10,8.54L8.27,7.54M15.73,7.54L14,8.54L16,12L17.73,11L15.73,7.54M11,14V18H13V14H11Z", at = "M19.78 2H4.22C3 2 2 3 2 4.22V19.78C2 21 3 22 4.22 22H19.78C21 22 22 21 22 19.78V4.22C22 3 21 2 19.78 2M20 13L16.55 16.45C16.19 16.81 15.75 17 15.3 17H8.7C8.25 17 7.81 16.81 7.45 16.45L4 13C3.5 12.5 3.5 11.5 4 11L7.45 7.55C7.81 7.19 8.25 7 8.7 7H15.3C15.75 7 16.19 7.19 16.55 7.55L20 11C20.5 11.5 20.5 12.5 20 13M10.5 14C10.5 13.17 11.17 12.5 12 12.5S13.5 13.17 13.5 14 12.83 15.5 12 15.5 10.5 14.83 10.5 14M15.5 12C15.5 11.17 16.17 10.5 17 10.5S18.5 11.17 18.5 12 17.83 13.5 17 13.5 15.5 12.83 15.5 12M5.5 12C5.5 11.17 6.17 10.5 7 10.5S8.5 11.17 8.5 12 7.83 13.5 7 13.5 5.5 12.83 5.5 12Z", ot = "M4.22 2A2.22 2.22 0 0 0 2 4.22V19.78C2 21 3 22 4.22 22H19.78A2.22 2.22 0 0 0 22 19.78V4.22C22 3 21 2 19.78 2H4.22M11 4.07V6H13V4.07A8 8 0 0 1 20 12A8 8 0 0 1 13 19.93V18H11V19.93A8 8 0 0 1 4 12A8 8 0 0 1 11 4.07M7.5 10.5A1.5 1.5 0 0 0 6 12C6 12.83 6.66 13.5 7.5 13.5A1.5 1.5 0 0 0 9 12A1.5 1.5 0 0 0 7.5 10.5M16.5 10.5A1.5 1.5 0 0 0 15 12A1.5 1.5 0 0 0 16.5 13.5A1.5 1.5 0 0 0 18 12A1.5 1.5 0 0 0 16.5 10.5Z", st = "M7.5,10.5A1.5,1.5 0 0,1 9,12A1.5,1.5 0 0,1 7.5,13.5C6.66,13.5 6,12.83 6,12A1.5,1.5 0 0,1 7.5,10.5M16.5,10.5A1.5,1.5 0 0,1 18,12A1.5,1.5 0 0,1 16.5,13.5A1.5,1.5 0 0,1 15,12A1.5,1.5 0 0,1 16.5,10.5M4.22,2H19.78C21,2 22,3 22,4.22V19.78A2.22,2.22 0 0,1 19.78,22H4.22C3,22 2,21 2,19.78V4.22A2.22,2.22 0 0,1 4.22,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4Z", ct = "M4.22 2A2.22 2.22 0 0 0 2 4.22V19.78C2 21 3 22 4.22 22H19.78A2.22 2.22 0 0 0 22 19.78V4.22C22 3 21 2 19.78 2H4.22M12 4A8 8 0 0 1 20 12A8 8 0 0 1 12 20A8 8 0 0 1 4 12A8 8 0 0 1 12 4M12 6A1.5 1.5 0 0 0 10.5 7.5A1.5 1.5 0 0 0 12 9A1.5 1.5 0 0 0 13.5 7.5A1.5 1.5 0 0 0 12 6M7.5 10.5A1.5 1.5 0 0 0 6 12C6 12.83 6.66 13.5 7.5 13.5A1.5 1.5 0 0 0 9 12A1.5 1.5 0 0 0 7.5 10.5M16.5 10.5A1.5 1.5 0 0 0 15 12A1.5 1.5 0 0 0 16.5 13.5A1.5 1.5 0 0 0 18 12A1.5 1.5 0 0 0 16.5 10.5Z", lt = "M10.5 16.5C10.5 15.68 11.17 15 12 15C12.83 15 13.5 15.68 13.5 16.5C13.5 17.34 12.83 18 12 18C11.17 18 10.5 17.34 10.5 16.5M10.5 7.5C10.5 6.67 11.17 6 12 6C12.83 6 13.5 6.67 13.5 7.5C13.5 8.33 12.83 9 12 9C11.17 9 10.5 8.33 10.5 7.5M4.22 2H19.78C21 2 22 3 22 4.22V19.78C22 21 21 22 19.78 22H4.22C3 22 2 21 2 19.78V4.22C2 3 3 2 4.22 2M12 4C7.58 4 4 7.58 4 12C4 16.42 7.58 20 12 20C16.42 20 20 16.42 20 12C20 7.58 16.42 4 12 4M10.5 12C10.5 11.17 11.17 10.5 12 10.5C12.83 10.5 13.5 11.17 13.5 12C13.5 12.83 12.83 13.5 12 13.5C11.17 13.5 10.5 12.83 10.5 12Z", ut = "M10 9.5V14.5H8V9.5M19.78 2C21 2 22 3 22 4.22V19.78C22 21 21 22 19.78 22H4.22C3 22 2 21 2 19.78V4.22C2 3 3 2 4.22 2M12 4C7.58 4 4 7.58 4 12C4 16.42 7.58 20 12 20C16.42 20 20 16.42 20 12C20 7.58 16.42 4 12 4M16 9.5V14.5H14V9.5Z", dt = "M4 2A2 2 0 0 0 2 4V20A2 2 0 0 0 4 22H20A2 2 0 0 0 22 20V4A2 2 0 0 0 20 2H4M4 4H20V20H4V4M11 7V11H13V7H11M6 14.75V17H9.5V14.75H6M14.5 14.75V17H18V14.75H14.5Z", ft = "M8,7H10V12H8V7M4.22,2H19.78C21,2 22,3 22,4.22V19.78A2.22,2.22 0 0,1 19.78,22H4.22C3,22 2,21 2,19.78V4.22A2.22,2.22 0 0,1 4.22,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4M14,7.5H16V11.5H14V7.5M10.5,16.25A1.5,1.5 0 0,1 12,14.75A1.5,1.5 0 0,1 13.5,16.25V17H10.5V16.25Z", pt = "M13,14C9.64,14 8.54,15.35 8.18,16.24C9.25,16.7 10,17.76 10,19A3,3 0 0,1 7,22A3,3 0 0,1 4,19C4,17.69 4.83,16.58 6,16.17V7.83C4.83,7.42 4,6.31 4,5A3,3 0 0,1 7,2A3,3 0 0,1 10,5C10,6.31 9.17,7.42 8,7.83V13.12C8.88,12.47 10.16,12 12,12C14.67,12 15.56,10.66 15.85,9.77C14.77,9.32 14,8.25 14,7A3,3 0 0,1 17,4A3,3 0 0,1 20,7C20,8.34 19.12,9.5 17.91,9.86C17.65,11.29 16.68,14 13,14M7,18A1,1 0 0,0 6,19A1,1 0 0,0 7,20A1,1 0 0,0 8,19A1,1 0 0,0 7,18M7,4A1,1 0 0,0 6,5A1,1 0 0,0 7,6A1,1 0 0,0 8,5A1,1 0 0,0 7,4M17,6A1,1 0 0,0 16,7A1,1 0 0,0 17,8A1,1 0 0,0 18,7A1,1 0 0,0 17,6Z", mt = "M17 6H7C3.69 6 1 8.69 1 12S3.69 18 7 18H17C20.31 18 23 15.31 23 12S20.31 6 17 6M17 16H7C4.79 16 3 14.21 3 12S4.79 8 7 8H17C19.21 8 21 9.79 21 12S19.21 16 17 16M17 9C15.34 9 14 10.34 14 12S15.34 15 17 15 20 13.66 20 12 18.66 9 17 9Z", ht = "M21.71 20.29L20.29 21.71A1 1 0 0 1 18.88 21.71L7 9.85A3.81 3.81 0 0 1 6 10A4 4 0 0 1 2.22 4.7L4.76 7.24L5.29 6.71L6.71 5.29L7.24 4.76L4.7 2.22A4 4 0 0 1 10 6A3.81 3.81 0 0 1 9.85 7L21.71 18.88A1 1 0 0 1 21.71 20.29M2.29 18.88A1 1 0 0 0 2.29 20.29L3.71 21.71A1 1 0 0 0 5.12 21.71L10.59 16.25L7.76 13.42M20 2L16 4V6L13.83 8.17L15.83 10.17L18 8H20L22 4Z", gt = "M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z", _t = "M2 12H4V17H20V12H22V17C22 18.11 21.11 19 20 19H4C2.9 19 2 18.11 2 17V12M12 2L6.46 7.46L7.88 8.88L11 5.75V15H13V5.75L16.13 8.88L17.55 7.45L12 2Z", vt = "M16 10H8V8H16M2 17A2 2 0 0 0 4 19H20A2 2 0 0 0 22 17V12H20V17H4V12H2Z", yt = "M2 12H4V17H20V12H22V17A2 2 0 0 1 20 19H4A2 2 0 0 1 2 17M11 5H13V8H16V10H13V13H11V10H8V8H11Z", bt = "M2 17A2 2 0 0 0 4 19H20A2 2 0 0 0 22 17V12H20V17H4V12H2M14.12 5.46L15.54 6.88L13.41 9L15.54 11.12L14.12 12.54L12 10.41L9.88 12.54L8.46 11.12L10.59 9L8.46 6.88L9.88 5.46L12 7.59Z", xt = o`
+var Ge = (e) => e ?? C, Ke = "M13,13H11V7H13M13,17H11V15H13M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z", qe = "M15,20H9V12H4.16L12,4.16L19.84,12H15V20Z", Je = "M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z", Ye = "M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z", Xe = "M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z", Ze = "M12,15.5A3.5,3.5 0 0,1 8.5,12A3.5,3.5 0 0,1 12,8.5A3.5,3.5 0 0,1 15.5,12A3.5,3.5 0 0,1 12,15.5M19.43,12.97C19.47,12.65 19.5,12.33 19.5,12C19.5,11.67 19.47,11.34 19.43,11L21.54,9.37C21.73,9.22 21.78,8.95 21.66,8.73L19.66,5.27C19.54,5.05 19.27,4.96 19.05,5.05L16.56,6.05C16.04,5.66 15.5,5.32 14.87,5.07L14.5,2.42C14.46,2.18 14.25,2 14,2H10C9.75,2 9.54,2.18 9.5,2.42L9.13,5.07C8.5,5.32 7.96,5.66 7.44,6.05L4.95,5.05C4.73,4.96 4.46,5.05 4.34,5.27L2.34,8.73C2.21,8.95 2.27,9.22 2.46,9.37L4.57,11C4.53,11.34 4.5,11.67 4.5,12C4.5,12.33 4.53,12.65 4.57,12.97L2.46,14.63C2.27,14.78 2.21,15.05 2.34,15.27L4.34,18.73C4.46,18.95 4.73,19.03 4.95,18.95L7.44,17.94C7.96,18.34 8.5,18.68 9.13,18.93L9.5,21.58C9.54,21.82 9.75,22 10,22H14C14.25,22 14.46,21.82 14.5,21.58L14.87,18.93C15.5,18.67 16.04,18.34 16.56,17.94L19.05,18.95C19.27,19.03 19.54,18.95 19.66,18.73L21.66,15.27C21.78,15.05 21.73,14.78 21.54,14.63L19.43,12.97Z", Qe = "M21 11H3V9H21V11M21 13H3V15H21V13Z", $e = "M14 2H6C4.9 2 4 2.9 4 4V20C4 21.1 4.9 22 6 22H18C19.1 22 20 21.1 20 20V8L14 2M18 20H6V4H13V9H18V20M16 11V18.1L13.9 16L11.1 18.8L8.3 16L11.1 13.2L8.9 11H16Z", et = "M6,13H18V11H6M3,6V8H21V6M10,18H14V16H10V18Z", tt = "M21.8,13H20V21H13V17.67L15.79,14.88L16.5,15C17.66,15 18.6,14.06 18.6,12.9C18.6,11.74 17.66,10.8 16.5,10.8A2.1,2.1 0 0,0 14.4,12.9L14.5,13.61L13,15.13V9.65C13.66,9.29 14.1,8.6 14.1,7.8A2.1,2.1 0 0,0 12,5.7A2.1,2.1 0 0,0 9.9,7.8C9.9,8.6 10.34,9.29 11,9.65V15.13L9.5,13.61L9.6,12.9A2.1,2.1 0 0,0 7.5,10.8A2.1,2.1 0 0,0 5.4,12.9A2.1,2.1 0 0,0 7.5,15L8.21,14.88L11,17.67V21H4V13H2.25C1.83,13 1.42,13 1.42,12.79C1.43,12.57 1.85,12.15 2.28,11.72L11,3C11.33,2.67 11.67,2.33 12,2.33C12.33,2.33 12.67,2.67 13,3L17,7V6H19V9L21.78,11.78C22.18,12.18 22.59,12.59 22.6,12.8C22.6,13 22.2,13 21.8,13M7.5,12A0.9,0.9 0 0,1 8.4,12.9A0.9,0.9 0 0,1 7.5,13.8A0.9,0.9 0 0,1 6.6,12.9A0.9,0.9 0 0,1 7.5,12M16.5,12C17,12 17.4,12.4 17.4,12.9C17.4,13.4 17,13.8 16.5,13.8A0.9,0.9 0 0,1 15.6,12.9A0.9,0.9 0 0,1 16.5,12M12,6.9C12.5,6.9 12.9,7.3 12.9,7.8C12.9,8.3 12.5,8.7 12,8.7C11.5,8.7 11.1,8.3 11.1,7.8C11.1,7.3 11.5,6.9 12,6.9Z", nt = "M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z", rt = "M12 2C7.04 2 3 6.04 3 11C3 14.91 5.5 18.24 9 19.47V22H11V19.94C11.33 20 11.66 20 12 20S12.67 20 13 19.94V22H15V19.47C18.5 18.23 21 14.9 21 11C21 6.04 16.96 2 12 2M14.25 14L11.25 17L9.75 15.5L11 14.25L9.75 13L12.75 10L14.25 11.5L13 12.75L14.25 14M16 9H8V7H16V9Z", it = "M17,13H7V11H17M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z", at = "M16,7V3H14V7H10V3H8V7H8C7,7 6,8 6,9V14.5L9.5,18V21H14.5V18L18,14.5V9C18,8 17,7 16,7Z", ot = "M20.84 22.73L15.31 17.2L14.5 18V21H9.5V18L6 14.5V9C6 8.7 6.1 8.41 6.25 8.14L1.11 3L2.39 1.73L22.11 21.46L20.84 22.73M18 14.5V9C18 8 17 7 16 7V3H14V7H10.2L17.85 14.65L18 14.5M10 3H8V4.8L10 6.8V3Z", st = "M4.22,2A2.22,2.22 0 0,0 2,4.22V19.78C2,21 3,22 4.22,22H19.78A2.22,2.22 0 0,0 22,19.78V4.22C22,3 21,2 19.78,2H4.22M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M8.27,7.54L6.27,11L8,12L10,8.54L8.27,7.54M15.73,7.54L14,8.54L16,12L17.73,11L15.73,7.54M11,14V18H13V14H11Z", ct = "M19.78 2H4.22C3 2 2 3 2 4.22V19.78C2 21 3 22 4.22 22H19.78C21 22 22 21 22 19.78V4.22C22 3 21 2 19.78 2M20 13L16.55 16.45C16.19 16.81 15.75 17 15.3 17H8.7C8.25 17 7.81 16.81 7.45 16.45L4 13C3.5 12.5 3.5 11.5 4 11L7.45 7.55C7.81 7.19 8.25 7 8.7 7H15.3C15.75 7 16.19 7.19 16.55 7.55L20 11C20.5 11.5 20.5 12.5 20 13M10.5 14C10.5 13.17 11.17 12.5 12 12.5S13.5 13.17 13.5 14 12.83 15.5 12 15.5 10.5 14.83 10.5 14M15.5 12C15.5 11.17 16.17 10.5 17 10.5S18.5 11.17 18.5 12 17.83 13.5 17 13.5 15.5 12.83 15.5 12M5.5 12C5.5 11.17 6.17 10.5 7 10.5S8.5 11.17 8.5 12 7.83 13.5 7 13.5 5.5 12.83 5.5 12Z", lt = "M4.22 2A2.22 2.22 0 0 0 2 4.22V19.78C2 21 3 22 4.22 22H19.78A2.22 2.22 0 0 0 22 19.78V4.22C22 3 21 2 19.78 2H4.22M11 4.07V6H13V4.07A8 8 0 0 1 20 12A8 8 0 0 1 13 19.93V18H11V19.93A8 8 0 0 1 4 12A8 8 0 0 1 11 4.07M7.5 10.5A1.5 1.5 0 0 0 6 12C6 12.83 6.66 13.5 7.5 13.5A1.5 1.5 0 0 0 9 12A1.5 1.5 0 0 0 7.5 10.5M16.5 10.5A1.5 1.5 0 0 0 15 12A1.5 1.5 0 0 0 16.5 13.5A1.5 1.5 0 0 0 18 12A1.5 1.5 0 0 0 16.5 10.5Z", ut = "M7.5,10.5A1.5,1.5 0 0,1 9,12A1.5,1.5 0 0,1 7.5,13.5C6.66,13.5 6,12.83 6,12A1.5,1.5 0 0,1 7.5,10.5M16.5,10.5A1.5,1.5 0 0,1 18,12A1.5,1.5 0 0,1 16.5,13.5A1.5,1.5 0 0,1 15,12A1.5,1.5 0 0,1 16.5,10.5M4.22,2H19.78C21,2 22,3 22,4.22V19.78A2.22,2.22 0 0,1 19.78,22H4.22C3,22 2,21 2,19.78V4.22A2.22,2.22 0 0,1 4.22,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4Z", dt = "M4.22 2A2.22 2.22 0 0 0 2 4.22V19.78C2 21 3 22 4.22 22H19.78A2.22 2.22 0 0 0 22 19.78V4.22C22 3 21 2 19.78 2H4.22M12 4A8 8 0 0 1 20 12A8 8 0 0 1 12 20A8 8 0 0 1 4 12A8 8 0 0 1 12 4M12 6A1.5 1.5 0 0 0 10.5 7.5A1.5 1.5 0 0 0 12 9A1.5 1.5 0 0 0 13.5 7.5A1.5 1.5 0 0 0 12 6M7.5 10.5A1.5 1.5 0 0 0 6 12C6 12.83 6.66 13.5 7.5 13.5A1.5 1.5 0 0 0 9 12A1.5 1.5 0 0 0 7.5 10.5M16.5 10.5A1.5 1.5 0 0 0 15 12A1.5 1.5 0 0 0 16.5 13.5A1.5 1.5 0 0 0 18 12A1.5 1.5 0 0 0 16.5 10.5Z", ft = "M10.5 16.5C10.5 15.68 11.17 15 12 15C12.83 15 13.5 15.68 13.5 16.5C13.5 17.34 12.83 18 12 18C11.17 18 10.5 17.34 10.5 16.5M10.5 7.5C10.5 6.67 11.17 6 12 6C12.83 6 13.5 6.67 13.5 7.5C13.5 8.33 12.83 9 12 9C11.17 9 10.5 8.33 10.5 7.5M4.22 2H19.78C21 2 22 3 22 4.22V19.78C22 21 21 22 19.78 22H4.22C3 22 2 21 2 19.78V4.22C2 3 3 2 4.22 2M12 4C7.58 4 4 7.58 4 12C4 16.42 7.58 20 12 20C16.42 20 20 16.42 20 12C20 7.58 16.42 4 12 4M10.5 12C10.5 11.17 11.17 10.5 12 10.5C12.83 10.5 13.5 11.17 13.5 12C13.5 12.83 12.83 13.5 12 13.5C11.17 13.5 10.5 12.83 10.5 12Z", pt = "M10 9.5V14.5H8V9.5M19.78 2C21 2 22 3 22 4.22V19.78C22 21 21 22 19.78 22H4.22C3 22 2 21 2 19.78V4.22C2 3 3 2 4.22 2M12 4C7.58 4 4 7.58 4 12C4 16.42 7.58 20 12 20C16.42 20 20 16.42 20 12C20 7.58 16.42 4 12 4M16 9.5V14.5H14V9.5Z", mt = "M4 2A2 2 0 0 0 2 4V20A2 2 0 0 0 4 22H20A2 2 0 0 0 22 20V4A2 2 0 0 0 20 2H4M4 4H20V20H4V4M11 7V11H13V7H11M6 14.75V17H9.5V14.75H6M14.5 14.75V17H18V14.75H14.5Z", ht = "M8,7H10V12H8V7M4.22,2H19.78C21,2 22,3 22,4.22V19.78A2.22,2.22 0 0,1 19.78,22H4.22C3,22 2,21 2,19.78V4.22A2.22,2.22 0 0,1 4.22,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4M14,7.5H16V11.5H14V7.5M10.5,16.25A1.5,1.5 0 0,1 12,14.75A1.5,1.5 0 0,1 13.5,16.25V17H10.5V16.25Z", gt = "M13,14C9.64,14 8.54,15.35 8.18,16.24C9.25,16.7 10,17.76 10,19A3,3 0 0,1 7,22A3,3 0 0,1 4,19C4,17.69 4.83,16.58 6,16.17V7.83C4.83,7.42 4,6.31 4,5A3,3 0 0,1 7,2A3,3 0 0,1 10,5C10,6.31 9.17,7.42 8,7.83V13.12C8.88,12.47 10.16,12 12,12C14.67,12 15.56,10.66 15.85,9.77C14.77,9.32 14,8.25 14,7A3,3 0 0,1 17,4A3,3 0 0,1 20,7C20,8.34 19.12,9.5 17.91,9.86C17.65,11.29 16.68,14 13,14M7,18A1,1 0 0,0 6,19A1,1 0 0,0 7,20A1,1 0 0,0 8,19A1,1 0 0,0 7,18M7,4A1,1 0 0,0 6,5A1,1 0 0,0 7,6A1,1 0 0,0 8,5A1,1 0 0,0 7,4M17,6A1,1 0 0,0 16,7A1,1 0 0,0 17,8A1,1 0 0,0 18,7A1,1 0 0,0 17,6Z", _t = "M17 6H7C3.69 6 1 8.69 1 12S3.69 18 7 18H17C20.31 18 23 15.31 23 12S20.31 6 17 6M17 16H7C4.79 16 3 14.21 3 12S4.79 8 7 8H17C19.21 8 21 9.79 21 12S19.21 16 17 16M17 9C15.34 9 14 10.34 14 12S15.34 15 17 15 20 13.66 20 12 18.66 9 17 9Z", vt = "M21.71 20.29L20.29 21.71A1 1 0 0 1 18.88 21.71L7 9.85A3.81 3.81 0 0 1 6 10A4 4 0 0 1 2.22 4.7L4.76 7.24L5.29 6.71L6.71 5.29L7.24 4.76L4.7 2.22A4 4 0 0 1 10 6A3.81 3.81 0 0 1 9.85 7L21.71 18.88A1 1 0 0 1 21.71 20.29M2.29 18.88A1 1 0 0 0 2.29 20.29L3.71 21.71A1 1 0 0 0 5.12 21.71L10.59 16.25L7.76 13.42M20 2L16 4V6L13.83 8.17L15.83 10.17L18 8H20L22 4Z", yt = "M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z", bt = "M2 12H4V17H20V12H22V17C22 18.11 21.11 19 20 19H4C2.9 19 2 18.11 2 17V12M12 2L6.46 7.46L7.88 8.88L11 5.75V15H13V5.75L16.13 8.88L17.55 7.45L12 2Z", xt = "M16 10H8V8H16M2 17A2 2 0 0 0 4 19H20A2 2 0 0 0 22 17V12H20V17H4V12H2Z", St = "M2 12H4V17H20V12H22V17A2 2 0 0 1 20 19H4A2 2 0 0 1 2 17M11 5H13V8H16V10H13V13H11V10H8V8H11Z", Ct = "M2 17A2 2 0 0 0 4 19H20A2 2 0 0 0 22 17V12H20V17H4V12H2M14.12 5.46L15.54 6.88L13.41 9L15.54 11.12L14.12 12.54L12 10.41L9.88 12.54L8.46 11.12L10.59 9L8.46 6.88L9.88 5.46L12 7.59Z", wt = [{
+	value: "markdown",
+	label: "Markdown"
+}, {
+	value: "json",
+	label: "JSON"
+}], Tt = {
+	markdown: "text/markdown;charset=utf-8",
+	json: "application/json;charset=utf-8"
+}, Et = () => ({
+	format: "markdown",
+	includeHistory: !1,
+	saving: !1,
+	error: null
+}), Dt = (e, t) => e ? {
+	...e,
+	...t
+} : null, Ot = (e) => ({
+	type: "outlet_binder/export",
+	format: e.format,
+	include_history: e.includeHistory
+}), kt = (e) => e === 0 ? null : `${e} staged ${e === 1 ? "change is" : "changes are"} not in the file. It shows what has been committed.`, At = (e, t) => {
+	let n = URL.createObjectURL(new Blob([e.content], { type: Tt[t] })), r = document.createElement("a");
+	r.href = n, r.download = e.filename, document.body.append(r), r.click(), r.remove(), URL.revokeObjectURL(n);
+}, jt = (e, t) => e ? t : null, O = (e, t) => x`<p class="dialog-title">${e}${t === null ? C : x` <span class="build-stamp">${t}</span>`}</p>`;
+//#endregion
+//#region src/outlet-binder-panel/export-view.ts
+function Mt(e, t, n, r) {
+	return e ? x`
+    <dialog
+      class="export-dialog"
+      @close=${() => n.close()}
+      @cancel=${(e) => n.cancel(e)}
+    >
+      <div class="dialog-body">
+        ${O("Export the current state", r)}
+        <fieldset class="export-formats" ?disabled=${e.saving}>
+          <legend>Format</legend>
+          ${wt.map((t) => x`
+              <label class="choice-row">
+                <input
+                  type="radio"
+                  name="export-format"
+                  value=${t.value}
+                  .checked=${t.value === e.format}
+                  @change=${() => n.setFormat(t.value)}
+                />
+                ${t.label}
+              </label>
+            `)}
+        </fieldset>
+        <label class="choice-row">
+          <input
+            type="checkbox"
+            .checked=${e.includeHistory}
+            ?disabled=${e.saving}
+            @change=${(e) => n.setIncludeHistory(e.target.checked)}
+          />
+          Include Plugged Into history
+        </label>
+        ${t ? x`<p class="export-notice">${t}</p>` : ""}
+        ${e.error ? x`<p class="error">${e.error}</p>` : ""}
+      </div>
+      <div class="dialog-actions">
+        <button ?disabled=${e.saving} @click=${() => n.close()}>Cancel</button>
+        <button class="go" ?disabled=${e.saving} @click=${() => n.run()}>
+          ${e.saving ? "Exporting…" : "Download"}
+        </button>
+      </div>
+    </dialog>
+  ` : x`<dialog class="export-dialog" @close=${() => n.close()}></dialog>`;
+}
+//#endregion
+//#region src/outlet-binder-panel/styles.ts
+var Nt = o`
   :host {
     display: flex;
     flex-direction: column;
@@ -1369,6 +1443,14 @@ var Ue = (e) => e ?? T, We = "M13,13H11V7H13M13,17H11V15H13M12,2A10,10 0 0,0 2,1
     color: var(--primary-text-color, #212121);
     border-bottom: 1px solid var(--divider-color, #e0e0e0);
   }
+  /* The build in a dialog title in debug mode (#684): quiet, and no colour
+     of its own, so it needs no dark-mode pair. */
+  .build-stamp {
+    margin-left: 0.75em;
+    font-size: 0.75em;
+    font-weight: normal;
+    opacity: 0.6;
+  }
   /* A confirm dialog's consequence listing (#300) -- what an irreversible
      action would act on, one bullet per staged group. No explicit color:
      inherits from the dialog's own text color (light default, or #e1e1e1 in
@@ -1501,6 +1583,11 @@ var Ue = (e) => e ?? T, We = "M13,13H11V7H13M13,17H11V15H13M12,2A10,10 0 0,0 2,1
   }
   .socket-list-occupant {
     flex: 1 1 auto;
+    color: var(--secondary-text-color, #727272);
+  }
+  /* An emptied socket's departing item (#568): struck through, in the
+     secondary colour, so it reads as not there. */
+  .departing {
     color: var(--secondary-text-color, #727272);
   }
   .edit-field {
@@ -1651,8 +1738,9 @@ var Ue = (e) => e ?? T, We = "M13,13H11V7H13M13,17H11V15H13M12,2A10,10 0 0,0 2,1
     font-size: 0.9em;
   }
   /* #424: a CO's picker draws its Unmanaged Outlets and its other sockets as two
-     lists. Stacked by default; side by side, in a wider dialog, when the
-     panel is wide enough. Each list scrolls on its own. */
+     lists, an empty one with its heading and a line saying so. Stacked by
+     default; side by side, in a wider dialog, when the panel is wide enough.
+     Each list scrolls on its own. */
   .link-lists {
     display: grid;
     grid-template-columns: 1fr;
@@ -1709,6 +1797,20 @@ var Ue = (e) => e ?? T, We = "M13,13H11V7H13M13,17H11V15H13M12,2A10,10 0 0,0 2,1
     flex: 1 1 auto;
     min-height: 0;
     overflow-y: auto;
+  }
+  /* The Export dialog (#532): the format radios sit in a plain fieldset. */
+  .export-formats {
+    border: none;
+    margin: 0 0 8px 0;
+    padding: 0;
+  }
+  .export-formats legend {
+    padding: 0;
+    margin-bottom: 4px;
+    font-weight: 500;
+  }
+  .export-notice {
+    margin: 8px 0 0 0;
   }
   .from-names-toolbar {
     display: flex;
@@ -2005,6 +2107,11 @@ var Ue = (e) => e ?? T, We = "M13,13H11V7H13M13,17H11V15H13M12,2A10,10 0 0,0 2,1
     vertical-align: middle;
     min-width: 16ch;
   }
+  /* #535: every cell of the central table chooses its vertical alignment, so
+     a socket's own column sits level with the Appliance beside it. */
+  .structured-table td.socket-cell {
+    vertical-align: middle;
+  }
   .structured-table .row-shade {
     background: rgba(127, 127, 127, 0.06);
   }
@@ -2013,6 +2120,7 @@ var Ue = (e) => e ?? T, We = "M13,13H11V7H13M13,17H11V15H13M12,2A10,10 0 0,0 2,1
   }
   .structured-table .appl-cell {
     text-align: right;
+    vertical-align: middle;
     min-width: 14ch;
   }
   /* #308: left-justified -- not docked rightward toward the co-connection
@@ -2076,13 +2184,15 @@ var Ue = (e) => e ?? T, We = "M13,13H11V7H13M13,17H11V15H13M12,2A10,10 0 0,0 2,1
   /* Every entity's own name/identity is the click target into its edit
      dialog (#116), so this deliberately does NOT follow .link-btn's
      opacity:0.15-until-hover convention. Always visible, with just enough
-     styling (cursor, underline) to read as clickable. */
+     styling (cursor, underline) to read as clickable. A button centres its own
+     text, so a name that wraps takes its cell's alignment instead. */
   .entity-link-primary {
     border: none;
     background: none;
     padding: 0;
     font: inherit;
     color: inherit;
+    text-align: inherit;
     cursor: pointer;
     text-decoration: underline dotted;
     text-underline-offset: 2px;
@@ -2100,6 +2210,7 @@ var Ue = (e) => e ?? T, We = "M13,13H11V7H13M13,17H11V15H13M12,2A10,10 0 0,0 2,1
     padding: 0;
     font: inherit;
     color: inherit;
+    text-align: inherit;
     cursor: pointer;
     text-decoration: underline dotted;
     text-underline-offset: 2px;
@@ -2730,30 +2841,80 @@ var Ue = (e) => e ?? T, We = "M13,13H11V7H13M13,17H11V15H13M12,2A10,10 0 0,0 2,1
     background: #1c1c1c;
     color: #e1e1e1;
   }
-`, St = [{
+`, Pt = [{
 	label: "Filter…",
 	icon: "filter",
 	action: "show_filter"
-}], Ct = [{
+}], Ft = [{
 	heading: "Tools",
 	icon: "tools",
-	entries: [{
-		label: "Create Appliances from Socket names…",
-		icon: "appliance",
-		action: "create_appliances_from_socket_names"
-	}, {
-		label: "Wall Sockets for Smart Devices…",
-		icon: "uo",
-		action: "assign_uos_to_smart_devices"
-	}]
-}], A = (e) => e ?? "—", j = (e, t) => t === null ? null : e.get(t) ?? t, M = (e, t) => e.get(t) ?? A(null), N = (e) => e.physical_position !== null && e.physical_position !== e.position ? e.physical_position : e.position, P = (e) => e instanceof Error || typeof e == "object" && e && "message" in e && typeof e.message == "string" ? e.message : String(e), wt = (e, t) => `${e}: ${P(t)}`, Tt = (e) => /[.!?]$/.test(e) ? e : `${e}.`, F = (e, t) => e.localeCompare(t, void 0, { numeric: !0 }), I = (e) => e.alias, Et = "No rows match the filter.", Dt = (e, t) => {
+	entries: [
+		{
+			label: "Create Appliances from Socket names…",
+			icon: "appliance",
+			action: "create_appliances_from_socket_names"
+		},
+		{
+			label: "Wall Sockets for Smart Devices…",
+			icon: "uo",
+			action: "assign_uos_to_smart_devices"
+		},
+		{
+			label: "Export…",
+			icon: "export",
+			action: "export_state"
+		}
+	]
+}], It = nt, Lt = Ze, Rt = (e) => x`<svg class="menu-entry-icon" viewBox="0 0 24 24" aria-hidden="true">
+    <path d="${e}"></path>
+  </svg>`, zt = (e, t, n, r) => x`<button
+    class="menu-entry ${t ? "indented" : ""}"
+    @click=${() => r.choose(e.action)}
+  >
+    ${Rt(n(e.icon))}${e.label}
+  </button>`;
+function Bt(e, t, n) {
+	let { tip: r } = e;
+	return x`<div class="menu-wrap">
+    <button
+      class="menu-btn"
+      data-tip="act"
+      aria-describedby=${r.id}
+      aria-label="Menu"
+      aria-expanded=${e.open ? "true" : "false"}
+      aria-controls="header-menu"
+      @click=${() => n.toggle()}
+    >
+      <svg class="menu-icon" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="${It}"></path>
+      </svg></button
+    >${r.desc}
+    <div class="menu-list" id="header-menu" ?hidden=${!e.open}>
+      ${e.topEntries.map((e) => zt(e, !1, t, n))}
+      <hr class="menu-separator" />
+      ${e.groups.map((e) => x`<div class="menu-group">
+          <p class="menu-heading">
+            ${Rt(t(e.icon))}${e.heading}
+          </p>
+          ${e.entries.map((e) => zt(e, !0, t, n))}
+        </div>`)}
+      <hr class="menu-separator" />
+      <button class="menu-entry" @click=${() => n.openSettings()}>
+        ${Rt(Lt)}Settings…
+      </button>
+    </div>
+  </div>`;
+}
+//#endregion
+//#region src/outlet-binder-panel/utils.ts
+var k = (e) => e ?? "—", A = (e, t) => t === null ? null : e.get(t) ?? t, j = (e, t) => e.get(t) ?? k(null), Vt = (e) => e.physical_position !== null && e.physical_position !== e.position ? e.physical_position : e.position, M = (e) => e instanceof Error || typeof e == "object" && e && "message" in e && typeof e.message == "string" ? e.message : String(e), Ht = (e, t) => `${e}: ${M(t)}`, Ut = (e) => /[.!?]$/.test(e) ? e : `${e}.`, N = (e, t) => e.localeCompare(t, void 0, { numeric: !0 }), P = (e) => e.alias, Wt = "No rows match the filter.", Gt = "No Wall Sockets available", Kt = "No Smart device sockets available", qt = (e, t) => {
 	let n = e.toLowerCase().split(/\s+/).filter(Boolean);
 	if (n.length === 0) return !0;
 	let r = t.join("\n").toLowerCase();
 	return n.every((e) => r.includes(e));
-}, L = (e, t) => {
+}, F = (e, t) => {
 	e && (t && !e.open ? e.showModal() : !t && e.open && e.close());
-}, Ot = (e) => `${e} powered`, kt = (e) => e === 1 ? "1 with an Appliance" : `${e} with Appliances`, At = "mac", jt = {
+}, Jt = (e) => `${e} powered`, Yt = (e) => e === 1 ? "1 with an Appliance" : `${e} with Appliances`, Xt = "mac", Zt = {
 	manufacturer: null,
 	model: null,
 	name: null,
@@ -2762,10 +2923,10 @@ var Ue = (e) => e ?? T, We = "M13,13H11V7H13M13,17H11V15H13M12,2A10,10 0 0,0 2,1
 	mac: null,
 	area_id: null
 };
-function Mt(e, t) {
+function Qt(e, t) {
 	let n = e?.[t];
-	if (!n) return jt;
-	let r = n.connections.find(([e]) => e === At);
+	if (!n) return Zt;
+	let r = n.connections.find(([e]) => e === Xt);
 	return {
 		manufacturer: n.manufacturer,
 		model: n.model,
@@ -2776,12 +2937,12 @@ function Mt(e, t) {
 		area_id: n.area_id
 	};
 }
-var Nt = "outlet_binder", Pt = /* @__PURE__ */ new WeakMap(), Ft = (e) => {
-	let t = Pt.get(e);
+var $t = "outlet_binder", en = /* @__PURE__ */ new WeakMap(), tn = (e) => {
+	let t = en.get(e);
 	if (t) return t;
 	let n = /* @__PURE__ */ new Map();
 	for (let { device_id: t, platform: r } of Object.values(e)) {
-		if (t === null || r === Nt) continue;
+		if (t === null || r === $t) continue;
 		let e = n.get(t) ?? /* @__PURE__ */ new Map();
 		e.set(r, (e.get(r) ?? 0) + 1), n.set(t, e);
 	}
@@ -2790,17 +2951,17 @@ var Nt = "outlet_binder", Pt = /* @__PURE__ */ new WeakMap(), Ft = (e) => {
 		let [n] = [...t].sort(([e, t], [n, r]) => r - t || e.localeCompare(n));
 		n && r.set(e, n[0]);
 	}
-	return Pt.set(e, r), r;
+	return en.set(e, r), r;
 };
-function It(e, t) {
-	return e ? Ft(e).get(t) ?? null : null;
+function nn(e, t) {
+	return e ? tn(e).get(t) ?? null : null;
 }
 //#endregion
 //#region src/outlet-binder-panel/chain-state.ts
-var Lt = (e) => ({
+var rn = (e) => ({
 	...e,
 	gapBefore: !0
-}), Rt = (e, t) => {
+}), an = (e, t) => {
 	let n = new Map(e.cos.map((e) => [e.co_id, e])), r = new Map(e.co_sockets.map((e) => [e.co_socket_id, e])), i = /* @__PURE__ */ new Map();
 	for (let t of e.co_sockets) {
 		let e = i.get(t.co_id) ?? [];
@@ -2843,7 +3004,7 @@ var Lt = (e) => ({
 		if (t.occupant_device_id === null) return !1;
 		let r = n.get(t.occupant_device_id);
 		return r !== void 0 && d(r) === "full";
-	}, p = (e) => {
+	}, ee = (e) => {
 		let i = t.appliance(e);
 		switch (i.kind) {
 			case "uo": return !0;
@@ -2853,21 +3014,21 @@ var Lt = (e) => ({
 			}
 			case "nowhere": return !1;
 		}
-	}, m = (n) => {
+	}, p = (n) => {
 		let r = (e) => e.kind === "uo" && e.id === n.uo_id;
 		return e.cos.some((e) => r(t.co(e)) && d(e) === "full") || e.appliances.some((e) => r(t.appliance(e)));
-	}, h = (e) => [...i.get(e.co_id) ?? []].sort((e, t) => e.position - t.position).flatMap((e) => {
+	}, m = (e) => [...i.get(e.co_id) ?? []].sort((e, t) => e.position - t.position).flatMap((e) => {
 		if (e.plugged_into_appliance_id !== null || e.occupant_device_id === null) return [];
 		let t = n.get(e.occupant_device_id);
 		return t === void 0 ? [] : [{
 			child: t,
 			via: e
 		}];
-	}), g = (e, t, n) => {
+	}), te = (e, t, n) => {
 		if (n.has(e.co_id)) return [];
-		let r = new Set(n).add(e.co_id), i = h(e).map(({ child: e, via: n }) => ({
+		let r = new Set(n).add(e.co_id), i = m(e).map(({ child: e, via: n }) => ({
 			via: n,
-			rows: g(e, t, r)
+			rows: te(e, t, r)
 		})).filter((e) => e.rows.length > 0), a = i.flatMap((e) => e.rows);
 		return d(e) === t ? [{
 			kind: "live",
@@ -2887,13 +3048,13 @@ var Lt = (e) => ({
 		reachesAppliance: l,
 		bandOf: d,
 		socketIsComplete: f,
-		applianceIsComplete: p,
-		uoIsComplete: m,
+		applianceIsComplete: ee,
+		uoIsComplete: p,
 		blocks: (n) => {
-			let r = [], i = /* @__PURE__ */ new Map(), s = [...e.cos].sort((e, t) => F(I(e), I(t))), c = s.filter((e) => a(e) === void 0), l = /* @__PURE__ */ new Set(), u = (e) => {
+			let r = [], i = /* @__PURE__ */ new Map(), s = [...e.cos].sort((e, t) => N(P(e), P(t))), c = s.filter((e) => a(e) === void 0), l = /* @__PURE__ */ new Set(), u = (e) => {
 				if (!l.has(e.co_id)) {
 					l.add(e.co_id);
-					for (let { child: t } of h(e)) u(t);
+					for (let { child: t } of m(e)) u(t);
 				}
 			};
 			c.forEach(u);
@@ -2903,16 +3064,16 @@ var Lt = (e) => ({
 				c.push(t), u(t);
 			}
 			for (let e of c) {
-				let a = g(e, n, /* @__PURE__ */ new Set());
+				let a = te(e, n, /* @__PURE__ */ new Set());
 				if (a.length === 0) continue;
 				let o = t.co(e), s = o.kind === "uo" ? o.id : null, c = s === null ? void 0 : i.get(s);
 				if (c !== void 0) {
-					c.rows.push(...a.map((e, t) => t === 0 ? Lt(e) : e));
+					c.rows.push(...a.map((e, t) => t === 0 ? rn(e) : e));
 					continue;
 				}
 				let l = {
 					uoId: s,
-					sortKey: I(e),
+					sortKey: P(e),
 					rows: a
 				};
 				r.push(l), s !== null && i.set(s, l);
@@ -2924,7 +3085,7 @@ var Lt = (e) => ({
 						appliance: e,
 						uoId: n.id
 					}] : [];
-				}).sort((e, t) => F(e.appliance.name, t.appliance.name));
+				}).sort((e, t) => N(e.appliance.name, t.appliance.name));
 				for (let { appliance: t, uoId: a } of n) {
 					let n = i.get(a);
 					if (n !== void 0) {
@@ -2947,41 +3108,41 @@ var Lt = (e) => ({
 					r.push(o), i.set(a, o);
 				}
 			}
-			return r.sort((e, t) => F(e.sortKey, t.sortKey)).map(({ uoId: e, rows: t }) => ({
+			return r.sort((e, t) => N(e.sortKey, t.sortKey)).map(({ uoId: e, rows: t }) => ({
 				uoId: e,
 				rows: t
 			}));
 		}
 	};
-}, zt = (e) => e.uo_id === null ? e.plugged_into_co_socket_id === null ? { kind: "nowhere" } : {
+}, on = (e) => e.uo_id === null ? e.plugged_into_co_socket_id === null ? { kind: "nowhere" } : {
 	kind: "co_socket",
 	id: e.plugged_into_co_socket_id
 } : {
 	kind: "uo",
 	id: e.uo_id
-}, R = (e) => zt(e), z = (e) => zt(e), Bt = (e) => e.sockets_in_use > 0, Vt = (e, t) => {
+}, I = (e) => on(e), L = (e) => on(e), sn = (e) => e.sockets_in_use > 0, cn = (e, t) => {
 	if (e.occupant_device_id === null) return null;
 	let n = e.plugged_into_appliance_id === null ? t.coNames : t.applianceNames;
 	return {
 		id: e.occupant_device_id,
 		name: n.get(e.occupant_device_id) ?? null
 	};
-}, Ht = (e, t) => ({
+}, ln = (e, t) => ({
 	device: e.coNames.get(t.co_id) ?? t.co_id,
 	socket: (e.socketsByCo.get(t.co_id) ?? []).length <= 1 ? null : t.alias
-}), B = (e, t) => {
-	let { device: n, socket: r } = Ht(e, t);
+}), R = (e, t) => {
+	let { device: n, socket: r } = ln(e, t);
 	return r === null ? n : `${n} > ${r}`;
-}, Ut = (e, t) => {
-	let { device: n, socket: r } = Ht(e, t);
+}, un = (e, t) => {
+	let { device: n, socket: r } = ln(e, t);
 	return r === null ? n : `${r} on ${n}`;
-}, V = (e) => {
+}, z = (e) => {
 	let t = new Map(e.uos.map((e) => [e.uo_id, e.name])), n = new Map(e.uos.map((e) => [e.uo_id, e])), r = new Map(e.cos.map((e) => [e.co_id, e.alias])), i = new Map(e.appliances.map((e) => [e.appliance_id, e.name])), a = new Map(e.appliances.map((e) => [e.appliance_id, e])), o = /* @__PURE__ */ new Map();
 	for (let t of e.co_sockets) {
 		let e = o.get(t.co_id) ?? [];
 		e.push(t), o.set(t.co_id, e);
 	}
-	let s = new Map(e.co_sockets.map((e) => [e.co_socket_id, B({
+	let s = new Map(e.co_sockets.map((e) => [e.co_socket_id, R({
 		coNames: r,
 		socketsByCo: o
 	}, e)])), c = /* @__PURE__ */ new Map();
@@ -2992,15 +3153,15 @@ var Lt = (e) => ({
 	}
 	let l = /* @__PURE__ */ new Map();
 	for (let t of e.appliances) {
-		let e = z(t);
+		let e = L(t);
 		if (e.kind !== "uo") continue;
 		let n = l.get(e.id) ?? [];
 		n.push(t), l.set(e.id, n);
 	}
-	let u = Rt(e, {
-		co: R,
-		appliance: z
-	}), d = u.bandOf, f = (e) => d(e) === "full", p = u.socketIsComplete, m = u.applianceIsComplete, h = u.uoIsComplete;
+	let u = an(e, {
+		co: I,
+		appliance: L
+	}), d = u.bandOf, f = (e) => d(e) === "full", ee = u.socketIsComplete, p = u.applianceIsComplete, m = u.uoIsComplete;
 	return {
 		uoNames: t,
 		uosById: n,
@@ -3016,45 +3177,57 @@ var Lt = (e) => ({
 		chain: u,
 		coBand: d,
 		coIsFullyChained: f,
-		socketIsFullyChained: p,
-		applianceIsFullyChained: m,
-		uoIsFullyChained: h
+		socketIsFullyChained: ee,
+		applianceIsFullyChained: p,
+		uoIsFullyChained: m
 	};
-}, H = [
+}, B = [
 	"appliances",
 	"devices",
 	"uos"
-], Wt = {
+], dn = {
 	devices: "Smart Devices",
 	appliances: "Appliances",
 	uos: "Wall Sockets"
-}, Gt = (e) => e >= 1320 ? "wide" : e >= 780 ? "medium" : "narrow", Kt = (e) => `· ${e} match`, qt = (e, t, n = null) => n === null ? `${Wt[e]} (${t})` : `${Wt[e]} (${t}) ${Kt(n)}`, Jt = (e, t) => {
-	let n = H.indexOf(e), r = H.length;
+}, fn = (e) => e >= 1320 ? "wide" : e >= 780 ? "medium" : "narrow", pn = (e) => `· ${e} match`, mn = (e, t, n = null) => n === null ? `${dn[e]} (${t})` : `${dn[e]} (${t}) ${pn(n)}`, hn = (e, t) => {
+	let n = B.indexOf(e), r = B.length;
 	switch (t) {
-		case "ArrowRight": return H[(n + 1) % r];
-		case "ArrowLeft": return H[(n - 1 + r) % r];
-		case "Home": return H[0];
-		case "End": return H[r - 1];
+		case "ArrowRight": return B[(n + 1) % r];
+		case "ArrowLeft": return B[(n - 1 + r) % r];
+		case "Home": return B[0];
+		case "End": return B[r - 1];
 		default: return null;
 	}
-}, Yt = (e, t, n, r = 8) => {
+}, gn = (e, t, n, r = 8) => {
 	let i = (e, t, n) => Math.max(r, Math.min(e, n - r - t));
 	return {
 		left: i(e.left, t.width, n.width),
 		top: i(e.top, t.height, n.height)
 	};
-}, Xt = (e, t, n) => ({
+}, _n = (e, t) => ({
+	dx: e.x - t.left,
+	dy: e.y - t.top
+}), vn = (e, t) => ({
+	left: e.x - t.dx,
+	top: e.y - t.dy
+}), yn = (e, t, n, r) => {
+	let i = gn(e, t, n);
+	return {
+		left: i.left - r.left,
+		top: i.top - r.top
+	};
+}, bn = (e, t, n) => ({
 	kind: e,
 	id: t,
 	...n,
 	savedDraft: { ...n.draft },
 	saving: !1,
 	error: null
-}), Zt = (e) => Object.entries(e.draft).some(([t, n]) => e.savedDraft[t] !== n), Qt = (e, t) => e === null ? null : {
+}), xn = (e) => Object.entries(e.draft).some(([t, n]) => e.savedDraft[t] !== n), V = (e, t) => e === null ? null : {
 	...e,
 	saving: !1,
-	error: P(t)
-}, $t = (e, t) => {
+	error: M(t)
+}, H = (e, t) => {
 	let n = e.uosById.get(t);
 	return n === void 0 ? null : {
 		kind: "uo",
@@ -3066,16 +3239,16 @@ var Lt = (e) => ({
 		kind: "co",
 		entity: n
 	};
-}, en = (e, t) => {
+}, Sn = (e, t) => {
 	let n = e.appliancesById.get(t);
 	return n === void 0 ? null : {
 		kind: "appliance",
 		entity: n
 	};
-}, tn = (e, t) => {
+}, Cn = (e, t) => {
 	let n = e.socketsById.get(t);
 	return n === void 0 ? null : U(e, n.co_id);
-}, nn = (e, t) => e.plugged_into_appliance_id === null ? e.occupant_device_id === null ? null : U(t, e.occupant_device_id) : en(t, e.plugged_into_appliance_id), rn = {
+}, wn = (e, t) => e.plugged_into_appliance_id === null ? e.occupant_device_id === null ? null : U(t, e.occupant_device_id) : Sn(t, e.plugged_into_appliance_id), Tn = {
 	name: "name",
 	alias: "alias",
 	location_note: "location note",
@@ -3086,15 +3259,15 @@ var Lt = (e) => ({
 	socket_type: "type",
 	ha_area_id: "HA area",
 	socket_count: "sockets"
-}, an = /* @__PURE__ */ new Map([["ha_area_id", "— none —"], ["location_override_ha_area_id", "— inherit —"]]), on = "Areas are defined in Home Assistant, not in Outlet Binder.", sn = /* @__PURE__ */ new Set(["socket_count"]), cn = /^\s*-?\d+\s*$/, ln = (e) => {
-	let t = dn[e.kind].requiredField;
-	return (e.draft[t] ?? "").trim() !== "" && Object.entries(e.draft).every(([e, t]) => !sn.has(e) || cn.test(t));
-}, un = (e) => {
-	let t = dn[e.kind], n = {
+}, En = /* @__PURE__ */ new Map([["ha_area_id", "— none —"], ["location_override_ha_area_id", "— inherit —"]]), Dn = "Areas are defined in Home Assistant, not in Outlet Binder.", On = /* @__PURE__ */ new Set(["socket_count"]), kn = /^\s*-?\d+\s*$/, An = (e) => {
+	let t = Mn[e.kind].requiredField;
+	return (e.draft[t] ?? "").trim() !== "" && Object.entries(e.draft).every(([e, t]) => !On.has(e) || kn.test(t));
+}, jn = (e) => {
+	let t = Mn[e.kind], n = {
 		type: t.wsType,
 		[t.idField]: e.id
 	};
-	for (let [r, i] of Object.entries(e.draft)) n[r] = sn.has(r) ? Number(i) : r === t.requiredField ? i : i.trim() === "" ? null : i;
+	for (let [r, i] of Object.entries(e.draft)) n[r] = On.has(r) ? Number(i) : r === t.requiredField ? i : i.trim() === "" ? null : i;
 	for (let [t, r] of Object.entries(e.passthrough)) n[t] = r;
 	return n;
 }, W = {
@@ -3102,7 +3275,7 @@ var Lt = (e) => ({
 	appliance: "Appliance",
 	co: "Smart Device",
 	co_socket: "Socket"
-}, dn = {
+}, Mn = {
 	uo: {
 		wsType: "outlet_binder/update_uo",
 		idField: "uo_id",
@@ -3123,7 +3296,7 @@ var Lt = (e) => ({
 		idField: "co_socket_id",
 		requiredField: "alias"
 	}
-}, fn = {
+}, Nn = {
 	uo: {
 		wsType: "outlet_binder/delete_uo",
 		idField: "uo_id"
@@ -3136,7 +3309,7 @@ var Lt = (e) => ({
 		wsType: "outlet_binder/delete_co",
 		idField: "co_id"
 	}
-}, pn = {
+}, Pn = {
 	uo: {
 		wsType: "outlet_binder/create_uo",
 		requiredField: "name"
@@ -3145,7 +3318,7 @@ var Lt = (e) => ({
 		wsType: "outlet_binder/create_appliance",
 		requiredField: "name"
 	}
-}, mn = {
+}, Fn = {
 	uo: {
 		name: "",
 		location_note: "",
@@ -3156,7 +3329,7 @@ var Lt = (e) => ({
 		appliance_type: "",
 		description: ""
 	}
-}, hn = (e) => ({
+}, In = (e) => ({
 	draft: {
 		name: e.name,
 		ha_area_id: e.ha_area_id ?? "",
@@ -3167,21 +3340,21 @@ var Lt = (e) => ({
 	pluggedIntoHaDevice: null,
 	titleHaDevice: null,
 	readonlyFields: [["sockets in use", String(e.sockets_in_use)]]
-}), gn = "Socket's HA name", _n = (e) => [gn, e === void 0 ? "…" : A(e)], vn = (e, t) => {
-	let n = z(e);
+}), Ln = "Socket's HA name", Rn = (e) => [Ln, e === void 0 ? "…" : k(e)], zn = (e, t) => {
+	let n = L(e);
 	switch (n.kind) {
 		case "co_socket": return {
-			text: M(t.coSocketLabels, n.id),
-			target: tn(t, n.id)
+			text: j(t.coSocketLabels, n.id),
+			target: Cn(t, n.id)
 		};
 		case "uo": return {
-			text: M(t.uoNames, n.id),
-			target: $t(t, n.id)
+			text: j(t.uoNames, n.id),
+			target: H(t, n.id)
 		};
 		case "nowhere": return null;
 	}
-}, yn = (e, t, n) => {
-	let r = z(e);
+}, Bn = (e, t, n) => {
+	let r = L(e);
 	return {
 		draft: {
 			name: e.name,
@@ -3189,22 +3362,22 @@ var Lt = (e) => ({
 			description: e.description ?? ""
 		},
 		passthrough: {},
-		pluggedInto: vn(e, t),
+		pluggedInto: zn(e, t),
 		pluggedIntoHaDevice: r.kind === "co_socket" ? t.socketsById.get(r.id)?.co_id ?? null : null,
 		titleHaDevice: null,
-		readonlyFields: [_n(n)]
+		readonlyFields: [Rn(n)]
 	};
-}, bn = (e, t, n) => {
+}, Vn = (e, t, n) => {
 	if (!e.has_plug) return "---> —";
-	if (R(e).kind === "nowhere") return "---> unplugged";
+	if (I(e).kind === "nowhere") return "---> unplugged";
 	let r = e.inherited_ha_area_source_id;
 	if (r === null) return "---> —";
-	let i = (e) => A(j(n, e)), a = t.uosById.get(r);
+	let i = (e) => k(A(n, e)), a = t.uosById.get(r);
 	if (a) return `---> ${a.name} : ${i(a.ha_area_id)}`;
 	let o = t.cosById.get(r);
 	return o ? `---> ${o.alias} : ${i(o.location_override?.ha_area_id ?? null)}` : "---> —";
-}, xn = (e, t, n) => {
-	let r = R(e), i = r.kind === "co_socket" ? t.socketsById.get(r.id) : void 0;
+}, Hn = (e, t, n) => {
+	let r = I(e), i = r.kind === "co_socket" ? t.socketsById.get(r.id) : void 0;
 	return {
 		draft: {
 			alias: e.alias,
@@ -3212,23 +3385,23 @@ var Lt = (e) => ({
 			location_override_location_note: e.location_override?.location_note ?? ""
 		},
 		passthrough: {},
-		inheritLabel: bn(e, t, n),
+		inheritLabel: Vn(e, t, n),
 		pluggedInto: r.kind === "uo" ? {
-			text: j(t.uoNames, r.id) ?? r.id,
-			target: $t(t, r.id)
+			text: A(t.uoNames, r.id) ?? r.id,
+			target: H(t, r.id)
 		} : r.kind === "co_socket" ? i ? {
-			text: B(t, i),
+			text: R(t, i),
 			target: U(t, i.co_id)
 		} : {
-			text: A(null),
+			text: k(null),
 			target: null
 		} : null,
 		pluggedIntoHaDevice: i?.co_id ?? null,
 		titleHaDevice: e.co_id,
-		readonlyFields: [["all on/off entity", A(e.all_on_off_entity_registry_id)], ["created at", e.created_at]]
+		readonlyFields: [["all on/off entity", k(e.all_on_off_entity_registry_id)], ["created at", e.created_at]]
 	};
-}, Sn = (e, t) => {
-	let n = Vt(e, t);
+}, Un = (e, t) => {
+	let n = cn(e, t);
 	return {
 		draft: {
 			alias: e.alias,
@@ -3236,29 +3409,29 @@ var Lt = (e) => ({
 		},
 		passthrough: { physical_position: e.physical_position },
 		pluggedInto: n === null ? null : {
-			text: A(n.name),
-			target: nn(e, t)
+			text: k(n.name),
+			target: wn(e, t)
 		},
 		pluggedIntoHaDevice: n !== null && e.plugged_into_appliance_id === null ? n.id : null,
 		titleHaDevice: e.co_id,
 		readonlyFields: [
-			["smart device", A(j(t.coNames, e.co_id))],
+			["smart device", k(A(t.coNames, e.co_id))],
 			["position", String(e.position)],
-			["monitoring entity", A(e.monitoring_entity_registry_id)]
+			["monitoring entity", k(e.monitoring_entity_registry_id)]
 		]
 	};
-}, Cn = 4, G = 8;
-function wn(e, t, n) {
+}, Wn = 4, G = 8;
+function Gn(e, t, n) {
 	return n < t ? t : Math.min(Math.max(e, t), n);
 }
-function Tn(e, t, n, r = null) {
-	let i = n.height - (e.top + e.height) - Cn, a = e.top - Cn, o = t.height + G <= i, s = t.height + G <= a, c = o || !s && i >= a ? e.top + e.height + Cn : e.top - Cn - t.height, l = r === null ? null : r.left - Cn - t.width;
+function Kn(e, t, n, r = null) {
+	let i = n.height - (e.top + e.height) - Wn, a = e.top - Wn, o = t.height + G <= i, s = t.height + G <= a, c = o || !s && i >= a ? e.top + e.height + Wn : e.top - Wn - t.height, l = r === null ? null : r.left - Wn - t.width;
 	return {
-		left: wn(l !== null && l >= G ? l : e.left, G, n.width - t.width - G),
-		top: wn(c, G, n.height - t.height - G)
+		left: Gn(l !== null && l >= G ? l : e.left, G, n.width - t.width - G),
+		top: Gn(c, G, n.height - t.height - G)
 	};
 }
-function En(e) {
+function qn(e) {
 	let { event: t, pointerType: n, lastInput: r, host: i } = e;
 	if (t === "escape") return "hide";
 	if (t === "click") return i === "info" && n === "touch" ? "toggle" : "hide";
@@ -3270,13 +3443,13 @@ function En(e) {
 		case "focusin": return r === "keyboard" ? "show" : "ignore";
 	}
 }
-var Dn = /^(- |\d+\. )/;
-function On(e) {
+var Jn = /^(- |\d+\. )/;
+function Yn(e) {
 	let t = e.indexOf("\n\n");
 	return t >= 0 ? {
 		title: e.slice(0, t),
 		body: e.slice(t + 2)
-	} : Dn.test(e) ? {
+	} : Jn.test(e) ? {
 		title: "",
 		body: e
 	} : {
@@ -3284,9 +3457,9 @@ function On(e) {
 		body: ""
 	};
 }
-function kn(e) {
+function Xn(e) {
 	return e.split("\n").map((e) => {
-		let t = Dn.exec(e);
+		let t = Jn.exec(e);
 		return t ? {
 			kind: "item",
 			marker: t[1].trim(),
@@ -3302,32 +3475,32 @@ function kn(e) {
 		};
 	});
 }
-var An = [
+var Zn = [
 	"appliance",
 	"co",
 	"uo"
-], jn = (e) => An.includes(e), Mn = {
+], Qn = (e) => Zn.includes(e), $n = {
 	...W,
 	co_socket: "Smart Socket"
-}, Nn = {
+}, er = {
 	appliance: "appliance",
 	co: "co",
 	co_socket: "co",
 	uo: "uo"
-}, Pn = (e, t, n) => ({
+}, tr = (e, t, n) => ({
 	icon: e,
 	title: t,
 	action: n.action ?? "",
 	blocked: n.blocked ?? !1,
 	attrs: n.attrs ?? []
-}), K = (e, t, n = {}) => Pn(Nn[e], `${Mn[e]}: ${t}`, n), Fn = (e, t = {}) => Pn(null, e, t), In = "- ", Ln = (e) => e.replace(/[\t\r\n]+/g, " "), Rn = (e) => {
-	let t = (e.action === "" ? [e.title] : [e.title, e.action]).map(Ln), n = e.attrs.flatMap((e) => [`${Ln(e.label)}:\t${Ln(e.value)}`, ...(e.items ?? []).map((e) => `${In}${Ln(e)}`)]);
+}), K = (e, t, n = {}) => tr(er[e], `${$n[e]}: ${t}`, n), nr = (e, t = {}) => tr(null, e, t), rr = "- ", ir = (e) => e.replace(/[\t\r\n]+/g, " "), ar = (e) => {
+	let t = (e.action === "" ? [e.title] : [e.title, e.action]).map(ir), n = e.attrs.flatMap((e) => [`${ir(e.label)}:\t${ir(e.value)}`, ...(e.items ?? []).map((e) => `${rr}${ir(e)}`)]);
 	return [t.join("\n"), ...n.length > 0 ? [n.join("\n")] : []].join("\n\n");
-}, zn = (e, t, n) => {
+}, or = (e, t, n) => {
 	let r = e.indexOf("\n\n"), i = (r >= 0 ? e.slice(0, r) : e).split("\n"), a = [];
 	if (r >= 0) for (let t of e.slice(r + 2).split("\n")) {
 		let e = a.at(-1);
-		if (t.startsWith(In) && e !== void 0) {
+		if (t.startsWith(rr) && e !== void 0) {
 			e.items.push(t.slice(2));
 			continue;
 		}
@@ -3352,21 +3525,21 @@ var An = [
 			items: e
 		} : t)
 	};
-}, Bn = {
+}, sr = {
 	system: "Auto",
 	light: "Light",
 	dark: "Dark"
-}, Vn = "system", Hn = "outlet-binder-panel:theme-override", Un = () => {
+}, cr = "system", lr = "outlet-binder-panel:theme-override", ur = () => {
 	try {
-		let e = localStorage.getItem(Hn);
-		return e !== null && Object.hasOwn(Bn, e) ? e : Vn;
+		let e = localStorage.getItem(lr);
+		return e !== null && Object.hasOwn(sr, e) ? e : cr;
 	} catch {
-		return Vn;
+		return cr;
 	}
-}, Wn = "outlet-binder-panel:seen-cos", Gn = () => {
+}, dr = "outlet-binder-panel:seen-cos", fr = () => {
 	let e;
 	try {
-		e = localStorage.getItem(Wn);
+		e = localStorage.getItem(dr);
 	} catch {
 		return null;
 	}
@@ -3376,11 +3549,11 @@ var An = [
 	} catch {
 		return {};
 	}
-}, Kn = (e) => {
+}, pr = (e) => {
 	try {
-		localStorage.setItem(Wn, JSON.stringify(e));
+		localStorage.setItem(dr, JSON.stringify(e));
 	} catch {}
-}, qn = (e, t, n) => {
+}, mr = (e, t, n) => {
 	let r = t === null, i = t ?? {}, a = /* @__PURE__ */ new Set(), o = {};
 	for (let t of e) {
 		let e = i[t.co_id], s = e && e.createdAt === t.created_at ? e : {
@@ -3393,83 +3566,83 @@ var An = [
 		newIds: a,
 		nextSeen: o
 	};
-}, Jn = (e) => z(e).kind === "nowhere", Yn = (e) => !Bt(e), Xn = (e, t) => e.name.localeCompare(t.name), Zn = (e) => {
+}, hr = (e) => L(e).kind === "nowhere", gr = (e) => !sn(e), _r = (e, t) => e.name.localeCompare(t.name), vr = (e) => {
 	let t = [], n = [];
-	for (let r of e.appliances) (Jn(r) ? t : n).push(r);
+	for (let r of e.appliances) (hr(r) ? t : n).push(r);
 	return {
-		isolated: t.sort(Xn),
-		inUse: n.sort(Xn)
+		isolated: t.sort(_r),
+		inUse: n.sort(_r)
 	};
-}, Qn = (e) => {
+}, yr = (e) => {
 	let t = [], n = [];
-	for (let r of e.uos) (Yn(r) ? t : n).push(r);
+	for (let r of e.uos) (gr(r) ? t : n).push(r);
 	return {
-		isolated: t.sort(Xn),
-		inUse: n.sort(Xn)
+		isolated: t.sort(_r),
+		inUse: n.sort(_r)
 	};
-}, $n = {
+}, br = {
 	full: "Appliance → Smart Socket → Wall Socket",
 	partial: "Appliance → Smart Socket OR Smart Socket → Wall Socket",
 	orphan: "Unconnected Smart Socket"
-}, er = [
+}, xr = [
 	"full",
 	"partial",
 	"orphan"
-], tr = "outlet-binder-panel:collapsed-sections", nr = () => {
+], Sr = "outlet-binder-panel:collapsed-sections", Cr = () => {
 	try {
-		let e = localStorage.getItem(tr);
+		let e = localStorage.getItem(Sr);
 		if (e === null) return /* @__PURE__ */ new Set();
 		let t = JSON.parse(e);
-		return Array.isArray(t) ? new Set(t.filter((e) => er.includes(e))) : /* @__PURE__ */ new Set();
+		return Array.isArray(t) ? new Set(t.filter((e) => xr.includes(e))) : /* @__PURE__ */ new Set();
 	} catch {
 		return /* @__PURE__ */ new Set();
 	}
-}, rr = (e) => {
+}, wr = (e) => {
 	try {
-		localStorage.setItem(tr, JSON.stringify([...e]));
+		localStorage.setItem(Sr, JSON.stringify([...e]));
 	} catch {}
-}, ir = {
+}, Tr = {
 	isolated: "Isolated",
 	in_use: "In use"
-}, ar = ["isolated", "in_use"], or = "outlet-binder-panel:collapsed-side-sections", sr = () => ({
+}, Er = ["isolated", "in_use"], Dr = "outlet-binder-panel:collapsed-side-sections", Or = () => ({
 	appliance: /* @__PURE__ */ new Set(["in_use"]),
 	uo: /* @__PURE__ */ new Set(["in_use"])
-}), cr = () => {
+}), kr = () => {
 	try {
-		let e = localStorage.getItem(or);
-		if (e === null) return sr();
+		let e = localStorage.getItem(Dr);
+		if (e === null) return Or();
 		let t = JSON.parse(e);
-		if (typeof t != "object" || !t) return sr();
-		let n = t, r = sr(), i = (e) => {
+		if (typeof t != "object" || !t) return Or();
+		let n = t, r = Or(), i = (e) => {
 			let t = n[e];
-			return Array.isArray(t) ? new Set(t.filter((e) => ar.includes(e))) : r[e];
+			return Array.isArray(t) ? new Set(t.filter((e) => Er.includes(e))) : r[e];
 		};
 		return {
 			appliance: i("appliance"),
 			uo: i("uo")
 		};
 	} catch {
-		return sr();
+		return Or();
 	}
-}, lr = (e) => {
+}, Ar = (e) => {
 	try {
-		localStorage.setItem(or, JSON.stringify({
+		localStorage.setItem(Dr, JSON.stringify({
 			appliance: [...e.appliance],
 			uo: [...e.uo]
 		}));
 	} catch {}
-}, ur = "outlet-binder-panel:active-tab", dr = () => {
+}, jr = "outlet-binder-panel:active-tab", Mr = () => {
 	try {
-		let e = localStorage.getItem(ur);
-		return H.includes(e) ? e : "devices";
+		let e = localStorage.getItem(jr);
+		return B.includes(e) ? e : "devices";
 	} catch {
 		return "devices";
 	}
-}, fr = (e) => {
+}, Nr = (e) => {
 	try {
-		localStorage.setItem(ur, e);
+		localStorage.setItem(jr, e);
 	} catch {}
-}, pr = (e, t) => {
+}, Pr = (e, t) => {
 	let n = e.plugged_into_appliance_id;
 	return n === null ? e.occupant_device_id === null ? {
 		appliance: void 0,
@@ -3478,47 +3651,47 @@ var An = [
 	} : {
 		appliance: void 0,
 		co: t.cosById.get(e.occupant_device_id),
-		name: A(t.coNames.get(e.occupant_device_id))
+		name: k(t.coNames.get(e.occupant_device_id))
 	} : {
 		appliance: t.appliancesById.get(n),
 		co: void 0,
-		name: A(j(t.applianceNames, n))
+		name: k(A(t.applianceNames, n))
 	};
-}, mr = (e, t) => {
-	let n = R(e);
+}, Fr = (e, t) => {
+	let n = I(e);
 	if (n.kind !== "co_socket") return null;
 	let r = t.socketsById.get(n.id), i = r === void 0 ? void 0 : t.cosById.get(r.co_id);
-	return r === void 0 || i === void 0 ? null : (t.socketsByCo.get(i.co_id) ?? []).length > 1 ? `${i.alias} Socket ${N(r)}` : i.alias;
-}, hr = (e, t) => {
-	let n = mr(e, t);
+	return r === void 0 || i === void 0 ? null : (t.socketsByCo.get(i.co_id) ?? []).length > 1 ? `${i.alias} Socket ${Vt(r)}` : i.alias;
+}, Ir = (e, t) => {
+	let n = Fr(e, t);
 	return n === null ? null : `In: ${n}`;
-}, gr = (e, t) => {
+}, Lr = (e, t) => {
 	let n = t.chain.ancestors(e).at(-1) ?? e;
 	if (!n.has_plug) return n.alias;
-	let r = R(n);
+	let r = I(n);
 	return r.kind === "uo" ? t.uoNames.get(r.id) ?? null : null;
-}, _r = (e, t) => e.has_plug ? gr(e, t) : null, vr = (e, t) => `${A(e)}: ${A(t)}`, yr = "View/Edit", br = (e) => K("co", e.name, {
-	action: yr,
+}, Rr = (e, t) => e.has_plug ? Lr(e, t) : null, zr = (e, t) => `${k(e)}: ${k(t)}`, Br = "View/Edit", Vr = (e) => K("co", e.name, {
+	action: Br,
 	attrs: [
 		{
 			label: "Model",
-			value: `${A(e.integration)} : ${A(e.model)}`
+			value: `${k(e.integration)} : ${k(e.model)}`
 		},
 		...e.uoName === null ? [] : [{
 			label: "In",
-			value: vr(e.uoName, e.effectiveArea)
+			value: zr(e.uoName, e.effectiveArea)
 		}],
 		{
 			label: "Area",
-			value: A(e.deviceArea)
+			value: k(e.deviceArea)
 		}
 	]
-}), xr = (e) => K("appliance", e.name, {
-	action: yr,
+}), Hr = (e) => K("appliance", e.name, {
+	action: Br,
 	attrs: [
 		{
 			label: "Type",
-			value: A(e.type)
+			value: k(e.type)
 		},
 		{
 			label: "Plugged into",
@@ -3526,19 +3699,19 @@ var An = [
 		},
 		...e.uoName === null ? [] : [{
 			label: "In",
-			value: vr(e.uoName, e.effectiveArea)
+			value: zr(e.uoName, e.effectiveArea)
 		}],
 		...e.description ? [{
 			label: "Description",
 			value: e.description
 		}] : []
 	]
-}), Sr = (e) => K("uo", e.name, {
-	action: yr,
+}), Ur = (e) => K("uo", e.name, {
+	action: Br,
 	attrs: [
 		{
 			label: "Area",
-			value: A(e.area)
+			value: k(e.area)
 		},
 		...e.note ? [{
 			label: "Note",
@@ -3549,12 +3722,12 @@ var An = [
 			value: `${e.socketsInUse} of ${e.socketCount} in use`
 		}
 	]
-}), Cr = (e, t, n) => {
+}), Wr = (e, t, n) => {
 	if ((n.socketsByCo.get(e.co_id) ?? []).length < 2) return e.alias;
-	let r = t.map(N).sort((e, t) => e - t);
+	let r = t.map(Vt).sort((e, t) => e - t);
 	return `${e.alias} ${r.length === 1 ? "Socket" : "Sockets"} ${r.join(", ")}`;
-}, wr = (e, t) => t.coBand(e), Tr = (e, t) => {
-	let n = z(e);
+}, Gr = (e, t) => t.coBand(e), Kr = (e, t) => {
+	let n = L(e);
 	switch (n.kind) {
 		case "co_socket": {
 			let e = t.socketsById.get(n.id), r = e ? t.cosById.get(e.co_id) : void 0;
@@ -3573,11 +3746,11 @@ var An = [
 		}
 		case "nowhere": return null;
 	}
-}, Er = (e, t) => [...t.cosByUo.get(e.uo_id) ?? []].sort((e, t) => F(I(e), I(t))), Dr = (e, t) => [...t.appliancesByUo.get(e.uo_id) ?? []].sort(Xn), Or = (e) => ({
+}, qr = (e, t) => [...t.cosByUo.get(e.uo_id) ?? []].sort((e, t) => N(P(e), P(t))), Jr = (e, t) => [...t.appliancesByUo.get(e.uo_id) ?? []].sort(_r), Yr = (e) => ({
 	full: e.chain.blocks("full"),
 	partial: e.chain.blocks("partial"),
 	orphan: e.chain.blocks("orphan")
-}), kr = () => ({
+}), Xr = () => ({
 	appliance: 0,
 	co: 0,
 	coReadyNotPowered: 0,
@@ -3585,15 +3758,15 @@ var An = [
 	uo: 0,
 	socketTotal: 0,
 	socketInUse: 0
-}), Ar = (e, t) => {
+}), Zr = (e, t) => {
 	let n = {
-		full: kr(),
-		partial: kr(),
-		orphan: kr()
+		full: Xr(),
+		partial: Xr(),
+		orphan: Xr()
 	};
-	for (let r of e.appliances) Jn(r) ? n.orphan.appliance += 1 : t.applianceIsFullyChained(r) ? n.full.appliance += 1 : n.partial.appliance += 1;
+	for (let r of e.appliances) hr(r) ? n.orphan.appliance += 1 : t.applianceIsFullyChained(r) ? n.full.appliance += 1 : n.partial.appliance += 1;
 	for (let r of e.cos) {
-		let e = t.socketsByCo.get(r.co_id) ?? [], i = wr(r, t);
+		let e = t.socketsByCo.get(r.co_id) ?? [], i = Gr(r, t);
 		if (n[i].socketTotal += e.length, n[i].socketInUse += e.filter((e) => e.occupant_device_id !== null).length, i === "full") {
 			n.full.co += 1;
 			continue;
@@ -3604,10 +3777,10 @@ var An = [
 		}
 		n.partial.co += 1, t.chain.isPowered(r) ? n.partial.coNoConsumersButPowered += 1 : n.partial.coReadyNotPowered += 1;
 	}
-	for (let r of e.uos) Yn(r) ? n.orphan.uo += 1 : t.uoIsFullyChained(r) ? n.full.uo += 1 : n.partial.uo += 1;
+	for (let r of e.uos) gr(r) ? n.orphan.uo += 1 : t.uoIsFullyChained(r) ? n.full.uo += 1 : n.partial.uo += 1;
 	return n;
-}, jr = (e, t) => {
-	let n = `${t.socketTotal}, ${kt(t.socketInUse)}`;
+}, Qr = (e, t) => {
+	let n = `${t.socketTotal}, ${Yt(t.socketInUse)}`;
 	switch (e) {
 		case "orphan": return [{
 			label: "Devices",
@@ -3619,7 +3792,7 @@ var An = [
 		case "partial": return [
 			{
 				label: "Devices",
-				value: `${t.co}, ${Ot(t.coNoConsumersButPowered)}`
+				value: `${t.co}, ${Jt(t.coNoConsumersButPowered)}`
 			},
 			{
 				label: "Sockets",
@@ -3645,39 +3818,39 @@ var An = [
 			}
 		];
 	}
-}, Mr = "Clear the filter to collapse sections", Nr = (e, t) => e ? "filtering" : t ? "expand" : "collapse", Pr = {
+}, $r = "Clear the filter to collapse sections", ei = (e, t) => e ? "filtering" : t ? "expand" : "collapse", ti = {
 	collapse: "Collapse",
 	expand: "Expand",
 	info: ""
-}, Fr = (e, t, n) => n === "filtering" ? Fn(Mr, { attrs: t }) : Fn(e, {
-	action: Pr[n],
+}, ni = (e, t, n) => n === "filtering" ? nr($r, { attrs: t }) : nr(e, {
+	action: ti[n],
 	attrs: t
-}), Ir = (e, t, n) => Fr($n[e], jr(e, t), n), Lr = {
+}), ri = (e, t, n) => ni(br[e], Qr(e, t), n), ii = {
 	appliance: "Appliances",
 	uo: "Wall Sockets"
-}, Rr = (e, t, n, r) => Fr(`${ir[t]} ${Lr[e]}`, [{
+}, ai = (e, t, n, r) => ni(`${Tr[t]} ${ii[e]}`, [{
 	label: "Count",
 	value: String(n)
-}], r), zr = (e, t) => {
+}], r), oi = (e, t) => {
 	switch (e) {
-		case "appliance": return Fn("Appliances", {
+		case "appliance": return nr("Appliances", {
 			action: "Plugged in to a Smart Socket",
 			attrs: [{
 				label: "All Appliances",
 				value: String(t.appliances)
 			}]
 		});
-		case "co": return Fn("Smart devices & Sockets", {
+		case "co": return nr("Smart devices & Sockets", {
 			action: "Smart plugs and power strips, and the switchable Sockets on each",
 			attrs: [{
 				label: "Devices",
 				value: String(t.cos)
 			}, {
 				label: "Sockets",
-				value: `${t.socketTotal}, ${kt(t.socketInUse)}`
+				value: `${t.socketTotal}, ${Yt(t.socketInUse)}`
 			}]
 		});
-		case "uo": return Fn("Wall Sockets", {
+		case "uo": return nr("Wall Sockets", {
 			action: "Where your Smart devices are plugged in",
 			attrs: [{
 				label: "All Wall Sockets",
@@ -3685,97 +3858,104 @@ var An = [
 			}]
 		});
 	}
-}, Br = (e, t, n) => `${e} ${e === 1 ? t : n}`, Vr = (e, t, n) => {
+}, si = (e, t, n) => `${e} ${e === 1 ? t : n}`, ci = (e, t) => {
+	let n = e.area_id ? t.areas?.[e.area_id] : void 0;
+	return {
+		area: n,
+		floor: n?.floor_id ? t.floors?.[n.floor_id] : void 0
+	};
+}, li = (e, t, n, r) => {
+	let i = Qt(r.devices, e.co_id), { area: a, floor: o } = ci(i, r), s = n.filter((e) => e.monitoring_entity_registry_id !== null).map((e) => String(Vt(e)));
+	return {
+		coId: e.co_id,
+		title: {
+			text: e.alias,
+			target: {
+				kind: "co",
+				entity: e
+			}
+		},
+		fields: [
+			["device name", i.name],
+			["make and model", i.manufacturer === null && i.model === null ? null : `${k(i.manufacturer)}:${k(i.model)}`],
+			["MAC address", i.mac],
+			["hardware version", i.hw_version],
+			["software version", i.sw_version],
+			["area", a?.name ?? null],
+			["floor", o?.name ?? null],
+			["Wall Socket", I(e).kind === "nowhere" ? "Not linked yet" : "Linked"],
+			["Sockets", String(n.length)],
+			["reporting power", s.length > 0 ? s.join(", ") : "None"],
+			["all on/off", e.all_on_off_entity_registry_id === null ? "No" : "Yes"],
+			["integration", t.integration_domain],
+			["pattern", t.pattern_id]
+		]
+	};
+}, ui = (e, t, n) => {
 	let r = new Map(t.cos.map((e) => [e.co_id, e])), i = [], a = 0;
 	for (let o of e) {
 		let e = r.get(o.co_id);
 		if (!e) continue;
 		let s = t.co_sockets.filter((t) => t.co_id === e.co_id).sort((e, t) => e.position - t.position);
-		a += s.length;
-		let c = Mt(n.devices, e.co_id), l = c.area_id ? n.areas?.[c.area_id] : void 0, u = l?.floor_id ? n.floors?.[l.floor_id] : void 0, d = s.filter((e) => e.monitoring_entity_registry_id !== null).map((e) => String(N(e)));
-		i.push({
-			coId: e.co_id,
-			title: {
-				text: e.alias,
-				target: {
-					kind: "co",
-					entity: e
-				}
-			},
-			fields: [
-				["device name", c.name],
-				["make and model", c.manufacturer === null && c.model === null ? null : `${A(c.manufacturer)}:${A(c.model)}`],
-				["MAC address", c.mac],
-				["hardware version", c.hw_version],
-				["software version", c.sw_version],
-				["area", l?.name ?? null],
-				["floor", u?.name ?? null],
-				["Wall Socket", R(e).kind === "nowhere" ? "Not linked yet" : "Linked"],
-				["Sockets", String(s.length)],
-				["reporting power", d.length > 0 ? d.join(", ") : "None"],
-				["all on/off", e.all_on_off_entity_registry_id === null ? "No" : "Yes"],
-				["integration", o.integration_domain],
-				["pattern", o.pattern_id]
-			]
-		});
+		a += s.length, i.push(li(e, o, s, n));
 	}
-	return i.length === 0 ? null : (i.sort((e, t) => F(e.title.text, t.title.text)), {
-		heading: `Found ${Br(i.length, "new Smart Device", "new Smart Devices")} with ${Br(a, "Socket", "Sockets")}`,
+	return i.length === 0 ? null : (i.sort((e, t) => N(e.title.text, t.title.text)), {
+		heading: `Found ${si(i.length, "new Smart Device", "new Smart Devices")} with ${si(a, "Socket", "Sockets")}`,
 		entries: i
 	});
-}, Hr = (e) => e.trim() !== "", Ur = "powering", Wr = "holding", Gr = (e, t) => `${e}: ${A(t)}`, Kr = (e, t) => [["HA area", t], ["location note", e.location_note]], qr = (e, t) => [e.name, ...Kr(e, t.uoArea(e)).map(([e, t]) => Gr(e, t))], Jr = (e, t) => t === "table" ? `(${A(e.manufacturer)}:${A(e.model)})` : `(${A(e.manufacturer)} : ${A(e.model)})`, Yr = (e, t) => (t.socketsByCo.get(e.co_id) ?? []).map((e) => pr(e, t).name), Xr = (e, t) => [
+}, di = (e) => e.trim() !== "", fi = "powering", pi = "holding", mi = (e, t) => `${e}: ${k(t)}`, hi = (e, t) => [["HA area", t], ["location note", e.location_note]], gi = (e, t) => [e.name, ...hi(e, t.uoArea(e)).map(([e, t]) => mi(e, t))], _i = (e, t) => t === "table" ? `(${k(e.manufacturer)}:${k(e.model)})` : `(${k(e.manufacturer)} : ${k(e.model)})`, vi = (e, t) => (t.socketsByCo.get(e.co_id) ?? []).map((e) => Pr(e, t).name), yi = (e, t) => [
 	e.alias,
-	Jr(t.coModel(e), "table"),
-	mr(e, t.h) ?? "",
-	...Yr(e, t.h)
-], Zr = (e, t, n) => {
-	let r = e === null ? null : hr(e, n.h);
-	return e !== null && r !== null ? [r, gr(e, n.h) ?? ""] : t === null ? [] : qr(t, n);
-}, Qr = (e, t, n) => [
+	_i(t.coModel(e), "table"),
+	Fr(e, t.h) ?? "",
+	...vi(e, t.h)
+], bi = (e, t, n) => {
+	let r = e === null ? null : Ir(e, n.h);
+	return e !== null && r !== null ? [r, Lr(e, n.h) ?? ""] : t === null ? [] : gi(t, n);
+}, xi = (e, t, n) => [
 	e.alias,
-	Jr(n.coModel(e), "cards"),
-	...Yr(e, n.h),
-	...Zr(e, t, n)
-], $r = (e, t, n, r) => {
+	_i(n.coModel(e), "cards"),
+	...vi(e, n.h),
+	...bi(e, t, n)
+], Si = (e, t, n, r) => {
 	switch (e.kind) {
-		case "live": return n === "table" ? Xr(e.co, r) : Qr(e.co, t, r);
-		case "copy": return n === "table" ? [Cr(e.co, e.sockets, r.h)] : [];
-		case "direct": return n === "table" ? [e.appliance.name] : [e.appliance.name, ...Zr(null, t, r)];
+		case "live": return n === "table" ? yi(e.co, r) : xi(e.co, t, r);
+		case "copy": return n === "table" ? [Wr(e.co, e.sockets, r.h)] : [];
+		case "direct": return n === "table" ? [e.appliance.name] : [e.appliance.name, ...bi(null, t, r)];
 	}
-}, ei = (e, t, n) => {
+}, Ci = (e, t, n) => {
 	let r = e.uoId === null ? null : n.h.uosById.get(e.uoId) ?? null;
-	return [...t === "table" && r !== null ? qr(r, n) : [], ...e.rows.flatMap((e) => $r(e, r, t, n))];
-}, ti = (e, t) => `${e}:${t}`, ni = (e, t) => {
-	let n = Tr(e, t);
+	return [...t === "table" && r !== null ? gi(r, n) : [], ...e.rows.flatMap((e) => Si(e, r, t, n))];
+}, wi = (e, t) => `${e}:${t}`, Ti = (e, t) => {
+	let n = Kr(e, t);
 	return n === null ? null : n.kind === "co_socket" ? {
 		name: n.co.alias,
-		suffix: `: ${N(n.socket)}`
+		suffix: `: ${Vt(n.socket)}`
 	} : {
 		name: n.uo.name,
 		suffix: null
 	};
-}, ri = (e, t) => {
-	let n = ni(e, t);
+}, Ei = (e, t) => {
+	let n = Ti(e, t);
 	return [e.name, ...n === null ? [] : [
 		"in",
 		n.name,
 		n.suffix ?? ""
 	]];
-}, ii = (e, t) => {
-	let n = Er(e, t.h), r = Dr(e, t.h);
+}, Di = (e, t) => {
+	let n = qr(e, t.h), r = Jr(e, t.h);
 	return [
-		...qr(e, t),
-		...n.length === 0 ? [] : [Ur, ...n.map((e) => e.alias)],
-		...r.length === 0 ? [] : [Wr, ...r.map((e) => e.name)]
+		...gi(e, t),
+		...n.length === 0 ? [] : [fi, ...n.map((e) => e.alias)],
+		...r.length === 0 ? [] : [pi, ...r.map((e) => e.name)]
 	];
-}, ai = (e, t, n, r, i, a) => {
-	let o = (t) => !Hr(e) || Dt(e, t()), s = /* @__PURE__ */ new Set(), c = 0;
+}, Oi = (e, t, n, r, i, a) => {
+	let o = (t) => !di(e) || qt(e, t()), s = /* @__PURE__ */ new Set(), c = 0;
 	for (let [e, n] of Object.entries(t)) n.forEach((t, n) => {
-		o(() => ei(t, i, a)) && (s.add(ti(e, n)), c += t.rows.filter((e) => e.kind !== "copy").length);
+		o(() => Ci(t, i, a)) && (s.add(wi(e, n)), c += t.rows.filter((e) => e.kind !== "copy").length);
 	});
-	let l = new Set(n.filter((e) => o(() => ri(e, a.h))).map((e) => e.appliance_id)), u = new Set(r.filter((e) => o(() => ii(e, a))).map((e) => e.uo_id));
+	let l = new Set(n.filter((e) => o(() => Ei(e, a.h))).map((e) => e.appliance_id)), u = new Set(r.filter((e) => o(() => Di(e, a))).map((e) => e.uo_id));
 	return {
-		filtering: Hr(e),
+		filtering: di(e),
 		blocks: s,
 		appliances: l,
 		uos: u,
@@ -3785,20 +3965,20 @@ var An = [
 			uos: u.size
 		}
 	};
-}, oi = {
-	uk: dt,
-	eu: st,
-	us: ft,
-	de: ot,
-	fr: ct,
-	it: lt,
-	jp: ut,
-	au: it,
-	ch: at
+}, ki = {
+	uk: mt,
+	eu: ut,
+	us: ht,
+	de: lt,
+	fr: dt,
+	it: ft,
+	jp: pt,
+	au: st,
+	ch: ct
 };
 //#endregion
 //#region src/outlet-binder-panel/area-picker.ts
-function si(e, t) {
+function Ai(e, t) {
 	let n = new Map(t.map((e) => [e.floor_id, e])), r = /* @__PURE__ */ new Map(), i = [];
 	for (let t of e) {
 		let e = {
@@ -3822,18 +4002,18 @@ function si(e, t) {
 		options: i
 	}]);
 }
-function ci(e) {
+function ji(e) {
 	return new Map(e.map((e) => [e.area_id, e.name]));
 }
-function li(e, t) {
+function Mi(e, t) {
 	let n = Object.values(e ?? {});
 	return {
-		groups: si(n, Object.values(t ?? {})),
-		names: ci(n)
+		groups: Ai(n, Object.values(t ?? {})),
+		names: ji(n)
 	};
 }
-var ui = { kind: "none" }, di = (e, t) => e === null || e === t, fi = (e, t, n) => {
-	let r = e.cos.filter((e) => e.has_plug && R(e).kind === "nowhere").map((e) => {
+var Ni = { kind: "none" }, Pi = (e, t) => e === null || e === t, Fi = (e, t, n) => {
+	let r = e.cos.filter((e) => e.has_plug && I(e).kind === "nowhere").map((e) => {
 		let r = t(e.co_id), i = r === null ? null : n.get(r) ?? null;
 		return {
 			coId: e.co_id,
@@ -3842,8 +4022,8 @@ var ui = { kind: "none" }, di = (e, t) => e === null || e === t, fi = (e, t, n) 
 			areaName: i
 		};
 	}), i = (e) => e.areaName ?? "￿";
-	return r.sort((e, t) => F(i(e), i(t)) || F(e.label, t.label) || e.coId.localeCompare(t.coId));
-}, pi = (e) => e ?? "No room in HA", mi = (e) => e.label, hi = (e) => [pi(e.areaName), mi(e)], gi = (e, t, n) => e.filter((e) => J(t, e).kind !== "none" || Dt(n, hi(e))), _i = (e) => {
+	return r.sort((e, t) => N(i(e), i(t)) || N(e.label, t.label) || e.coId.localeCompare(t.coId));
+}, Ii = (e) => e ?? "No room in HA", Li = (e) => e.label, Ri = (e) => [Ii(e.areaName), Li(e)], zi = (e, t, n) => e.filter((e) => J(t, e).kind !== "none" || qt(n, Ri(e))), Bi = (e) => {
 	let t = [];
 	for (let n of e) {
 		let e = t[t.length - 1];
@@ -3854,24 +4034,24 @@ var ui = { kind: "none" }, di = (e, t) => e === null || e === t, fi = (e, t, n) 
 		});
 	}
 	return t;
-}, q = (e, t) => t[e.coId] ?? e.areaName ?? e.label, vi = "\0", yi = (e) => {
+}, q = (e, t) => t[e.coId] ?? e.areaName ?? e.label, Vi = "\0", Hi = (e) => {
 	switch (e.kind) {
 		case "none": return "none";
 		case "new": return "new";
-		case "existing": return `existing${vi}${e.uoId}`;
+		case "existing": return `existing${Vi}${e.uoId}`;
 	}
-}, bi = (e) => {
-	let [t, n] = e.split(vi);
+}, Ui = (e) => {
+	let [t, n] = e.split(Vi);
 	return t === "new" ? { kind: "new" } : t === "existing" && n ? {
 		kind: "existing",
 		uoId: n
-	} : ui;
-}, J = (e, t) => e[t.coId] ?? ui, xi = (e, t, n) => {
-	let r = [], i = t.uos.filter((t) => di(e.areaId, t.ha_area_id)).sort((e, t) => F(e.name, t.name) || e.uo_id.localeCompare(t.uo_id));
+	} : Ni;
+}, J = (e, t) => e[t.coId] ?? Ni, Wi = (e, t, n) => {
+	let r = [], i = t.uos.filter((t) => Pi(e.areaId, t.ha_area_id)).sort((e, t) => N(e.name, t.name) || e.uo_id.localeCompare(t.uo_id));
 	for (let t of i) {
 		let i = e.areaId === null && t.ha_area_id !== null ? n.get(t.ha_area_id) : void 0;
 		r.push({
-			value: yi({
+			value: Hi({
 				kind: "existing",
 				uoId: t.uo_id
 			}),
@@ -3879,8 +4059,8 @@ var ui = { kind: "none" }, di = (e, t) => e === null || e === t, fi = (e, t, n) 
 		});
 	}
 	return r;
-}, Si = (e) => e.trim() === "", Ci = (e, t, n) => new Set(e.filter((e) => J(t, e).kind === "new" && Si(q(e, n))).map((e) => e.coId)), Y = (e) => e.trim().replace(/ /g, "_").replace(/[A-Z]/g, (e) => e.toLowerCase()), wi = (e, t, n, r) => {
-	let i = new Set(r.map((e) => Y(e.name))), a = e.filter((e) => J(t, e).kind === "new" && !Si(q(e, n))).map((e) => ({
+}, Gi = (e) => e.trim() === "", Ki = (e, t, n) => new Set(e.filter((e) => J(t, e).kind === "new" && Gi(q(e, n))).map((e) => e.coId)), Y = (e) => e.trim().replace(/ /g, "_").replace(/[A-Z]/g, (e) => e.toLowerCase()), qi = (e, t, n, r) => {
+	let i = new Set(r.map((e) => Y(e.name))), a = e.filter((e) => J(t, e).kind === "new" && !Gi(q(e, n))).map((e) => ({
 		coId: e.coId,
 		key: Y(q(e, n))
 	})), o = /* @__PURE__ */ new Map();
@@ -3888,23 +4068,23 @@ var ui = { kind: "none" }, di = (e, t) => e === null || e === t, fi = (e, t, n) 
 	let s = /* @__PURE__ */ new Map();
 	for (let { coId: e, key: t } of a) i.has(t) ? s.set(e, "existing") : (o.get(t) ?? 0) > 1 && s.set(e, "new");
 	return s;
-}, Ti = (e, t, n, r) => {
+}, Ji = (e, t, n, r) => {
 	let i = new Set(r.map((e) => Y(e.name)));
 	for (let r of e) {
 		let e = q(r, n);
-		J(t, r).kind === "new" && !Si(e) && i.add(Y(e));
+		J(t, r).kind === "new" && !Gi(e) && i.add(Y(e));
 	}
 	let a = {};
 	for (let r of e) {
 		if (J(t, r).kind !== "none") continue;
 		let e = q(r, n);
-		Si(e) || i.has(Y(e)) || (i.add(Y(e)), a[r.coId] = { kind: "new" });
+		Gi(e) || i.has(Y(e)) || (i.add(Y(e)), a[r.coId] = { kind: "new" });
 	}
 	return {
 		...t,
 		...a
 	};
-}, Ei = (e, t) => e.filter((e) => J(t, e).kind !== "none").length, Di = (e, t, n) => {
+}, Yi = (e, t) => e.filter((e) => J(t, e).kind !== "none").length, Xi = (e, t, n) => {
 	let r = [], i = [];
 	for (let a of e) {
 		let e = J(t, a);
@@ -3936,23 +4116,234 @@ var ui = { kind: "none" }, di = (e, t) => e === null || e === t, fi = (e, t, n) 
 		creates: r,
 		assigns: i
 	};
-}, Oi = (e) => {
+}, Zi = () => ({
+	choices: {},
+	edits: {},
+	filter: "",
+	saving: !1,
+	failures: []
+}), Qi = (e, t, n) => ({
+	...e,
+	choices: {
+		...e.choices,
+		[t]: n
+	}
+}), $i = (e, t) => (e.choices[t] ?? Ni).kind === "none" ? { kind: "new" } : Ni, ea = (e, t) => ({
+	...e,
+	choices: t
+}), ta = (e, t) => ({
+	...e,
+	filter: t
+}), na = (e, t, n) => ({
+	...e,
+	edits: {
+		...e.edits,
+		[t]: n
+	}
+}), ra = (e) => ({
+	...e,
+	saving: !0,
+	failures: []
+}), ia = (e, t) => ({
+	...e,
+	choices: {},
+	saving: !1,
+	failures: t
+}), aa = et, oa = Xe, sa = Qe, ca = (e, t) => {
+	let { tip: n, closeTip: r } = e;
+	return x`<div class="main-filter-wrap">
+      <button
+        type="button"
+        class="main-filter-open"
+        data-tip="act"
+        aria-describedby=${n.id}
+        aria-label="Filter"
+        aria-expanded=${e.open ? "true" : "false"}
+        aria-controls="main-filter"
+        @click=${() => t.show()}
+      >
+        <svg class="menu-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="${aa}"></path>
+        </svg></button
+      >${n.desc}
+      <div
+        class="menu-list main-filter"
+        id="main-filter"
+        ?hidden=${!e.open}
+        style=${e.pos ? `left: ${e.pos.left}px; top: ${e.pos.top}px; right: auto; margin-top: 0;` : ""}
+      >
+        <div
+          class="main-filter-handle"
+          @pointerdown=${(e) => t.startDrag(e)}
+          @pointermove=${(e) => t.moveDrag(e)}
+          @pointerup=${() => t.endDrag()}
+          @pointercancel=${() => t.endDrag()}
+        >
+          <svg class="menu-entry-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="${sa}"></path>
+          </svg>
+        </div>
+        <div class="main-filter-row">
+        <input
+          type="search"
+          class="dialog-filter-input main-filter-input"
+          aria-label="Filter the main screen"
+          placeholder="Filter…"
+          .value=${e.text}
+          @input=${(e) => {
+		t.setText(e.target.value);
+	}}
+          @keydown=${(e) => {
+		e.key === "Escape" && (e.preventDefault(), t.close());
+	}}
+        /><button
+          type="button"
+          class="main-filter-close"
+          data-tip="act"
+          aria-describedby=${r.id}
+          aria-label="Close the filter"
+          @click=${() => t.close()}
+        >
+          <svg class="menu-entry-icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="${oa}"></path>
+          </svg></button
+        >${r.desc}
+        </div>
+      </div>
+    </div>`;
+}, la = { reason: null }, ua = { reason: "Choose where to plug it in first" }, da = { reason: "Choose where to move it first" }, fa = { reason: "Tick or untick something first" }, pa = { reason: "Tick a row first" }, ma = { reason: "Fix the marked rows first" }, ha = Ke, ga = "Creates the Wall Sockets now; adds the links to the batch, which take effect on Commit", _a = {
+	blank: "The Wall Socket needs a name.",
+	existing: "A Wall Socket with this name already exists. Choose a different name.",
+	new: "Another new Wall Socket has this name. Choose a different name."
+}, va = (e, t, n, r) => {
+	let { dialog: i } = t, a = J(i.choices, e);
+	if (a.kind === "none") return "";
+	let o = Hi(a), s = Hi({ kind: "new" }), c = `wall-batch-${e.coId}`, l = Wi(e, t.state, t.areaNames), u = (t, n) => x`
+      <label class="choice-row">
+        <input
+          type="radio"
+          name=${c}
+          value=${t}
+          .checked=${t === o}
+          ?disabled=${i.saving}
+          @change=${() => r.chooseRow(e.coId, t)}
+        />
+        ${n}
+      </label>
+    `, d = a.kind === "new";
+	return x`
+      <div class="wall-batch-options">
+      ${u(s, "New")}
+      <input
+        type="text"
+        class="from-names-name"
+        data-id=${e.coId}
+        aria-label="New Wall Socket name for ${e.label}"
+        .value=${q(e, i.edits)}
+        ?readonly=${!d || i.saving}
+        tabindex=${d && !i.saving ? 0 : -1}
+        @input=${(t) => r.editName(e.coId, t.target.value)}
+      />${n === null ? "" : x`<p class="from-names-note from-names-error"><svg class="from-names-error-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="${ha}"></path></svg><span>${_a[n]}</span></p>`}
+      ${l.map((e) => u(e.value, e.label))}
+      </div>
+    `;
+}, ya = (e, t, n, r) => {
+	if (!e) return x`<dialog class="wall-batch-dialog" @close=${() => t.close()}></dialog>`;
+	let { dialog: i, state: a, rows: o } = e, s = i.choices, c = Ki(o, s, i.edits), l = qi(o, s, i.edits, a.uos), u = Yi(o, s), d = zi(o, s, i.filter);
+	return x`
+      <dialog
+        class="wall-batch-dialog"
+        @close=${() => t.close()}
+        @cancel=${(e) => t.cancel(e)}
+      >
+        <div class="dialog-body">
+          ${O("Wall Sockets for Smart Devices", r)}
+          ${o.length === 0 ? x`<p>Every Smart Device already has a Wall Socket.</p>` : x`
+                <div class="from-names-toolbar">
+                  ${n.renderDialogFilter(i.filter, i.saving, (e) => t.setFilter(e))}
+                  <button
+                    class="plain-btn"
+                    ?disabled=${i.saving}
+                    @click=${() => t.setChoices(Ji(d, s, i.edits, a.uos))}
+                  >
+                    Tick all
+                  </button>
+                  <button class="plain-btn" ?disabled=${i.saving} @click=${() => t.setChoices({})}>
+                    Untick all
+                  </button>
+                  <span class="from-names-counts">
+                    ${u} of ${o.length} ticked${d.length < o.length ? x` · ${d.length} shown` : ""}${l.size > 0 ? x` · <span class="from-names-error-count">${l.size} duplicate${l.size === 1 ? "" : "s"}</span>` : ""}${c.size > 0 ? x` · <span class="from-names-error-count">${c.size} need${c.size === 1 ? "s" : ""} a name</span>` : ""}
+                  </span>
+                </div>
+                <div class="from-names-scroll">
+                  <table class="from-names-table">
+                    <thead>
+                      <tr>
+                        <th>Room</th>
+                        <th></th>
+                        <th>Smart Device</th>
+                        <th class="from-names-col-name">Wall Socket</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      ${Bi(d).map((n) => n.rows.map((r, a) => x`
+                            <tr>
+                              ${a === 0 ? x`<td class="from-names-integration" rowspan=${n.rows.length}>
+                                    <strong>${Ii(n.areaName)}</strong>
+                                  </td>` : ""}
+                              <td>
+                                <label class="choice-row">
+                                  <input
+                                    type="checkbox"
+                                    aria-label="Give ${r.label} a Wall Socket"
+                                    .checked=${J(s, r).kind !== "none"}
+                                    ?disabled=${i.saving}
+                                    @change=${() => t.toggleRow(r.coId)}
+                                  />
+                                </label>
+                              </td>
+                              <td class="from-names-ha-name">${Li(r)}</td>
+                              <td class="from-names-col-name">
+                                ${va(r, e, c.has(r.coId) ? "blank" : l.get(r.coId) ?? null, t)}
+                              </td>
+                            </tr>
+                          `))}
+                    </tbody>
+                  </table>
+                  ${d.length === 0 ? x`<p>${Wt}</p>` : ""}
+                </div>
+              `}
+          ${i.failures.map((e) => x`<p class="error">${e.label}: ${e.message}</p>`)}
+        </div>
+        <div class="dialog-actions">
+          <button ?disabled=${i.saving} @click=${() => t.close()}>Cancel</button>
+          ${n.renderStagingButton({
+		label: `Apply ${u}`,
+		tip: ga,
+		className: "go",
+		disabled: i.saving ? la : u === 0 ? pa : c.size > 0 || l.size > 0 ? ma : !1,
+		onClick: () => t.apply()
+	})}
+        </div>
+      </dialog>
+    `;
+}, ba = (e) => {
 	let t = e.replace(/'+/g, "-").normalize("NFKD").replace(/⁄/g, "/").replace(/\p{M}+/gu, "").toLowerCase().replace(/'+/g, "").replace(/(?<=\d),(?=\d)/g, "").replace(/[^-a-z0-9]+/g, "-").replace(/-{2,}/g, "-").replace(/^-|-$/g, "").replace(/-/g, "_");
 	return t === "" ? "unknown" : t;
-}, ki = (e, t = null) => Oi(`${e}${t ? ` ${t}` : ""} On/Off`), Ai = (e) => Oi(e), ji = (e) => e === null || e.trim() === "", Mi = (e, t) => {
+}, xa = (e, t = null) => ba(`ob ${e}${t ? ` ${t}` : ""}`), Sa = (e) => ba(e), Ca = (e) => e === null || e.trim() === "", wa = (e, t) => {
 	let n = new Map(e.cos.map((e) => [e.co_id, e])), r = /* @__PURE__ */ new Map();
 	for (let t of e.appliances) {
-		let e = ki(t.name, t.type);
+		let e = xa(t.name, t.type);
 		r.has(e) || r.set(e, t.name);
 	}
 	let i = [];
 	for (let r of e.co_sockets) {
 		if (r.occupant_device_id !== null) continue;
 		let e = t[r.co_socket_id]?.name ?? null;
-		if (e === null || ji(e)) continue;
+		if (e === null || Ca(e)) continue;
 		let a = n.get(r.co_id);
 		a && i.push({
-			sortKey: I(a),
+			sortKey: P(a),
 			position: r.position,
 			row: {
 				coSocketId: r.co_socket_id,
@@ -3964,29 +4355,29 @@ var ui = { kind: "none" }, di = (e, t) => e === null || e === t, fi = (e, t, n) 
 		});
 	}
 	let a = (e) => e.integrationDomain === null ? "￿" : e.integrationDomain;
-	return i.sort((e, t) => a(e.row).localeCompare(a(t.row)) || F(e.sortKey, t.sortKey) || e.row.coId.localeCompare(t.row.coId) || e.position - t.position), {
+	return i.sort((e, t) => a(e.row).localeCompare(a(t.row)) || N(e.sortKey, t.sortKey) || e.row.coId.localeCompare(t.row.coId) || e.position - t.position), {
 		rows: i.map((e) => e.row),
 		existing: r
 	};
-}, Ni = () => /* @__PURE__ */ new Set(), Pi = (e, t) => t[e.coSocketId] ?? e.defaultName, Fi = (e) => A(e.integrationDomain), Ii = (e) => A(e.friendlyName), Li = (e) => e.trim() === "" ? null : `….${Ai(e)}_…`, Ri = (e, t) => {
-	let n = Pi(e, t);
+}, Ta = () => /* @__PURE__ */ new Set(), Ea = (e, t) => t[e.coSocketId] ?? e.defaultName, Da = (e) => k(e.integrationDomain), Oa = (e) => k(e.friendlyName), ka = (e) => e.trim() === "" ? null : `….${Sa(e)}_…`, Aa = (e, t) => {
+	let n = Ea(e, t);
 	return [
-		Fi(e),
+		Da(e),
 		n,
-		Li(n),
-		Ii(e)
+		ka(n),
+		Oa(e)
 	];
-}, zi = (e, t, n, r) => e.filter((e) => t.has(e.coSocketId) || Dt(r, Ri(e, n))), Bi = (e, t, n, r) => {
+}, ja = (e, t, n, r) => e.filter((e) => t.has(e.coSocketId) || qt(r, Aa(e, n))), Ma = (e, t, n, r) => {
 	let i = /* @__PURE__ */ new Map(), a = /* @__PURE__ */ new Map(), o = (e) => e.friendlyName ?? e.defaultName;
 	for (let s of e) {
-		let e = n.has(s.coSocketId), c = Pi(s, r), l = null, u = "duplicate";
-		if (!ji(c)) {
-			let e = t.get(ki(c));
+		let e = n.has(s.coSocketId), c = Ea(s, r), l = null, u = "duplicate";
+		if (!Ca(c)) {
+			let e = t.get(xa(c));
 			e !== void 0 && (l = `Clashes with the Appliance “${e}”. Choose a different name.`);
 		}
-		if (l === null && e && ji(c) && (l = "The Appliance needs a name.", u = "blank"), l === null && e) {
-			let e = ki(c), t = a.get(e);
-			t ? l = `Clashes with “${Pi(t, r)}” (Socket “${o(t)}”). Choose a different name.` : a.set(e, s);
+		if (l === null && e && Ca(c) && (l = "The Appliance needs a name.", u = "blank"), l === null && e) {
+			let e = xa(c), t = a.get(e);
+			t ? l = `Clashes with “${Ea(t, r)}” (Socket “${o(t)}”). Choose a different name.` : a.set(e, s);
 		}
 		l !== null && i.set(s.coSocketId, {
 			text: l,
@@ -3995,13 +4386,13 @@ var ui = { kind: "none" }, di = (e, t) => e === null || e === t, fi = (e, t, n) 
 		});
 	}
 	return i;
-}, Vi = (e) => Array.from(e.values()).filter((e) => e.blocking).length, Hi = (e, t) => Array.from(e.values()).filter((e) => e.blocking && e.kind === t).length, Ui = (e, t, n) => {
-	let r = new Set(e.map((e) => e.coSocketId)), i = Bi(e, t, r, n);
+}, Na = (e) => Array.from(e.values()).filter((e) => e.blocking).length, Pa = (e, t) => Array.from(e.values()).filter((e) => e.blocking && e.kind === t).length, Fa = (e, t, n) => {
+	let r = new Set(e.map((e) => e.coSocketId)), i = Ma(e, t, r, n);
 	return new Set(Array.from(r).filter((e) => !i.has(e)));
-}, Wi = (e, t, n) => e.filter((e) => t.has(e.coSocketId)).map((e) => ({
+}, Ia = (e, t, n) => e.filter((e) => t.has(e.coSocketId)).map((e) => ({
 	row: e,
-	name: Pi(e, n).trim()
-})), Gi = (e) => {
+	name: Ea(e, n).trim()
+})), La = (e) => {
 	let t = [];
 	for (let n of e) {
 		let e = t[t.length - 1];
@@ -4011,10 +4402,10 @@ var ui = { kind: "none" }, di = (e, t) => e === null || e === t, fi = (e, t, n) 
 		});
 	}
 	return t;
-}, Ki = (e) => e.candidates.some((e) => e.disabledBy === null), qi = (e) => {
+}, Ra = (e) => e.candidates.some((e) => e.disabledBy === null), za = (e) => {
 	let t = new Set(e.candidates.map((e) => e.action));
 	return t.size === 0 || t.size === 1 && t.has("appliance_into_socket") ? "Appliance" : t.size === 1 && t.has("co_into_co_socket") ? "Smart Device" : "Plug in";
-}, Ji = (e) => Array.from(new Set(e.candidates.filter((e) => e.disabledBy === null).map((e) => e.uoName).filter((e) => e !== null))).sort(F), Yi = (e, t) => {
+}, Ba = (e) => Array.from(new Set(e.candidates.filter((e) => e.disabledBy === null).map((e) => e.uoName).filter((e) => e !== null))).sort(N), Va = (e, t) => {
 	let n = /* @__PURE__ */ new Map();
 	for (let r of e.candidates) r.disabledBy === null && r.coId !== null && r.coAlias !== null && (t === null || r.uoName === t) && (n.has(r.coId) || n.set(r.coId, {
 		alias: r.coAlias,
@@ -4025,37 +4416,37 @@ var ui = { kind: "none" }, di = (e, t) => e === null || e === t, fi = (e, t, n) 
 	return Array.from(n, ([e, { alias: t, place: n }]) => ({
 		coId: e,
 		alias: t,
-		text: (r.get(t) ?? 0) > 1 ? `${t} (${A(n)})` : t
-	})).sort((e, t) => F(e.alias, t.alias) || F(e.text, t.text) || e.coId.localeCompare(t.coId)).map(({ coId: e, text: t }) => ({
+		text: (r.get(t) ?? 0) > 1 ? `${t} (${k(n)})` : t
+	})).sort((e, t) => N(e.alias, t.alias) || N(e.text, t.text) || e.coId.localeCompare(t.coId)).map(({ coId: e, text: t }) => ({
 		coId: e,
 		text: t
 	}));
-}, Xi = "Already powering:", Zi = "Powering:", Qi = (e) => `${e}:`, $i = (e) => `${e.label}${e.disabledBy ? ` — ${e.disabledBy.kind === "current" ? "current" : e.disabledBy.name}` : e.note === null ? "" : " —"}`, ea = (e) => e.context === null ? null : `(${e.context})`, ta = (e) => e.groupContext === null ? null : `(${e.groupContext})`, na = (e) => [
-	e.groupLabel === null ? "" : Qi(e.groupLabel),
-	ta(e) ?? "",
-	$i(e),
-	ea(e) ?? "",
-	e.note === null ? "" : `${Xi} ${e.note}`
-], ra = (e, t) => e.trim() === "" || Dt(e, t()), X = { kind: "available" }, ia = (e) => e.kind === "co" ? `co:${e.coId}` : e.kind, aa = (e) => e === "all" ? { kind: "all" } : e.startsWith("co:") ? {
+}, Ha = "Already powering:", Ua = "Powering:", Wa = (e) => `${e}:`, Ga = (e) => `${e.label}${e.disabledBy ? ` — ${e.disabledBy.kind === "current" ? "current" : e.disabledBy.name}` : e.note === null ? "" : " —"}`, Ka = (e) => e.context === null ? null : `(${e.context})`, qa = (e) => e.groupContext === null ? null : `(${e.groupContext})`, Ja = (e) => [
+	e.groupLabel === null ? "" : Wa(e.groupLabel),
+	qa(e) ?? "",
+	Ga(e),
+	Ka(e) ?? "",
+	e.note === null ? "" : `${Ha} ${e.note}`
+], Ya = (e, t) => e.trim() === "" || qt(e, t()), X = { kind: "available" }, Xa = (e) => e.kind === "co" ? `co:${e.coId}` : e.kind, Za = (e) => e === "all" ? { kind: "all" } : e.startsWith("co:") ? {
 	kind: "co",
 	coId: e.slice(3)
-} : X, oa = {
+} : X, Qa = {
 	room: null,
 	co: null
-}, sa = (e) => e.disabledBy === null || e.groupLabel !== null, ca = (e, t) => e === null ? sa(t) : e.kind === "all" || e.kind === "available" && t.disabledBy === null || e.kind === "co" && (t.coId === null || t.coId === e.coId), la = (e) => e.candidates.filter(sa), ua = (e) => e.view === "picker" ? new Set(e.selectedId === null ? [] : [e.selectedId]) : /* @__PURE__ */ new Set([...e.rows.filter((t) => !e.selectedIds.has(t.deviceId)).map((e) => e.deviceId), ...e.selectedCandidateIds]), da = (e) => ({
+}, $a = (e) => e.disabledBy === null || e.groupLabel !== null, eo = (e, t) => e === null ? $a(t) : e.kind === "all" || e.kind === "available" && t.disabledBy === null || e.kind === "co" && (t.coId === null || t.coId === e.coId), to = (e) => e.candidates.filter($a), no = (e) => e.view === "picker" ? new Set(e.selectedId === null ? [] : [e.selectedId]) : /* @__PURE__ */ new Set([...e.rows.filter((t) => !e.selectedIds.has(t.deviceId)).map((e) => e.deviceId), ...e.selectedCandidateIds]), ro = (e) => ({
 	...e,
-	pinned: ua(e)
-}), fa = (e, t, n) => e.pinned.has(t) || n.has(t), pa = (e, t, n) => fa(e, t.id, ua(e)) || (n.room === null || t.uoName === n.room) && ca(n.co, t) && ra(e.filter, () => na(t)), ma = (e, t) => e.candidates.filter((n) => pa(e, n, t)), ha = (e) => new Set(e.map((e) => e.kind)).size > 1, ga = (e, t) => t ? `(${e === "co" ? "Smart Device" : "Appliance"})` : null, _a = (e, t) => [
+	pinned: no(e)
+}), io = (e, t, n) => e.pinned.has(t) || n.has(t), ao = (e, t, n) => io(e, t.id, no(e)) || (n.room === null || t.uoName === n.room) && eo(n.co, t) && Ya(e.filter, () => Ja(t)), oo = (e, t) => e.candidates.filter((n) => ao(e, n, t)), so = (e) => new Set(e.map((e) => e.kind)).size > 1, co = (e, t) => t ? `(${e === "co" ? "Smart Device" : "Appliance"})` : null, lo = (e, t) => [
 	e.label,
-	ga(e.kind, t) ?? "",
-	e.powering.length === 0 ? "" : `${Zi} ${e.powering.join(", ")}`
-], va = (e, t) => [e.label, ga(e.kind, t) ?? ""], ya = (e) => {
-	let t = ha(e.rows), n = ua(e);
-	return e.rows.filter((r) => fa(e, r.deviceId, n) || ra(e.filter, () => _a(r, t)));
-}, ba = (e) => {
-	let t = ha(e.candidates), n = ua(e);
-	return e.candidates.filter((r) => fa(e, r.deviceId, n) || ra(e.filter, () => va(r, t)));
-}, xa = {
+	co(e.kind, t) ?? "",
+	e.powering.length === 0 ? "" : `${Ua} ${e.powering.join(", ")}`
+], uo = (e, t) => [e.label, co(e.kind, t) ?? ""], fo = (e) => {
+	let t = so(e.rows), n = no(e);
+	return e.rows.filter((r) => io(e, r.deviceId, n) || Ya(e.filter, () => lo(r, t)));
+}, po = (e) => {
+	let t = so(e.candidates), n = no(e);
+	return e.candidates.filter((r) => io(e, r.deviceId, n) || Ya(e.filter, () => uo(r, t)));
+}, mo = {
 	appliance_into_socket: {
 		wsType: "outlet_binder/create_plugged_into",
 		plugField: "appliance_id",
@@ -4071,14 +4462,14 @@ var ui = { kind: "none" }, di = (e, t) => e === null || e === t, fi = (e, t, n) 
 		plugField: "co_id",
 		socketField: "co_socket_id"
 	}
-}, Sa = (e, t) => {
-	let n = xa[t.action], r = e.kind === "co_socket";
+}, ho = (e, t) => {
+	let n = mo[t.action], r = e.kind === "co_socket";
 	return {
 		type: n.wsType,
 		[n.plugField]: r ? t.id : e.subjectId,
 		[n.socketField]: r ? e.subjectId : t.id
 	};
-}, Ca = {
+}, go = {
 	co: {
 		plug: "outlet_binder/assign_co_to_uo",
 		unplug: "outlet_binder/unassign_co_from_uo",
@@ -4089,51 +4480,51 @@ var ui = { kind: "none" }, di = (e, t) => e === null || e === t, fi = (e, t, n) 
 		unplug: "outlet_binder/unassign_appliance_from_uo",
 		deviceField: "appliance_id"
 	}
-}, wa = (e, t) => {
-	let n = Ca[t.kind];
+}, _o = (e, t) => {
+	let n = go[t.kind];
 	return {
 		type: n.plug,
 		[n.deviceField]: t.deviceId,
 		uo_id: e
 	};
-}, Ta = (e) => {
-	let t = Ca[e.kind];
+}, vo = (e) => {
+	let t = go[e.kind];
 	return {
 		type: t.unplug,
 		[t.deviceField]: e.deviceId
 	};
-}, Ea = (e, t) => {
-	let n = e.cosById.get(t), r = n === void 0 ? null : R(n);
+}, yo = (e, t) => {
+	let n = e.cosById.get(t), r = n === void 0 ? null : I(n);
 	return r?.kind === "uo" ? e.uoNames.get(r.id) ?? r.id : null;
-}, Da = (e, t) => {
+}, bo = (e, t) => {
 	let n = e.cosById.get(t);
 	if (n === void 0) return null;
-	let r = R(n);
+	let r = I(n);
 	switch (r.kind) {
 		case "uo": return e.uoNames.get(r.id) ?? r.id;
 		case "co_socket": {
 			let t = e.socketsById.get(r.id);
-			return t === void 0 ? null : B(e, t);
+			return t === void 0 ? null : R(e, t);
 		}
 		case "nowhere": return null;
 	}
-}, Oa = (e, t) => {
-	let n = Da(e, t), r = e.cosById.get(t);
+}, xo = (e, t) => {
+	let n = bo(e, t), r = e.cosById.get(t);
 	if (n === null || r === void 0) return null;
-	let i = R(r);
+	let i = I(r);
 	return {
 		text: n,
-		target: i.kind === "uo" ? $t(e, i.id) : i.kind === "co_socket" ? tn(e, i.id) : null
+		target: i.kind === "uo" ? H(e, i.id) : i.kind === "co_socket" ? Cn(e, i.id) : null
 	};
-}, ka = (e, t) => {
+}, So = (e, t) => {
 	let n = e.cosById.get(t);
 	if (n === void 0) return null;
-	let r = R(n);
+	let r = I(n);
 	return r.kind === "co_socket" ? e.socketsById.get(r.id)?.co_id ?? null : null;
-}, Aa = (e, t) => e.coNames.get(t) ?? t, ja = (e, t) => {
-	let n = Da(e, t.co_id);
-	return `${B(e, t)}${n === null ? "" : ` (${n})`}`;
-}, Ma = (e) => [...e].sort((e, t) => F(e.label, t.label)), Na = (e) => {
+}, Co = (e, t) => e.coNames.get(t) ?? t, wo = (e, t) => {
+	let n = bo(e, t.co_id);
+	return `${R(e, t)}${n === null ? "" : ` (${n})`}`;
+}, To = (e) => [...e].sort((e, t) => N(e.label, t.label)), Eo = (e) => {
 	let t = e.findIndex((e) => e.disabledBy?.kind === "current");
 	if (t === -1) return e;
 	let n = e[t].groupKey;
@@ -4144,18 +4535,18 @@ var ui = { kind: "none" }, di = (e, t) => e === null || e === t, fi = (e, t, n) 
 	for (; i < e.length - 1 && e[i + 1].groupKey === n;) i += 1;
 	let a = e.slice(r, i + 1), o = [...e.slice(0, r), ...e.slice(i + 1)];
 	return [...a, ...o];
-}, Pa = (e, t) => Na(Array.from(e.socketsById.values()).filter((e) => !t.excludeCoIds.has(e.co_id)).map((t) => ({
+}, Do = (e, t) => Eo(Array.from(e.socketsById.values()).filter((e) => !t.excludeCoIds.has(e.co_id)).map((t) => ({
 	sock: t,
-	prefixLabel: Aa(e, t.co_id)
-})).sort((e, t) => F(e.prefixLabel, t.prefixLabel) || e.sock.co_id.localeCompare(t.sock.co_id) || F(e.sock.alias, t.sock.alias)).map(({ sock: n }) => {
-	let r = Vt(n, e), i = n.co_socket_id === t.currentSocketId ? { kind: "current" } : r === null ? null : {
+	prefixLabel: Co(e, t.co_id)
+})).sort((e, t) => N(e.prefixLabel, t.prefixLabel) || e.sock.co_id.localeCompare(t.sock.co_id) || N(e.sock.alias, t.sock.alias)).map(({ sock: n }) => {
+	let r = cn(n, e), i = n.co_socket_id === t.currentSocketId ? { kind: "current" } : r === null ? null : {
 		kind: "occupied",
-		name: A(r.name)
-	}, a = (e.socketsByCo.get(n.co_id) ?? []).length > 1, o = Da(e, n.co_id), s = Aa(e, n.co_id);
+		name: k(r.name)
+	}, a = (e.socketsByCo.get(n.co_id) ?? []).length > 1, o = bo(e, n.co_id), s = Co(e, n.co_id);
 	return {
 		id: n.co_socket_id,
 		label: a ? n.alias : s,
-		fullLabel: ja(e, n),
+		fullLabel: wo(e, n),
 		context: a ? null : o,
 		disabledBy: i,
 		groupLabel: a ? s : null,
@@ -4163,12 +4554,12 @@ var ui = { kind: "none" }, di = (e, t) => e === null || e === t, fi = (e, t, n) 
 		groupKey: a ? n.co_id : null,
 		note: null,
 		action: t.action,
-		uoName: Ea(e, n.co_id),
-		coAlias: Aa(e, n.co_id),
+		uoName: yo(e, n.co_id),
+		coAlias: Co(e, n.co_id),
 		coId: n.co_id
 	};
-})), Fa = (e, t) => {
-	let n = z(e), r = n.kind === "co_socket" ? n.id : null, i = Pa(t, {
+})), Oo = (e, t) => {
+	let n = L(e), r = n.kind === "co_socket" ? n.id : null, i = Do(t, {
 		currentSocketId: r,
 		excludeCoIds: /* @__PURE__ */ new Set(),
 		action: "appliance_into_socket"
@@ -4180,11 +4571,11 @@ var ui = { kind: "none" }, di = (e, t) => e === null || e === t, fi = (e, t, n) 
 		subjectLabel: e.name,
 		linked: n.kind !== "nowhere",
 		currentLabel: a ? {
-			text: ja(t, a),
+			text: wo(t, a),
 			target: U(t, a.co_id)
 		} : o !== null && n.kind === "uo" ? {
 			text: o,
-			target: $t(t, n.id)
+			target: H(t, n.id)
 		} : null,
 		currentHaDevice: a?.co_id ?? null,
 		subjectHaDevice: null,
@@ -4202,18 +4593,18 @@ var ui = { kind: "none" }, di = (e, t) => e === null || e === t, fi = (e, t, n) 
 		saving: !1,
 		error: null
 	};
-}, Ia = (e, t) => (e.socketsByCo.get(t) ?? []).flatMap((t) => {
-	let n = Vt(t, e);
+}, ko = (e, t) => (e.socketsByCo.get(t) ?? []).flatMap((t) => {
+	let n = cn(t, e);
 	return n === null ? [] : [{
-		text: A(n.name),
-		target: nn(t, e)
+		text: k(n.name),
+		target: wn(t, e)
 	}];
-}), La = (e, t) => Ia(e, t).map((e) => e.text), Ra = (e, t) => {
+}), Ao = (e, t) => ko(e, t).map((e) => e.text), jo = (e, t) => {
 	let n = /* @__PURE__ */ new Set();
 	for (let r of e.cosById.values()) {
 		let i = [r.co_id], a = r;
 		for (; a !== void 0;) {
-			let r = R(a);
+			let r = I(a);
 			if (r.kind !== "co_socket") break;
 			let o = e.socketsById.get(r.id)?.co_id;
 			if (o === void 0 || i.includes(o)) break;
@@ -4225,17 +4616,17 @@ var ui = { kind: "none" }, di = (e, t) => e === null || e === t, fi = (e, t, n) 
 		}
 	}
 	return n;
-}, za = (e) => {
+}, Mo = (e) => {
 	switch (e) {
 		case "co_into_uo": return "outlets";
 		case "co_into_co_socket":
 		case "appliance_into_socket": return "sockets";
 	}
-}, Ba = (e) => ({
-	outlets: e.filter((e) => za(e.action) === "outlets"),
-	sockets: e.filter((e) => za(e.action) === "sockets")
-}), Va = (e, t) => {
-	let n = R(e), r = n.kind === "uo" ? n.id : null, i = n.kind === "co_socket" ? n.id : null, a = Ma(Array.from(t.uosById.values()).filter((e) => e.uo_id !== r).map((e) => {
+}, No = (e) => ({
+	outlets: e.filter((e) => Mo(e.action) === "outlets"),
+	sockets: e.filter((e) => Mo(e.action) === "sockets")
+}), Po = (e, t) => {
+	let n = I(e), r = n.kind === "uo" ? n.id : null, i = n.kind === "co_socket" ? n.id : null, a = To(Array.from(t.uosById.values()).filter((e) => e.uo_id !== r).map((e) => {
 		let n = t.cosByUo.get(e.uo_id) ?? [], r = n.length === 0 ? null : n.map((e) => e.alias).join(", ");
 		return {
 			id: e.uo_id,
@@ -4252,9 +4643,9 @@ var ui = { kind: "none" }, di = (e, t) => e === null || e === t, fi = (e, t, n) 
 			coAlias: null,
 			coId: null
 		};
-	})), o = e.has_plug ? [...a, ...Pa(t, {
+	})), o = e.has_plug ? [...a, ...Do(t, {
 		currentSocketId: i,
-		excludeCoIds: /* @__PURE__ */ new Set([e.co_id, ...Ra(t, e.co_id)]),
+		excludeCoIds: /* @__PURE__ */ new Set([e.co_id, ...jo(t, e.co_id)]),
 		action: "co_into_co_socket"
 	}).map((e) => ({
 		...e,
@@ -4273,12 +4664,12 @@ var ui = { kind: "none" }, di = (e, t) => e === null || e === t, fi = (e, t, n) 
 				entity: s
 			}
 		} : c ? {
-			text: ja(t, c),
+			text: wo(t, c),
 			target: U(t, c.co_id)
 		} : null,
 		currentHaDevice: s ? null : c?.co_id ?? null,
 		subjectHaDevice: e.co_id,
-		powering: Ia(t, e.co_id),
+		powering: ko(t, e.co_id),
 		contextLabel: null,
 		candidates: o,
 		selectedId: null,
@@ -4287,28 +4678,28 @@ var ui = { kind: "none" }, di = (e, t) => e === null || e === t, fi = (e, t, n) 
 		unlink: n.kind === "uo" ? {
 			wsType: "outlet_binder/unassign_co_from_uo",
 			payload: { co_id: e.co_id },
-			label: `Unplug from ${s?.name ?? A(null)}`
+			label: `Unplug from ${s?.name ?? k(null)}`
 		} : n.kind === "co_socket" ? {
 			wsType: "outlet_binder/unassign_co_from_co_socket",
 			payload: { co_id: e.co_id },
-			label: `Unplug from ${A(c ? t.coNames.get(c.co_id) ?? null : null)}`
+			label: `Unplug from ${k(c ? t.coNames.get(c.co_id) ?? null : null)}`
 		} : null,
 		saving: !1,
 		error: null
 	};
-}, Ha = (e, t) => {
-	let n = Vt(e, t);
+}, Fo = (e, t) => {
+	let n = cn(e, t);
 	if (n !== null) {
-		let r = A(n.name);
+		let r = k(n.name);
 		return {
 			view: "picker",
 			kind: "co_socket",
 			subjectId: e.co_socket_id,
-			subjectLabel: B(t, e),
+			subjectLabel: R(t, e),
 			linked: !0,
 			currentLabel: {
 				text: r,
-				target: nn(e, t)
+				target: wn(e, t)
 			},
 			currentHaDevice: e.plugged_into_appliance_id === null ? n.id : null,
 			subjectHaDevice: null,
@@ -4345,10 +4736,10 @@ var ui = { kind: "none" }, di = (e, t) => e === null || e === t, fi = (e, t, n) 
 		uoName: null,
 		coAlias: null,
 		coId: null
-	}), i = Ma(Array.from(t.appliancesById.values()).filter((e) => z(e).kind === "nowhere").map((e) => ({
+	}), i = To(Array.from(t.appliancesById.values()).filter((e) => L(e).kind === "nowhere").map((e) => ({
 		id: e.appliance_id,
 		label: e.name
-	}))), a = Ma(Array.from(t.cosById.values()).filter((n) => n.has_plug && n.co_id !== e.co_id && R(n).kind === "nowhere" && !Ra(t, n.co_id).has(e.co_id)).map((e) => ({
+	}))), a = To(Array.from(t.cosById.values()).filter((n) => n.has_plug && n.co_id !== e.co_id && I(n).kind === "nowhere" && !jo(t, n.co_id).has(e.co_id)).map((e) => ({
 		id: e.co_id,
 		label: e.alias
 	}))), o = i.length > 0 && a.length > 0, s = [...i.map(r("appliance_into_socket", o ? "Appliances" : null)), ...a.map(r("co_into_co_socket", o ? "Smart Devices" : null))];
@@ -4356,15 +4747,15 @@ var ui = { kind: "none" }, di = (e, t) => e === null || e === t, fi = (e, t, n) 
 		view: "picker",
 		kind: "co_socket",
 		subjectId: e.co_socket_id,
-		subjectLabel: B(t, e),
+		subjectLabel: R(t, e),
 		linked: !1,
 		currentLabel: null,
 		currentHaDevice: null,
 		subjectHaDevice: e.co_id,
 		powering: [],
 		contextLabel: {
-			placeName: Oa(t, e.co_id),
-			placeHaDevice: ka(t, e.co_id)
+			placeName: xo(t, e.co_id),
+			placeHaDevice: So(t, e.co_id)
 		},
 		candidates: s,
 		selectedId: s.length === 1 ? s[0].id : null,
@@ -4374,22 +4765,22 @@ var ui = { kind: "none" }, di = (e, t) => e === null || e === t, fi = (e, t, n) 
 		saving: !1,
 		error: null
 	};
-}, Ua = (e, t) => {
-	let n = (e, t) => (e.kind === t.kind ? 0 : e.kind === "co" ? -1 : 1) || F(e.label, t.label), r = [...(t.cosByUo.get(e.uo_id) ?? []).map((e) => ({
+}, Io = (e, t) => {
+	let n = (e, t) => (e.kind === t.kind ? 0 : e.kind === "co" ? -1 : 1) || N(e.label, t.label), r = [...(t.cosByUo.get(e.uo_id) ?? []).map((e) => ({
 		deviceId: e.co_id,
 		kind: "co",
 		label: e.alias,
-		powering: La(t, e.co_id)
+		powering: Ao(t, e.co_id)
 	})), ...(t.appliancesByUo.get(e.uo_id) ?? []).map((e) => ({
 		deviceId: e.appliance_id,
 		kind: "appliance",
 		label: e.name,
 		powering: []
-	}))].sort(n), i = [...Array.from(t.cosById.values()).filter((e) => e.has_plug && R(e).kind === "nowhere").map((e) => ({
+	}))].sort(n), i = [...Array.from(t.cosById.values()).filter((e) => e.has_plug && I(e).kind === "nowhere").map((e) => ({
 		deviceId: e.co_id,
 		kind: "co",
 		label: e.alias
-	})), ...Array.from(t.appliancesById.values()).filter((e) => z(e).kind === "nowhere").map((e) => ({
+	})), ...Array.from(t.appliancesById.values()).filter((e) => L(e).kind === "nowhere").map((e) => ({
 		deviceId: e.appliance_id,
 		kind: "appliance",
 		label: e.name
@@ -4410,27 +4801,27 @@ var ui = { kind: "none" }, di = (e, t) => e === null || e === t, fi = (e, t, n) 
 		saving: !1,
 		error: null
 	};
-}, Wa = (e) => {
+}, Lo = (e) => {
 	switch (e.kind) {
-		case "appliance": return z(e.entity).kind !== "nowhere";
-		case "co": return R(e.entity).kind !== "nowhere";
+		case "appliance": return L(e.entity).kind !== "nowhere";
+		case "co": return I(e.entity).kind !== "nowhere";
 		case "co_socket": return e.entity.occupant_device_id !== null;
-		case "uo": return Bt(e.entity);
+		case "uo": return sn(e.entity);
 	}
-}, Ga = (e) => {
+}, Ro = (e) => {
 	switch (e.kind) {
-		case "co": return R(e.entity).kind === "co_socket" ? "hosted" : "unplug";
+		case "co": return I(e.entity).kind === "co_socket" ? "hosted" : "unplug";
 		case "co_socket": return e.entity.plugged_into_appliance_id === null ? "hosting" : "unplug";
 		case "appliance":
 		case "uo": return "unplug";
 	}
-}, Ka = (e, t) => {
+}, zo = (e, t) => {
 	switch (e.kind) {
 		case "appliance": return e.entity.name;
 		case "co": return e.entity.alias;
-		case "co_socket": return B(t, e.entity);
+		case "co_socket": return R(t, e.entity);
 	}
-}, qa = {
+}, Bo = {
 	appliance: {
 		one: "Appliance",
 		many: "Appliances"
@@ -4439,7 +4830,7 @@ var ui = { kind: "none" }, di = (e, t) => e === null || e === t, fi = (e, t, n) 
 		one: "Smart Device",
 		many: "Smart Devices"
 	}
-}, Ja = {
+}, Vo = {
 	uo: {
 		one: "Wall Socket",
 		many: "Wall Sockets"
@@ -4448,7 +4839,7 @@ var ui = { kind: "none" }, di = (e, t) => e === null || e === t, fi = (e, t, n) 
 		one: "Smart Device socket",
 		many: "Smart Device sockets"
 	}
-}, Ya = (e, t, n) => {
+}, Ho = (e, t, n) => {
 	let [r] = e;
 	if (e.length === 1 && r !== void 0) return {
 		label: "Available",
@@ -4475,96 +4866,102 @@ var ui = { kind: "none" }, di = (e, t) => e === null || e === t, fi = (e, t, n) 
 			return `${t} ${t === 1 ? a[e].one : a[e].many}`;
 		})
 	};
-}, Xa = (e, t) => {
+}, Uo = (e, t) => {
 	switch (e.kind) {
-		case "uo": return M(t.uoNames, e.id);
+		case "uo": return j(t.uoNames, e.id);
 		case "co_socket": {
 			let n = t.socketsById.get(e.id);
-			return n === void 0 ? A(null) : ja(t, n);
+			return n === void 0 ? k(null) : wo(t, n);
 		}
-		case "nowhere": return A(null);
+		case "nowhere": return k(null);
 	}
-}, Za = (e, t) => e.kind === "co_socket" ? Ut(t, e.entity) : Ka(e, t), Qa = {
+}, Wo = (e, t) => e.kind === "co_socket" ? un(t, e.entity) : zo(e, t), Go = {
 	appliance: "Nothing to plug into",
 	co: "Add a Wall Socket first",
 	co_socket: "Nothing to plug in"
-}, $a = (e, t) => {
-	if (e.kind === "uo") {
-		let n = Ua(e.entity, t), r = n.candidates.length, i = n.rows.length, a = Wa(e), o = r === 0 && i === 0, s = e.entity.name, c = Ya(n.candidates, (e) => e.label, {
-			kindOf: (e) => e.kind,
-			nouns: qa
-		}), l = {
-			label: "Plugged in",
-			value: n.rows.map((e) => e.label).join(", ")
-		}, u = o ? {
-			action: "No devices to plug in or unplug",
-			blocked: !0
-		} : r > 0 ? i > 0 ? {
-			action: `Plug in, or unplug ${i}`,
-			attrs: [c, l]
-		} : {
-			action: "Plug in",
-			attrs: [c]
-		} : {
-			action: "Unplug",
-			attrs: [l]
-		};
-		return {
-			linked: a,
-			disabled: o,
-			iconKind: a ? "unplug" : "socket",
-			hover: K("uo", s, u),
-			ariaLabel: eo("uo", r > 0 || o, s)
-		};
-	}
-	let n = Wa(e), r = Ka(e, t), i = Za(e, t);
-	if (e.kind === "co" && !e.entity.has_plug) return {
-		linked: !1,
-		disabled: !0,
-		iconKind: "plug",
-		hover: K("co", r, {
-			action: "Fixed in place",
-			blocked: !0
-		}),
-		ariaLabel: eo("co", !0, i)
+}, Ko = (e, t) => {
+	let n = Io(e.entity, t), r = n.candidates.length, i = n.rows.length, a = Lo(e), o = r === 0 && i === 0, s = e.entity.name, c = Ho(n.candidates, (e) => e.label, {
+		kindOf: (e) => e.kind,
+		nouns: Bo
+	}), l = {
+		label: "Plugged in",
+		value: n.rows.map((e) => e.label).join(", ")
+	}, u = o ? {
+		action: "No devices to plug in or unplug",
+		blocked: !0
+	} : r > 0 ? i > 0 ? {
+		action: `Plug in, or unplug ${i}`,
+		attrs: [c, l]
+	} : {
+		action: "Plug in",
+		attrs: [c]
+	} : {
+		action: "Unplug",
+		attrs: [l]
 	};
-	let a = n ? Ga(e) : e.kind === "co_socket" ? "socket" : "plug", o = null;
-	if (!n && e.kind === "co_socket") {
-		let n = Ha(e.entity, t).candidates;
-		o = {
+	return {
+		linked: a,
+		disabled: o,
+		iconKind: a ? "unplug" : "socket",
+		hover: K("uo", s, u),
+		ariaLabel: Zo("uo", r > 0 || o, s)
+	};
+}, qo = (e, t) => ({
+	linked: !1,
+	disabled: !0,
+	iconKind: "plug",
+	hover: K("co", e, {
+		action: "Fixed in place",
+		blocked: !0
+	}),
+	ariaLabel: Zo("co", !0, t)
+}), Jo = {
+	co_socket: (e, t) => {
+		let n = Fo(e.entity, t).candidates;
+		return {
 			count: n.length,
-			attr: Ya(n, (e) => e.fullLabel, {
+			attr: Ho(n, (e) => e.fullLabel, {
 				kindOf: (e) => e.action === "co_into_co_socket" ? "co" : "appliance",
-				nouns: qa
+				nouns: Bo
 			})
 		};
-	} else if (!n && e.kind === "appliance") {
-		let n = Fa(e.entity, t).candidates.filter((e) => e.disabledBy === null);
-		o = {
+	},
+	appliance: (e, t) => {
+		let n = Oo(e.entity, t).candidates.filter((e) => e.disabledBy === null);
+		return {
 			count: n.length,
-			attr: Ya(n, (e) => e.fullLabel)
+			attr: Ho(n, (e) => e.fullLabel)
 		};
-	} else if (!n && e.kind === "co") {
-		let n = Va(e.entity, t).candidates.filter((e) => e.disabledBy === null);
-		o = {
+	},
+	co: (e, t) => {
+		let n = Po(e.entity, t).candidates.filter((e) => e.disabledBy === null);
+		return {
 			count: n.length,
-			attr: Ya(n, (e) => e.fullLabel, {
+			attr: Ho(n, (e) => e.fullLabel, {
 				kindOf: (e) => e.action === "co_into_co_socket" ? "co_socket" : "uo",
-				nouns: Ja
+				nouns: Vo
 			})
 		};
 	}
-	let s = n && (e.kind === "appliance" || e.kind === "co") && Ki(e.kind === "appliance" ? Fa(e.entity, t) : Va(e.entity, t)), c = o?.count === 0, l = o === null ? {
+}, Yo = (e, t) => {
+	if (Lo(e)) return null;
+	let n = Jo[e.kind];
+	return n(e, t);
+}, Xo = (e, t) => {
+	if (e.kind === "uo") return Ko(e, t);
+	let n = Lo(e), r = zo(e, t), i = Wo(e, t);
+	if (e.kind === "co" && !e.entity.has_plug) return qo(r, i);
+	let a = n ? Ro(e) : e.kind === "co_socket" ? "socket" : "plug", o = Yo(e, t), s = n && (e.kind === "appliance" || e.kind === "co") && Ra(e.kind === "appliance" ? Oo(e.entity, t) : Po(e.entity, t)), c = o?.count === 0, l = o === null ? {
 		action: s ? "Unplug / Move" : "Unplug",
 		attrs: [e.kind === "co_socket" ? {
 			label: "Plugged in",
-			value: Ha(e.entity, t).currentLabel?.text ?? A(null)
+			value: Fo(e.entity, t).currentLabel?.text ?? k(null)
 		} : {
 			label: "Plugged into",
-			value: Xa(e.kind === "appliance" ? z(e.entity) : R(e.entity), t)
+			value: Uo(e.kind === "appliance" ? L(e.entity) : I(e.entity), t)
 		}]
 	} : o.count === 0 ? {
-		action: Qa[e.kind],
+		action: Go[e.kind],
 		blocked: !0
 	} : {
 		action: "Plug in",
@@ -4575,9 +4972,9 @@ var ui = { kind: "none" }, di = (e, t) => e === null || e === t, fi = (e, t, n) 
 		disabled: c,
 		iconKind: a,
 		hover: K(e.kind, r, l),
-		ariaLabel: eo(e.kind, !n, i)
+		ariaLabel: Zo(e.kind, !n, i)
 	};
-}, eo = (e, t, n) => e === "co_socket" || e === "uo" ? `${t ? "Plug into" : "Unplug from"} ${n}` : `${t ? "Plug in" : "Unplug"} ${n}`, to = (e) => e.saving || e.selectedIds.size === e.rows.length && e.selectedCandidateIds.size === 0, no = () => {
+}, Zo = (e, t, n) => e === "co_socket" || e === "uo" ? `${t ? "Plug into" : "Unplug from"} ${n}` : `${t ? "Plug in" : "Unplug"} ${n}`, Qo = (e) => e.saving || e.selectedIds.size === e.rows.length && e.selectedCandidateIds.size === 0, $o = () => {
 	let e = !1;
 	return {
 		next: () => e,
@@ -4585,9 +4982,9 @@ var ui = { kind: "none" }, di = (e, t) => e === null || e === t, fi = (e, t, n) 
 			e = !0;
 		}
 	};
-}, ro = (e, t, n) => {
-	let { failures: r, candidateFailures: i, filter: a } = n, o = Ua(e, t), s = new Set(r.map((e) => e.deviceId)), c = new Set(i.map((e) => e.deviceId));
-	return da({
+}, es = (e, t, n) => {
+	let { failures: r, candidateFailures: i, filter: a } = n, o = Io(e, t), s = new Set(r.map((e) => e.deviceId)), c = new Set(i.map((e) => e.deviceId));
+	return ro({
 		...o,
 		selectedIds: new Set(o.rows.map((e) => e.deviceId).filter((e) => !s.has(e))),
 		failures: r,
@@ -4595,7 +4992,286 @@ var ui = { kind: "none" }, di = (e, t) => e === null || e === t, fi = (e, t, n) 
 		candidateFailures: i,
 		filter: a
 	});
-}, io = (e) => e.cursor_seq > 0, ao = (e) => e.cursor_seq < e.entry_count, oo = (e, t) => `${e} ${t}${e === 1 ? "" : "s"}`, so = {
+}, ts = async (e, t) => {
+	let n = $o(), r = [];
+	for (let i of e) {
+		if ("failed" in i) {
+			r.push({
+				item: i.item,
+				error: i.failed
+			});
+			continue;
+		}
+		try {
+			await t({
+				...i.message,
+				continue_group: n.next()
+			}), n.recordSuccess();
+		} catch (e) {
+			r.push({
+				item: i.item,
+				error: e
+			});
+		}
+	}
+	return r;
+}, ns = (e) => e.linked ? Ra(e) ? "Unplug / Move:" : `${W[e.kind]}:` : e.kind === "co_socket" ? "Plug in to socket:" : "Plug in:", rs = (e, t) => e.unlink ? "Move to…" : t ? "Into a socket in:" : e.kind === "co_socket" ? `${za(e)}:` : "Into:", is = (e) => e.saving ? "busy" : e.selectedId === null ? e.unlink ? "choose_move" : "choose_plug_in" : null, as = (e, t) => {
+	let n = e.kind === "appliance", r = n ? Ba(e) : [], i = n || e.kind === "co" ? Va(e, n ? t.room : null) : [], a = r.length > 0 || i.length > 0, o = n && a, s = to(e).length;
+	return {
+		titleLabel: ns(e),
+		roomOptions: r,
+		coOptions: i,
+		hasFilters: a,
+		showsDropdownsInBar: o,
+		visible: oo(e, a ? {
+			room: n ? t.room : null,
+			co: t.co
+		} : Qa),
+		offeredCount: s,
+		hasFilterBar: o || s > 1,
+		currentWord: s > 0 ? "Plugged into:" : "Currently:",
+		loneCandidate: s === 1 && e.kind === "co_socket",
+		listHeading: rs(e, o),
+		socketsHeading: i.length === 0 ? "title" : "co_dropdown",
+		primary: s > 0 ? {
+			label: e.unlink ? "Move" : "Plug in",
+			disabled: is(e)
+		} : null,
+		unplugBusy: e.saving
+	};
+}, os = Ke, ss = "Creates the Appliances now; adds the plug-ins to the batch, which take effect on Commit", cs = (e, t, n, r, i) => {
+	let a = t.ticked.has(e.coSocketId), o = a && !t.saving, s = Ea(e, t.edits), c = ka(s);
+	return x`
+      <tr class="${n?.blocking ? "from-names-blocked" : ""} ${n ? "from-names-has-note" : ""}">
+        ${r ? x`<td class="from-names-integration" rowspan=${r.span}>
+              <strong>${Da(e)}</strong>
+            </td>` : ""}
+        <td>
+          <label class="choice-row">
+            <input
+              type="checkbox"
+              aria-label="Create Appliance"
+              .checked=${a}
+              ?disabled=${t.saving}
+              @change=${() => i.toggleRow(e.coSocketId)}
+            />
+          </label>
+        </td>
+        <td class="from-names-col-name">
+          <input
+            type="text"
+            class="from-names-name"
+            data-id=${e.coSocketId}
+            aria-label="Appliance name"
+            .value=${s}
+            ?readonly=${!o}
+            tabindex=${o ? 0 : -1}
+            @input=${(t) => i.editName(e.coSocketId, t.target.value)}
+          />
+          ${c === null ? "" : x`<p class="from-names-slug">${c}</p>`}
+        </td>
+        <td class="from-names-ha-name">${Oa(e)}</td>
+      </tr>
+      ${n ? x`<tr class="from-names-note-row ${n.blocking ? "from-names-blocked" : ""}">
+            <td></td>
+            <td colspan="2">
+              <p class="from-names-note ${n.blocking ? "from-names-error" : ""}">${n.blocking ? x`<svg class="from-names-error-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="${os}"></path></svg>` : ""}<span>${n.text}</span></p>
+            </td>
+          </tr>` : ""}
+    `;
+}, ls = (e, t, n, r) => {
+	if (!e) return x`<dialog class="from-names-dialog" @close=${() => t.close()}></dialog>`;
+	let i = Ma(e.rows, e.existing, e.ticked, e.edits), a = Na(i), o = Pa(i, "duplicate"), s = Pa(i, "blank"), c = Ia(e.rows, e.ticked, e.edits).length, l = ja(e.rows, e.ticked, e.edits, e.filter), u = La(l);
+	return x`
+      <dialog
+        class="from-names-dialog"
+        @close=${() => t.close()}
+        @cancel=${(e) => t.cancel(e)}
+      >
+        <div class="dialog-body">
+          ${O("Appliances from Socket names", r)}
+          ${e.loading ? x`<p>Loading the Socket names…</p>` : e.loadError ? x`<p class="error">${e.loadError}</p>` : e.rows.length === 0 ? x`<p>No empty Socket has a name of its own in Home Assistant to make an Appliance from.</p>` : x`
+                <div class="from-names-toolbar">
+                  ${n.renderDialogFilter(e.filter, e.saving, (e) => t.setFilter(e))}
+                  <button
+                    class="plain-btn"
+                    ?disabled=${e.saving}
+                    @click=${() => t.setTicks(Fa(l, e.existing, e.edits))}
+                  >
+                    Tick all
+                  </button>
+                  <button class="plain-btn" ?disabled=${e.saving} @click=${() => t.setTicks(/* @__PURE__ */ new Set())}>
+                    Untick all
+                  </button>
+                  <span class="from-names-counts">
+                    ${c} of ${e.rows.length} ticked${l.length < e.rows.length ? x` · ${l.length} shown` : ""}${o > 0 ? x` · <span class="from-names-error-count">${o} duplicate${o === 1 ? "" : "s"}</span>` : ""}${s > 0 ? x` · <span class="from-names-error-count">${s} need${s === 1 ? "s" : ""} a name</span>` : ""}
+                  </span>
+                </div>
+                <div class="from-names-scroll">
+                  <table class="from-names-table">
+                    <thead>
+                      <tr>
+                        <th>Integration</th>
+                        <th></th>
+                        <th class="from-names-col-name">Create Appliance <br /><span class="from-names-th-sub">(based on HA Entity Name)</span></th>
+                        <th>HA Entity Name <br /><span class="from-names-th-sub">(from Smart Socket integration)</span></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      ${u.map((n) => {
+		let r = n.rows.length + n.rows.filter((e) => i.has(e.coSocketId)).length;
+		return n.rows.map((a, o) => cs(a, e, i.get(a.coSocketId) ?? null, o === 0 ? {
+			group: n,
+			span: r
+		} : null, t));
+	})}
+                    </tbody>
+                  </table>
+                  ${l.length === 0 ? x`<p>${Wt}</p>` : ""}
+                </div>
+              `}
+          ${e.failures.map((e) => x`<p class="error">${e.label}: ${e.message}</p>`)}
+        </div>
+        <div class="dialog-actions">
+          <button ?disabled=${e.saving} @click=${() => t.close()}>Cancel</button>
+          ${n.renderStagingButton({
+		label: `Apply ${c}`,
+		tip: ss,
+		className: "go",
+		disabled: e.saving || e.loading ? la : c === 0 ? pa : a > 0 && ma,
+		onClick: () => t.apply()
+	})}
+        </div>
+      </dialog>
+    `;
+};
+//#endregion
+//#region src/outlet-binder-panel/settings-view.ts
+function us(e, t, n) {
+	return x`
+    <dialog class="settings-dialog" @close=${() => t()}>
+      <div class="dialog-body">
+        ${O("Settings", n)}
+        ${e}
+      </div>
+      <div class="dialog-actions">
+        <button @click=${() => t()}>Close</button>
+      </div>
+    </dialog>
+  `;
+}
+//#endregion
+//#region src/outlet-binder-panel/discovered-view.ts
+function ds(e, t, n, r) {
+	return x`
+    <dialog class="discovered-dialog" @close=${() => t()}>
+      ${e ? x`
+            <div class="dialog-body">
+              ${O(e.heading, r)}
+              ${e.entries.map((e) => x`
+                  <p><strong>${n.renderMention(e.title)}</strong></p>
+                  ${n.renderAttrList(e.fields)}
+                `)}
+            </div>
+            <div class="dialog-actions">
+              <button @click=${() => t()}>Close</button>
+            </div>
+          ` : ""}
+    </dialog>
+  `;
+}
+//#endregion
+//#region src/outlet-binder-panel/from-names-state.ts
+var fs = () => ({
+	loading: !0,
+	loadError: null,
+	names: {},
+	rows: [],
+	existing: /* @__PURE__ */ new Map(),
+	ticked: /* @__PURE__ */ new Set(),
+	edits: {},
+	filter: "",
+	saving: !1,
+	error: null,
+	failures: []
+}), ps = (e, t, n) => {
+	if (!e) return null;
+	let { rows: r, existing: i } = wa(e, t);
+	return {
+		loading: !1,
+		loadError: null,
+		names: t,
+		rows: r,
+		existing: i,
+		ticked: Ta(),
+		edits: n,
+		filter: "",
+		saving: !1,
+		error: null,
+		failures: []
+	};
+}, ms = (e, t) => ({
+	...e,
+	loading: !1,
+	loadError: t
+}), hs = (e, t) => ({
+	...e,
+	ticked: t
+}), gs = (e, t) => ({
+	...e,
+	filter: t
+}), _s = (e, t, n) => ({
+	...e,
+	edits: {
+		...e.edits,
+		[t]: n
+	}
+}), vs = (e, t) => {
+	let n = new Set(e), r = !n.has(t);
+	return r ? n.add(t) : n.delete(t), {
+		ticked: n,
+		ticking: r
+	};
+}, ys = (e) => ({
+	...e,
+	saving: !0,
+	error: null,
+	failures: []
+}), bs = (e, t, n, r) => ({
+	...e,
+	ticked: new Set(e.rows.filter((e) => t.has(e.coSocketId)).map((e) => e.coSocketId)),
+	filter: n,
+	failures: r
+}), xs = (e, t) => Math.max((e.get(t.co_id) ?? []).length, 1), Ss = (e, t) => {
+	switch (t.kind) {
+		case "live": return xs(e, t.co);
+		case "copy": return t.sockets.length;
+		case "direct": return 1;
+	}
+}, Cs = (e, t) => t.rows.reduce((t, n) => t + Ss(e, n) + +!!n.gapBefore, 0), ws = (e) => ({
+	socketTotal: e.full.socketTotal + e.partial.socketTotal + e.orphan.socketTotal,
+	socketInUse: e.full.socketInUse + e.partial.socketInUse + e.orphan.socketInUse
+}), Ts = (e, t, n, r) => e.filtering ? !e.blocks.has(r) : t.has(n), Es = (e, t, n) => {
+	let r = [], i = !1;
+	for (let a of e) {
+		let e = t[a];
+		if (e.length === 0) continue;
+		let o = !n.filtering || e.some((e, t) => n.blocks.has(wi(a, t)));
+		r.push({
+			section: a,
+			blocks: e,
+			headed: o,
+			spacerBefore: o && i
+		}), o && (i = !0);
+	}
+	return r;
+}, Ds = () => {
+	let e = 0;
+	return () => {
+		let t = e % 2 == 1;
+		return e += 1, t ? "row-shade" : "";
+	};
+}, Os = (e) => e.cursor_seq > 0, ks = (e) => e.cursor_seq < e.entry_count, As = (e, t) => `${e} ${t}${e === 1 ? "" : "s"}`, js = {
 	create_plugged_into: {
 		verb: "Plug",
 		ids: [["appliance", "appliance_id"], ["co_socket", "co_socket_id"]]
@@ -4628,8 +5304,8 @@ var ui = { kind: "none" }, di = (e, t) => e === null || e === t, fi = (e, t, n) 
 		verb: "Unassign",
 		ids: [["co", "co_id"]]
 	}
-}, co = (e) => Object.hasOwn(so, e), lo = (e) => {
-	let t = co(e.command) ? so[e.command] : void 0;
+}, Ms = (e) => Object.hasOwn(js, e), Ns = (e) => {
+	let t = Ms(e.command) ? js[e.command] : void 0;
 	return {
 		command: e.command,
 		verb: t?.verb ?? e.command,
@@ -4638,18 +5314,18 @@ var ui = { kind: "none" }, di = (e, t) => e === null || e === t, fi = (e, t, n) 
 			id: e.payload[n]
 		}))
 	};
-}, uo = (e) => {
+}, Ps = (e) => {
 	let t = [];
 	for (let n of e) {
-		let e = lo(n), r = t.at(-1);
+		let e = Ns(n), r = t.at(-1);
 		r && r.group_seq === n.group_seq ? r.entries.push(e) : t.push({
 			group_seq: n.group_seq,
 			entries: [e]
 		});
 	}
 	return t.map(({ entries: e }) => ({ entries: e }));
-}, fo = (e) => uo(e.commit_entries), po = (e) => uo(e.flush_entries), mo = (e) => uo(e.commit_entries).reverse(), ho = (e) => uo(e.flush_entries.slice(e.commit_entries.length)), go = (e) => {
-	let t = io(e), n = ao(e), r = e.entry_count > 0, i = e.failed_entry !== null, a = e.undo_group_count, o = e.redo_group_count, s = e.undo_group_count + e.redo_group_count;
+}, Fs = (e) => Ps(e.commit_entries), Is = (e) => Ps(e.flush_entries), Ls = (e) => Ps(e.commit_entries).reverse(), Rs = (e) => Ps(e.flush_entries.slice(e.commit_entries.length)), zs = (e) => {
+	let t = Os(e), n = ks(e), r = e.entry_count > 0, i = e.failed_entry !== null, a = e.undo_group_count, o = e.redo_group_count, s = e.undo_group_count + e.redo_group_count;
 	return {
 		undo: {
 			disabled: !t,
@@ -4672,16 +5348,16 @@ var ui = { kind: "none" }, di = (e, t) => e === null || e === t, fi = (e, t, n) 
 			title: r ? `Discard every staged change (${s} pending)` : "Nothing staged"
 		}
 	};
-}, _o = (e, t, n) => {
+}, Bs = (e, t, n) => {
 	if (t === null) return;
 	let r = e.get(t) ?? [];
 	r.push(n), e.set(t, r);
-}, vo = (e) => {
-	let t = zt(e);
+}, Vs = (e) => {
+	let t = on(e);
 	return t.kind === "nowhere" ? null : t;
-}, yo = (e, t) => e === null || t === null ? e === t : e.kind === t.kind && e.id === t.id, bo = (e, t, n) => {
-	t !== null && _o(t.kind === "uo" ? e.uo : e.coSocket, t.id, n);
-}, xo = (e, t) => {
+}, Hs = (e, t) => e === null || t === null ? e === t : e.kind === t.kind && e.id === t.id, Us = (e, t, n) => {
+	t !== null && Bs(t.kind === "uo" ? e.uo : e.coSocket, t.id, n);
+}, Ws = (e, t) => {
 	let n = {
 		appliance: /* @__PURE__ */ new Map(),
 		co: /* @__PURE__ */ new Map(),
@@ -4692,31 +5368,31 @@ var ui = { kind: "none" }, di = (e, t) => e === null || e === t, fi = (e, t, n) 
 	for (let r of e.appliances) {
 		let e = t.appliances[r.appliance_id];
 		if (e === void 0) continue;
-		let i = vo(e), a = vo(r);
-		if (yo(i, a)) continue;
+		let i = Vs(e), a = Vs(r);
+		if (Hs(i, a)) continue;
 		let o = {
 			kind: "appliance",
 			subjectId: r.appliance_id,
 			from: i,
 			to: a
 		};
-		_o(n.appliance, r.appliance_id, o), bo(n, o.from, o), bo(n, o.to, o);
+		Bs(n.appliance, r.appliance_id, o), Us(n, o.from, o), Us(n, o.to, o);
 	}
 	for (let r of e.cos) {
 		let e = t.cos[r.co_id];
 		if (e === void 0) continue;
-		let i = vo(e), a = vo(r);
-		if (yo(i, a)) continue;
+		let i = Vs(e), a = Vs(r);
+		if (Hs(i, a)) continue;
 		let o = {
 			kind: "co",
 			subjectId: r.co_id,
 			from: i,
 			to: a
 		};
-		_o(n.co, r.co_id, o), bo(n, o.from, o), bo(n, o.to, o);
+		Bs(n.co, r.co_id, o), Us(n, o.from, o), Us(n, o.to, o);
 	}
 	return n;
-}, So = (e, t, n) => t === null ? `Plug ${e} into ${A(n)}` : n === null ? `Unplug ${e} from ${t}` : `Move ${e} from ${t} to ${n}`;
+}, Gs = (e, t, n) => t ? n.coSocket.get(e)?.find((t) => t.from?.kind === "co_socket" && t.from.id === e) ?? null : null, Ks = (e, t, n) => t === null ? `Plug ${e} into ${k(n)}` : n === null ? `Unplug ${e} from ${t}` : `Move ${e} from ${t} to ${n}`;
 //#endregion
 //#region \0@oxc-project+runtime@0.147.0/helpers/esm/decorate.js
 function Z(e, t, n, r) {
@@ -4727,15 +5403,22 @@ function Z(e, t, n, r) {
 }
 //#endregion
 //#region src/outlet-binder-panel/panel.ts
-var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo = Ke, Mo = qe, No = $e, Po = Ze, Fo = Je, Io = Xe, Lo = Ye, Ro = Qe, zo = yt, Bo = vt, Vo = yt, Ho = _t, Uo = bt, Wo = "Adds this change to the batch; it takes effect on Commit", Go = "Creates the Appliances now; adds the plug-ins to the batch, which take effect on Commit", Ko = "Creates the Wall Sockets now; adds the links to the batch, which take effect on Commit", qo = { reason: null }, Jo = { reason: "Choose where to plug it in first" }, Yo = { reason: "Choose where to move it first" }, Xo = { reason: "Tick or untick something first" }, Zo = { reason: "Tick a row first" }, Qo = { reason: "Fix the marked rows first" }, $o = {
-	tools: ht,
-	appliance: Co,
-	filter: Po
-}, es = We, ts = {
-	blank: "The Wall Socket needs a name.",
-	existing: "A Wall Socket with this name already exists. Choose a different name.",
-	new: "Another new Wall Socket has this name. Choose a different name."
-}, ns = 6, rs = (e) => C`<tr class="section-spacer"><td colspan="${e}"></td></tr>`, is = (e) => {
+var qs = {
+	busy: la,
+	choose_move: da,
+	choose_plug_in: ua
+}, Js = at, Ys = _t, Xs = it, Zs = ot, Qs = gt, $s = qe, ec = rt, tc = yt, nc = Je, rc = Ye, ic = et, ac = tt, oc = St, sc = xt, cc = St, lc = bt, uc = Ct, dc = "Adds this change to the batch; it takes effect on Commit", fc = {
+	tools: vt,
+	appliance: Js,
+	filter: ic,
+	export: $e
+}, pc = 6, mc = (e) => x`<tr class="section-spacer"><td colspan="${e}"></td></tr>`, hc = (e) => x`<tbody class="${e ? "collapsed" : ""}" ?inert=${e}>
+    ${mc(pc)}
+  </tbody>`, gc = [
+	"full",
+	"partial",
+	"orphan"
+], _c = (e) => {
 	let t = getComputedStyle(e);
 	if (t.boxSizing === "border-box") return {
 		height: 0,
@@ -4746,36 +5429,36 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
 		height: n(t.paddingTop) + n(t.paddingBottom) + n(t.borderTopWidth) + n(t.borderBottomWidth),
 		width: n(t.paddingLeft) + n(t.paddingRight) + n(t.borderLeftWidth) + n(t.borderRightWidth)
 	};
-}, as = "none", os = (e) => jn(e) ? e : null, Q = (e, t) => {
+}, vc = "none", yc = (e) => Qn(e) ? e : null, Q = (e, t) => {
 	let n = document.createElement("div");
 	return n.className = e, n.textContent = t, n;
-}, ss = (e, t) => {
+}, bc = (e, t) => {
 	let n = document.createElementNS("http://www.w3.org/2000/svg", "svg");
 	n.setAttribute("class", e), n.setAttribute("viewBox", "0 0 24 24"), n.setAttribute("aria-hidden", "true");
 	let r = document.createElementNS("http://www.w3.org/2000/svg", "path");
 	return r.setAttribute("d", t), n.appendChild(r), n;
-}, cs = {
+}, xc = {
 	dirty: "Save or cancel your changes first",
 	saving: "Wait for the save to finish first"
-}, ls = (e) => {
+}, Sc = (e) => {
 	switch (e.kind) {
 		case "uo": return e.entity.name;
 		case "co": return e.entity.alias;
 		case "appliance": return e.entity.name;
 	}
-}, us = {
+}, Cc = {
 	_editing: "edit-dialog",
 	_editingSocket: "socket-edit-dialog"
-}, $ = class extends Ie {
+}, $ = class extends Re {
 	constructor(...e) {
-		super(...e), this._state = null, this._editSession = null, this._debugMode = !1, this._error = null, this._loading = !1, this._socketRegion = "uk", this._mode = "batch", this._themeOverride = Un(), this._collapsedSections = nr(), this._collapsedCardBandGroups = cr(), this._layoutTier = "wide", this._activeTab = dr(), this._editing = null, this._editingSocket = null, this._linking = null, this._linkRoomFilter = null, this._linkCoFilter = X, this._heldDialogs = /* @__PURE__ */ new Set(), this._dialogMin = /* @__PURE__ */ new WeakMap(), this._creating = null, this._deleting = null, this._flushConfirm = null, this._commitConfirm = null, this._settingsOpen = !1, this._menuOpen = !1, this._mainFilter = "", this._filterOpen = !1, this._filterPos = null, this._filterDrag = null, this._fromNames = null, this._wallBatch = null, this._discovered = null, this._areas = li(null, null), this._areasSource = null, this._fetched = !1, this._tipShown = !1, this._tipSeq = 0, this._tipHost = null, this._tipTimer = null, this._pointerPos = null, this._lastPointerType = null, this._lastInput = null, this._onWindowResize = () => {
+		super(...e), this._state = null, this._editSession = null, this._debugMode = !1, this._build = null, this._error = null, this._loading = !1, this._socketRegion = "uk", this._mode = "batch", this._themeOverride = ur(), this._collapsedSections = Cr(), this._collapsedCardBandGroups = kr(), this._layoutTier = "wide", this._activeTab = Mr(), this._editing = null, this._editingSocket = null, this._linking = null, this._linkRoomFilter = null, this._linkCoFilter = X, this._heldDialogs = /* @__PURE__ */ new Set(), this._dialogMin = /* @__PURE__ */ new WeakMap(), this._creating = null, this._deleting = null, this._flushConfirm = null, this._commitConfirm = null, this._settingsOpen = !1, this._menuOpen = !1, this._mainFilter = "", this._filterOpen = !1, this._filterPos = null, this._filterDrag = null, this._fromNames = null, this._exporting = null, this._wallBatch = null, this._discovered = null, this._areas = Mi(null, null), this._areasSource = null, this._fetched = !1, this._tipShown = !1, this._tipSeq = 0, this._tipHost = null, this._tipTimer = null, this._pointerPos = null, this._lastPointerType = null, this._lastInput = null, this._onWindowResize = () => {
 			this._hideTip(), this._keepMainFilterOnScreen();
 		}, this._onDocumentClick = (e) => {
 			e.composedPath().some((e) => e instanceof Element && e.classList.contains("menu-wrap")) || this._closeMenu();
 		}, this._resizeObserver = null, this._dialogObserver = null, this._newCoIds = /* @__PURE__ */ new Set(), this._helpersCache = null;
 	}
 	static {
-		this.styles = xt;
+		this.styles = Nt;
 	}
 	firstUpdated() {
 		let e = this.renderRoot, t = (t, n, r = !1) => e.addEventListener(t, n, r);
@@ -4791,7 +5474,7 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
 		}), this._resizeObserver = new ResizeObserver((e) => {
 			let t = e[0]?.contentRect.width;
 			if (t === void 0) return;
-			let n = Gt(t);
+			let n = fn(t);
 			n !== this._layoutTier && (this._layoutTier = n);
 		}), this._resizeObserver.observe(this);
 	}
@@ -4807,7 +5490,7 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
 	_tipEvent(e, t) {
 		e === "pointerover" && this._trackPointer(t);
 		let n = e === "escape" ? null : t.target?.closest("[data-tip]") ?? null;
-		switch (En({
+		switch (qn({
 			event: e,
 			host: n ? n.getAttribute("data-tip") : null,
 			pointerType: this._lastPointerType,
@@ -4834,7 +5517,7 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
 		let n = this._popoverEl, r = e.getAttribute("aria-describedby"), i = r ? this.renderRoot.querySelector(`#${r}`) : null, a = i?.textContent;
 		if (!n || !i || !a) return;
 		this._hideTip(), this._fillPopover(n, i, a), n.showPopover(), this._tipShown = !0;
-		let { left: o, top: s } = Tn(e.getBoundingClientRect(), n.getBoundingClientRect(), {
+		let { left: o, top: s } = Kn(e.getBoundingClientRect(), n.getBoundingClientRect(), {
 			width: window.innerWidth,
 			height: window.innerHeight
 		}, t);
@@ -4843,12 +5526,12 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
 	_fillPopover(e, t, n) {
 		let r = t.getAttribute("data-hover");
 		if (r !== null) {
-			this._fillHoverPopover(e, zn(n, os(r), t.getAttribute("data-blocked") === "true"));
+			this._fillHoverPopover(e, or(n, yc(r), t.getAttribute("data-blocked") === "true"));
 			return;
 		}
-		let { title: i, body: a } = On(n), o = [];
+		let { title: i, body: a } = Yn(n), o = [];
 		if (i !== "" && o.push(Q("tip-title", i)), a !== "") {
-			let e = kn(a), t = document.createElement("div");
+			let e = Xn(a), t = document.createElement("div");
 			t.className = "tip-body", t.style.setProperty("--tip-marker", `${Math.max(0, ...e.map((e) => e.marker.length))}ch`);
 			for (let n of e) {
 				let e = document.createElement("div");
@@ -4860,11 +5543,11 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
 	}
 	_fillHoverPopover(e, t) {
 		let n = Q("tip-title", "");
-		t.icon !== null && n.appendChild(ss("tip-icon", this._hoverIconPath(t.icon))), n.appendChild(document.createTextNode(t.title));
+		t.icon !== null && n.appendChild(bc("tip-icon", this._hoverIconPath(t.icon))), n.appendChild(document.createTextNode(t.title));
 		let r = [n];
 		if (t.action !== "") {
 			let e = Q(t.blocked ? "tip-action blocked" : "tip-action", "");
-			t.blocked && e.appendChild(ss("tip-no-entry", To)), e.appendChild(document.createTextNode(t.action)), t.blocked && e.appendChild(ss("tip-no-entry end", To)), r.push(e);
+			t.blocked && e.appendChild(bc("tip-no-entry", Xs)), e.appendChild(document.createTextNode(t.action)), t.blocked && e.appendChild(bc("tip-no-entry end", Xs)), r.push(e);
 		}
 		if (t.attrs.length > 0) {
 			let e = Q("tip-attrs", "");
@@ -4878,9 +5561,9 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
 	}
 	_hoverIconPath(e) {
 		switch (e) {
-			case "appliance": return Co;
-			case "co": return wo;
-			case "uo": return oi[this._socketRegion];
+			case "appliance": return Js;
+			case "co": return Ys;
+			case "uo": return ki[this._socketRegion];
 		}
 	}
 	_hideTip() {
@@ -4893,16 +5576,16 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
 			created: e?.created ?? [],
 			state: t
 		}))).then(({ created: e, state: t }) => {
-			let { newIds: n, nextSeen: r } = qn(t.cos, Gn(), Date.now());
-			Kn(r), this._newCoIds = n, this._state = t, this._editSession = t.edit_session, this._debugMode = t.debug_mode, this._socketRegion = t.socket_region, this._mode = t.mode, this._discovered = Vr(e, t, this._registries()) ? e : null, this._error = null;
+			let { newIds: n, nextSeen: r } = mr(t.cos, fr(), Date.now());
+			pr(r), this._newCoIds = n, this._state = t, this._editSession = t.edit_session, this._debugMode = t.debug_mode, this._build = t.build, this._socketRegion = t.socket_region, this._mode = t.mode, this._discovered = ui(e, t, this._registries()) ? e : null, this._error = null;
 		}).catch((e) => {
-			this._error = wt("Failed to load state", e);
+			this._error = Ht("Failed to load state", e);
 		}).finally(() => {
 			this._loading = !1;
 		}));
 	}
 	updated() {
-		this._tipHost && !this._tipHost.isConnected && this._hideTip(), L(this._dialogEl, this._editing !== null), L(this._socketDialogEl, this._editingSocket !== null), L(this._linkDialogEl, this._linking !== null), L(this._createDialogEl, this._creating !== null), L(this._deleteDialogEl, this._deleting !== null), L(this._flushDialogEl, this._flushConfirm !== null), L(this._commitDialogEl, this._commitConfirm !== null), L(this._settingsDialogEl, this._settingsOpen), L(this._fromNamesDialogEl, this._fromNames !== null), L(this._wallBatchDialogEl, this._wallBatch !== null), L(this._discoveredDialogEl, this._discovered !== null), this._holdDialogSizes(), this._themeOverride === "system" ? this.removeAttribute("data-theme") : this.setAttribute("data-theme", this._themeOverride);
+		this._tipHost && !this._tipHost.isConnected && this._hideTip(), F(this._dialogEl, this._editing !== null), F(this._socketDialogEl, this._editingSocket !== null), F(this._linkDialogEl, this._linking !== null), F(this._createDialogEl, this._creating !== null), F(this._deleteDialogEl, this._deleting !== null), F(this._flushDialogEl, this._flushConfirm !== null), F(this._commitDialogEl, this._commitConfirm !== null), F(this._settingsDialogEl, this._settingsOpen), F(this._fromNamesDialogEl, this._fromNames !== null), F(this._exportDialogEl, this._exporting !== null), F(this._wallBatchDialogEl, this._wallBatch !== null), F(this._discoveredDialogEl, this._discovered !== null), this._holdDialogSizes(), this._themeOverride === "system" ? this.removeAttribute("data-theme") : this.setAttribute("data-theme", this._themeOverride);
 	}
 	_holdDialogSizes() {
 		for (let e of Array.from(this._heldDialogs)) (!e.open || !e.isConnected) && this._releaseDialog(e);
@@ -4923,42 +5606,42 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
 			width: Math.max(n, r.width)
 		};
 		this._dialogMin.set(e, i);
-		let a = is(e);
+		let a = _c(e);
 		e.style.minHeight = `min(${i.height - a.height}px, calc(100vh - 6em))`, e.style.minWidth = `min(${i.width - a.width}px, calc(100vw - 6em))`;
 	}
 	async _refresh() {
 		if (this.hass) try {
-			let e = await this.hass.callWS({ type: "outlet_binder/get_state" }), { newIds: t, nextSeen: n } = qn(e.cos, Gn(), Date.now());
-			Kn(n), this._newCoIds = t, this._state = e, this._editSession = e.edit_session, this._debugMode = e.debug_mode, this._socketRegion = e.socket_region, this._mode = e.mode, this._error = null;
+			let e = await this.hass.callWS({ type: "outlet_binder/get_state" }), { newIds: t, nextSeen: n } = mr(e.cos, fr(), Date.now());
+			pr(n), this._newCoIds = t, this._state = e, this._editSession = e.edit_session, this._debugMode = e.debug_mode, this._build = e.build, this._socketRegion = e.socket_region, this._mode = e.mode, this._error = null;
 		} catch (e) {
-			this._error = wt("Failed to refresh after save", e);
+			this._error = Ht("Failed to refresh after save", e);
 		}
 	}
 	_openEdit(e) {
 		if (!this._state) return;
-		let t = V(this._state);
+		let t = z(this._state);
 		switch (e.kind) {
 			case "uo":
-				this._editing = Xt("uo", e.entity.uo_id, hn(e.entity));
+				this._editing = bn("uo", e.entity.uo_id, In(e.entity));
 				return;
 			case "appliance": {
-				let n = z(e.entity), r = n.kind === "co_socket" ? n.id : null;
-				this._editing = Xt("appliance", e.entity.appliance_id, yn(e.entity, t, r === null ? null : void 0)), r !== null && this._loadApplianceHaName(e.entity.appliance_id, r);
+				let n = L(e.entity), r = n.kind === "co_socket" ? n.id : null;
+				this._editing = bn("appliance", e.entity.appliance_id, Bn(e.entity, t, r === null ? null : void 0)), r !== null && this._loadApplianceHaName(e.entity.appliance_id, r);
 				return;
 			}
 			case "co":
-				this._editing = Xt("co", e.entity.co_id, xn(e.entity, t, this._areas.names));
+				this._editing = bn("co", e.entity.co_id, Hn(e.entity, t, this._areas.names));
 				return;
 		}
 	}
 	_openSocketEdit(e) {
-		this._state && (this._editingSocket = Xt("co_socket", e.co_socket_id, Sn(e, V(this._state))));
+		this._state && (this._editingSocket = bn("co_socket", e.co_socket_id, Un(e, z(this._state))));
 	}
 	async _followLink(e) {
 		this._hideTip(), this._linking = null, this._editingSocket = null, this._editing = null, this._discovered = null, await this.updateComplete;
 		let t = this._helpers();
 		if (!t) return;
-		let n = e.kind === "uo" ? $t(t, e.entity.uo_id) : e.kind === "co" ? U(t, e.entity.co_id) : en(t, e.entity.appliance_id);
+		let n = e.kind === "uo" ? H(t, e.entity.uo_id) : e.kind === "co" ? U(t, e.entity.co_id) : Sn(t, e.entity.appliance_id);
 		n && this._openEdit(n);
 	}
 	_closeEdit(e) {
@@ -4975,12 +5658,12 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
 		});
 	}
 	_isEditValid(e) {
-		return ln(e);
+		return An(e);
 	}
 	async _saveEdit(e) {
 		let t = this[e];
 		if (!t || !this.hass) return;
-		let n = un(t);
+		let n = jn(t);
 		this[e] = {
 			...t,
 			saving: !0,
@@ -4989,7 +5672,7 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
 		try {
 			await this.hass.callWS(n), this._closeEdit(e), await this._refresh();
 		} catch (t) {
-			this[e] = Qt(this[e], t);
+			this[e] = V(this[e], t);
 		}
 	}
 	_openDeleteConfirm(e) {
@@ -5020,7 +5703,7 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
 	async _confirmDelete() {
 		let e = this._deleting;
 		if (!e || !this.hass) return;
-		let t = fn[e.kind];
+		let t = Nn[e.kind];
 		this._deleting = {
 			...e,
 			saving: !0,
@@ -5032,7 +5715,7 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
 				[t.idField]: e.id
 			}), this._closeDeleteConfirm(), await this._refresh();
 		} catch (e) {
-			this._deleting = Qt(this._deleting, e);
+			this._deleting = V(this._deleting, e);
 		}
 	}
 	_openSettings() {
@@ -5058,6 +5741,9 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
 			case "assign_uos_to_smart_devices":
 				this._openWallBatch();
 				return;
+			case "export_state":
+				this._exporting = Et();
+				return;
 			default: throw Error(`Unhandled menu action: ${String(e)}`);
 		}
 	}
@@ -5071,7 +5757,7 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
 		let r = this._editing;
 		!r || r.kind !== "appliance" || r.id !== e || (this._editing = {
 			...r,
-			readonlyFields: r.readonlyFields.map((e) => e[0] === "Socket's HA name" ? _n(n) : e)
+			readonlyFields: r.readonlyFields.map((e) => e[0] === "Socket's HA name" ? Rn(n) : e)
 		});
 	}
 	_closeSettings() {
@@ -5079,83 +5765,60 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
 	}
 	async _openFromNames() {
 		if (!this.hass) return;
-		let e = {
-			loading: !0,
-			loadError: null,
-			names: {},
-			rows: [],
-			existing: /* @__PURE__ */ new Map(),
-			ticked: /* @__PURE__ */ new Set(),
-			edits: {},
-			filter: "",
-			saving: !1,
-			error: null,
-			failures: []
-		};
+		let e = fs();
 		this._fromNames = e;
 		try {
 			await this._refresh();
 			let t = await this.hass.callWS({ type: "outlet_binder/get_socket_ha_names" });
 			if (this._fromNames !== e) return;
-			this._fromNames = this._buildFromNames(t, null, {}) ?? {
-				...e,
-				loading: !1,
-				loadError: "Couldn't read the Socket names"
-			};
+			this._fromNames = ps(this._state, t, {}) ?? ms(e, "Couldn't read the Socket names");
 		} catch (t) {
 			if (this._fromNames !== e) return;
-			this._fromNames = {
-				...e,
-				loading: !1,
-				loadError: wt("Couldn't read the Socket names", t)
-			};
+			this._fromNames = ms(e, Ht("Couldn't read the Socket names", t));
 		}
 	}
-	_buildFromNames(e, t, n) {
-		if (!this._state) return null;
-		let { rows: r, existing: i } = Mi(this._state, e);
-		return {
-			loading: !1,
-			loadError: null,
-			names: e,
-			rows: r,
-			existing: i,
-			ticked: t ?? Ni(),
-			edits: n,
-			filter: "",
-			saving: !1,
-			error: null,
-			failures: []
-		};
+	_closeExport() {
+		this._exporting = null;
+	}
+	_updateExport(e) {
+		this._exporting = Dt(this._exporting, e);
+	}
+	async _runExport() {
+		let e = this._exporting;
+		if (!(!e || e.saving || !this.hass)) {
+			this._exporting = {
+				...e,
+				saving: !0,
+				error: null
+			};
+			try {
+				let t = await this.hass.callWS(Ot(e));
+				if (!this._exporting) return;
+				At(t, e.format), this._closeExport();
+			} catch (e) {
+				this._updateExport({
+					saving: !1,
+					error: Ht("Couldn't export the state", e)
+				});
+			}
+		}
 	}
 	_closeFromNames() {
 		this._fromNames = null;
 	}
 	_setFromNamesTicks(e) {
-		this._fromNames &&= {
-			...this._fromNames,
-			ticked: e
-		};
+		this._fromNames &&= hs(this._fromNames, e);
 	}
 	_setFromNamesFilter(e) {
-		this._fromNames &&= {
-			...this._fromNames,
-			filter: e
-		};
+		this._fromNames &&= gs(this._fromNames, e);
 	}
 	_editFromNamesName(e, t) {
-		this._fromNames &&= {
-			...this._fromNames,
-			edits: {
-				...this._fromNames.edits,
-				[e]: t
-			}
-		};
+		this._fromNames &&= _s(this._fromNames, e, t);
 	}
 	_toggleFromNamesRow(e) {
 		if (!this._fromNames) return;
-		let t = new Set(this._fromNames.ticked), n = !t.has(e);
-		n ? t.add(e) : t.delete(e), this._setFromNamesTicks(t), n && this.updateComplete.then(() => {
+		let { ticked: t, ticking: n } = vs(this._fromNames.ticked, e);
+		this._setFromNamesTicks(t), n && this.updateComplete.then(() => {
 			let t = this.shadowRoot?.querySelector(`input.from-names-name[data-id="${e}"]`);
 			t?.focus(), t?.select();
 		});
@@ -5163,18 +5826,13 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
 	async _applyFromNames() {
 		let e = this._fromNames;
 		if (!e || !this.hass) return;
-		let t = Wi(e.rows, e.ticked, e.edits), n = Bi(e.rows, e.existing, e.ticked, e.edits);
-		if (t.length === 0 || Vi(n) > 0) return;
-		this._fromNames = {
-			...e,
-			saving: !0,
-			error: null,
-			failures: []
-		};
+		let t = Ia(e.rows, e.ticked, e.edits), n = Ma(e.rows, e.existing, e.ticked, e.edits);
+		if (t.length === 0 || Na(n) > 0) return;
+		this._fromNames = ys(e);
 		let r = new Set((this._state?.appliances ?? []).map((e) => e.appliance_id)), i = [], a = /* @__PURE__ */ new Set(), o = ({ row: e }, t) => {
 			a.add(e.coSocketId), i.push({
 				label: e.friendlyName ?? e.defaultName,
-				message: P(t)
+				message: M(t)
 			});
 		};
 		for (let e of t) try {
@@ -5186,110 +5844,72 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
 			o(e, t);
 		}
 		t.length > a.size && await this._refresh();
-		let s = new Map((this._state?.appliances ?? []).filter((e) => !r.has(e.appliance_id)).map((e) => [e.name, e.appliance_id])), c = no();
-		for (let e of t) {
-			if (a.has(e.row.coSocketId)) continue;
+		let s = new Map((this._state?.appliances ?? []).filter((e) => !r.has(e.appliance_id)).map((e) => [e.name, e.appliance_id])), c = this.hass, l = t.flatMap((e) => {
+			if (a.has(e.row.coSocketId)) return [];
 			let t = s.get(e.name);
-			if (t === void 0) {
-				o(e, /* @__PURE__ */ Error("The new Appliance was not found after creating it"));
-				continue;
-			}
-			try {
-				await this.hass.callWS({
+			return t === void 0 ? [{
+				item: e,
+				failed: /* @__PURE__ */ Error("The new Appliance was not found after creating it")
+			}] : [{
+				item: e,
+				message: {
 					type: "outlet_binder/create_plugged_into",
 					appliance_id: t,
-					co_socket_id: e.row.coSocketId,
-					continue_group: c.next()
-				}), c.recordSuccess();
-			} catch (t) {
-				o(e, t);
-			}
-		}
+					co_socket_id: e.row.coSocketId
+				}
+			}];
+		});
+		for (let { item: e, error: t } of await ts(l, (e) => c.callWS(e))) o(e, t);
 		if (await this._refresh(), i.length === 0) {
 			this._closeFromNames();
 			return;
 		}
-		let l = this._buildFromNames(e.names, null, e.edits);
-		if (!l) {
+		let u = ps(this._state, e.names, e.edits);
+		if (!u) {
 			this._closeFromNames();
 			return;
 		}
-		let u = new Set(l.rows.filter((e) => a.has(e.coSocketId)).map((e) => e.coSocketId));
-		this._fromNames = {
-			...l,
-			ticked: u,
-			filter: e.filter,
-			failures: i
-		};
+		this._fromNames = bs(u, a, e.filter, i);
 	}
 	_wallBatchRows() {
-		return this._state ? fi(this._state, (e) => Mt(this.hass?.devices, e).area_id, this._areas.names) : [];
+		return this._state ? Fi(this._state, (e) => Qt(this.hass?.devices, e).area_id, this._areas.names) : [];
 	}
 	_openWallBatch() {
-		this._wallBatch = {
-			choices: {},
-			edits: {},
-			filter: "",
-			saving: !1,
-			failures: []
-		};
+		this._wallBatch = Zi();
 	}
 	_closeWallBatch() {
 		this._wallBatch = null;
 	}
 	_toggleWallBatchRow(e) {
 		let t = this._wallBatch;
-		if (!t) return;
-		let n = (t.choices[e] ?? ui).kind !== "none";
-		this._chooseWallBatch(e, yi(n ? ui : { kind: "new" }));
+		t && this._setWallBatchChoice(e, $i(t, e));
 	}
 	_chooseWallBatch(e, t) {
+		this._setWallBatchChoice(e, Ui(t));
+	}
+	_setWallBatchChoice(e, t) {
 		let n = this._wallBatch;
-		if (!n) return;
-		let r = bi(t);
-		this._wallBatch = {
-			...n,
-			choices: {
-				...n.choices,
-				[e]: r
-			}
-		}, r.kind === "new" && this.updateComplete.then(() => {
+		n && (this._wallBatch = Qi(n, e, t), t.kind === "new" && this.updateComplete.then(() => {
 			let t = this.shadowRoot?.querySelector(`input.from-names-name[data-id="${e}"]`);
 			t?.focus(), t?.select();
-		});
+		}));
 	}
 	_setWallBatchChoices(e) {
-		this._wallBatch &&= {
-			...this._wallBatch,
-			choices: e
-		};
+		this._wallBatch &&= ea(this._wallBatch, e);
 	}
 	_setWallBatchFilter(e) {
-		this._wallBatch &&= {
-			...this._wallBatch,
-			filter: e
-		};
+		this._wallBatch &&= ta(this._wallBatch, e);
 	}
 	_editWallBatchName(e, t) {
 		let n = this._wallBatch;
-		n && (this._wallBatch = {
-			...n,
-			edits: {
-				...n.edits,
-				[e]: t
-			}
-		});
+		n && (this._wallBatch = na(n, e, t));
 	}
 	async _applyWallBatch() {
 		let e = this._wallBatch;
 		if (!e || !this.hass || !this._state) return;
-		let t = this._wallBatchRows(), n = Di(t, e.choices, e.edits);
-		if (n.assigns.length === 0 || Ci(t, e.choices, e.edits).size > 0 || wi(t, e.choices, e.edits, this._state.uos).size > 0) return;
-		this._wallBatch = {
-			...e,
-			saving: !0,
-			failures: []
-		};
+		let t = this._wallBatchRows(), n = Xi(t, e.choices, e.edits);
+		if (n.assigns.length === 0 || Ki(t, e.choices, e.edits).size > 0 || qi(t, e.choices, e.edits, this._state.uos).size > 0) return;
+		this._wallBatch = ra(e);
 		let r = [], i = /* @__PURE__ */ new Map();
 		for (let e of n.creates) {
 			let t = new Set((this._state?.uos ?? []).map((e) => e.uo_id));
@@ -5305,42 +5925,35 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
 			} catch (t) {
 				r.push({
 					label: e.label,
-					message: P(t)
+					message: M(t)
 				});
 			}
 		}
-		let a = no();
-		for (let e of n.assigns) {
+		let a = this.hass, o = n.assigns.flatMap((e) => {
 			let t = e.target.kind === "existing" ? e.target.uoId : i.get(e.coId);
-			if (t !== void 0) try {
-				await this.hass.callWS({
+			return t === void 0 ? [] : [{
+				item: e.label,
+				message: {
 					type: "outlet_binder/assign_co_to_uo",
 					co_id: e.coId,
-					uo_id: t,
-					continue_group: a.next()
-				}), a.recordSuccess();
-			} catch (t) {
-				r.push({
-					label: e.label,
-					message: P(t)
-				});
-			}
-		}
+					uo_id: t
+				}
+			}];
+		});
+		for (let { item: e, error: t } of await ts(o, (e) => a.callWS(e))) r.push({
+			label: e,
+			message: M(t)
+		});
 		if (await this._refresh(), r.length === 0) {
 			this._closeWallBatch();
 			return;
 		}
-		this._wallBatch = {
-			...e,
-			choices: {},
-			saving: !1,
-			failures: r
-		};
+		this._wallBatch = ia(e, r);
 	}
 	_openCreate(e) {
 		this._creating = {
 			kind: e,
-			draft: { ...mn[e] },
+			draft: { ...Fn[e] },
 			saving: !1,
 			error: null
 		};
@@ -5350,7 +5963,7 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
 		(this._areasSource?.areas !== e || this._areasSource?.floors !== t) && (this._areasSource = {
 			areas: e,
 			floors: t
-		}, this._areas = li(e, t));
+		}, this._areas = Mi(e, t));
 	}
 	_registries() {
 		return {
@@ -5360,7 +5973,7 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
 		};
 	}
 	_coDevice(e) {
-		return Mt(this.hass?.devices, e.co_id);
+		return Qt(this.hass?.devices, e.co_id);
 	}
 	_closeCreate() {
 		this._creating = null;
@@ -5375,13 +5988,13 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
 		};
 	}
 	_isCreateValid(e) {
-		let t = pn[e.kind].requiredField;
+		let t = Pn[e.kind].requiredField;
 		return e.draft[t].trim() !== "";
 	}
 	async _saveCreate() {
 		let e = this._creating;
 		if (!e || !this.hass) return;
-		let t = pn[e.kind], n = (e) => e.trim() === "" ? null : e, r = { type: t.wsType };
+		let t = Pn[e.kind], n = (e) => e.trim() === "" ? null : e, r = { type: t.wsType };
 		for (let [i, a] of Object.entries(e.draft)) r[i] = i === t.requiredField ? a : n(a);
 		this._creating = {
 			...e,
@@ -5391,28 +6004,28 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
 		try {
 			await this.hass.callWS(r), this._closeCreate(), await this._refresh();
 		} catch (e) {
-			this._creating = Qt(this._creating, e);
+			this._creating = V(this._creating, e);
 		}
 	}
 	_maybeNewBadge(e) {
-		return this._newCoIds.has(e) ? C`<span class="new-badge">NEW</span>` : "";
+		return this._newCoIds.has(e) ? x`<span class="new-badge">NEW</span>` : "";
 	}
 	_renderAttrList(e) {
-		return C`
+		return x`
       <ul class="attr-list">
-        ${e.map(([e, t]) => C`<li>${Gr(e, t)}</li>`)}
+        ${e.map(([e, t]) => x`<li>${mi(e, t)}</li>`)}
       </ul>
     `;
 	}
 	_renderNameLink(e, t) {
 		let n = this._tip(this._nameHover(e));
-		return C`<button class="entity-link-primary" data-tip="act" aria-describedby=${n.id} @click=${() => this._openEdit(e)}>${t}</button>${n.desc}`;
+		return x`<button class="entity-link-primary" data-tip="act" aria-describedby=${n.id} @click=${() => this._openEdit(e)}>${t}</button>${n.desc}`;
 	}
 	_nameHover(e) {
 		switch (e.kind) {
 			case "appliance": return this._applianceNameHover(e.entity);
 			case "co": return this._coNameHover(e.entity);
-			case "uo": return Sr({
+			case "uo": return Ur({
 				name: e.entity.name,
 				area: this._uoArea(e.entity),
 				note: e.entity.location_note,
@@ -5428,26 +6041,26 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
 		if (t !== null) {
 			let n = this._tip({
 				...r,
-				action: cs[t],
+				action: xc[t],
 				blocked: !0
 			});
-			return C`<span class="dialog-link held" tabindex="0" data-tip="info" aria-describedby=${n.id}>${e.text}</span>${n.desc}`;
+			return x`<span class="dialog-link held" tabindex="0" data-tip="info" aria-describedby=${n.id}>${e.text}</span>${n.desc}`;
 		}
 		let i = this._tip(r);
-		return C`<button class="dialog-link" data-tip="act" aria-describedby=${i.id} @click=${() => this._followLink(n)}>${e.text}</button>${i.desc}`;
+		return x`<button class="dialog-link" data-tip="act" aria-describedby=${i.id} @click=${() => this._followLink(n)}>${e.text}</button>${i.desc}`;
 	}
 	_editHold() {
 		let e = [this._editing, this._editingSocket].filter((e) => e !== null);
-		return e.some((e) => e.saving) ? "saving" : e.some(Zt) ? "dirty" : null;
+		return e.some((e) => e.saving) ? "saving" : e.some(xn) ? "dirty" : null;
 	}
 	_applianceNameHover(e) {
-		let t = this._helpers(), n = t ? Tr(e, t) : null, r = n?.kind === "co_socket" ? n.co : null;
-		return xr({
+		let t = this._helpers(), n = t ? Kr(e, t) : null, r = n?.kind === "co_socket" ? n.co : null;
+		return Hr({
 			name: e.name,
 			type: e.type,
-			pluggedInto: t ? vn(e, t)?.text ?? null : null,
-			uoName: r && t ? _r(r, t) : null,
-			effectiveArea: r?.effective_ha_area_id ? j(this._areas.names, r.effective_ha_area_id) : null,
+			pluggedInto: t ? zn(e, t)?.text ?? null : null,
+			uoName: r && t ? Rr(r, t) : null,
+			effectiveArea: r?.effective_ha_area_id ? A(this._areas.names, r.effective_ha_area_id) : null,
 			description: e.description
 		});
 	}
@@ -5455,16 +6068,19 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
 		let e = this._state;
 		return e ? (this._helpersCache?.state !== e && (this._helpersCache = {
 			state: e,
-			h: V(e)
+			h: z(e)
 		}), this._helpersCache.h) : null;
 	}
 	_maybeDebugBadge() {
-		return this._debugMode ? C`<span class="debug-mode-badge">DEBUG</span>` : "";
+		return this._debugMode ? x`<span class="debug-mode-badge">DEBUG</span>` : "";
+	}
+	get _buildStamp() {
+		return jt(this._debugMode, this._build);
 	}
 	_renderDeleteButton(e) {
 		if (!this._debugMode || e.kind === "co_socket") return "";
-		let t = e.kind, n = this._tip(K(t, ls(e), { action: "Delete (debug)" }));
-		return C`<button
+		let t = e.kind, n = this._tip(K(t, Sc(e), { action: "Delete (debug)" }));
+		return x`<button
       class="debug-delete-btn"
       data-tip="act"
       aria-describedby=${n.id}
@@ -5472,418 +6088,190 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
       @click=${() => this._openDeleteConfirm(e)}
     >
       <svg class="debug-delete-icon" viewBox="0 0 24 24" aria-hidden="true">
-        <path d="${Ao}"></path>
+        <path d="${tc}"></path>
       </svg>
       <span class="debug-delete-label">Delete</span>
     </button>${n.desc}`;
 	}
 	_renderMenu() {
-		let e = this._plainTip("Menu");
-		return C`<div class="menu-wrap">
-      <button
-        class="menu-btn"
-        data-tip="act"
-        aria-describedby=${e.id}
-        aria-label="Menu"
-        aria-expanded=${this._menuOpen ? "true" : "false"}
-        aria-controls="header-menu"
-        @click=${() => this._toggleMenu()}
-      >
-        <svg class="menu-icon" viewBox="0 0 24 24" aria-hidden="true">
-          <path d="${No}"></path>
-        </svg></button
-      >${e.desc}
-      <div class="menu-list" id="header-menu" ?hidden=${!this._menuOpen}>
-        ${St.map((e) => this._renderMenuEntry(e, !1))}
-        <hr class="menu-separator" />
-        ${Ct.map((e) => C`<div class="menu-group">
-            <p class="menu-heading">
-              ${this._renderMenuIcon(this._menuIconPath(e.icon))}${e.heading}
-            </p>
-            ${e.entries.map((e) => this._renderMenuEntry(e, !0))}
-          </div>`)}
-        <hr class="menu-separator" />
-        <button
-          class="menu-entry"
-          @click=${() => {
-			this._closeMenu(), this._openSettings();
-		}}
-        >
-          ${this._renderMenuIcon(Lo)}Settings…
-        </button>
-      </div>
-    </div>`;
-	}
-	_renderMenuEntry(e, t) {
-		return C`<button
-      class="menu-entry ${t ? "indented" : ""}"
-      @click=${() => this._chooseMenuAction(e.action)}
-    >
-      ${this._renderMenuIcon(this._menuIconPath(e.icon))}${e.label}
-    </button>`;
+		return Bt({
+			open: this._menuOpen,
+			tip: this._plainTip("Menu"),
+			topEntries: Pt,
+			groups: Ft
+		}, (e) => this._menuIconPath(e), {
+			toggle: () => this._toggleMenu(),
+			choose: (e) => this._chooseMenuAction(e),
+			openSettings: () => {
+				this._closeMenu(), this._openSettings();
+			}
+		});
 	}
 	_menuIconPath(e) {
-		return e === "uo" ? oi[this._socketRegion] : $o[e];
+		return e === "uo" ? ki[this._socketRegion] : fc[e];
 	}
-	_renderMenuIcon(e) {
-		return C`<svg class="menu-entry-icon" viewBox="0 0 24 24" aria-hidden="true">
-      <path d="${e}"></path>
-    </svg>`;
+	_renderConfirmDialog(e, t) {
+		return x`
+      <dialog
+        class=${e.className}
+        @close=${() => e.onClose()}
+        @cancel=${(t) => {
+			e.isSaving() && t.preventDefault();
+		}}
+      >
+        ${t ? x`
+              <div class="dialog-body">
+                ${O(t.title, this._buildStamp)}
+                <p>${t.message}</p>
+                ${t.lines.length > 0 ? x`<ul class="consequence-list">
+                        ${t.lines.map((e) => x`<li>${e}</li>`)}
+                      </ul>` : ""}
+                ${t.error ? x`<p class="error">${t.error}</p>` : ""}
+              </div>
+              <p class=${t.warning.className}>${t.warning.text}</p>
+              <div class="dialog-actions">
+                <button @click=${() => e.onClose()}>Cancel</button>
+                <button class=${t.confirm.className} ?disabled=${e.isSaving()} @click=${() => t.confirm.onClick()}>
+                  ${t.confirm.label}
+                </button>
+              </div>
+            ` : ""}
+      </dialog>
+    `;
 	}
 	_renderDeleteConfirmDialog() {
 		let e = this._deleting;
-		return C`
-      <dialog
-        class="delete-dialog"
-        @close=${() => this._closeDeleteConfirm()}
-        @cancel=${(e) => {
-			this._deleting?.saving && e.preventDefault();
-		}}
-      >
-        ${e ? C`
-              <div class="dialog-body">
-                <p class="dialog-title">${W[e.kind]}</p>
-                <p>${e.message}</p>
-                ${e.error ? C`<p class="error">${e.error}</p>` : ""}
-              </div>
-              <p class="irreversible-warning">!! This cannot be undone !!</p>
-              <div class="dialog-actions">
-                <button @click=${() => this._closeDeleteConfirm()}>Cancel</button>
-                <button class="danger" ?disabled=${e.saving} @click=${() => this._confirmDelete()}>
-                  Delete
-                </button>
-              </div>
-            ` : ""}
-      </dialog>
-    `;
+		return this._renderConfirmDialog({
+			className: "delete-dialog",
+			onClose: () => this._closeDeleteConfirm(),
+			isSaving: () => this._deleting?.saving ?? !1
+		}, e && {
+			title: W[e.kind],
+			message: e.message,
+			lines: [],
+			error: e.error,
+			warning: {
+				className: "irreversible-warning",
+				text: "!! This cannot be undone !!"
+			},
+			confirm: {
+				className: "danger",
+				label: "Delete",
+				onClick: () => this._confirmDelete()
+			}
+		});
 	}
 	_renderFlushConfirmDialog() {
 		let e = this._flushConfirm;
-		return C`
-      <dialog
-        class="flush-dialog"
-        @close=${() => this._closeFlushConfirm()}
-        @cancel=${(e) => {
-			this._flushConfirm?.saving && e.preventDefault();
-		}}
-      >
-        ${e ? C`
-              <div class="dialog-body">
-                <p class="dialog-title">Flush</p>
-                <p>${e.message}</p>
-                ${e.lines.length > 0 ? C`<ul class="consequence-list">
-                        ${e.lines.map((e) => C`<li>${e}</li>`)}
-                      </ul>` : ""}
-                ${e.error ? C`<p class="error">${e.error}</p>` : ""}
-              </div>
-              <p class="irreversible-warning">!! This cannot be undone !!</p>
-              <div class="dialog-actions">
-                <button @click=${() => this._closeFlushConfirm()}>Cancel</button>
-                <button class="danger" ?disabled=${e.saving} @click=${() => this._confirmFlush()}>
-                  Flush
-                </button>
-              </div>
-            ` : ""}
-      </dialog>
-    `;
+		return this._renderConfirmDialog({
+			className: "flush-dialog",
+			onClose: () => this._closeFlushConfirm(),
+			isSaving: () => this._flushConfirm?.saving ?? !1
+		}, e && {
+			title: "Flush",
+			message: e.message,
+			lines: e.lines,
+			error: e.error,
+			warning: {
+				className: "irreversible-warning",
+				text: "!! This cannot be undone !!"
+			},
+			confirm: {
+				className: "danger",
+				label: "Flush",
+				onClick: () => this._confirmFlush()
+			}
+		});
 	}
 	_renderCommitConfirmDialog() {
 		let e = this._commitConfirm;
-		return C`
-      <dialog
-        class="commit-dialog"
-        @close=${() => this._closeCommitConfirm()}
-        @cancel=${(e) => {
-			this._commitConfirm?.saving && e.preventDefault();
-		}}
-      >
-        ${e ? C`
-              <div class="dialog-body">
-                <p class="dialog-title">Commit</p>
-                <p>${e.message}</p>
-                ${e.lines.length > 0 ? C`<ul class="consequence-list">
-                        ${e.lines.map((e) => C`<li>${e}</li>`)}
-                      </ul>` : ""}
-                ${e.error ? C`<p class="error">${e.error}</p>` : ""}
-              </div>
-              <p class="write-warning">!! This will write to the live system !!</p>
-              <div class="dialog-actions">
-                <button @click=${() => this._closeCommitConfirm()}>Cancel</button>
-                <button class="go" ?disabled=${e.saving} @click=${() => this._confirmCommit()}>
-                  Commit
-                </button>
-              </div>
-            ` : ""}
-      </dialog>
-    `;
+		return this._renderConfirmDialog({
+			className: "commit-dialog",
+			onClose: () => this._closeCommitConfirm(),
+			isSaving: () => this._commitConfirm?.saving ?? !1
+		}, e && {
+			title: "Commit",
+			message: e.message,
+			lines: e.lines,
+			error: e.error,
+			warning: {
+				className: "write-warning",
+				text: "!! This will write to the live system !!"
+			},
+			confirm: {
+				className: "go",
+				label: "Commit",
+				onClick: () => this._confirmCommit()
+			}
+		});
 	}
-	_renderSettingsDialog() {
-		return C`
-      <dialog class="settings-dialog" @close=${() => this._closeSettings()}>
-        <div class="dialog-body">
-          <p class="dialog-title">Settings</p>
-          ${this._renderThemeRadios()}
-        </div>
-        <div class="dialog-actions">
-          <button @click=${() => this._closeSettings()}>Close</button>
-        </div>
-      </dialog>
-    `;
+	_renderExportDialog() {
+		let e = this._editSession ? kt(this._editSession.commit_entries.length) : null;
+		return Mt(this._exporting, e, {
+			close: () => this._closeExport(),
+			cancel: (e) => {
+				this._exporting?.saving && e.preventDefault();
+			},
+			setFormat: (e) => this._updateExport({ format: e }),
+			setIncludeHistory: (e) => this._updateExport({ includeHistory: e }),
+			run: () => this._runExport()
+		}, this._buildStamp);
 	}
 	_renderFromNamesDialog() {
-		let e = this._fromNames;
-		if (!e) return C`<dialog class="from-names-dialog" @close=${() => this._closeFromNames()}></dialog>`;
-		let t = Bi(e.rows, e.existing, e.ticked, e.edits), n = Vi(t), r = Hi(t, "duplicate"), i = Hi(t, "blank"), a = Wi(e.rows, e.ticked, e.edits).length, o = zi(e.rows, e.ticked, e.edits, e.filter), s = Gi(o);
-		return C`
-      <dialog
-        class="from-names-dialog"
-        @close=${() => this._closeFromNames()}
-        @cancel=${(e) => {
-			this._fromNames?.saving && e.preventDefault();
-		}}
-      >
-        <div class="dialog-body">
-          <p class="dialog-title">Appliances from Socket names</p>
-          ${e.loading ? C`<p>Loading the Socket names…</p>` : e.loadError ? C`<p class="error">${e.loadError}</p>` : e.rows.length === 0 ? C`<p>No empty Socket has a name of its own in Home Assistant to make an Appliance from.</p>` : C`
-                <div class="from-names-toolbar">
-                  ${this._renderDialogFilter(e.filter, e.saving, (e) => this._setFromNamesFilter(e))}
-                  <button
-                    class="plain-btn"
-                    ?disabled=${e.saving}
-                    @click=${() => this._setFromNamesTicks(Ui(o, e.existing, e.edits))}
-                  >
-                    Tick all
-                  </button>
-                  <button class="plain-btn" ?disabled=${e.saving} @click=${() => this._setFromNamesTicks(/* @__PURE__ */ new Set())}>
-                    Untick all
-                  </button>
-                  <span class="from-names-counts">
-                    ${a} of ${e.rows.length} ticked${o.length < e.rows.length ? C` · ${o.length} shown` : ""}${r > 0 ? C` · <span class="from-names-error-count">${r} duplicate${r === 1 ? "" : "s"}</span>` : ""}${i > 0 ? C` · <span class="from-names-error-count">${i} need${i === 1 ? "s" : ""} a name</span>` : ""}
-                  </span>
-                </div>
-                <div class="from-names-scroll">
-                  <table class="from-names-table">
-                    <thead>
-                      <tr>
-                        <th>Integration</th>
-                        <th></th>
-                        <th class="from-names-col-name">Create Appliance <br /><span class="from-names-th-sub">(based on HA Entity Name)</span></th>
-                        <th>HA Entity Name <br /><span class="from-names-th-sub">(from Smart Socket integration)</span></th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      ${s.map((n) => {
-			let r = n.rows.length + n.rows.filter((e) => t.has(e.coSocketId)).length;
-			return n.rows.map((i, a) => this._renderFromNamesRow(i, e, t.get(i.coSocketId) ?? null, a === 0 ? {
-				group: n,
-				span: r
-			} : null));
-		})}
-                    </tbody>
-                  </table>
-                  ${o.length === 0 ? C`<p>${Et}</p>` : ""}
-                </div>
-              `}
-          ${e.failures.map((e) => C`<p class="error">${e.label}: ${e.message}</p>`)}
-        </div>
-        <div class="dialog-actions">
-          <button ?disabled=${e.saving} @click=${() => this._closeFromNames()}>Cancel</button>
-          ${this._renderStagingButton({
-			label: `Apply ${a}`,
-			tip: Go,
-			className: "go",
-			disabled: e.saving || e.loading ? qo : a === 0 ? Zo : n > 0 && Qo,
-			onClick: () => this._applyFromNames()
-		})}
-        </div>
-      </dialog>
-    `;
-	}
-	_renderFromNamesRow(e, t, n, r) {
-		let i = t.ticked.has(e.coSocketId), a = i && !t.saving, o = Pi(e, t.edits), s = Li(o);
-		return C`
-      <tr class="${n?.blocking ? "from-names-blocked" : ""} ${n ? "from-names-has-note" : ""}">
-        ${r ? C`<td class="from-names-integration" rowspan=${r.span}>
-              <strong>${Fi(e)}</strong>
-            </td>` : ""}
-        <td>
-          <label class="choice-row">
-            <input
-              type="checkbox"
-              aria-label="Create Appliance"
-              .checked=${i}
-              ?disabled=${t.saving}
-              @change=${() => this._toggleFromNamesRow(e.coSocketId)}
-            />
-          </label>
-        </td>
-        <td class="from-names-col-name">
-          <input
-            type="text"
-            class="from-names-name"
-            data-id=${e.coSocketId}
-            aria-label="Appliance name"
-            .value=${o}
-            ?readonly=${!a}
-            tabindex=${a ? 0 : -1}
-            @input=${(t) => this._editFromNamesName(e.coSocketId, t.target.value)}
-          />
-          ${s === null ? "" : C`<p class="from-names-slug">${s}</p>`}
-        </td>
-        <td class="from-names-ha-name">${Ii(e)}</td>
-      </tr>
-      ${n ? C`<tr class="from-names-note-row ${n.blocking ? "from-names-blocked" : ""}">
-            <td></td>
-            <td colspan="2">
-              <p class="from-names-note ${n.blocking ? "from-names-error" : ""}">${n.blocking ? C`<svg class="from-names-error-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="${es}"></path></svg>` : ""}<span>${n.text}</span></p>
-            </td>
-          </tr>` : ""}
-    `;
+		return ls(this._fromNames, {
+			close: () => this._closeFromNames(),
+			cancel: (e) => {
+				this._fromNames?.saving && e.preventDefault();
+			},
+			setFilter: (e) => this._setFromNamesFilter(e),
+			setTicks: (e) => this._setFromNamesTicks(e),
+			toggleRow: (e) => this._toggleFromNamesRow(e),
+			editName: (e, t) => this._editFromNamesName(e, t),
+			apply: () => void this._applyFromNames()
+		}, {
+			renderStagingButton: (e) => this._renderStagingButton(e),
+			renderDialogFilter: (e, t, n) => this._renderDialogFilter(e, t, n)
+		}, this._buildStamp);
 	}
 	_renderWallBatchDialog() {
-		let e = this._wallBatch;
-		if (!e || !this._state) return C`<dialog class="wall-batch-dialog" @close=${() => this._closeWallBatch()}></dialog>`;
-		let t = this._state, n = this._wallBatchRows(), r = e.choices, i = Ci(n, r, e.edits), a = wi(n, r, e.edits, t.uos), o = Ei(n, r), s = gi(n, r, e.filter);
-		return C`
-      <dialog
-        class="wall-batch-dialog"
-        @close=${() => this._closeWallBatch()}
-        @cancel=${(e) => {
-			this._wallBatch?.saving && e.preventDefault();
-		}}
-      >
-        <div class="dialog-body">
-          <p class="dialog-title">Wall Sockets for Smart Devices</p>
-          ${n.length === 0 ? C`<p>Every Smart Device already has a Wall Socket.</p>` : C`
-                <div class="from-names-toolbar">
-                  ${this._renderDialogFilter(e.filter, e.saving, (e) => this._setWallBatchFilter(e))}
-                  <button
-                    class="plain-btn"
-                    ?disabled=${e.saving}
-                    @click=${() => this._setWallBatchChoices(Ti(s, r, e.edits, t.uos))}
-                  >
-                    Tick all
-                  </button>
-                  <button class="plain-btn" ?disabled=${e.saving} @click=${() => this._setWallBatchChoices({})}>
-                    Untick all
-                  </button>
-                  <span class="from-names-counts">
-                    ${o} of ${n.length} ticked${s.length < n.length ? C` · ${s.length} shown` : ""}${a.size > 0 ? C` · <span class="from-names-error-count">${a.size} duplicate${a.size === 1 ? "" : "s"}</span>` : ""}${i.size > 0 ? C` · <span class="from-names-error-count">${i.size} need${i.size === 1 ? "s" : ""} a name</span>` : ""}
-                  </span>
-                </div>
-                <div class="from-names-scroll">
-                  <table class="from-names-table">
-                    <thead>
-                      <tr>
-                        <th>Room</th>
-                        <th></th>
-                        <th>Smart Device</th>
-                        <th class="from-names-col-name">Wall Socket</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      ${_i(s).map((n) => n.rows.map((o, s) => C`
-                            <tr>
-                              ${s === 0 ? C`<td class="from-names-integration" rowspan=${n.rows.length}>
-                                    <strong>${pi(n.areaName)}</strong>
-                                  </td>` : ""}
-                              <td>
-                                <label class="choice-row">
-                                  <input
-                                    type="checkbox"
-                                    aria-label="Give ${o.label} a Wall Socket"
-                                    .checked=${J(r, o).kind !== "none"}
-                                    ?disabled=${e.saving}
-                                    @change=${() => this._toggleWallBatchRow(o.coId)}
-                                  />
-                                </label>
-                              </td>
-                              <td class="from-names-ha-name">${mi(o)}</td>
-                              <td class="from-names-col-name">
-                                ${this._renderWallBatchChoice(o, e, t, i.has(o.coId) ? "blank" : a.get(o.coId) ?? null)}
-                              </td>
-                            </tr>
-                          `))}
-                    </tbody>
-                  </table>
-                  ${s.length === 0 ? C`<p>${Et}</p>` : ""}
-                </div>
-              `}
-          ${e.failures.map((e) => C`<p class="error">${e.label}: ${e.message}</p>`)}
-        </div>
-        <div class="dialog-actions">
-          <button ?disabled=${e.saving} @click=${() => this._closeWallBatch()}>Cancel</button>
-          ${this._renderStagingButton({
-			label: `Apply ${o}`,
-			tip: Ko,
-			className: "go",
-			disabled: e.saving ? qo : o === 0 ? Zo : i.size > 0 || a.size > 0 ? Qo : !1,
-			onClick: () => this._applyWallBatch()
-		})}
-        </div>
-      </dialog>
-    `;
-	}
-	_renderWallBatchChoice(e, t, n, r) {
-		let i = J(t.choices, e);
-		if (i.kind === "none") return "";
-		let a = yi(i), o = yi({ kind: "new" }), s = `wall-batch-${e.coId}`, c = xi(e, n, this._areas.names), l = (n, r) => C`
-      <label class="choice-row">
-        <input
-          type="radio"
-          name=${s}
-          value=${n}
-          .checked=${n === a}
-          ?disabled=${t.saving}
-          @change=${() => this._chooseWallBatch(e.coId, n)}
-        />
-        ${r}
-      </label>
-    `, u = i.kind === "new";
-		return C`
-      <div class="wall-batch-options">
-      ${l(o, "New")}
-      <input
-        type="text"
-        class="from-names-name"
-        data-id=${e.coId}
-        aria-label="New Wall Socket name for ${e.label}"
-        .value=${q(e, t.edits)}
-        ?readonly=${!u || t.saving}
-        tabindex=${u && !t.saving ? 0 : -1}
-        @input=${(t) => this._editWallBatchName(e.coId, t.target.value)}
-      />${r === null ? "" : C`<p class="from-names-note from-names-error"><svg class="from-names-error-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="${es}"></path></svg><span>${ts[r]}</span></p>`}
-      ${c.map((e) => l(e.value, e.label))}
-      </div>
-    `;
+		let e = this._state, t = this._wallBatch;
+		return ya(e && t ? {
+			dialog: t,
+			state: e,
+			rows: this._wallBatchRows(),
+			areaNames: this._areas.names
+		} : null, {
+			close: () => this._closeWallBatch(),
+			cancel: (e) => {
+				this._wallBatch?.saving && e.preventDefault();
+			},
+			setFilter: (e) => this._setWallBatchFilter(e),
+			setChoices: (e) => this._setWallBatchChoices(e),
+			toggleRow: (e) => this._toggleWallBatchRow(e),
+			chooseRow: (e, t) => this._chooseWallBatch(e, t),
+			editName: (e, t) => this._editWallBatchName(e, t),
+			apply: () => void this._applyWallBatch()
+		}, {
+			renderStagingButton: (e) => this._renderStagingButton(e),
+			renderDialogFilter: (e, t, n) => this._renderDialogFilter(e, t, n)
+		}, this._buildStamp);
 	}
 	_renderDiscoveredDialog() {
-		let e = this._discovered && this._state ? Vr(this._discovered, this._state, this._registries()) : null;
-		return C`
-      <dialog class="discovered-dialog" @close=${() => this._discovered = null}>
-        ${e ? C`
-              <div class="dialog-body">
-                <p class="dialog-title">${e.heading}</p>
-                ${e.entries.map((e) => C`
-                    <p><strong>${this._renderMention(e.title, null)}</strong></p>
-                    ${this._renderAttrList(e.fields)}
-                  `)}
-              </div>
-              <div class="dialog-actions">
-                <button @click=${() => this._discovered = null}>Close</button>
-              </div>
-            ` : ""}
-      </dialog>
-    `;
+		return ds(this._discovered && this._state ? ui(this._discovered, this._state, this._registries()) : null, () => {
+			this._discovered = null;
+		}, {
+			renderMention: (e) => this._renderMention(e, null),
+			renderAttrList: (e) => this._renderAttrList(e)
+		}, this._buildStamp);
 	}
 	_renderHostingMark() {
-		return C`<svg class="link-icon hosting-mark" viewBox="0 0 24 24" aria-hidden="true">
-      <path d="${Do}"></path>
+		return x`<svg class="link-icon hosting-mark" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="${Qs}"></path>
     </svg>`;
 	}
 	_renderMeterIcon() {
-		return C`<svg class="meter-icon" viewBox="0 0 24 24" role="img" aria-label="Metered">
-      <path d="${ko}"></path>
+		return x`<svg class="meter-icon" viewBox="0 0 24 24" role="img" aria-label="Metered">
+      <path d="${ec}"></path>
     </svg>`;
 	}
 	_renderSocketIdentity(e) {
@@ -5900,11 +6288,11 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
 	}
 	_linkIconPath(e) {
 		switch (e) {
-			case "plug": return Co;
-			case "unplug": return Eo;
-			case "socket": return oi[this._socketRegion];
-			case "hosting": return Do;
-			case "hosted": return Oo;
+			case "plug": return Js;
+			case "unplug": return Zs;
+			case "socket": return ki[this._socketRegion];
+			case "hosting": return Qs;
+			case "hosted": return $s;
 		}
 	}
 	_renderOccupantName(e, t, n) {
@@ -5916,9 +6304,13 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
 			entity: t
 		}, n) : n;
 	}
+	_renderDepartingName(e, t, n) {
+		let r = Gs(e.co_socket_id, e.occupant_device_id === null && e.plugged_into_appliance_id === null, t);
+		return r === null ? "" : x`<s class="departing">${j(r.kind === "appliance" ? n.applianceNames : n.coNames, r.subjectId)}</s>`;
+	}
 	_renderLinkButton(e, t) {
-		let n = $a(e, t), r = this._linkIconPath(n.iconKind), i = this._tip(n.hover);
-		return C`<button
+		let n = Xo(e, t), r = this._linkIconPath(n.iconKind), i = this._tip(n.hover);
+		return x`<button
       class="link-btn ${n.linked ? "linked" : ""} ${n.disabled ? "unavailable" : ""}"
       data-tip="act"
       aria-describedby=${i.id}
@@ -5933,19 +6325,19 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
 	}
 	_openLink(e) {
 		if (!this._state) return;
-		let t = V(this._state);
+		let t = z(this._state);
 		switch (this._linkRoomFilter = null, this._linkCoFilter = X, e.kind) {
 			case "appliance":
-				this._linking = Fa(e.entity, t);
+				this._linking = Oo(e.entity, t);
 				return;
 			case "co":
-				this._linking = Va(e.entity, t);
+				this._linking = Po(e.entity, t);
 				return;
 			case "co_socket":
-				this._linking = Ha(e.entity, t);
+				this._linking = Fo(e.entity, t);
 				return;
 			case "uo":
-				this._linking = Ua(e.entity, t);
+				this._linking = Io(e.entity, t);
 				return;
 		}
 	}
@@ -5963,7 +6355,7 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
 		if (!e || e.view !== "picker" || e.selectedId === null || !this.hass) return;
 		let t = e.candidates.find((t) => t.id === e.selectedId);
 		if (!t || t.disabledBy !== null) return;
-		let n = Sa(e, t);
+		let n = ho(e, t);
 		this._linking = {
 			...e,
 			saving: !0,
@@ -5972,7 +6364,7 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
 		try {
 			await this.hass.callWS(n), this._closeLink(), await this._refresh();
 		} catch (e) {
-			this._linking = Qt(this._linking, e), await this._refresh();
+			this._linking = V(this._linking, e), await this._refresh();
 		}
 	}
 	async _submitUnlink() {
@@ -5990,7 +6382,7 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
 				...t.payload
 			}), this._closeLink(), await this._refresh();
 		} catch (e) {
-			this._linking = Qt(this._linking, e), await this._refresh();
+			this._linking = V(this._linking, e), await this._refresh();
 		}
 	}
 	_toggleUoRow(e) {
@@ -6010,12 +6402,12 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
 		};
 	}
 	_renderUoKind(e, t) {
-		let n = ga(e, t);
-		return n === null ? "" : C` <span class="ro-label">${n}</span>`;
+		let n = co(e, t);
+		return n === null ? "" : x` <span class="ro-label">${n}</span>`;
 	}
 	_renderRowPowering(e) {
-		return e.length === 0 ? "" : C`<p class="candidate-note">
-      <span class="ro-label">${Zi}</span> ${e.join(", ")}
+		return e.length === 0 ? "" : x`<p class="candidate-note">
+      <span class="ro-label">${Ua}</span> ${e.join(", ")}
     </p>`;
 	}
 	async _submitMultiApply() {
@@ -6028,33 +6420,26 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
 			saving: !0,
 			error: null
 		};
-		let r = no(), i = [];
-		for (let e of t) try {
-			await this.hass.callWS({
-				...Ta(e),
-				continue_group: r.next()
-			}), r.recordSuccess();
-		} catch (t) {
-			i.push({
+		let r = this.hass, i = await ts([...t.map((e) => ({
+			item: {
+				kind: "unplug",
 				deviceId: e.deviceId,
-				label: e.label,
-				message: P(t)
-			});
-		}
-		let a = [];
-		for (let t of n) try {
-			await this.hass.callWS({
-				...wa(e.subjectId, t),
-				continue_group: r.next()
-			}), r.recordSuccess();
-		} catch (e) {
-			a.push({
+				label: e.label
+			},
+			message: vo(e)
+		})), ...n.map((t) => ({
+			item: {
+				kind: "plug-in",
 				deviceId: t.deviceId,
-				label: t.label,
-				message: P(e)
-			});
-		}
-		if (await this._refresh(), i.length === 0 && a.length === 0) {
+				label: t.label
+			},
+			message: _o(e.subjectId, t)
+		}))], (e) => r.callWS(e)), a = (e) => i.filter(({ item: t }) => t.kind === e).map(({ item: e, error: t }) => ({
+			deviceId: e.deviceId,
+			label: e.label,
+			message: M(t)
+		})), o = a("unplug"), s = a("plug-in");
+		if (await this._refresh(), o.length === 0 && s.length === 0) {
 			this._closeLink();
 			return;
 		}
@@ -6062,30 +6447,24 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
 			this._closeLink();
 			return;
 		}
-		let o = V(this._state), s = o.uosById.get(e.subjectId);
-		if (!s) {
+		let c = z(this._state), l = c.uosById.get(e.subjectId);
+		if (!l) {
 			this._closeLink();
 			return;
 		}
-		this._linking = ro(s, o, {
-			failures: i,
-			candidateFailures: a,
+		this._linking = es(l, c, {
+			failures: o,
+			candidateFailures: s,
 			filter: e.filter
 		});
 	}
-	_pickerDialogTitle(e) {
-		return e.linked ? Ki(e) ? C`<span class="ro-label">Unplug / Move:</span> ${e.subjectLabel}` : C`<span class="ro-label">${W[e.kind]}:</span> ${e.subjectLabel}` : e.kind === "co_socket" ? C`<span class="ro-label">Plug in to socket:</span> ${e.subjectLabel}` : C`<span class="ro-label">Plug in:</span> ${e.subjectLabel}`;
-	}
-	_linkDropdowns(e) {
-		return {
-			room: e ? this._linkRoomFilter : null,
-			co: this._linkCoFilter
-		};
+	_pickerDialogTitle(e, t) {
+		return x`<span class="ro-label">${e}</span> ${t.subjectLabel}`;
 	}
 	_setLinkRoomFilter(e) {
 		this._pinLinkRows(), this._linkRoomFilter = e;
 		let t = this._linking, n = this._linkCoFilter;
-		t && t.view === "picker" && n.kind === "co" && (Yi(t, e).some((e) => e.coId === n.coId) || (this._linkCoFilter = X));
+		t && t.view === "picker" && n.kind === "co" && (Va(t, e).some((e) => e.coId === n.coId) || (this._linkCoFilter = X));
 	}
 	_setLinkCoFilter(e) {
 		if (this._pinLinkRows(), this._linkCoFilter = e, e.kind === "co") {
@@ -6097,16 +6476,16 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
 		}
 	}
 	_pinLinkRows() {
-		this._linking &&= da(this._linking);
+		this._linking &&= ro(this._linking);
 	}
 	_setLinkFilter(e) {
 		this._linking &&= {
-			...da(this._linking),
+			...ro(this._linking),
 			filter: e
 		};
 	}
 	_renderDialogFilter(e, t, n, r = "") {
-		return C`<div class="dialog-filter">
+		return x`<div class="dialog-filter">
       ${r}<input
         type="search"
         class="dialog-filter-input"
@@ -6119,14 +6498,14 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
     </div>`;
 	}
 	_renderLinkFilterSelect(e, t, n, r, i) {
-		return C`
+		return x`
       <div class="edit-field">
         <label for=${e}>${t}</label>
         <select
           id=${e}
           @change=${(e) => i(e.target.value)}
         >
-          ${n.map((e) => C`<option value=${e.value} .selected=${r === e.value}>${e.text}</option>`)}
+          ${n.map((e) => x`<option value=${e.value} .selected=${r === e.value}>${e.text}</option>`)}
         </select>
       </div>
     `;
@@ -6141,10 +6520,10 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
 			}
 			let a = t[r].groupLabel, o = [];
 			for (; r < t.length && t[r].groupKey === i;) o.push(t[r]), r += 1;
-			n.push(C`
+			n.push(x`
         <li class="candidate-group">
-          <div class="candidate-group-label">${a === null ? "" : Qi(a)}</div>
-          ${ta(o[0]) === null ? "" : C`<div class="candidate-context group-context">${ta(o[0])}</div>`}
+          <div class="candidate-group-label">${a === null ? "" : Wa(a)}</div>
+          ${qa(o[0]) === null ? "" : x`<div class="candidate-context group-context">${qa(o[0])}</div>`}
           <ul class="candidate-group-items">
             ${o.map((t) => this._renderCandidateRow(e, t))}
           </ul>
@@ -6154,28 +6533,28 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
 		return n;
 	}
 	_renderUoIdentity(e) {
-		return C`${this._renderNameLink({
+		return x`${this._renderNameLink({
 			kind: "uo",
 			entity: e
-		}, e.name)}${this._renderAttrList(Kr(e, this._uoArea(e)))}`;
+		}, e.name)}${this._renderAttrList(hi(e, this._uoArea(e)))}`;
 	}
 	_uoArea(e) {
-		return j(this._areas.names, e.ha_area_id);
+		return A(this._areas.names, e.ha_area_id);
 	}
 	_renderCoCandidateLists(e, t, n) {
-		let r = Ba(la(e)), i = Ba(t), a = (t, n, r, i, a) => i.length === 0 ? "" : C`<section class="link-list" data-list=${t} aria-label=${n}>
-            ${r}
-            ${this._renderCandidateList(e, a)}
-          </section>`;
-		return C`<div class="link-lists ${this._linkListsSideBySide(e) ? "side-by-side" : ""}">
-      ${a("outlets", "Wall Sockets", ((e) => C`<h4 class="link-list-title">${e}</h4>`)("Wall Sockets"), r.outlets, i.outlets)}${a("sockets", "Smart device sockets", n, r.sockets, i.sockets)}
+		let r = No(to(e)), i = No(t), a = (t, n, r, i, a, o) => x`<section class="link-list" data-list=${t} aria-label=${n}>
+        ${r}
+        ${i.length === 0 ? x`<p class="no-candidates">${o}</p>` : this._renderCandidateList(e, a)}
+      </section>`;
+		return x`<div class="link-lists ${this._linkListsSideBySide(e) ? "side-by-side" : ""}">
+      ${a("outlets", "Wall Sockets", ((e) => x`<h4 class="link-list-title">${e}</h4>`)("Wall Sockets"), r.outlets, i.outlets, Gt)}${a("sockets", "Smart device sockets", n, r.sockets, i.sockets, Kt)}
     </div>`;
 	}
 	_renderCandidateList(e, t) {
-		return t.length > 0 ? C`<ul class="link-candidates">${this._renderCandidateItems(e, t)}</ul>` : C`<p class="no-candidates">${Et}</p>`;
+		return t.length > 0 ? x`<ul class="link-candidates">${this._renderCandidateItems(e, t)}</ul>` : x`<p class="no-candidates">${Wt}</p>`;
 	}
 	_renderCandidateRow(e, t) {
-		return C`
+		return x`
       <li>
         <label class="choice-row">
           <input
@@ -6185,33 +6564,36 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
             ?disabled=${t.disabledBy !== null}
             @change=${() => this._setLinkSelection(t.id)}
           />
-          <span>${$i(t)}</span>
+          <span>${Ga(t)}</span>
         </label>
-        ${ea(t) === null ? "" : C`<p class="candidate-context">${ea(t)}</p>`}
-        ${t.note === null ? "" : C`<p class="candidate-note">
-              <span class="ro-label">${Xi}</span> ${t.note}
+        ${Ka(t) === null ? "" : x`<p class="candidate-context">${Ka(t)}</p>`}
+        ${t.note === null ? "" : x`<p class="candidate-note">
+              <span class="ro-label">${Ha}</span> ${t.note}
             </p>`}
       </li>
     `;
 	}
 	_renderPickerDialogBody(e) {
-		let t = e.saving ? "saving" : null, n = e.kind === "appliance", r = n ? Ji(e) : [], i = n || e.kind === "co" ? Yi(e, n ? this._linkRoomFilter : null) : [], a = r.length > 0 || i.length > 0, o = ma(e, a ? this._linkDropdowns(n) : oa), s = i.length > 0 ? this._renderLinkFilterSelect("link-filter-co", "Smart Device:", [
+		let t = e.saving ? "saving" : null, n = as(e, {
+			room: this._linkRoomFilter,
+			co: this._linkCoFilter
+		}), { roomOptions: r, coOptions: i, offeredCount: a } = n, o = i.length > 0 ? this._renderLinkFilterSelect("link-filter-co", "Smart Device:", [
 			{
-				value: ia(X),
+				value: Xa(X),
 				text: "All available"
 			},
 			{
-				value: ia({ kind: "all" }),
+				value: Xa({ kind: "all" }),
 				text: "All"
 			},
 			...i.map((e) => ({
-				value: ia({
+				value: Xa({
 					kind: "co",
 					coId: e.coId
 				}),
 				text: e.text
 			}))
-		], ia(this._linkCoFilter), (e) => this._setLinkCoFilter(aa(e))) : "", c = la(e).length, l = n && a || c > 1 ? this._renderDialogFilter(e.filter, e.saving, (e) => this._setLinkFilter(e), n && a ? C`<div class="link-filters">
+		], Xa(this._linkCoFilter), (e) => this._setLinkCoFilter(Za(e))) : "", s = n.hasFilterBar ? this._renderDialogFilter(e.filter, e.saving, (e) => this._setLinkFilter(e), n.showsDropdownsInBar ? x`<div class="link-filters">
               ${r.length > 0 ? this._renderLinkFilterSelect("link-filter-room", "Room:", [{
 			value: "",
 			text: "All"
@@ -6219,60 +6601,58 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
 			value: e,
 			text: e
 		}))], this._linkRoomFilter ?? "", (e) => this._setLinkRoomFilter(e === "" ? null : e)) : ""}
-              ${s}
-            </div>` : "") : "", u = s === "" ? C`<h4 class="link-list-title">Smart device sockets</h4>` : C`<div class="link-filters">${s}</div>`;
-		return C`
+              ${o}
+            </div>` : "") : "", c = n.socketsHeading === "title" ? x`<h4 class="link-list-title">Smart device sockets</h4>` : x`<div class="link-filters">${o}</div>`;
+		return x`
       <div class="dialog-body">
-        <p class="dialog-title">
-          ${this._pickerDialogTitle(e)}${this._renderHaDeviceIconLink(e.subjectHaDevice, "inline")}
-        </p>
-        ${e.currentLabel === null ? "" : C`<p class="plugged-into">
-              <span class="ro-label">${c > 0 ? "Plugged into:" : "Currently:"}</span>
+        ${O(x`${this._pickerDialogTitle(n.titleLabel, e)}${this._renderHaDeviceIconLink(e.subjectHaDevice, "inline")}`, this._buildStamp)}
+        ${e.currentLabel === null ? "" : x`<p class="plugged-into">
+              <span class="ro-label">${n.currentWord}</span>
               ${this._renderMention(e.currentLabel, t)}${this._renderHaDeviceIconLink(e.currentHaDevice, "inline")}
             </p>`}
-        ${e.powering.length > 0 ? C`<p class="plugged-into"><span class="ro-label">Powering:</span> ${e.powering.map((e, n) => C`${n > 0 ? ", " : ""}${this._renderMention(e, t)}`)}</p>` : ""}
-        ${e.contextLabel === null ? "" : e.contextLabel.placeName === null ? C`<p class="plugged-into">Not plugged in currently.</p>` : C`<p class="plugged-into">
+        ${e.powering.length > 0 ? x`<p class="plugged-into"><span class="ro-label">Powering:</span> ${e.powering.map((e, n) => x`${n > 0 ? ", " : ""}${this._renderMention(e, t)}`)}</p>` : ""}
+        ${e.contextLabel === null ? "" : e.contextLabel.placeName === null ? x`<p class="plugged-into">Not plugged in currently.</p>` : x`<p class="plugged-into">
                 <span class="ro-label">Plugged into:</span> ${this._renderMention(e.contextLabel.placeName, t)}${this._renderHaDeviceIconLink(e.contextLabel.placeHaDevice, "inline")}
               </p>`}
-        ${c === 1 && e.kind === "co_socket" ? C`<p class="lone-candidate"><span class="ro-label">${qi(e)}:</span> ${e.candidates[0].fullLabel}</p>` : c > 0 ? C`
+        ${n.loneCandidate ? x`<p class="lone-candidate"><span class="ro-label">${za(e)}:</span> ${e.candidates[0].fullLabel}</p>` : a > 0 ? x`
                 <p class="ro-label">
-                  ${e.unlink ? "Move to…" : n && a ? "Into a socket in:" : e.kind === "co_socket" ? `${qi(e)}:` : "Into:"}
+                  ${n.listHeading}
                 </p>
-                ${l}
-                ${e.kind === "co" ? this._renderCoCandidateLists(e, o, u) : this._renderCandidateList(e, o)}
+                ${s}
+                ${e.kind === "co" ? this._renderCoCandidateLists(e, n.visible, c) : this._renderCandidateList(e, n.visible)}
               ` : ""}
-        ${e.error ? C`<p class="error">${e.error}</p>` : ""}
+        ${e.error ? x`<p class="error">${e.error}</p>` : ""}
       </div>
       <div class="dialog-actions">
         <button autofocus @click=${() => this._closeLink()}>Cancel</button>
         ${e.unlink ? this._renderStagingButton({
 			label: e.unlink.label,
-			tip: Wo,
+			tip: dc,
 			className: "danger",
-			disabled: e.saving ? qo : !1,
+			disabled: n.unplugBusy ? la : !1,
 			onClick: () => this._submitUnlink()
 		}) : ""}
-        ${c > 0 ? this._renderStagingButton({
-			label: e.unlink ? "Move" : "Plug in",
-			tip: Wo,
-			disabled: e.saving ? qo : e.selectedId === null ? e.unlink ? Yo : Jo : !1,
+        ${n.primary === null ? "" : this._renderStagingButton({
+			label: n.primary.label,
+			tip: dc,
+			disabled: n.primary.disabled !== null && qs[n.primary.disabled],
 			onClick: () => this._submitLink()
-		}) : ""}
+		})}
       </div>
     `;
 	}
 	_renderMultiDialogBody(e) {
-		let t = ya(e), n = ba(e), r = ha(e.rows), i = ha(e.candidates), a = C`<p class="no-candidates">${Et}</p>`, o = e.rows.length + e.candidates.length > 1 ? this._renderDialogFilter(e.filter, e.saving, (e) => this._setLinkFilter(e)) : "";
-		return C`
+		let t = fo(e), n = po(e), r = so(e.rows), i = so(e.candidates), a = x`<p class="no-candidates">${Wt}</p>`, o = e.rows.length + e.candidates.length > 1 ? this._renderDialogFilter(e.filter, e.saving, (e) => this._setLinkFilter(e)) : "";
+		return x`
       <div class="dialog-body uo-picker">
-        <p class="dialog-title"><span class="ro-label">Wall Socket:</span> ${e.subjectLabel}</p>
+        ${O(x`<span class="ro-label">Wall Socket:</span> ${e.subjectLabel}`, this._buildStamp)}
         ${e.candidates.length > 0 ? "" : o}
-        ${e.rows.length > 0 ? C`
+        ${e.rows.length > 0 ? x`
               <p class="ro-label">Currently plugged in:</p>
-              ${t.length === 0 ? a : C`<ul class="link-candidates">
+              ${t.length === 0 ? a : x`<ul class="link-candidates">
                 ${t.map((t) => {
 			let n = e.failures.find((e) => e.deviceId === t.deviceId);
-			return C`
+			return x`
                     <li>
                       <label class="choice-row">
                         <input
@@ -6283,19 +6663,19 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
                         <span>${t.label}</span>${this._renderUoKind(t.kind, r)}
                       </label>
                       ${this._renderRowPowering(t.powering)}
-                      ${n ? C`<p class="link-row-error">${n.message}</p>` : ""}
+                      ${n ? x`<p class="link-row-error">${n.message}</p>` : ""}
                     </li>
                   `;
 		})}
               </ul>`}
             ` : ""}
-        ${e.candidates.length > 0 ? C`
+        ${e.candidates.length > 0 ? x`
               <p class="ro-label">Available to plug in:</p>
               ${o}
-              ${n.length === 0 ? a : C`<ul class="link-candidates">
+              ${n.length === 0 ? a : x`<ul class="link-candidates">
                 ${n.map((t) => {
 			let n = e.candidateFailures.find((e) => e.deviceId === t.deviceId);
-			return C`
+			return x`
                     <li>
                       <label class="choice-row">
                         <input
@@ -6305,33 +6685,31 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
                         />
                         <span>${t.label}</span>${this._renderUoKind(t.kind, i)}
                       </label>
-                      ${n ? C`<p class="link-row-error">${n.message}</p>` : ""}
+                      ${n ? x`<p class="link-row-error">${n.message}</p>` : ""}
                     </li>
                   `;
 		})}
               </ul>`}
             ` : ""}
-        ${e.error ? C`<p class="error">${e.error}</p>` : ""}
+        ${e.error ? x`<p class="error">${e.error}</p>` : ""}
       </div>
       <div class="dialog-actions">
         <button autofocus @click=${() => this._closeLink()}>Cancel</button>
         ${this._renderStagingButton({
 			label: "Apply",
-			tip: Wo,
-			disabled: e.saving ? qo : to(e) ? Xo : !1,
+			tip: dc,
+			disabled: e.saving ? la : Qo(e) ? fa : !1,
 			onClick: () => this._submitMultiApply()
 		})}
       </div>
     `;
 	}
 	_linkListsSideBySide(e) {
-		if (e.kind !== "co" || this._layoutTier === "narrow") return !1;
-		let { outlets: t, sockets: n } = Ba(la(e));
-		return t.length > 0 && n.length > 0;
+		return e.kind !== "co" || this._layoutTier === "narrow" ? !1 : to(e).length > 0;
 	}
 	_renderLinkDialog() {
 		let e = this._linking;
-		return C`
+		return x`
       <dialog
         class="link-dialog ${e !== null && e.view === "picker" && this._linkListsSideBySide(e) ? "side-by-side" : ""}"
         @close=${() => this._closeLink()}
@@ -6345,26 +6723,26 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
 	}
 	_renderSocketsList(e) {
 		if (!this._state) return "";
-		let t = V(this._state), n = this._editHold(), r = [...t.socketsByCo.get(e) ?? []].sort((e, t) => e.position - t.position);
-		if (r.length === 0) return "";
-		let i = r.length === 1 ? "Socket" : "Sockets";
-		return C`<div class="socket-list" role="group" aria-label=${i}>
-      <p class="ro-label">${i}</p>
+		let t = z(this._state), n = this._editHold(), r = Ws(this._state, this._editSession), i = [...t.socketsByCo.get(e) ?? []].sort((e, t) => e.position - t.position);
+		if (i.length === 0) return "";
+		let a = i.length === 1 ? "Socket" : "Sockets";
+		return x`<div class="socket-list" role="group" aria-label=${a}>
+      <p class="ro-label">${a}</p>
       <ul>
-        ${r.map((e) => {
-			let r = pr(e, t), i = {
-				text: r.name,
-				target: r.appliance ? {
+        ${i.map((e) => {
+			let i = Pr(e, t), a = r.coSocket.get(e.co_socket_id), o = {
+				text: i.name,
+				target: i.appliance ? {
 					kind: "appliance",
-					entity: r.appliance
-				} : r.co ? {
+					entity: i.appliance
+				} : i.co ? {
 					kind: "co",
-					entity: r.co
+					entity: i.co
 				} : null
 			};
-			return C`<li class="socket-list-line">
+			return x`<li class="socket-list-line">
             <span class="socket-list-meter">${this._renderSocketIdentity(e)}</span>
-            <span class="socket-list-occupant">${this._renderMention(i, n)}</span>
+            <span class="socket-list-occupant">${a ? this._renderPendingMarker(this._pendingMarkerText(a, t)) : ""}${this._renderMention(o, n)}${this._renderDepartingName(e, r, t)}</span>
             <button
               class="plain-btn"
               aria-label="Edit ${e.alias}"
@@ -6379,9 +6757,9 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
 	}
 	_renderEditDialog(e) {
 		let t = this[e];
-		return C`
+		return x`
       <dialog
-        class=${us[e]}
+        class=${Cc[e]}
         @close=${(t) => {
 			t.target.open || this._closeEdit(e);
 		}}
@@ -6389,22 +6767,20 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
 			this[e]?.saving && t.preventDefault();
 		}}
       >
-        ${t ? C`
+        ${t ? x`
               <div class="dialog-body">
-                <p class="dialog-title">
-                  <span class="ro-label">${W[t.kind]}:</span>
-                  ${t.draft[dn[t.kind].requiredField]}
-                  ${this._renderHaDeviceIconLink(t.titleHaDevice, "edge")}
-                </p>
-                ${t.pluggedInto === void 0 ? "" : C`<p class="plugged-into">
-                      ${t.pluggedInto === null ? C`<span class="ro-label">Unplugged</span>` : C`<span class="ro-label">Plugged into:</span> ${this._renderMention(t.pluggedInto, this._editHold())}${this._renderHaDeviceIconLink(t.pluggedIntoHaDevice, "inline")}`}
+                ${O(x`<span class="ro-label">${W[t.kind]}:</span>
+                  ${t.draft[Mn[t.kind].requiredField]}
+                  ${this._renderHaDeviceIconLink(t.titleHaDevice, "edge")}`, this._buildStamp)}
+                ${t.pluggedInto === void 0 ? "" : x`<p class="plugged-into">
+                      ${t.pluggedInto === null ? x`<span class="ro-label">Unplugged</span>` : x`<span class="ro-label">Plugged into:</span> ${this._renderMention(t.pluggedInto, this._editHold())}${this._renderHaDeviceIconLink(t.pluggedIntoHaDevice, "inline")}`}
                     </p>`}
-                ${Object.keys(t.draft).map((n) => C`
+                ${Object.keys(t.draft).map((n) => x`
                     <div class="edit-field">
-                      <label>${rn[n] ?? n}</label>
-                      ${an.has(n) ? this._renderAreaSelect(t.draft[n], (t) => this._updateDraftField(e, n, t), t.inheritLabel ?? an.get(n)) : C`<input
-                            type=${sn.has(n) ? "number" : "text"}
-                            .step=${sn.has(n) ? "1" : ""}
+                      <label>${Tn[n] ?? n}</label>
+                      ${En.has(n) ? this._renderAreaSelect(t.draft[n], (t) => this._updateDraftField(e, n, t), t.inheritLabel ?? En.get(n)) : x`<input
+                            type=${On.has(n) ? "number" : "text"}
+                            .step=${On.has(n) ? "1" : ""}
                             .value=${t.draft[n]}
                             @input=${(t) => this._updateDraftField(e, n, t.target.value)}
                           />`}
@@ -6413,10 +6789,10 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
                 ${t.kind === "co" ? this._renderSocketsList(t.id) : ""}
                 <ul class="entity-id">
                   <li class="id-row"><span class="ro-label">id</span>: ${t.id}</li>
-                  ${t.readonlyFields.map(([e, t]) => C`<li><span class="ro-label">${e}</span>: ${t}</li>`)}
+                  ${t.readonlyFields.map(([e, t]) => x`<li><span class="ro-label">${e}</span>: ${t}</li>`)}
                   ${t.kind === "co" ? this._renderHaDeviceLink(t.id) : ""}
                 </ul>
-                ${t.error ? C`<p class="error">${t.error}</p>` : ""}
+                ${t.error ? x`<p class="error">${t.error}</p>` : ""}
               </div>
               <div class="dialog-actions">
                 <button @click=${() => this._closeEdit(e)}>Cancel</button>
@@ -6432,47 +6808,47 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
     `;
 	}
 	_renderHaDeviceLink(e) {
-		return C`<li class="ha-device-link">
+		return x`<li class="ha-device-link">
       ${this._renderHaDeviceAnchor(e, "ha-device-text-link", "Open in Home Assistant", void 0)}
     </li>`;
 	}
 	_renderHaDeviceIconLink(e, t) {
 		if (e === null) return "";
 		let n = this._state?.cos.find((t) => t.co_id === e)?.alias ?? "device", r = this._renderHaDeviceAnchor(e, `ha-device-icon-link ${t}`, "", `Open ${n} in Home Assistant`);
-		return t === "inline" ? C`<span class="ha-gap"> </span>${r}` : r;
+		return t === "inline" ? x`<span class="ha-gap"> </span>${r}` : r;
 	}
 	_renderHaDeviceAnchor(e, t, n, r) {
 		let i = `/config/devices/device/${encodeURIComponent(e)}`;
-		return C`<a
+		return x`<a
         class=${t}
         href=${i}
         target="_top"
-        aria-label=${Ue(r)}
+        aria-label=${Ge(r)}
         @click=${(e) => {
 			let t = window.parent.customPanel;
 			t !== void 0 && (e.preventDefault(), t.navigate(i));
 		}}
         >${n}<svg class="ha-icon" viewBox="0 0 24 24" aria-hidden="true">
-          <path d="${Ro}"></path></svg
+          <path d="${ac}"></path></svg
       ></a>`;
 	}
 	_renderAreaSelect(e, t, n) {
-		let r = this._areas.groups, i = (t) => C`<option value=${t.area_id} .selected=${e === t.area_id}>
+		let r = this._areas.groups, i = (t) => x`<option value=${t.area_id} .selected=${e === t.area_id}>
         ${t.name}
       </option>`;
-		return C`
+		return x`
       <select
         @change=${(e) => t(e.target.value)}
       >
         <option value="" .selected=${e === ""}>${n}</option>
-        ${r.map((e) => e.label === null ? e.options.map(i) : C`<optgroup label=${e.label}>${e.options.map(i)}</optgroup>`)}
+        ${r.map((e) => e.label === null ? e.options.map(i) : x`<optgroup label=${e.label}>${e.options.map(i)}</optgroup>`)}
       </select>
-      <p class="area-hint">${on}</p>
+      <p class="area-hint">${Dn}</p>
     `;
 	}
 	_renderCreateDialog() {
 		let e = this._creating;
-		return C`
+		return x`
       <dialog
         class="create-dialog"
         @close=${() => this._closeCreate()}
@@ -6480,20 +6856,20 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
 			this._creating?.saving && e.preventDefault();
 		}}
       >
-        ${e ? C`
+        ${e ? x`
               <div class="dialog-body">
-                <p class="dialog-title">New ${W[e.kind]}</p>
-                ${Object.keys(e.draft).map((t) => C`
+                ${O(`New ${W[e.kind]}`, this._buildStamp)}
+                ${Object.keys(e.draft).map((t) => x`
                     <div class="edit-field">
-                      <label>${rn[t] ?? t}</label>
-                      ${t === "ha_area_id" ? this._renderAreaSelect(e.draft.ha_area_id, (e) => this._updateCreateDraftField("ha_area_id", e), "— none —") : C`<input
+                      <label>${Tn[t] ?? t}</label>
+                      ${t === "ha_area_id" ? this._renderAreaSelect(e.draft.ha_area_id, (e) => this._updateCreateDraftField("ha_area_id", e), "— none —") : x`<input
                             type="text"
                             .value=${e.draft[t]}
                             @input=${(e) => this._updateCreateDraftField(t, e.target.value)}
                           />`}
                     </div>
                   `)}
-                ${e.error ? C`<p class="error">${e.error}</p>` : ""}
+                ${e.error ? x`<p class="error">${e.error}</p>` : ""}
               </div>
               <div class="dialog-actions">
                 <button @click=${() => this._closeCreate()}>Cancel</button>
@@ -6509,23 +6885,23 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
     `;
 	}
 	_renderPowerIcon(e, t, n) {
-		return C`<svg class="th-icon ${n ?? ""}" viewBox="0 0 24 24" role="img" aria-label="${t}">
+		return x`<svg class="th-icon ${n ?? ""}" viewBox="0 0 24 24" role="img" aria-label="${t}">
       <path d="${e}"></path>
     </svg>`;
 	}
 	_setThemeOverride(e) {
 		this._themeOverride = e;
 		try {
-			localStorage.setItem(Hn, e);
+			localStorage.setItem(lr, e);
 		} catch {}
 	}
 	_toggleSectionCollapse(e) {
 		let t = new Set(this._collapsedSections);
-		t.has(e) ? t.delete(e) : t.add(e), this._collapsedSections = t, rr(t);
+		t.has(e) ? t.delete(e) : t.add(e), this._collapsedSections = t, wr(t);
 	}
 	_renderSectionCollapseToggle(e, t, n) {
-		let r = !n && this._collapsedSections.has(e), i = this._tip(Ir(e, t, Nr(n, r)));
-		return C`<div class="section-toggle-row"><button
+		let r = !n && this._collapsedSections.has(e), i = this._tip(ri(e, t, ei(n, r)));
+		return x`<div class="section-toggle-row"><button
       class="section-collapse-btn"
       data-tip="act"
       aria-describedby=${i.id}
@@ -6534,14 +6910,14 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
       @click=${() => this._toggleSectionCollapse(e)}
     >
       <svg class="collapse-icon" viewBox="0 0 24 24" aria-hidden="true">
-        <path d="${r ? Mo : jo}"></path>
+        <path d="${r ? rc : nc}"></path>
       </svg>
-      <span class="tooltip-cue">${$n[e]}</span>
-    </button>${i.desc}${this._renderSectionInfoButton($n[e], Ir(e, t, "info"))}</div>`;
+      <span class="tooltip-cue">${br[e]}</span>
+    </button>${i.desc}${this._renderSectionInfoButton(br[e], ri(e, t, "info"))}</div>`;
 	}
 	_renderSectionInfoButton(e, t) {
 		let n = this._tip(t);
-		return C`<button
+		return x`<button
       type="button"
       class="info-btn"
       data-tip="info"
@@ -6554,11 +6930,11 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
 			...this._collapsedCardBandGroups,
 			[e]: new Set(this._collapsedCardBandGroups[e])
 		}, r = n[e];
-		r.has(t) ? r.delete(t) : r.add(t), this._collapsedCardBandGroups = n, lr(n);
+		r.has(t) ? r.delete(t) : r.add(t), this._collapsedCardBandGroups = n, Ar(n);
 	}
 	_renderCardBandGroupToggle(e, t, n, r) {
-		let i = !r && this._collapsedCardBandGroups[e].has(t), a = this._tip(Rr(e, t, n, Nr(r, i)));
-		return C`<div class="section-toggle-row"><button
+		let i = !r && this._collapsedCardBandGroups[e].has(t), a = this._tip(ai(e, t, n, ei(r, i)));
+		return x`<div class="section-toggle-row"><button
       class="section-collapse-btn"
       data-tip="act"
       aria-describedby=${a.id}
@@ -6567,15 +6943,15 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
       @click=${() => this._toggleCardBandGroup(e, t)}
     >
       <svg class="collapse-icon" viewBox="0 0 24 24" aria-hidden="true">
-        <path d="${i ? Mo : jo}"></path>
+        <path d="${i ? rc : nc}"></path>
       </svg>
-      <span class="tooltip-cue">${ir[t]}</span>
-    </button>${a.desc}${this._renderSectionInfoButton(ir[t], Rr(e, t, n, "info"))}</div>`;
+      <span class="tooltip-cue">${Tr[t]}</span>
+    </button>${a.desc}${this._renderSectionInfoButton(Tr[t], ai(e, t, n, "info"))}</div>`;
 	}
 	_renderThemeRadios() {
-		return C`<fieldset class="theme-options">
+		return x`<fieldset class="theme-options">
       <legend>Theme</legend>
-      ${Object.entries(Bn).map(([e, t]) => C`<label class="theme-option choice-row">
+      ${Object.entries(sr).map(([e, t]) => x`<label class="theme-option choice-row">
           <input
             type="radio"
             name="theme"
@@ -6594,55 +6970,55 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
 		let t = `tip-${this._tipSeq++}`;
 		return {
 			id: t,
-			desc: C`<span class="tip-text" id=${t} hidden data-hover=${e.icon ?? as} data-blocked=${e.blocked ? "true" : "false"}>${Rn(e)}</span>`
+			desc: x`<span class="tip-text" id=${t} hidden data-hover=${e.icon ?? vc} data-blocked=${e.blocked ? "true" : "false"}>${ar(e)}</span>`
 		};
 	}
 	_plainTip(e) {
 		let t = `tip-${this._tipSeq++}`;
 		return {
 			id: t,
-			desc: C`<span class="tip-text" id=${t} hidden>${e}</span>`
+			desc: x`<span class="tip-text" id=${t} hidden>${e}</span>`
 		};
 	}
 	_renderTrayIcon(e) {
-		return C`<svg class="tray-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="${e}"></path></svg>`;
+		return x`<svg class="tray-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="${e}"></path></svg>`;
 	}
 	_renderStagingButton(e) {
 		let t = e.disabled !== !1, n = t ? e.disabled.reason : e.tip;
-		if (this._mode !== "batch" || n === null) return C`<button
+		if (this._mode !== "batch" || n === null) return x`<button
         class="staging-btn ${e.className ?? ""}"
         ?disabled=${t}
         @click=${e.onClick}
-      >${this._mode === "batch" ? this._renderTrayIcon(zo) : ""}${e.label}</button>`;
+      >${this._mode === "batch" ? this._renderTrayIcon(oc) : ""}${e.label}</button>`;
 		let r = this._plainTip(n);
-		return C`<button
+		return x`<button
       class="staging-btn ${e.className ?? ""}"
       data-tip="act"
       aria-describedby=${r.id}
       ?disabled=${t}
       @click=${e.onClick}
-    >${this._renderTrayIcon(zo)}${e.label}</button>${r.desc}`;
+    >${this._renderTrayIcon(oc)}${e.label}</button>${r.desc}`;
 	}
 	_pendingMarkerText(e, t) {
 		let n = (e) => {
 			let n = t.socketsById.get(e);
-			if (n === void 0) return A(null);
-			let r = M(t.coNames, n.co_id);
-			return (t.socketsByCo.get(n.co_id)?.length ?? 0) > 1 ? `Socket ${N(n)} of ${r}` : r;
-		}, r = (e) => t.uoNames.has(e) ? `Wall Socket ${M(t.uoNames, e)}` : A(null), i = (e) => e === null ? null : e.kind === "uo" ? r(e.id) : n(e.id), a = e.map((e) => So(M(e.kind === "appliance" ? t.applianceNames : t.coNames, e.subjectId), i(e.from), i(e.to)));
+			if (n === void 0) return k(null);
+			let r = j(t.coNames, n.co_id);
+			return (t.socketsByCo.get(n.co_id)?.length ?? 0) > 1 ? `Socket ${Vt(n)} of ${r}` : r;
+		}, r = (e) => t.uoNames.has(e) ? `Wall Socket ${j(t.uoNames, e)}` : k(null), i = (e) => e === null ? null : e.kind === "uo" ? r(e.id) : n(e.id), a = e.map((e) => Ks(j(e.kind === "appliance" ? t.applianceNames : t.coNames, e.subjectId), i(e.from), i(e.to)));
 		return this._withTooltipBody("Pending:", a.join("\n"));
 	}
 	_renderPendingMarker(e) {
 		let t = this._plainTip(e);
-		return C`<button type="button" class="pending-marker" data-tip="info" aria-label="Pending change" aria-describedby=${t.id}>*</button>${t.desc}`;
+		return x`<button type="button" class="pending-marker" data-tip="info" aria-label="Pending change" aria-describedby=${t.id}>*</button>${t.desc}`;
 	}
 	_renderConsequenceLine(e, t) {
 		let n = (e, n) => {
 			switch (e) {
-				case "appliance": return M(t.applianceNames, n);
-				case "co_socket": return M(t.coSocketLabels, n);
-				case "co": return M(t.coNames, n);
-				case "uo": return M(t.uoNames, n);
+				case "appliance": return j(t.applianceNames, n);
+				case "co_socket": return j(t.coSocketLabels, n);
+				case "co": return j(t.coNames, n);
+				case "uo": return j(t.uoNames, n);
 			}
 		}, r = e.ids.map((e) => n(e.role, e.id));
 		switch (e.command) {
@@ -6660,8 +7036,8 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
 		});
 	}
 	_renderSessionToolbar(e, t) {
-		let n = go(e), r = this._withTooltipBody(n.undo.title, this._renderConsequenceLines(mo(e), t).join("\n")), i = this._withTooltipBody(n.redo.title, this._renderConsequenceLines(ho(e), t).join("\n")), a = this._withTooltipBody(n.commit.title, this._renderConsequenceLines(fo(e), t).join("\n")), o = this._withTooltipBody(n.flush.title, this._renderConsequenceLines(po(e), t).join("\n")), s = this._plainTip(r), c = this._plainTip(i), l = this._plainTip(a), u = this._plainTip(o);
-		return C`
+		let n = zs(e), r = this._withTooltipBody(n.undo.title, this._renderConsequenceLines(Ls(e), t).join("\n")), i = this._withTooltipBody(n.redo.title, this._renderConsequenceLines(Rs(e), t).join("\n")), a = this._withTooltipBody(n.commit.title, this._renderConsequenceLines(Fs(e), t).join("\n")), o = this._withTooltipBody(n.flush.title, this._renderConsequenceLines(Is(e), t).join("\n")), s = this._plainTip(r), c = this._plainTip(i), l = this._plainTip(a), u = this._plainTip(o);
+		return x`
       <div class="session-toolbar">
         <button
           class="session-btn"
@@ -6670,7 +7046,7 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
           ?disabled=${n.undo.disabled}
           @click=${() => this._runSessionCommand("outlet_binder/edit_session_undo")}
         >
-          ${this._renderTrayIcon(Bo)}Undo${n.undo.count > 0 ? ` (${n.undo.count})` : ""}
+          ${this._renderTrayIcon(sc)}Undo${n.undo.count > 0 ? ` (${n.undo.count})` : ""}
         </button>${s.desc}
         <button
           class="session-btn"
@@ -6679,7 +7055,7 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
           ?disabled=${n.redo.disabled}
           @click=${() => this._runSessionCommand("outlet_binder/edit_session_redo")}
         >
-          ${this._renderTrayIcon(Vo)}Redo${n.redo.count > 0 ? ` (${n.redo.count})` : ""}
+          ${this._renderTrayIcon(cc)}Redo${n.redo.count > 0 ? ` (${n.redo.count})` : ""}
         </button>${c.desc}
         <button
           class="session-btn go"
@@ -6688,7 +7064,7 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
           ?disabled=${n.commit.disabled}
           @click=${() => this._openCommitConfirm(e, t)}
         >
-          ${this._renderTrayIcon(Ho)}Commit${n.commit.count > 0 ? ` (${n.commit.count})` : ""}
+          ${this._renderTrayIcon(lc)}Commit${n.commit.count > 0 ? ` (${n.commit.count})` : ""}
         </button>${l.desc}
         <button
           class="session-btn danger"
@@ -6697,7 +7073,7 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
           ?disabled=${n.flush.disabled}
           @click=${() => this._openFlushConfirm(e, t)}
         >
-          ${this._renderTrayIcon(Uo)}Flush${n.flush.count > 0 ? ` (${n.flush.count})` : ""}
+          ${this._renderTrayIcon(uc)}Flush${n.flush.count > 0 ? ` (${n.flush.count})` : ""}
         </button>${u.desc}
       </div>
     `;
@@ -6708,15 +7084,15 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
 			try {
 				await this.hass.callWS({ type: e }), await this._refresh();
 			} catch (e) {
-				await this._refresh(), this._error = wt("Edit session command failed", e);
+				await this._refresh(), this._error = Ht("Edit session command failed", e);
 			}
 		}
 	}
 	_openFlushConfirm(e, t) {
 		let n = e.undo_group_count + e.redo_group_count;
 		this._flushConfirm = {
-			message: `Discard ${oo(n, "staged change")}?`,
-			lines: this._renderConsequenceLines(po(e), t),
+			message: `Discard ${As(n, "staged change")}?`,
+			lines: this._renderConsequenceLines(Is(e), t),
 			saving: !1,
 			error: null
 		};
@@ -6738,15 +7114,15 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
 				this._flushConfirm = {
 					...e,
 					saving: !1,
-					error: P(t)
+					error: M(t)
 				};
 			}
 		}
 	}
 	_openCommitConfirm(e, t) {
 		this._commitConfirm = {
-			message: `Apply ${oo(e.undo_group_count, "staged change")}?`,
-			lines: this._renderConsequenceLines(fo(e), t),
+			message: `Apply ${As(e.undo_group_count, "staged change")}?`,
+			lines: this._renderConsequenceLines(Fs(e), t),
 			saving: !1,
 			error: null
 		};
@@ -6768,35 +7144,46 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
 				this._commitConfirm = {
 					...e,
 					saving: !1,
-					error: P(t)
+					error: M(t)
 				}, await this._refresh();
 			}
 		}
 	}
 	render() {
-		let e = this._editSession?.failed_entry ?? null, t = this._state ? V(this._state) : null, n = this._state ? xo(this._state, this._editSession) : null, r = this._state && t ? this._mainMatches(this._state, t) : null;
-		return this._tipSeq = 0, C`
+		let e = this._editSession?.failed_entry ?? null, t = this._state ? this._deriveMainView(this._state) : null;
+		return this._tipSeq = 0, x`
       ${this._renderEditDialog("_editing")} ${this._renderEditDialog("_editingSocket")} ${this._renderLinkDialog()} ${this._renderCreateDialog()}
       ${this._renderDeleteConfirmDialog()} ${this._renderFlushConfirmDialog()}
-      ${this._renderCommitConfirmDialog()} ${this._renderSettingsDialog()}
+      ${this._renderCommitConfirmDialog()}
+      ${us(this._renderThemeRadios(), () => this._closeSettings(), this._buildStamp)}
       ${this._renderFromNamesDialog()} ${this._renderWallBatchDialog()}
+      ${this._renderExportDialog()}
       ${this._renderDiscoveredDialog()}
       ${this._renderHeaderBar()}
-      ${this._editSession && t && (this._mode === "batch" || this._editSession.entry_count > 0) ? C`<div class="toolbar-row">
-              ${this._renderSessionToolbar(this._editSession, t)}
+      ${this._editSession && t && (this._mode === "batch" || this._editSession.entry_count > 0) ? x`<div class="toolbar-row">
+              ${this._renderSessionToolbar(this._editSession, t.h)}
             </div>` : ""}
-      ${this._layoutTier !== "wide" && this._state && r ? this._renderTabRow(this._state, r) : ""}
+      ${this._layoutTier !== "wide" && t ? this._renderTabRow(t.state, t.matches) : ""}
       <div class="scroll-region">
-        ${this._loading && !this._state ? C`<p>Loading…</p>` : ""}
-        ${this._error ? C`<p class="error">${this._error}</p>` : ""}
-        ${e ? C`<p class="error">
+        ${this._loading && !this._state ? x`<p>Loading…</p>` : ""}
+        ${this._error ? x`<p class="error">${this._error}</p>` : ""}
+        ${e ? x`<p class="error">
               Staged change #${e.entry_seq} (${e.command}) failed:
-              ${Tt(e.message)} The rows below show state up to that point.
+              ${Ut(e.message)} The rows below show state up to that point.
             </p>` : ""}
-        ${this._state && t && n && r ? this._renderStructuredView(this._state, t, n, r) : ""}
+        ${t ? this._renderStructuredView(t.state, t.h, t.pending, t.matches) : ""}
       </div>
       <div class="tooltip-popover" popover="manual" aria-hidden="true"></div>
     `;
+	}
+	_deriveMainView(e) {
+		let t = z(e);
+		return {
+			state: e,
+			h: t,
+			pending: Ws(e, this._editSession),
+			matches: this._mainMatches(e, t)
+		};
 	}
 	_mainTextSources(e) {
 		return {
@@ -6806,76 +7193,32 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
 		};
 	}
 	_mainMatches(e, t) {
-		return ai(this._mainFilter, Or(t), e.appliances, e.uos, this._layoutTier === "narrow" ? "cards" : "table", this._mainTextSources(t));
+		return Oi(this._mainFilter, Yr(t), e.appliances, e.uos, this._layoutTier === "narrow" ? "cards" : "table", this._mainTextSources(t));
 	}
 	_renderHeaderBar() {
-		return C`<div class="header-bar">
+		return x`<div class="header-bar">
       <h1>${this._maybeDebugBadge()} Outlet &amp; Appliance Binding</h1>
       <div class="header-controls">${this._renderMainFilter()}${this._renderMenu()}</div>
     </div>`;
 	}
 	_renderMainFilter() {
 		let e = this._plainTip("Filter"), t = this._plainTip("Close the filter");
-		return C`<div class="main-filter-wrap">
-      <button
-        type="button"
-        class="main-filter-open"
-        data-tip="act"
-        aria-describedby=${e.id}
-        aria-label="Filter"
-        aria-expanded=${this._filterOpen ? "true" : "false"}
-        aria-controls="main-filter"
-        @click=${() => void this._showMainFilter()}
-      >
-        <svg class="menu-icon" viewBox="0 0 24 24" aria-hidden="true">
-          <path d="${Po}"></path>
-        </svg></button
-      >${e.desc}
-      <div
-        class="menu-list main-filter"
-        id="main-filter"
-        ?hidden=${!this._filterOpen}
-        style=${this._filterPos ? `left: ${this._filterPos.left}px; top: ${this._filterPos.top}px; right: auto; margin-top: 0;` : ""}
-      >
-        <div
-          class="main-filter-handle"
-          @pointerdown=${(e) => this._startFilterDrag(e)}
-          @pointermove=${(e) => this._moveFilterDrag(e)}
-          @pointerup=${() => this._endFilterDrag()}
-          @pointercancel=${() => this._endFilterDrag()}
-        >
-          <svg class="menu-entry-icon" viewBox="0 0 24 24" aria-hidden="true">
-            <path d="${Io}"></path>
-          </svg>
-        </div>
-        <div class="main-filter-row">
-        <input
-          type="search"
-          class="dialog-filter-input main-filter-input"
-          aria-label="Filter the main screen"
-          placeholder="Filter…"
-          .value=${this._mainFilter}
-          @input=${(e) => {
-			this._mainFilter = e.target.value;
-		}}
-          @keydown=${(e) => {
-			e.key === "Escape" && (e.preventDefault(), this._closeMainFilter());
-		}}
-        /><button
-          type="button"
-          class="main-filter-close"
-          data-tip="act"
-          aria-describedby=${t.id}
-          aria-label="Close the filter"
-          @click=${() => this._closeMainFilter()}
-        >
-          <svg class="menu-entry-icon" viewBox="0 0 24 24" aria-hidden="true">
-            <path d="${Fo}"></path>
-          </svg></button
-        >${t.desc}
-        </div>
-      </div>
-    </div>`;
+		return ca({
+			open: this._filterOpen,
+			pos: this._filterPos,
+			text: this._mainFilter,
+			tip: e,
+			closeTip: t
+		}, {
+			show: () => void this._showMainFilter(),
+			close: () => this._closeMainFilter(),
+			setText: (e) => {
+				this._mainFilter = e;
+			},
+			startDrag: (e) => this._startFilterDrag(e),
+			moveDrag: (e) => this._moveFilterDrag(e),
+			endDrag: () => this._endFilterDrag()
+		});
 	}
 	async _showMainFilter() {
 		this._filterOpen || (this._filterOpen = !0, await this.updateComplete, this._mainFilterInputEl?.focus());
@@ -6885,13 +7228,18 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
 		if (!t) return;
 		e.preventDefault();
 		let n = t.getBoundingClientRect();
-		this._filterDrag = {
-			dx: e.clientX - n.left,
-			dy: e.clientY - n.top
-		}, e.currentTarget.setPointerCapture?.(e.pointerId);
+		this._filterDrag = _n({
+			x: e.clientX,
+			y: e.clientY
+		}, n), e.currentTarget.setPointerCapture?.(e.pointerId);
 	}
 	_moveFilterDrag(e) {
-		this._filterDrag && this._placeMainFilter(e.clientX - this._filterDrag.dx, e.clientY - this._filterDrag.dy);
+		if (!this._filterDrag) return;
+		let t = vn({
+			x: e.clientX,
+			y: e.clientY
+		}, this._filterDrag);
+		this._placeMainFilter(t.left, t.top);
 	}
 	_endFilterDrag() {
 		this._filterDrag = null;
@@ -6899,7 +7247,8 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
 	_placeMainFilter(e, t) {
 		let n = this._mainFilterEl, r = n?.parentElement;
 		if (!n || !r) return;
-		let i = n.getBoundingClientRect(), a = r.getBoundingClientRect(), o = Yt({
+		let i = n.getBoundingClientRect();
+		this._filterPos = yn({
 			left: e,
 			top: t
 		}, {
@@ -6908,11 +7257,7 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
 		}, {
 			width: window.innerWidth,
 			height: window.innerHeight
-		});
-		this._filterPos = {
-			left: o.left - a.left,
-			top: o.top - a.top
-		};
+		}, r.getBoundingClientRect());
 	}
 	_keepMainFilterOnScreen() {
 		if (!this._filterPos || !this._mainFilterEl) return;
@@ -6928,37 +7273,37 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
 			appliances: e.appliances.length,
 			uos: e.uos.length
 		};
-		return C`<div
+		return x`<div
       class="tab-row ${this._layoutTier === "narrow" ? "narrow" : ""}"
       role="tablist"
       aria-label="Tables"
       @keydown=${(e) => this._onTabKeydown(e)}
     >
-      ${H.map((e) => {
+      ${B.map((e) => {
 			let r = e === this._activeTab;
-			return C`<button
+			return x`<button
           type="button"
           role="tab"
           class="tab-btn"
           id="tab-${e}"
           aria-controls="tabpanel"
-          aria-label=${qt(e, n[e], t.filtering ? t.counts[e] : null)}
+          aria-label=${mn(e, n[e], t.filtering ? t.counts[e] : null)}
           aria-selected=${r ? "true" : "false"}
           tabindex=${r ? "0" : "-1"}
           @click=${() => this._selectTab(e)}
-        ><span class="tab-name">${Wt[e]}</span> <span class="tab-count">(${n[e]})</span>${t.filtering ? C` <span class="tab-match">${Kt(t.counts[e])}</span>` : ""}</button>`;
+        ><span class="tab-name">${dn[e]}</span> <span class="tab-count">(${n[e]})</span>${t.filtering ? x` <span class="tab-match">${pn(t.counts[e])}</span>` : ""}</button>`;
 		})}
     </div>`;
 	}
 	_selectTab(e) {
-		this._activeTab = e, fr(e);
+		this._activeTab = e, Nr(e);
 	}
 	_onTabKeydown(e) {
-		let t = Jt(this._activeTab, e.key);
+		let t = hn(this._activeTab, e.key);
 		t !== null && (e.preventDefault(), this._selectTab(t), this.updateComplete.then(() => this.renderRoot.querySelector(`#tab-${t}`)?.focus()));
 	}
 	_renderStructuredView(e, t, n, r) {
-		if (this._layoutTier === "wide") return C`
+		if (this._layoutTier === "wide") return x`
         <div class="panes">
           <div class="pane pane-side">${this._renderApplianceCards(e, t, n, r)}</div>
           <div class="pane pane-main">${this._renderCoTable(e, t, n, r)}</div>
@@ -6966,7 +7311,7 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
         </div>
       `;
 		let i = this._activeTab === "devices" ? this._layoutTier === "narrow" ? this._renderCoCards(e, t, n, r) : this._renderCoTable(e, t, n, r) : this._activeTab === "appliances" ? this._renderApplianceCards(e, t, n, r) : this._renderUoCards(e, t, n, r);
-		return C`
+		return x`
       <div class="panes">
         <div class="pane pane-single" id="tabpanel" role="tabpanel" aria-labelledby="tab-${this._activeTab}">
           ${i}
@@ -6978,20 +7323,20 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
 		let o = i ? n.filter(a) : n;
 		if (i && o.length === 0) return "";
 		let s = !i && this._collapsedCardBandGroups[e].has(t);
-		return C`
-      <div class="card-section-header section-${t === "isolated" ? "isolated" : "in-use"}" role="group" aria-label="${ir[t]}">
+		return x`
+      <div class="card-section-header section-${t === "isolated" ? "isolated" : "in-use"}" role="group" aria-label="${Tr[t]}">
         ${this._renderCardBandGroupToggle(e, t, n.length, i)}
       </div>
-      ${s ? "" : o.length === 0 ? C`<div class="card-none unbound">— none —</div>` : o.map(r)}
+      ${s ? "" : o.length === 0 ? x`<div class="card-none unbound">— none —</div>` : o.map(r)}
     `;
 	}
 	_renderNoMainMatch(e, t) {
-		return e && !t ? C`<p class="no-filter-match">${Et}</p>` : "";
+		return e && !t ? x`<p class="no-filter-match">${Wt}</p>` : "";
 	}
 	_renderApplianceCards(e, t, n, r) {
-		let { isolated: i, inUse: a } = Zn(e), o = (e) => r.appliances.has(e.appliance_id), s = this._plainTip("New Appliance"), c = (e, r) => {
-			let i = n.appliance.get(e.appliance_id), a = Tr(e, t), o = ni(e, t);
-			return C`<div
+		let { isolated: i, inUse: a } = vr(e), o = (e) => r.appliances.has(e.appliance_id), s = this._plainTip("New Appliance"), c = (e, r) => {
+			let i = n.appliance.get(e.appliance_id), a = Kr(e, t), o = Ti(e, t);
+			return x`<div
         class="entity-card appliance-card ${r ? "unbound" : ""} ${i ? "pending" : ""}"
         role="group"
         aria-label=${e.name}
@@ -7007,7 +7352,7 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
 			}, e.name)}
         </div>
         <div class="card-line appliance-connection">
-          ${a === null || o === null ? "" : C`<span class="connection-host">${"in"}
+          ${a === null || o === null ? "" : x`<span class="connection-host">${"in"}
                   ${this._renderNameLink(a.kind === "co_socket" ? {
 				kind: "co",
 				entity: a.co
@@ -7024,7 +7369,7 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
         </div>
       </div>`;
 		};
-		return C`
+		return x`
       <div class="card-header">
         <button class="create-btn" data-tip="act" aria-describedby=${s.id} @click=${() => this._openCreate("appliance")}>
           Add Appliance
@@ -7038,9 +7383,9 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
     `;
 	}
 	_renderUoCards(e, t, n, r) {
-		let { isolated: i, inUse: a } = Qn(e), o = (e) => r.uos.has(e.uo_id), s = this._plainTip("New Wall Socket"), c = (e, r) => {
-			let i = n.uo.get(e.uo_id), a = Er(e, t), o = Dr(e, t);
-			return C`<div
+		let { isolated: i, inUse: a } = yr(e), o = (e) => r.uos.has(e.uo_id), s = this._plainTip("New Wall Socket"), c = (e, r) => {
+			let i = n.uo.get(e.uo_id), a = qr(e, t), o = Jr(e, t);
+			return x`<div
         class="entity-card uo-card ${r ? "unbound" : ""} ${i ? "pending" : ""}"
         role="group"
         aria-label=${e.name}
@@ -7055,7 +7400,7 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
 				kind: "uo",
 				entity: e
 			}, e.name)}
-            ${this._renderAttrList(Kr(e, this._uoArea(e)))}
+            ${this._renderAttrList(hi(e, this._uoArea(e)))}
           </div>
         </div>
         <div class="card-line uo-connection">
@@ -7064,20 +7409,20 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
 				kind: "uo",
 				entity: e
 			}, t)}
-          ${a.length > 0 ? C`<span class="uo-occupants">${Ur}
-                  <span class="uo-occupant-list">${a.map((e) => C`<div>${this._renderNameLink({
+          ${a.length > 0 ? x`<span class="uo-occupants">${fi}
+                  <span class="uo-occupant-list">${a.map((e) => x`<div>${this._renderNameLink({
 				kind: "co",
 				entity: e
 			}, e.alias)}</div>`)}</span></span>` : ""}
-          ${o.length > 0 ? C`<span class="uo-occupants">${Wr}
-                  <span class="uo-occupant-list">${o.map((e) => C`<div>${this._renderNameLink({
+          ${o.length > 0 ? x`<span class="uo-occupants">${pi}
+                  <span class="uo-occupant-list">${o.map((e) => x`<div>${this._renderNameLink({
 				kind: "appliance",
 				entity: e
 			}, e.name)}</div>`)}</span></span>` : ""}
         </div>
       </div>`;
 		};
-		return C`
+		return x`
       <div class="card-header">
         <button class="create-btn" data-tip="act" aria-describedby=${s.id} @click=${() => this._openCreate("uo")}>
           Add Wall Socket
@@ -7092,7 +7437,7 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
 	}
 	_renderDeviceInfo(e) {
 		let t = this._coDevice(e);
-		return C`<div class="card-name">
+		return x`<div class="card-name">
       ${this._renderDeleteButton({
 			kind: "co",
 			entity: e
@@ -7101,25 +7446,25 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
 			kind: "co",
 			entity: e
 		}, e.alias)}${this._maybeNewBadge(e.co_id)}
-      <span class="card-model">${Jr(t, "cards")}</span>
+      <span class="card-model">${_i(t, "cards")}</span>
     </div>`;
 	}
 	_coNameHover(e) {
 		let t = this._coDevice(e), n = this._helpers(), r = this._areas.names;
-		return br({
+		return Vr({
 			name: e.alias,
-			integration: It(this.hass?.entities, e.co_id),
+			integration: nn(this.hass?.entities, e.co_id),
 			model: t.model,
-			uoName: n ? _r(e, n) : null,
-			effectiveArea: e.effective_ha_area_id ? j(r, e.effective_ha_area_id) : null,
-			deviceArea: t.area_id ? j(r, t.area_id) : null
+			uoName: n ? Rr(e, n) : null,
+			effectiveArea: e.effective_ha_area_id ? A(r, e.effective_ha_area_id) : null,
+			deviceArea: t.area_id ? A(r, t.area_id) : null
 		});
 	}
 	_renderCoBox(e, t) {
-		let n = this._coDevice(e), r = mr(e, t);
-		return C`<div class="co-box">
+		let n = this._coDevice(e), r = Fr(e, t);
+		return x`<div class="co-box">
       <div class="co-box-identity">
-        ${this._debugMode ? C`<div class="co-box-delete">${this._renderDeleteButton({
+        ${this._debugMode ? x`<div class="co-box-delete">${this._renderDeleteButton({
 			kind: "co",
 			entity: e
 		})}</div>` : ""}
@@ -7129,289 +7474,278 @@ var Co = nt, wo = mt, To = tt, Eo = rt, Do = pt, Oo = Ge, ko = et, Ao = gt, jo =
 			entity: e
 		}, e.alias)}${this._maybeNewBadge(e.co_id)}
         </div>
-        <div class="co-box-model">${Jr(n, "table")}</div>
+        <div class="co-box-model">${_i(n, "table")}</div>
       </div>
-      ${r === null ? "" : C`<div class="co-box-plugged">${r}</div>`}
+      ${r === null ? "" : x`<div class="co-box-plugged">${r}</div>`}
     </div>`;
 	}
 	_renderCoCards(e, t, n, r) {
-		let i = Or(t), a = Ar(e, t), o = [
-			"full",
-			"partial",
-			"orphan"
-		], s = (e, r) => {
-			let { appliance: i, co: a, name: o } = pr(r, t), s = n.coSocket.get(r.co_socket_id);
-			return C`<div class="card-line socket-line ${t.socketIsFullyChained(e, r) ? "" : "unbound"}">
-        ${this._renderSocketLinkButton(r, i, t)}
-        ${this._renderSocketIdentity(r)}
-        ${this._renderOccupantName(i, a, o)}
-        ${s ? this._renderPendingMarker(this._pendingMarkerText(s, t)) : ""}
-      </div>`;
-		}, c = (e, r, i) => {
-			let a = t.socketsByCo.get(e.co_id) ?? [], o = n.co.get(e.co_id), c = !t.coIsFullyChained(e), u = r === null || !t.uoIsFullyChained(r), d = hr(e, t), f = d === null ? null : gr(e, t);
-			return C`<div
-        class="entity-card co-card ${c ? "unbound" : ""} ${o ? "pending" : ""}"
-        role="group"
-        aria-label=${e.alias}
-        data-block=${i}
-      >
-        <div class="card-identity">${this._renderDeviceInfo(e)}</div>
-        ${a.map((t) => s(e, t))}
-        <div class="card-line uo-line ${u ? "unbound" : ""}">
-          ${d === null ? r ? l(r) : "" : C`<span class="entity-flank-content uo-text host-text"><span class="host-name">${d}</span>${f === null ? "" : C`<span class="power-source">${f}</span>`}</span>`}
-          ${o ? this._renderPendingMarker(this._pendingMarkerText(o, t)) : ""}
-          ${this._renderLinkButton({
-				kind: "co",
-				entity: e
-			}, t)}
-        </div>
-      </div>`;
-		}, l = (e) => C`<span class="entity-flank-content uo-text">
-        ${this._renderUoIdentity(e)}
-      </span>`, u = (e, n, r) => C`<div
-        class="entity-card co-card direct-card"
-        role="group"
-        aria-label=${e.name}
-        data-block=${r}
-      >
-        <div class="card-line">
+		let i = Yr(t), a = Zr(e, t), o = r.filtering;
+		return x`<div class="entity-cards co-cards">
+      ${gc.map((e) => {
+			let s = i[e].map((t, n) => ({
+				block: t,
+				key: wi(e, n)
+			})).filter(({ key: e }) => !o || r.blocks.has(e));
+			return s.length === 0 ? "" : this._renderCoCardSection(e, s, a[e], o, t, n);
+		})}
+      ${this._renderNoMainMatch(o, r.blocks.size > 0)}
+    </div>`;
+	}
+	_renderCoCardSection(e, t, n, r, i, a) {
+		let o = !r && this._collapsedSections.has(e);
+		return x`
+      <div class="card-section-header section-${e}" role="group" aria-label="${br[e]}">
+        ${this._renderSectionCollapseToggle(e, n, r)}
+      </div>
+      ${o ? "" : t.map(({ block: e, key: t }) => {
+			let n = e.uoId === null ? null : i.uosById.get(e.uoId) ?? null;
+			return e.rows.map((e) => this._renderCoCardRow(e, n, t, i, a));
+		})}
+    `;
+	}
+	_renderCoCardRow(e, t, n, r, i) {
+		switch (e.kind) {
+			case "live": return this._renderCoCard(e.co, t, n, r, i);
+			case "copy": return "";
+			case "direct": return this._renderCoDirectCard(e.appliance, t, n, r);
+		}
+	}
+	_renderCoCardSocketLine(e, t, n, r) {
+		let { appliance: i, co: a, name: o } = Pr(t, n), s = r.coSocket.get(t.co_socket_id);
+		return x`<div class="card-line socket-line ${n.socketIsFullyChained(e, t) ? "" : "unbound"}">
+      ${this._renderSocketLinkButton(t, i, n)}
+      ${this._renderSocketIdentity(t)}
+      ${s ? this._renderPendingMarker(this._pendingMarkerText(s, n)) : ""}
+      ${this._renderOccupantName(i, a, o)}${this._renderDepartingName(t, r, n)}
+    </div>`;
+	}
+	_renderCoCard(e, t, n, r, i) {
+		let a = r.socketsByCo.get(e.co_id) ?? [], o = i.co.get(e.co_id), s = !r.coIsFullyChained(e), c = t === null || !r.uoIsFullyChained(t), l = Ir(e, r), u = l === null ? null : Lr(e, r);
+		return x`<div
+      class="entity-card co-card ${s ? "unbound" : ""} ${o ? "pending" : ""}"
+      role="group"
+      aria-label=${e.alias}
+      data-block=${n}
+    >
+      <div class="card-identity">${this._renderDeviceInfo(e)}</div>
+      ${a.map((t) => this._renderCoCardSocketLine(e, t, r, i))}
+      <div class="card-line uo-line ${c ? "unbound" : ""}">
+        ${l === null ? t ? this._renderCoCardUoText(t) : "" : x`<span class="entity-flank-content uo-text host-text"><span class="host-name">${l}</span>${u === null ? "" : x`<span class="power-source">${u}</span>`}</span>`}
+        ${o ? this._renderPendingMarker(this._pendingMarkerText(o, r)) : ""}
+        ${this._renderLinkButton({
+			kind: "co",
+			entity: e
+		}, r)}
+      </div>
+    </div>`;
+	}
+	_renderCoCardUoText(e) {
+		return x`<span class="entity-flank-content uo-text">
+      ${this._renderUoIdentity(e)}
+    </span>`;
+	}
+	_renderCoDirectCard(e, t, n, r) {
+		return x`<div
+      class="entity-card co-card direct-card"
+      role="group"
+      aria-label=${e.name}
+      data-block=${n}
+    >
+      <div class="card-line">
+        ${this._renderNameLink({
+			kind: "appliance",
+			entity: e
+		}, e.name)}
+        ${this._renderLinkButton({
+			kind: "appliance",
+			entity: e
+		}, r)}
+      </div>
+      <div class="card-line uo-line">
+        ${t ? this._renderCoCardUoText(t) : ""}
+      </div>
+    </div>`;
+	}
+	_renderCoTable(e, t, n, r) {
+		let i = Yr(t), a = Zr(e, t), o = {
+			h: t,
+			pending: n,
+			matches: r,
+			sectionCounts: a,
+			nextShade: Ds()
+		};
+		return x`
+      <table class="structured-table co-table">
+        ${this._renderCoTableHead({
+			appliances: e.appliances.length,
+			cos: e.cos.length,
+			...ws(a),
+			uos: e.uos.length
+		})} ${Es(gc, i, r).map((e) => this._renderCoSection(e, o))}
+      </table>
+      ${this._renderNoMainMatch(r.filtering, r.blocks.size > 0)}
+    `;
+	}
+	_renderCoTableHead(e) {
+		let t = this._tip(oi("appliance", e)), n = this._tip(oi("co", e)), r = this._tip(oi("uo", e)), i = x`${this._renderPowerIcon(Js, "Plug", "plug")}${this._renderPowerIcon(Zs, "Unplug", "unplug")}`;
+		return x`<thead>
+          <tr>
+            <th class="th-appliance">
+              <div class="th-stack">
+                <span class="th-content section-count-tooltip" tabindex="0" data-tip="info" aria-describedby=${t.id}>Appliances<sup class="info-cue" aria-hidden="true">i</sup></span>${t.desc}
+              </div>
+            </th>
+            <th class="th-connection"><div class="th-row">${i}</div></th>
+            <th class="th-co" colspan="2">
+              <div class="th-stack">
+                <span class="th-content section-count-tooltip" tabindex="0" data-tip="info" aria-describedby=${n.id}>Smart devices &amp; Sockets<sup class="info-cue" aria-hidden="true">i</sup></span>${n.desc}
+              </div>
+            </th>
+            <th class="th-connection"><div class="th-row">${i}</div></th>
+            <th class="th-uo">
+              <div class="th-stack">
+                <span class="th-content section-count-tooltip" tabindex="0" data-tip="info" aria-describedby=${r.id}>Wall Sockets<sup class="info-cue" aria-hidden="true">i</sup></span>${r.desc}
+              </div>
+            </th>
+          </tr>
+        </thead>`;
+	}
+	_renderCoSection({ section: e, blocks: t, headed: n, spacerBefore: r }, i) {
+		let { matches: a, sectionCounts: o } = i;
+		return x`
+      ${r ? x`<tbody>
+                  ${mc(pc)}
+                </tbody>` : ""}
+      ${n ? x`<tbody>
+                <tr class="section-header section-${e}" aria-label="${br[e]}">
+                  <td colspan="${pc}">
+                    ${this._renderSectionCollapseToggle(e, o[e], a.filtering)}
+                  </td>
+                </tr>
+              </tbody>` : ""}
+      ${t.map((t, n) => {
+			let r = wi(e, n), o = Ts(a, this._collapsedSections, e, r);
+			return x`${hc(o)}${this._renderCoBlock(t, r, o, i)}`;
+		})}
+    `;
+	}
+	_renderCoBlock(e, t, n, r) {
+		let { h: i, pending: a } = r, o = Cs(i.socketsByCo, e), s = e.uoId === null ? null : i.uosById.get(e.uoId) ?? null, c = s === null || !i.uoIsFullyChained(s), l = r.nextShade(), u = !1, d = () => u ? "" : (u = !0, x`<td rowspan="${o}" class="uo-cell ${c ? "unbound" : ""}">
+          ${s ? x`<div class="entity-flank-content">
+                ${this._renderUoIdentity(s)}
+              </div>` : ""}
+        </td>`), f = e.rows.flatMap((e) => [...e.gapBefore ? [mc(5)] : [], ...this._renderCoRows(e, d, i, a)]);
+		return x`<tbody class="${l} ${n ? "collapsed" : ""}" ?inert=${n} data-block=${t}>${f}</tbody>`;
+	}
+	_renderCoRows(e, t, n, r) {
+		switch (e.kind) {
+			case "live": return this._renderLiveRows(e.co, t, n, r);
+			case "copy": return this._renderCopyRows(e.co, e.sockets, t, n);
+			case "direct": return [this._renderDirectRow(e.appliance, t, n)];
+		}
+	}
+	_renderLiveRows(e, t, n, r) {
+		let i = [], a = n.socketsByCo.get(e.co_id) ?? [], o = !n.coIsFullyChained(e), s = xs(n.socketsByCo, e), c = r.co.get(e.co_id), l = x`<td
+      rowspan="${s}"
+      class="connection-cell co-connection"
+    >
+      <span class="connection-leader before"></span>${this._renderLinkButton({
+			kind: "co",
+			entity: e
+		}, n)}${c ? this._renderPendingMarker(this._pendingMarkerText(c, n)) : ""}
+    </td>`, u = t(), d = (e, t, i) => {
+			let a = e.occupant_device_id !== null, { appliance: o, co: s, name: c } = Pr(e, n);
+			return x`<td
+          class="appl-cell ${a ? "plugged" : ""} ${t ? "unbound" : ""}"
+        >
+          ${i ? this._renderPendingMarker(this._pendingMarkerText(i, n)) : ""}
+          ${this._renderOccupantName(o, s, c)}${this._renderDepartingName(e, r, n)}
+        </td>
+        <td class="connection-cell socket-connection">
+          ${this._renderSocketLinkButton(e, o, n)}<span class="connection-leader after"></span>
+        </td>`;
+		}, f = this._renderCoBox(e, n);
+		return a.length === 0 ? (i.push(x`
+        <tr class="${c ? "pending" : ""}">
+          <td class="appl-cell"></td>
+          <td class="connection-cell"></td>
+          <td colspan="2" class="co-cell co-box-left co-box-right co-box-top co-box-bottom ${o ? "unbound" : ""}">
+            ${f}
+          </td>
+          ${l}
+          ${u}
+        </tr>
+      `), i) : (a.forEach((t, s) => {
+			let ee = !n.socketIsFullyChained(e, t), p = r.coSocket.get(t.co_socket_id), m = s === 0, te = s === a.length - 1;
+			i.push(x`
+        <tr class="socket-row ${m && c || p ? "pending" : ""}">
+          ${d(t, ee, p)}
+          <td class="socket-cell co-box-left ${m ? "co-box-top" : ""} ${te ? "co-box-bottom" : ""} ${ee ? "unbound" : ""}">
+            <div class="entity-flank-content">
+              ${this._renderSocketIdentity(t)}
+            </div>
+          </td>
+          ${m ? x`<td
+                  rowspan="${a.length}"
+                  class="co-cell co-box-right co-box-top co-box-bottom ${o ? "unbound" : ""}"
+                >
+                  ${f}
+                </td>` : ""}
+          ${m ? l : ""}
+          ${m ? u : ""}
+        </tr>
+      `);
+		}), i);
+	}
+	_renderCopyRows(e, t, n, r) {
+		let i = n();
+		return t.map((n, a) => {
+			let o = a === 0, s = a === t.length - 1;
+			return x`
+        <tr class="socket-row copy-row">
+          <td class="appl-cell" inert></td>
+          <td class="connection-cell socket-connection" inert>
+            ${this._renderHostingMark()}<span class="connection-leader after"></span>
+          </td>
+          <td class="socket-cell co-box-left ${o ? "co-box-top" : ""} ${s ? "co-box-bottom" : ""}" inert>
+            <div class="entity-flank-content">${this._renderSocketIdentity(n)}</div>
+          </td>
+          ${o ? x`<td
+                  rowspan="${t.length}"
+                  class="co-cell copy-cell co-box-right co-box-top co-box-bottom"
+                  inert
+                >
+                  <div class="co-alias">${Wr(e, t, r)}</div>
+                </td>` : ""}
+          ${o ? x`<td rowspan="${t.length}" class="connection-cell co-connection" inert></td>` : ""}
+          ${o ? i : ""}
+        </tr>
+      `;
+		});
+	}
+	_renderDirectRow(e, t, n) {
+		return x`
+      <tr class="direct-row">
+        <td class="appl-cell plugged">
           ${this._renderNameLink({
 			kind: "appliance",
 			entity: e
 		}, e.name)}
+        </td>
+        <td class="connection-cell socket-connection">
           ${this._renderLinkButton({
 			kind: "appliance",
 			entity: e
-		}, t)}
-        </div>
-        <div class="card-line uo-line">
-          ${n ? l(n) : ""}
-        </div>
-      </div>`, d = (e, t, n) => {
-			switch (e.kind) {
-				case "live": return c(e.co, t, n);
-				case "copy": return "";
-				case "direct": return u(e.appliance, t, n);
-			}
-		}, f = r.filtering;
-		return C`<div class="entity-cards co-cards">
-      ${o.map((e) => {
-			let n = i[e].map((t, n) => ({
-				block: t,
-				key: ti(e, n)
-			})).filter(({ key: e }) => !f || r.blocks.has(e));
-			if (n.length === 0) return "";
-			let o = !f && this._collapsedSections.has(e);
-			return C`
-          <div class="card-section-header section-${e}" role="group" aria-label="${$n[e]}">
-            ${this._renderSectionCollapseToggle(e, a[e], f)}
-          </div>
-          ${o ? "" : n.map(({ block: e, key: n }) => {
-				let r = e.uoId === null ? null : t.uosById.get(e.uoId) ?? null;
-				return e.rows.map((e) => d(e, r, n));
-			})}
-        `;
-		})}
-      ${this._renderNoMainMatch(f, r.blocks.size > 0)}
-    </div>`;
-	}
-	_renderCoTable(e, t, n, r) {
-		let i = Or(t), a = Ar(e, t), o = a.full.socketTotal + a.partial.socketTotal + a.orphan.socketTotal, s = a.full.socketInUse + a.partial.socketInUse + a.orphan.socketInUse, c = {
-			appliances: e.appliances.length,
-			cos: e.cos.length,
-			socketTotal: o,
-			socketInUse: s,
-			uos: e.uos.length
-		}, l = this._tip(zr("appliance", c)), u = this._tip(zr("co", c)), d = this._tip(zr("uo", c)), f = 0, p = () => {
-			let e = f % 2 == 1;
-			return f += 1, e ? "row-shade" : "";
-		}, m = (e) => {
-			let n = (t.socketsByCo.get(e.co_id) ?? []).length;
-			return Math.max(n, 1);
-		}, h = (e) => {
-			switch (e.kind) {
-				case "live": return m(e.co);
-				case "copy": return e.sockets.length;
-				case "direct": return 1;
-			}
-		}, g = (e, r, i) => {
-			let a = e.rows.filter((e) => e.gapBefore).length, o = e.rows.reduce((e, t) => e + h(t), 0) + a, s = e.uoId === null ? null : t.uosById.get(e.uoId) ?? null, c = s === null || !t.uoIsFullyChained(s), l = p(), u = [], d = !1, f = () => d ? "" : (d = !0, C`<td rowspan="${o}" class="uo-cell ${c ? "unbound" : ""}">
-          ${s ? C`<div class="entity-flank-content">
-                ${this._renderUoIdentity(s)}
-              </div>` : ""}
-        </td>`), g = (e) => {
-				let r = t.socketsByCo.get(e.co_id) ?? [], i = !t.coIsFullyChained(e), a = m(e), o = n.co.get(e.co_id), s = C`<td
-          rowspan="${a}"
-          class="connection-cell co-connection"
-        >
-          <span class="connection-leader before"></span>${this._renderLinkButton({
-					kind: "co",
-					entity: e
-				}, t)}${o ? this._renderPendingMarker(this._pendingMarkerText(o, t)) : ""}
-        </td>`, c = f(), l = (e, n, r) => {
-					let i = e.occupant_device_id !== null, { appliance: a, co: o, name: s } = pr(e, t);
-					return C`<td
-              class="appl-cell ${i ? "plugged" : ""} ${n ? "unbound" : ""}"
-            >
-              ${r ? this._renderPendingMarker(this._pendingMarkerText(r, t)) : ""}
-              ${this._renderOccupantName(a, o, s)}
-            </td>
-            <td class="connection-cell socket-connection">
-              ${this._renderSocketLinkButton(e, a, t)}<span class="connection-leader after"></span>
-            </td>`;
-				}, d = this._renderCoBox(e, t);
-				if (r.length === 0) {
-					u.push(C`
-            <tr class="${o ? "pending" : ""}">
-              <td class="appl-cell"></td>
-              <td class="connection-cell"></td>
-              <td colspan="2" class="co-cell co-box-left co-box-right co-box-top co-box-bottom ${i ? "unbound" : ""}">
-                ${d}
-              </td>
-              ${s}
-              ${c}
-            </tr>
-          `);
-					return;
-				}
-				r.forEach((a, f) => {
-					let p = !t.socketIsFullyChained(e, a), m = n.coSocket.get(a.co_socket_id), h = f === 0, g = f === r.length - 1;
-					u.push(C`
-            <tr class="socket-row ${h && o || m ? "pending" : ""}">
-              ${l(a, p, m)}
-              <td class="socket-cell co-box-left ${h ? "co-box-top" : ""} ${g ? "co-box-bottom" : ""} ${p ? "unbound" : ""}">
-                <div class="entity-flank-content">
-                  ${this._renderSocketIdentity(a)}
-                </div>
-              </td>
-              ${h ? C`<td
-                      rowspan="${r.length}"
-                      class="co-cell co-box-right co-box-top co-box-bottom ${i ? "unbound" : ""}"
-                    >
-                      ${d}
-                    </td>` : ""}
-              ${h ? s : ""}
-              ${h ? c : ""}
-            </tr>
-          `);
-				});
-			}, _ = (e, n) => {
-				let r = f();
-				n.forEach((i, a) => {
-					let o = a === 0, s = a === n.length - 1;
-					u.push(C`
-            <tr class="socket-row copy-row">
-              <td class="appl-cell" inert></td>
-              <td class="connection-cell socket-connection" inert>
-                ${this._renderHostingMark()}<span class="connection-leader after"></span>
-              </td>
-              <td class="socket-cell co-box-left ${o ? "co-box-top" : ""} ${s ? "co-box-bottom" : ""}" inert>
-                <div class="entity-flank-content">${this._renderSocketIdentity(i)}</div>
-              </td>
-              ${o ? C`<td
-                      rowspan="${n.length}"
-                      class="co-cell copy-cell co-box-right co-box-top co-box-bottom"
-                      inert
-                    >
-                      <div class="co-alias">${Cr(e, n, t)}</div>
-                    </td>` : ""}
-              ${o ? C`<td rowspan="${n.length}" class="connection-cell co-connection" inert></td>` : ""}
-              ${o ? r : ""}
-            </tr>
-          `);
-				});
-			}, ee = (e) => {
-				u.push(C`
-          <tr class="direct-row">
-            <td class="appl-cell plugged">
-              ${this._renderNameLink({
-					kind: "appliance",
-					entity: e
-				}, e.name)}
-            </td>
-            <td class="connection-cell socket-connection">
-              ${this._renderLinkButton({
-					kind: "appliance",
-					entity: e
-				}, t)}<span class="connection-leader after"></span>
-            </td>
-            <td colspan="2" class="direct-line-cell"><div class="direct-line"></div></td>
-            <td class="connection-cell co-connection"><span class="connection-leader before"></span></td>
-            ${f()}
-          </tr>
-        `);
-			};
-			for (let t of e.rows) switch (t.gapBefore && u.push(rs(5)), t.kind) {
-				case "live":
-					g(t.co);
-					break;
-				case "copy":
-					_(t.co, t.sockets);
-					break;
-				case "direct": ee(t.appliance);
-			}
-			return C`<tbody class="${l} ${i ? "collapsed" : ""}" ?inert=${i} data-block=${r}>${u}</tbody>`;
-		}, _ = r.filtering, ee = (e, t) => _ ? !r.blocks.has(t) : this._collapsedSections.has(e), v = [
-			"full",
-			"partial",
-			"orphan"
-		], te = (e) => C`
-        <td colspan="${ns}">
-          ${this._renderSectionCollapseToggle(e, a[e], _)}
+		}, n)}<span class="connection-leader after"></span>
         </td>
-      `, ne = C`${this._renderPowerIcon(Co, "Plug", "plug")}${this._renderPowerIcon(Eo, "Unplug", "unplug")}`;
-		return C`
-      <table class="structured-table co-table">
-        <thead>
-          <tr>
-            <th class="th-appliance">
-              <div class="th-stack">
-                <span class="th-content section-count-tooltip" tabindex="0" data-tip="info" aria-describedby=${l.id}>Appliances<sup class="info-cue" aria-hidden="true">i</sup></span>${l.desc}
-              </div>
-            </th>
-            <th class="th-connection"><div class="th-row">${ne}</div></th>
-            <th class="th-co" colspan="2">
-              <div class="th-stack">
-                <span class="th-content section-count-tooltip" tabindex="0" data-tip="info" aria-describedby=${u.id}>Smart devices &amp; Sockets<sup class="info-cue" aria-hidden="true">i</sup></span>${u.desc}
-              </div>
-            </th>
-            <th class="th-connection"><div class="th-row">${ne}</div></th>
-            <th class="th-uo">
-              <div class="th-stack">
-                <span class="th-content section-count-tooltip" tabindex="0" data-tip="info" aria-describedby=${d.id}>Wall Sockets<sup class="info-cue" aria-hidden="true">i</sup></span>${d.desc}
-              </div>
-            </th>
-          </tr>
-        </thead>
-        ${(() => {
-			let e = !1, t = (e) => C`<tbody class="${e ? "collapsed" : ""}" ?inert=${e}>
-            ${rs(ns)}
-          </tbody>`;
-			return v.map((n) => {
-				let a = i[n];
-				if (a.length === 0) return "";
-				let o = a.map((e, t) => ti(n, t)), s = !_ || o.some((e) => r.blocks.has(e)), c = s && e ? C`<tbody>
-                  ${rs(ns)}
-                </tbody>` : "";
-				return s && (e = !0), C`
-              ${c}
-              ${s ? C`<tbody>
-                <tr class="section-header section-${n}" aria-label="${$n[n]}">
-                  ${te(n)}
-                </tr>
-              </tbody>` : ""}
-              ${a.map((e, r) => {
-					let i = ti(n, r), a = ee(n, i);
-					return C`${t(a)}${g(e, i, a)}`;
-				})}
-            `;
-			});
-		})()}
-      </table>
-      ${this._renderNoMainMatch(_, r.blocks.size > 0)}
+        <td colspan="2" class="direct-line-cell"><div class="direct-line"></div></td>
+        <td class="connection-cell co-connection"><span class="connection-leader before"></span></td>
+        ${t()}
+      </tr>
     `;
 	}
 };
-Z([Ve({ attribute: !1 })], $.prototype, "hass", void 0), Z([O()], $.prototype, "_state", void 0), Z([O()], $.prototype, "_editSession", void 0), Z([O()], $.prototype, "_debugMode", void 0), Z([O()], $.prototype, "_error", void 0), Z([O()], $.prototype, "_loading", void 0), Z([O()], $.prototype, "_socketRegion", void 0), Z([O()], $.prototype, "_mode", void 0), Z([O()], $.prototype, "_themeOverride", void 0), Z([O()], $.prototype, "_collapsedSections", void 0), Z([O()], $.prototype, "_collapsedCardBandGroups", void 0), Z([O()], $.prototype, "_layoutTier", void 0), Z([O()], $.prototype, "_activeTab", void 0), Z([O()], $.prototype, "_editing", void 0), Z([O()], $.prototype, "_editingSocket", void 0), Z([O()], $.prototype, "_linking", void 0), Z([O()], $.prototype, "_linkRoomFilter", void 0), Z([O()], $.prototype, "_linkCoFilter", void 0), Z([O()], $.prototype, "_creating", void 0), Z([O()], $.prototype, "_deleting", void 0), Z([O()], $.prototype, "_flushConfirm", void 0), Z([O()], $.prototype, "_commitConfirm", void 0), Z([O()], $.prototype, "_settingsOpen", void 0), Z([O()], $.prototype, "_menuOpen", void 0), Z([O()], $.prototype, "_mainFilter", void 0), Z([O()], $.prototype, "_filterOpen", void 0), Z([O()], $.prototype, "_filterPos", void 0), Z([O()], $.prototype, "_fromNames", void 0), Z([O()], $.prototype, "_wallBatch", void 0), Z([O()], $.prototype, "_discovered", void 0), Z([k("dialog.edit-dialog")], $.prototype, "_dialogEl", void 0), Z([k("dialog.socket-edit-dialog")], $.prototype, "_socketDialogEl", void 0), Z([k("dialog.link-dialog")], $.prototype, "_linkDialogEl", void 0), Z([k("dialog.create-dialog")], $.prototype, "_createDialogEl", void 0), Z([k("dialog.delete-dialog")], $.prototype, "_deleteDialogEl", void 0), Z([k("dialog.flush-dialog")], $.prototype, "_flushDialogEl", void 0), Z([k("dialog.commit-dialog")], $.prototype, "_commitDialogEl", void 0), Z([k("dialog.settings-dialog")], $.prototype, "_settingsDialogEl", void 0), Z([k("dialog.from-names-dialog")], $.prototype, "_fromNamesDialogEl", void 0), Z([k("dialog.wall-batch-dialog")], $.prototype, "_wallBatchDialogEl", void 0), Z([k("dialog.discovered-dialog")], $.prototype, "_discoveredDialogEl", void 0), Z([k("input.main-filter-input")], $.prototype, "_mainFilterInputEl", void 0), Z([k("button.main-filter-open")], $.prototype, "_mainFilterOpenEl", void 0), Z([k("#main-filter")], $.prototype, "_mainFilterEl", void 0), Z([k(".tooltip-popover")], $.prototype, "_popoverEl", void 0), Z([k(".menu-btn")], $.prototype, "_menuBtnEl", void 0), $ = Z([Re("outlet-binder-panel")], $);
+Z([Ue({ attribute: !1 })], $.prototype, "hass", void 0), Z([E()], $.prototype, "_state", void 0), Z([E()], $.prototype, "_editSession", void 0), Z([E()], $.prototype, "_debugMode", void 0), Z([E()], $.prototype, "_build", void 0), Z([E()], $.prototype, "_error", void 0), Z([E()], $.prototype, "_loading", void 0), Z([E()], $.prototype, "_socketRegion", void 0), Z([E()], $.prototype, "_mode", void 0), Z([E()], $.prototype, "_themeOverride", void 0), Z([E()], $.prototype, "_collapsedSections", void 0), Z([E()], $.prototype, "_collapsedCardBandGroups", void 0), Z([E()], $.prototype, "_layoutTier", void 0), Z([E()], $.prototype, "_activeTab", void 0), Z([E()], $.prototype, "_editing", void 0), Z([E()], $.prototype, "_editingSocket", void 0), Z([E()], $.prototype, "_linking", void 0), Z([E()], $.prototype, "_linkRoomFilter", void 0), Z([E()], $.prototype, "_linkCoFilter", void 0), Z([E()], $.prototype, "_creating", void 0), Z([E()], $.prototype, "_deleting", void 0), Z([E()], $.prototype, "_flushConfirm", void 0), Z([E()], $.prototype, "_commitConfirm", void 0), Z([E()], $.prototype, "_settingsOpen", void 0), Z([E()], $.prototype, "_menuOpen", void 0), Z([E()], $.prototype, "_mainFilter", void 0), Z([E()], $.prototype, "_filterOpen", void 0), Z([E()], $.prototype, "_filterPos", void 0), Z([E()], $.prototype, "_fromNames", void 0), Z([E()], $.prototype, "_exporting", void 0), Z([E()], $.prototype, "_wallBatch", void 0), Z([E()], $.prototype, "_discovered", void 0), Z([D("dialog.edit-dialog")], $.prototype, "_dialogEl", void 0), Z([D("dialog.socket-edit-dialog")], $.prototype, "_socketDialogEl", void 0), Z([D("dialog.link-dialog")], $.prototype, "_linkDialogEl", void 0), Z([D("dialog.create-dialog")], $.prototype, "_createDialogEl", void 0), Z([D("dialog.delete-dialog")], $.prototype, "_deleteDialogEl", void 0), Z([D("dialog.flush-dialog")], $.prototype, "_flushDialogEl", void 0), Z([D("dialog.commit-dialog")], $.prototype, "_commitDialogEl", void 0), Z([D("dialog.settings-dialog")], $.prototype, "_settingsDialogEl", void 0), Z([D("dialog.from-names-dialog")], $.prototype, "_fromNamesDialogEl", void 0), Z([D("dialog.export-dialog")], $.prototype, "_exportDialogEl", void 0), Z([D("dialog.wall-batch-dialog")], $.prototype, "_wallBatchDialogEl", void 0), Z([D("dialog.discovered-dialog")], $.prototype, "_discoveredDialogEl", void 0), Z([D("input.main-filter-input")], $.prototype, "_mainFilterInputEl", void 0), Z([D("button.main-filter-open")], $.prototype, "_mainFilterOpenEl", void 0), Z([D("#main-filter")], $.prototype, "_mainFilterEl", void 0), Z([D(".tooltip-popover")], $.prototype, "_popoverEl", void 0), Z([D(".menu-btn")], $.prototype, "_menuBtnEl", void 0), $ = Z([Be("outlet-binder-panel")], $);
 //#endregion
 export { $ as OutletBinderPanel };

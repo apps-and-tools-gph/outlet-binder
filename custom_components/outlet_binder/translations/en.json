@@ -54,6 +54,14 @@
     "near_miss": {
       "title": "Smart Device \"{device}\" not added",
       "description": "\"{device}\" ({manufacturer} {model}) matches a known device pattern on make and model, but its entities don't fit that pattern, so it was not added as a Smart Device. The pattern file needs updating; nothing in Home Assistant needs changing.\n\nDetails for the pattern file:\n{reasons}"
+    },
+    "facility_no_default": {
+      "title": "No default name for {integration} \"{id}\"",
+      "description": "The {integration} integration offers a {domain} entity \"{id}\", and Outlet & Appliance Binding has no default for it yet. An Appliance plugged into a socket that has it gets only the vendor-named entity, `{integration}_{id}`, not a name that stays the same when the Appliance moves. The integration's vocabulary file needs a default for it."
+    },
+    "facility_not_in_vocabulary": {
+      "title": "Unknown {integration} entity \"{id}\"",
+      "description": "A {domain} entity \"{id}\" from the {integration} integration is not in Outlet & Appliance Binding's list of that integration's entities, which can happen after a Home Assistant update adds a feature. An Appliance plugged into a socket that has it gets only the vendor-named entity, `{integration}_{id}`. The integration's vocabulary file needs an entry for it."
     }
   },
   "selector": {

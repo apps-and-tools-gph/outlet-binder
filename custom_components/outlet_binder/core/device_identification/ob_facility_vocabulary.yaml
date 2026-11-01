@@ -1,0 +1,133 @@
+# yaml-language-server: $schema=schemas/ob_facility_vocabulary_schema.yaml
+# OB's vocabulary: every reading and control OB can name for an Appliance, in
+# OB's own words and the same for every brand. An integration's
+# vocabulary_and_defaults.yaml (device_patterns/<integration>/) lists the entities
+# it offers and says which of them is which of these.
+#
+# How to read the file:
+#   the domain:        the group an entry sits under: the kind of HA entity it
+#                      is, sensor, switch, number, ... Every integration's
+#                      entity for it must be that kind, or loading fails:
+#                      otherwise the Appliance's entity id would change with the
+#                      socket it is plugged into.
+#   the key:           the facility's key: `ha_` or `ob_`, then lowercase words
+#                      joined by `_`. `ha_<name>`: HA itself defines the name (a
+#                      device class name: power, energy, voltage, current).
+#                      `ob_<name>`: the name is OB's own. Either prefix means the
+#                      key never equals an HA or integration word. An
+#                      integration's vocabulary_and_defaults.yaml names it as an
+#                      entity's `socket` default. A key appears under one domain
+#                      only.
+#   entity_id_name:    what an Appliance's entity id ends with, e.g. `power` in
+#                      `sensor.ob_beko_washing_machine_power`. Two keys in one
+#                      domain cannot share one.
+#   display_name:      follows the Appliance's name in the entity's friendly
+#                      name, e.g. "Beko washing machine Power".
+#
+# device class: HA's label for what kind of reading an entity gives. HA keeps a
+# fixed list for each domain (sensor: power, energy, voltage, current, ...). An
+# `ha_<name>` key is named after an entry in that list. "(HA device class: x)" in
+# a comment means the facility's entities carry that class.
+#
+# How an integration's vocabulary_and_defaults.yaml uses this list
+# (device_patterns/<integration>/vocabulary_and_defaults.yaml). Under
+# `vocabulary:` it lists every entity id the integration offers, grouped by the
+# HA domain of the entity. Each id is the integration's own name for the entity:
+# its registry `translation_key`, the same in every language. Beside an id is its
+# default, which may be left out:
+#   socket: <key>      the entity is one a CO Socket has, and an Appliance
+#                      mirrors it as this facility, a key from this list in the
+#                      same domain. If the facility's `entity_id_name` differs
+#                      from the integration's id, an Appliance gets two entities:
+#                      one under OB's name (the stable one for automations) and
+#                      one under the integration's.
+#   device             the entity exists only at the CO level, on the plug
+#                      itself. A CO Socket has no such facility, so an Appliance
+#                      never mirrors it.
+#   nothing            the integration offers the id and OB has no name for it
+#                      yet: the entity is offered under
+#                      `<integration>_<id>`, and OB raises a Repairs issue.
+# An entity whose id is not in the vocabulary at all is offered the same way, with
+# a Repairs issue of its own. A model's pattern can replace a default for that
+# model alone, with `device.facilities` and `sockets.facilities` of its own.
+#
+# An entity_id_name must not start with `<integration>_` for any integration HA
+# bundles (`energy_today` would read as the `energy` integration's `today`):
+# tests/test_facility_names_guard.py fails if one does.
+#
+# The list grows with OB releases; users do not extend it.
+facilities:
+  binary_sensor:
+    ob_overheated:
+      # The socket has overheated (a problem flag).
+      entity_id_name: overheated
+      display_name: Overheated
+
+    ob_overloaded:
+      # The socket is overloaded (a problem flag).
+      entity_id_name: overloaded
+      display_name: Overloaded
+
+  number:
+    ob_auto_off_delay:
+      # How many minutes the auto-off timer waits.
+      entity_id_name: auto_off_delay
+      display_name: Auto-off delay
+
+    ob_overload_protection:
+      # The socket's power-protection level.
+      entity_id_name: overload_protection
+      display_name: Overload protection
+
+  sensor:
+    ob_auto_off_at:
+      # When the auto-off timer will switch the socket off (a time).
+      entity_id_name: auto_off_at
+      display_name: Auto-off at
+
+    ha_current:
+      # Electric current, in amps (HA device class: current).
+      entity_id_name: current
+      display_name: Current
+
+    ha_energy:
+      # Energy used in total, in kWh (HA device class: energy).
+      entity_id_name: energy
+      display_name: Energy
+
+    ob_on_since:
+      # Since when the socket has been on (a time).
+      entity_id_name: on_since
+      display_name: On since
+
+    ha_power:
+      # Power drawn right now, in watts (HA device class: power).
+      entity_id_name: power
+      display_name: Power
+
+    ob_this_month_energy:
+      # Energy used this month (HA device class: energy).
+      entity_id_name: this_month_energy
+      display_name: This month's energy
+
+    ob_today_energy:
+      # Energy used today, in kWh (HA device class: energy).
+      entity_id_name: today_energy
+      display_name: Today's energy
+
+    ha_voltage:
+      # Voltage (HA device class: voltage).
+      entity_id_name: voltage
+      display_name: Voltage
+
+  switch:
+    ob_auto_off_enabled:
+      # Whether the auto-off timer is turned on.
+      entity_id_name: auto_off_enabled
+      display_name: Auto-off enabled
+
+    ob_on_off:
+      # Turns the socket on and off. It is the pattern's on/off role, so no brand's
+      # table maps to it.
+      entity_id_name: on_off
+      display_name: On/Off
