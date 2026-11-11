@@ -44,7 +44,7 @@ from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from ..const import DOMAIN, ENTITY_ID_PREFIX
 from ..db.operations.state import get_full_state
 from ..db.session import connection as db_connection
-from ..domain.appliance_mirrors import desired_mirrors
+from ..domain.appliance_mirrors import ON_OFF_ID_SUFFIX, MirrorSpec, desired_mirrors
 from ..domain.device_switch import plug_switch_unique_ids
 from ..domain.discovery import CoPattern
 from ..domain.facilities import (
@@ -90,6 +90,8 @@ class MirrorSync:
         # Keyed by (domain, unique_id): two facilities of one Appliance can end
         # alike in different domains, and HA keeps entities apart by domain.
         self._entities: dict[tuple[str, str], MirrorEntity] = {}
+        # What the last sync wanted, for `ha_items`.
+        self._specs: list[MirrorSpec] = []
         self._sync_plugs: SyncPlugs | None = None
         # The clashes the last sync logged, so a lasting one is logged once.
         self._reported_clashes: set[tuple[str, FacilityClash]] = set()
@@ -284,3 +286,28 @@ class MirrorSync:
             self._adders[domain](list(entities.values()))
             self._entities.update(entities)
         self._log_new_rename_clashes(rename_clashes)
+        # On/Off first, so `ha_items` has only to group them.
+        self._specs = sorted(specs, key=lambda spec: spec.id_suffix != ON_OFF_ID_SUFFIX)
+
+    @callback
+    def ha_items(self) -> dict[str, list[dict[str, str | bool | None]]]:
+        """Each Appliance's mirrors that HA holds now, for the panel's link to
+        them (#599): the display name, the live entity id, whether it is the
+        On/Off, and the manufacturer when the vendor named it, On/Off first. The
+        id is read from the registry, never rebuilt from the name, because a
+        rename that meets a clash leaves the old id in place. An Appliance with
+        none has no key."""
+        registry = er.async_get(self._hass)
+        items: dict[str, list[dict[str, str | bool | None]]] = {}
+        for spec in self._specs:
+            entity_id = registry.async_get_entity_id(spec.domain, DOMAIN, spec.unique_id)
+            if entity_id is not None:
+                items.setdefault(spec.appliance_id, []).append(
+                    {
+                        "name": spec.display_name,
+                        "entity_id": entity_id,
+                        "on_off": spec.id_suffix == ON_OFF_ID_SUFFIX,
+                        "vendor": spec.vendor,
+                    }
+                )
+        return items

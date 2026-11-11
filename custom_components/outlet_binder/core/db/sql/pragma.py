@@ -15,9 +15,39 @@ def enable_foreign_keys(conn: sqlite3.Connection) -> None:
 
     Per-connection, not stored in the database file, so every connection
     must do this -- which is why core/db/session.py's `connect` is the only
-    sanctioned way to open one.
+    sanctioned way to open one. core/db/migrate.py turns it off around a table
+    rebuild and back on after the commit.
     """
     conn.execute("PRAGMA foreign_keys = ON")
+
+
+def disable_foreign_keys(conn: sqlite3.Connection) -> None:
+    """Turn foreign-key enforcement off for a table rebuild.
+
+    SQLite ignores this inside a transaction, so core/db/migrate.py calls it
+    before `BEGIN IMMEDIATE`: dropping the old table would otherwise delete
+    the rows that other tables reference. See sqlite.org/lang_altertable.html,
+    section 7.
+    """
+    conn.execute("PRAGMA foreign_keys = OFF")
+
+
+def foreign_keys_enabled(conn: sqlite3.Connection) -> bool:
+    (enabled,) = conn.execute("PRAGMA foreign_keys").fetchone()
+    return bool(enabled)
+
+
+def foreign_key_violations(conn: sqlite3.Connection) -> list[tuple[str, str]]:
+    """Every row whose foreign key points at nothing, as (table, parent table).
+    Reads the whole database whether or not enforcement is on."""
+    rows = conn.execute("PRAGMA foreign_key_check").fetchall()
+    return [(row["table"], row["parent"]) for row in rows]
+
+
+def integrity_problems(conn: sqlite3.Connection) -> list[str]:
+    """What `PRAGMA integrity_check` reports; empty when the database is sound."""
+    messages = [row[0] for row in conn.execute("PRAGMA integrity_check").fetchall()]
+    return [] if messages == ["ok"] else messages
 
 
 def set_busy_timeout(conn: sqlite3.Connection, milliseconds: int) -> None:

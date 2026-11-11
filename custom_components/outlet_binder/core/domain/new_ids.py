@@ -4,7 +4,8 @@ The one place an id is generated, so an Unmanaged Outlet, an Appliance and a dum
 socket cannot be minted with the wrong prefix in one call site and the right
 one in another. A CO's and a smart socket's ids are Home Assistant's own
 registry ids and are never minted here. The prefixes themselves live in
-domain/identifiers.py, which the database `CHECK`s are built from too.
+domain/identifiers.py; the database `CHECK`s spell them out literally, and
+tests/test_devices_schema_constraints.py fails if the two drift.
 
 Dependency-free: no `hass`, no persistence.
 """

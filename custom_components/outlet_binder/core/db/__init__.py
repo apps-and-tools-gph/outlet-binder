@@ -3,8 +3,8 @@
 Everything that knows SQLite lives in this package. Every SQL statement
 is in `sql/`, grouped by domain concept; `operations/` owns transactions
 and cross-concept sequencing; `schema.py` is the SQL-free manifest naming
-which DDL steps run in what order; `session.py` owns connections and
-`migrate.py` the migration runner. No module outside this package opens a
+which DDL steps (in `sql/migrations/`) run in what order; `session.py` owns
+connections and `migrate.py` the migration runner. No module outside this package opens a
 connection for itself or executes SQL.
 
 `connect`/`connection` are re-exported here so callers have one obvious

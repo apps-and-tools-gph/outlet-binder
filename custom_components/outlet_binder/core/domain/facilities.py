@@ -72,12 +72,15 @@ class RegistryEntity:
 class SocketFacility:
     """One OB entity an Appliance would own: it mirrors `source`, in HA domain
     `domain`, and its entity id and unique_id end `id_suffix`. `display_name`
-    is what follows the Appliance's name in the entity's friendly name."""
+    is what follows the Appliance's name in the entity's friendly name. `vendor`
+    is the manufacturer when the entity is named by it and not by OB's
+    vocabulary, so a reader can say so."""
 
     source: HaEntityRegistryId
     domain: str
     id_suffix: str
     display_name: str
+    vendor: str | None = None
 
 
 @dataclass(frozen=True, kw_only=True, order=True)
@@ -244,7 +247,11 @@ def socket_facilities(
                 and entity.id != on_off_entity.id
                 and entity.translation_key is not None
             ):
-                mirrors.extend(_mirrors_of(entity, rules, standard, pattern.integration_domain))
+                mirrors.extend(
+                    _mirrors_of(
+                        entity, rules, standard, pattern.integration_domain, pattern.manufacturer
+                    )
+                )
                 gap = _gap_of(entity, entity.translation_key, rules, pattern)
                 if gap is not None:
                     gaps.add(gap)
@@ -273,6 +280,7 @@ def _mirrors_of(
     rules: Mapping[tuple[str, VendorFacilityKey], FacilityRule],
     standard: Mapping[FacilityName, StandardFacility],
     integration_domain: str,
+    manufacturer: str,
 ) -> list[SocketFacility]:
     key = entity.translation_key
     assert key is not None
@@ -302,6 +310,7 @@ def _mirrors_of(
                 domain=entity.domain,
                 id_suffix=f"{integration_domain}_{key}",
                 display_name=entity.original_name or key,
+                vendor=manufacturer,
             )
         )
     return found

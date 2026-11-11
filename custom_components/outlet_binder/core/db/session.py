@@ -16,6 +16,7 @@ from pathlib import Path
 
 from homeassistant.core import HomeAssistant
 
+from . import edit_session
 from .migrate import apply_pending_migrations
 from .sql import pragma
 
@@ -76,17 +77,27 @@ def connection(db_path: Path) -> Generator[sqlite3.Connection]:
         conn.close()
 
 
-async def async_bootstrap(hass: HomeAssistant) -> None:
+async def async_bootstrap(hass: HomeAssistant, *, running_version: str) -> bool:
     """Ensure the SQLite database exists, is reachable, and is up to date.
 
-    Raises db.migrate.MigrationError if a schema migration fails — callers
-    (see __init__.py's async_setup_entry) should treat that as a permanent
-    setup failure (ConfigEntryError), not something to retry.
+    Also discards a staged edit session that this setup has made stale -- one
+    another OB version opened, or one a migration just ran under
+    (db/edit_session.py's `discard_if_stale`). Returns True when it did, so
+    the caller can raise the Repairs issue; that must happen on the event
+    loop, not in the executor job below.
+
+    Raises db.migrate.MigrationError if a schema migration fails, and its
+    subclass db.migrate.SchemaTooNewError if the database is newer than this
+    code -- callers (see __init__.py's async_setup_entry) should treat either
+    as a permanent setup failure (ConfigEntryError), not something to retry.
     """
     db_path = get_db_path(hass)
 
-    def _init() -> None:
+    def _init() -> bool:
         with connection(db_path) as conn:
-            apply_pending_migrations(conn, db_path)
+            migrations_applied = apply_pending_migrations(conn, db_path)
+            return edit_session.discard_if_stale(
+                conn, running_version=running_version, migrations_applied=migrations_applied
+            )
 
-    await hass.async_add_executor_job(_init)
+    return await hass.async_add_executor_job(_init)

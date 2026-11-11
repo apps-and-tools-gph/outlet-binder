@@ -51,6 +51,10 @@
     }
   },
   "issues": {
+    "edit_session_discarded": {
+      "title": "Staged changes discarded after an upgrade",
+      "description": "Outlet & Appliance Binding was upgraded while changes were staged but not committed. Staged changes are tied to the version that made them, so they were discarded. Nothing already committed was changed. Make the staged changes again if you still want them."
+    },
     "near_miss": {
       "title": "Smart Device \"{device}\" not added",
       "description": "\"{device}\" ({manufacturer} {model}) matches a known device pattern on make and model, but its entities don't fit that pattern, so it was not added as a Smart Device. The pattern file needs updating; nothing in Home Assistant needs changing.\n\nDetails for the pattern file:\n{reasons}"

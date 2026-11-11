@@ -11,5 +11,5 @@
   "issue_tracker": "https://github.com/apps-and-tools-gph/outlet-binder/issues",
   "requirements": ["jsonschema==4.26.0"],
   "single_config_entry": true,
-  "version": "0.2.0"
+  "version": "0.3.0"
 }

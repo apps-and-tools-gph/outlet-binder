@@ -26,6 +26,7 @@ from dataclasses import dataclass
 from typing import Any
 
 from .facilities import SocketFacilities
+from .identifiers import ApplianceId
 
 
 @dataclass(frozen=True, kw_only=True)
@@ -34,14 +35,17 @@ class MirrorSpec:
 
     `appliance_label` is the Appliance's name, with its type when it has one: what
     the entity id and the friendly name begin with. `source` is the HA entity
-    registry id the entity copies."""
+    registry id the entity copies. `appliance_id` says whose entity it is, so a
+    reader can group the specs without taking the id back out of `unique_id`."""
 
+    appliance_id: ApplianceId
     domain: str
     unique_id: str
     appliance_label: str
     id_suffix: str
     display_name: str
     source: str
+    vendor: str | None = None
 
     @property
     def name(self) -> str:
@@ -83,6 +87,7 @@ def desired_mirrors(
         label = appliance_label(name=appliance["name"], appliance_type=appliance["type"])
         specs.extend(
             MirrorSpec(
+                appliance_id=appliance["appliance_id"],
                 domain=mirror.domain,
                 unique_id=mirror_unique_id(
                     appliance_id=appliance["appliance_id"],
@@ -93,6 +98,7 @@ def desired_mirrors(
                 id_suffix=mirror.id_suffix,
                 display_name=mirror.display_name,
                 source=mirror.source,
+                vendor=mirror.vendor,
             )
             for mirror in facilities.mirrors
         )

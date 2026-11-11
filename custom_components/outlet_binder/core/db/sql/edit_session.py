@@ -23,31 +23,6 @@ from ...domain.identifiers import Timestamp
 from ...domain.models import EditLogEntry, EditSession
 
 
-def create_log_table(conn: sqlite3.Connection) -> None:
-    conn.execute(
-        """
-        CREATE TABLE edit_log (
-          entry_seq   INTEGER PRIMARY KEY,
-          command     TEXT NOT NULL,
-          payload     TEXT NOT NULL,
-          appended_at TEXT NOT NULL,
-          group_seq   INTEGER NOT NULL
-        )
-        """
-    )
-
-
-def create_session_table(conn: sqlite3.Connection) -> None:
-    conn.execute(
-        """
-        CREATE TABLE edit_session (
-          singleton  INTEGER PRIMARY KEY CHECK (singleton = 1),
-          cursor_seq INTEGER NOT NULL
-        )
-        """
-    )
-
-
 def _to_entry(row: sqlite3.Row) -> EditLogEntry:
     return EditLogEntry(
         entry_seq=row["entry_seq"],
@@ -198,10 +173,10 @@ def get_session(conn: sqlite3.Connection) -> EditSession | None:
     """The single session row, or `None` before the first-ever append --
     `edit_session` starts empty and is seeded lazily (see
     core/db/edit_session.py's `_ensure_session`)."""
-    row = conn.execute("SELECT cursor_seq FROM edit_session").fetchone()
+    row = conn.execute("SELECT cursor_seq, opened_by_version FROM edit_session").fetchone()
     if row is None:
         return None
-    return EditSession(cursor_seq=row["cursor_seq"])
+    return EditSession(cursor_seq=row["cursor_seq"], opened_by_version=row["opened_by_version"])
 
 
 def insert_session(conn: sqlite3.Connection, *, cursor_seq: int) -> None:
@@ -213,3 +188,13 @@ def insert_session(conn: sqlite3.Connection, *, cursor_seq: int) -> None:
 
 def update_cursor(conn: sqlite3.Connection, *, cursor_seq: int) -> None:
     conn.execute("UPDATE edit_session SET cursor_seq = ?", (cursor_seq,))
+
+
+def set_opened_by_version(conn: sqlite3.Connection, *, opened_by_version: str | None) -> None:
+    """Record which OB version opened the log now in place, or clear it with
+    None. Like `update_cursor`, matches no row, and so does nothing, before
+    the first-ever append."""
+    conn.execute(
+        "UPDATE edit_session SET opened_by_version = :opened_by_version",
+        {"opened_by_version": opened_by_version},
+    )

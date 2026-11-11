@@ -72,7 +72,8 @@ ApplianceId = NewType("ApplianceId", DeviceId)
 
 # The prefix an app-generated id carries for its kind. A CO's id is HA's raw
 # registry id and has none. The database `CHECK`s on `devices` and `sockets`
-# are built from these, so the SQL and the code that mints an id cannot drift.
+# spell these out literally (core/db/sql/migrations/m0001_initial.py), and
+# tests/test_devices_schema_constraints.py fails if the two drift.
 UO_ID_PREFIX = "uo_"
 APPLIANCE_ID_PREFIX = "ap_"
 DUMB_SOCKET_ID_PREFIX = "sk_"

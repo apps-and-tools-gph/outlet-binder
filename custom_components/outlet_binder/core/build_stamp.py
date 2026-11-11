@@ -8,6 +8,8 @@ published install shows the version alone.
 
 from pathlib import Path
 
+from homeassistant.core import HomeAssistant
+from homeassistant.loader import async_get_integration
 from homeassistant.util.hass_dict import HassKey
 
 from .const import DOMAIN
@@ -23,6 +25,14 @@ DEPLOYED_COMMIT_FILE = ".deployed-commit"
 # config entry reloads, so the stamp names the code HA is running and not
 # the files a later deploy left on disk.
 BUILD_STAMP_KEY: HassKey[str | None] = HassKey(f"{DOMAIN}_build_stamp")
+
+
+async def integration_version(hass: HomeAssistant) -> str | None:
+    """The manifest version of the code HA is running, or None when the
+    manifest has none. The one place that reads it: the build stamp, the edit
+    session's stamp and the export header all take their version from here."""
+    integration = await async_get_integration(hass, DOMAIN)
+    return str(integration.version) if integration.version else None
 
 
 def read_deployed_commit(directory: Path) -> str | None:

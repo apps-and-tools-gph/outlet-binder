@@ -30,10 +30,9 @@ from homeassistant.helpers import device_registry as dr
 from homeassistant.helpers import entity_registry as er
 from homeassistant.helpers import issue_registry as ir
 from homeassistant.helpers.dispatcher import async_dispatcher_send
-from homeassistant.loader import async_get_integration
 from homeassistant.util import dt as dt_util
 
-from .build_stamp import BUILD_STAMP_KEY
+from .build_stamp import BUILD_STAMP_KEY, integration_version
 from .const import DOMAIN, ENTITY_ID_PREFIX, MODE_BATCH, MODE_IMMEDIATE, SIGNAL_SWITCHES_CHANGED
 from .db import edit_session
 from .db.operations import devices as device_ops
@@ -168,6 +167,12 @@ def _get_patterns(hass: HomeAssistant) -> tuple[CoPattern, ...]:
     return _runtime_data(hass).patterns
 
 
+def _get_ob_version(hass: HomeAssistant) -> str:
+    """Return the running integration's version, which a staged entry's
+    session is stamped with (core/domain/edit_session_upgrade.py)."""
+    return _runtime_data(hass).ob_version
+
+
 def _get_immediate(hass: HomeAssistant) -> bool:
     """Return whether the loaded config entry is in immediate mode (#186)."""
     return _runtime_data(hass).immediate
@@ -233,6 +238,7 @@ def _append_and_maybe_commit(
     conn: sqlite3.Connection,
     *,
     immediate: bool,
+    ob_version: str,
     command: edit_session.EditCommand,
     payload: dict[str, str],
     now: Timestamp,
@@ -259,7 +265,12 @@ def _append_and_maybe_commit(
     toolbar's Undo and Flush to recover.
     """
     entry_seq = edit_session.append(
-        conn, command=command, payload=payload, now=now, continue_group=continue_group
+        conn,
+        command=command,
+        payload=payload,
+        now=now,
+        opened_by_version=ob_version,
+        continue_group=continue_group,
     )
     if immediate:
         try:
@@ -345,7 +356,8 @@ async def handle_get_state(
     sidecar the panel uses to decide whether to render its
     debug-only delete controls, the `socket_region` sidecar the
     panel uses to pick which regional socket icon to render, and the
-    `mode` sidecar the panel uses to show whether a button stages, and the
+    `mode` sidecar the panel uses to show whether a button stages, the
+    `ha_items` sidecar the panel's Appliance link to Home Assistant lists, and the
     `build` stamp it shows in dialog titles in debug mode
     -- all purely presentational; the WebSocket handlers enforce the
     debug_mode gate and pick staged or immediate themselves regardless of
@@ -363,6 +375,7 @@ async def handle_get_state(
         {
             **state,
             "edit_session": sidecar,
+            "ha_items": _runtime_data(hass).mirrors.ha_items(),
             "debug_mode": _get_debug_mode(hass),
             "socket_region": _get_socket_region(hass),
             "mode": MODE_IMMEDIATE if _get_immediate(hass) else MODE_BATCH,
@@ -511,7 +524,6 @@ async def handle_export(
             return get_export_data(conn, include_history=include_history)
 
     data = await hass.async_add_executor_job(_read)
-    integration = await async_get_integration(hass, DOMAIN)
     entity_registry = er.async_get(hass)
     unique_ids = plug_switch_unique_ids(
         cos=data.state["cos"], entity_id_prefix=ENTITY_ID_PREFIX
@@ -535,7 +547,7 @@ async def handle_export(
         area_name_of={area.id: area.name for area in ar.async_get(hass).async_list_areas()},
         switch_entity_id_of=switch_entity_ids,
         exported_at=_now(),
-        integration_version=str(integration.version) if integration.version else None,
+        integration_version=await integration_version(hass),
         user_version=data.user_version,
         staged_left_out=data.staged_left_out,
     )
@@ -885,12 +897,14 @@ async def handle_create_plugged_into(
     """
     db_path = _get_db_path(hass)
     immediate = _get_immediate(hass)
+    ob_version = _get_ob_version(hass)
 
     def _write() -> None:
         with db_connection(db_path) as conn:
             _append_and_maybe_commit(
                 conn,
                 immediate=immediate,
+                ob_version=ob_version,
                 command="create_plugged_into",
                 payload={
                     "appliance_id": msg["appliance_id"],
@@ -921,12 +935,14 @@ async def handle_unplug_plugged_into(
     """
     db_path = _get_db_path(hass)
     immediate = _get_immediate(hass)
+    ob_version = _get_ob_version(hass)
 
     def _write() -> None:
         with db_connection(db_path) as conn:
             _append_and_maybe_commit(
                 conn,
                 immediate=immediate,
+                ob_version=ob_version,
                 command="unplug_plugged_into",
                 payload={"appliance_id": msg["appliance_id"]},
                 now=_now(),
@@ -954,12 +970,14 @@ async def handle_assign_co_to_uo(
     """
     db_path = _get_db_path(hass)
     immediate = _get_immediate(hass)
+    ob_version = _get_ob_version(hass)
 
     def _write() -> None:
         with db_connection(db_path) as conn:
             _append_and_maybe_commit(
                 conn,
                 immediate=immediate,
+                ob_version=ob_version,
                 command="assign_co_to_uo",
                 payload={"co_id": msg["co_id"], "uo_id": msg["uo_id"]},
                 now=_now(),
@@ -986,12 +1004,14 @@ async def handle_unassign_co_from_uo(
     """
     db_path = _get_db_path(hass)
     immediate = _get_immediate(hass)
+    ob_version = _get_ob_version(hass)
 
     def _write() -> None:
         with db_connection(db_path) as conn:
             _append_and_maybe_commit(
                 conn,
                 immediate=immediate,
+                ob_version=ob_version,
                 command="unassign_co_from_uo",
                 payload={"co_id": msg["co_id"]},
                 now=_now(),
@@ -1021,12 +1041,14 @@ async def handle_assign_appliance_to_uo(
     """
     db_path = _get_db_path(hass)
     immediate = _get_immediate(hass)
+    ob_version = _get_ob_version(hass)
 
     def _write() -> None:
         with db_connection(db_path) as conn:
             _append_and_maybe_commit(
                 conn,
                 immediate=immediate,
+                ob_version=ob_version,
                 command="assign_appliance_to_uo",
                 payload={
                     "appliance_id": msg["appliance_id"],
@@ -1057,12 +1079,14 @@ async def handle_unassign_appliance_from_uo(
     """
     db_path = _get_db_path(hass)
     immediate = _get_immediate(hass)
+    ob_version = _get_ob_version(hass)
 
     def _write() -> None:
         with db_connection(db_path) as conn:
             _append_and_maybe_commit(
                 conn,
                 immediate=immediate,
+                ob_version=ob_version,
                 command="unassign_appliance_from_uo",
                 payload={"appliance_id": msg["appliance_id"]},
                 now=_now(),
@@ -1091,12 +1115,14 @@ async def handle_assign_co_to_co_socket(
     """
     db_path = _get_db_path(hass)
     immediate = _get_immediate(hass)
+    ob_version = _get_ob_version(hass)
 
     def _write() -> None:
         with db_connection(db_path) as conn:
             _append_and_maybe_commit(
                 conn,
                 immediate=immediate,
+                ob_version=ob_version,
                 command="assign_co_to_co_socket",
                 payload={"co_id": msg["co_id"], "co_socket_id": msg["co_socket_id"]},
                 now=_now(),
@@ -1123,12 +1149,14 @@ async def handle_unassign_co_from_co_socket(
     """
     db_path = _get_db_path(hass)
     immediate = _get_immediate(hass)
+    ob_version = _get_ob_version(hass)
 
     def _write() -> None:
         with db_connection(db_path) as conn:
             _append_and_maybe_commit(
                 conn,
                 immediate=immediate,
+                ob_version=ob_version,
                 command="unassign_co_from_co_socket",
                 payload={"co_id": msg["co_id"]},
                 now=_now(),

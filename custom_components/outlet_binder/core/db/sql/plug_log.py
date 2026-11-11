@@ -23,44 +23,6 @@ _COLUMNS = (
 )
 
 
-def create_table(conn: sqlite3.Connection) -> None:
-    conn.execute(
-        """
-        CREATE TABLE plug_log (
-          entry_seq      INTEGER PRIMARY KEY,
-          device_id      TEXT NOT NULL,
-          device_name    TEXT NOT NULL,
-          socket_id      TEXT NOT NULL,
-          socket_label   TEXT NOT NULL,
-          host_device_id TEXT NOT NULL,
-          host_name      TEXT NOT NULL,
-          plugged_at     TEXT NOT NULL,
-          unplugged_at   TEXT
-        )
-        """
-    )
-
-
-def create_open_device_index(conn: sqlite3.Connection) -> None:
-    """At most one open row per device."""
-    conn.execute(
-        """
-        CREATE UNIQUE INDEX ux_plug_log_open_device
-          ON plug_log(device_id) WHERE unplugged_at IS NULL
-        """
-    )
-
-
-def create_open_socket_index(conn: sqlite3.Connection) -> None:
-    """At most one open row per socket."""
-    conn.execute(
-        """
-        CREATE UNIQUE INDEX ux_plug_log_open_socket
-          ON plug_log(socket_id) WHERE unplugged_at IS NULL
-        """
-    )
-
-
 def _to_entry(row: sqlite3.Row) -> PlugLogEntry:
     return PlugLogEntry(
         entry_seq=row["entry_seq"],

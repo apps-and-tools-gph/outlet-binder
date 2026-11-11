@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-11-11
+
+First beta drop.
+
 ## [0.2.0] - 2026-11-01
 
 Second alpha drop.

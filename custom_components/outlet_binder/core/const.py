@@ -2,6 +2,10 @@
 
 DOMAIN = "outlet_binder"
 
+# The Repairs issue (and its translation key) raised when an upgrade made a
+# staged edit session stale and setup threw it away.
+EDIT_SESSION_DISCARDED_ISSUE_ID = "edit_session_discarded"
+
 PANEL_URL_PATH = DOMAIN
 PANEL_TITLE = "Outlet Binder"
 PANEL_ICON = "mdi:power-plug-outline"

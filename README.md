@@ -11,6 +11,7 @@ automations and dashboards keep working when the plug is swapped or moved.
 - [Installing through HACS](#installing-through-hacs)
 - [Setting it up](#setting-it-up)
 - [Using it](#using-it)
+- [Upgrading and downgrading](#upgrading-and-downgrading)
 - [Not yet implemented](#not-yet-implemented)
 - [Reporting a problem](#reporting-a-problem)
 - [Licence](#licence)
@@ -74,6 +75,27 @@ services**) chooses how plug and unplug operations are applied:
 - **Batch**: plug operations are staged, and take effect when you commit
   them. Undo and redo step through the staged operations.
 - **Immediate**: each change is written as soon as you make it.
+
+## Upgrading and downgrading
+
+When an update changes how the integration stores its data, it upgrades its
+database the first time Home Assistant starts with the new version. Before it
+does, it saves a copy of the database as `outlet_binder.db.pre-migration.bak`
+beside it, in the Home Assistant configuration directory, and puts the copy
+back if the upgrade fails.
+
+If you had staged changes in the panel that you had not committed, the upgrade
+discards them, and a Repairs notice titled _Staged changes discarded after an
+upgrade_ says so. Nothing already committed is changed. Make the staged
+changes again if you still want them.
+
+Going back to an older version is refused when the database has already been
+upgraded: the integration will not load, and says which versions are involved.
+To go back, stop Home Assistant, replace `outlet_binder.db` with a copy of
+`outlet_binder.db.pre-migration.bak`, install the older version and start
+Home Assistant again. The copy is the database as it was before the upgrade,
+so anything you changed in the integration since is lost, and each later
+upgrade replaces the copy. Or install the newer version again.
 
 ## Not yet implemented
 

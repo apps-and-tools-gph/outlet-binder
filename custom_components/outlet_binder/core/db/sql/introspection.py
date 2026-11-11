@@ -94,15 +94,40 @@ def table_names(conn: sqlite3.Connection) -> set[str]:
 
 
 def schema_statements(conn: sqlite3.Connection) -> list[str]:
-    """The `CREATE` text of every table, index, view and trigger, in no
-    particular order. SQLite stores each statement as written, so this
+    """The `CREATE` text of every table, index, view and trigger, in the order
+    the objects were created. SQLite stores each statement as written, so this
     includes the `CHECK` constraints and any generated-column expressions.
 
     An index SQLite creates itself for a `UNIQUE` or `PRIMARY KEY`
     constraint has no text (`sql` is NULL) and is left out: the constraint
     that made it is in its table's own text."""
-    rows = conn.execute("SELECT sql FROM sqlite_master WHERE sql IS NOT NULL").fetchall()
-    return [row["sql"] for row in rows]
+    return [row.sql for row in schema_rows(conn) if row.sql is not None]
+
+
+@dataclass(frozen=True)
+class SchemaRow:
+    """One row of `sqlite_schema`. `sql` is `None` for an index SQLite made
+    itself for a `UNIQUE` or `PRIMARY KEY` constraint."""
+
+    type: str
+    name: str
+    table_name: str
+    sql: str | None
+
+
+def schema_rows(conn: sqlite3.Connection) -> list[SchemaRow]:
+    """Every `sqlite_schema` row, in the order the objects were created, so a
+    reordered migration changes the result."""
+    rows = conn.execute(
+        "SELECT type, name, tbl_name, sql FROM sqlite_master ORDER BY rowid"
+    ).fetchall()
+    return [SchemaRow(r["type"], r["name"], r["tbl_name"], r["sql"]) for r in rows]
+
+
+def row_count(conn: sqlite3.Connection, table: str) -> int:
+    """How many rows `table` holds."""
+    (count,) = conn.execute(f"SELECT COUNT(*) FROM {_identifier(table)}").fetchone()
+    return int(count)
 
 
 def columns(conn: sqlite3.Connection, table: str) -> list[Column]:

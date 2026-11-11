@@ -40,16 +40,6 @@ _COLUMNS = (
     " plugged_into_socket_id, created_at, updated_at"
 )
 
-# The prefixes an app-generated device id carries; a CO's id must start with
-# none of them.
-_APP_ID_PREFIXES = (UO_ID_PREFIX, APPLIANCE_ID_PREFIX)
-
-_BLANK_TRIM = "' ' || char(9) || char(10) || char(13)"
-
-
-def _device_types_sql() -> str:
-    return ", ".join(f"'{device_type.value}'" for device_type in DeviceType)
-
 
 def _has_prefix_sql(column: str, prefix: str) -> str:
     """One prefix, compared at that prefix's own length."""
@@ -58,16 +48,18 @@ def _has_prefix_sql(column: str, prefix: str) -> str:
 
 def has_any_prefix_sql(column: str, prefixes: tuple[str, ...]) -> str:
     """True when `column` starts with any of `prefixes`, each compared at its
-    own length, so the prefixes need not be the same size. Used to build the
-    id-prefix `CHECK`s; `prefix_match_sql` below runs the same fragment, so a
-    test can show it right for prefixes of different lengths."""
+    own length, so the prefixes need not be the same size. The id-prefix
+    `CHECK`s in core/db/sql/migrations/m0001_initial.py are written out literally
+    and must read exactly like this fragment (tests/test_devices_schema_constraints.py
+    compares them); `prefix_match_sql` below runs it, so a test can show it right
+    for prefixes of different lengths."""
     return "(" + " OR ".join(_has_prefix_sql(column, prefix) for prefix in prefixes) + ")"
 
 
 def prefix_match_sql(conn: sqlite3.Connection, value: str, *, prefixes: tuple[str, ...]) -> bool:
-    """Whether the real `CHECK` fragment accepts `value` as starting with one
-    of `prefixes` -- a schema-invariant probe (core/db/sql/__init__.py), not a
-    second copy of the expression."""
+    """Whether the `has_any_prefix_sql` fragment accepts `value` as starting
+    with one of `prefixes` -- a schema-invariant probe
+    (core/db/sql/__init__.py)."""
     row = conn.execute(
         "SELECT "
         + has_any_prefix_sql("device_id", prefixes)
@@ -75,82 +67,6 @@ def prefix_match_sql(conn: sqlite3.Connection, value: str, *, prefixes: tuple[st
         {"value": value},
     ).fetchone()
     return bool(row[0])
-
-
-def create_table(conn: sqlite3.Connection) -> None:
-    """`sockets` is created after this table and references it back, which
-    SQLite allows: a foreign key's parent is only looked up when a row is
-    written. Deleting a device cascades to its sockets, and a plug in one of
-    those sockets is set to `NULL` -- a plug moves, a socket only releases.
-    """
-    conn.execute(
-        f"""
-        CREATE TABLE devices (
-          device_id                     TEXT PRIMARY KEY,
-          device_name                   TEXT NOT NULL
-            CHECK (trim(device_name, {_BLANK_TRIM}) <> ''),
-          device_type                   TEXT NOT NULL
-            CHECK (device_type IN ({_device_types_sql()})),
-          has_plug                      INTEGER NOT NULL CHECK (has_plug IN (0, 1)),
-          appliance_type                TEXT,
-          description                   TEXT,
-          ha_area_id                    TEXT,
-          location_note                 TEXT,
-          all_on_off_entity_registry_id TEXT,
-          plugged_into_socket_id         TEXT UNIQUE
-            REFERENCES sockets(socket_id) ON DELETE SET NULL,
-          created_at                    TEXT NOT NULL,
-          updated_at                    TEXT NOT NULL,
-          name_norm TEXT GENERATED ALWAYS AS (lower(replace(device_name,' ','_'))) VIRTUAL,
-          type_norm TEXT GENERATED ALWAYS AS (lower(coalesce(appliance_type,''))) VIRTUAL,
-          CHECK (device_type <> '{DeviceType.UO}' OR has_plug = 0),
-          CHECK (device_type <> '{DeviceType.APPLIANCE}' OR has_plug = 1),
-          CHECK (has_plug = 1 OR plugged_into_socket_id IS NULL),
-          CHECK (device_type <> '{DeviceType.UO}'
-                 OR {has_any_prefix_sql("device_id", (UO_ID_PREFIX,))}),
-          CHECK (device_type <> '{DeviceType.APPLIANCE}'
-                 OR {has_any_prefix_sql("device_id", (APPLIANCE_ID_PREFIX,))}),
-          CHECK (device_type <> '{DeviceType.CO}'
-                 OR NOT {has_any_prefix_sql("device_id", _APP_ID_PREFIXES)}),
-          CHECK (device_type = '{DeviceType.APPLIANCE}'
-                 OR (appliance_type IS NULL AND description IS NULL)),
-          CHECK (device_type = '{DeviceType.CO}' OR all_on_off_entity_registry_id IS NULL)
-        )
-        """
-    )
-
-
-def create_co_name_index(conn: sqlite3.Connection) -> None:
-    """At most one CO per normalised name -- the identity HA's own label
-    registry would otherwise collide on (issue #185)."""
-    conn.execute(
-        f"""
-        CREATE UNIQUE INDEX ux_devices_co_name_norm
-          ON devices(name_norm) WHERE device_type = '{DeviceType.CO}'
-        """
-    )
-
-
-def create_uo_name_index(conn: sqlite3.Connection) -> None:
-    """At most one Unmanaged Outlet per normalised name."""
-    conn.execute(
-        f"""
-        CREATE UNIQUE INDEX ux_devices_uo_name_norm
-          ON devices(name_norm) WHERE device_type = '{DeviceType.UO}'
-        """
-    )
-
-
-def create_appliance_name_type_index(conn: sqlite3.Connection) -> None:
-    """At most one Appliance per normalised (name, type) pair. `type_norm`
-    coalesces `NULL` to '', so two untyped Appliances sharing a name collide
-    too, not just two with the same explicit type."""
-    conn.execute(
-        f"""
-        CREATE UNIQUE INDEX ux_devices_appliance_name_type_norm
-          ON devices(name_norm, type_norm) WHERE device_type = '{DeviceType.APPLIANCE}'
-        """
-    )
 
 
 def _to_device(row: sqlite3.Row) -> Device:

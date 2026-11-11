@@ -130,6 +130,13 @@ class EditSession:
     `entry_seq` values (SQLite's default rowid allocation, since
     `edit_log.entry_seq` is declared `INTEGER PRIMARY KEY` without
     `AUTOINCREMENT`, matching `plug_log`'s own precedent), so
-    undo/redo can move it by plain +-1 arithmetic."""
+    undo/redo can move it by plain +-1 arithmetic.
+
+    `opened_by_version` is the OB version that wrote the first entry of the
+    log now in place. It is set when an entry lands in an empty log and
+    cleared by `flush`; `withdraw` can leave it stale on an empty log, where
+    it is never read. See domain/edit_session_upgrade.py for why a session is
+    tied to a version."""
 
     cursor_seq: int
+    opened_by_version: str | None

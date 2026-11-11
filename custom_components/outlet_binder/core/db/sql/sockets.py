@@ -12,35 +12,13 @@ sql/devices.py, and the history of it is in sql/plug_log.py.
 
 import sqlite3
 
-from ...domain.identifiers import DUMB_SOCKET_ID_PREFIX, DeviceId, SocketId
+from ...domain.identifiers import DeviceId, SocketId
 from ...domain.models import Socket
 
 _COLUMNS = (
     "socket_id, device_id, is_smart, alias, socket_type, position,"
     " physical_position, monitoring_entity_registry_id"
 )
-
-
-def create_table(conn: sqlite3.Connection) -> None:
-    conn.execute(
-        f"""
-        CREATE TABLE sockets (
-          socket_id                     TEXT PRIMARY KEY,
-          device_id                     TEXT NOT NULL
-            REFERENCES devices(device_id) ON DELETE CASCADE,
-          is_smart                      INTEGER NOT NULL CHECK (is_smart IN (0, 1)),
-          alias                         TEXT NOT NULL
-            CHECK (trim(alias, ' ' || char(9) || char(10) || char(13)) <> ''),
-          socket_type                   TEXT,
-          position                      INTEGER NOT NULL,
-          physical_position             INTEGER,
-          monitoring_entity_registry_id TEXT,
-          UNIQUE (device_id, position),
-          CHECK ((is_smart = 0)
-                 = (substr(socket_id, 1, {len(DUMB_SOCKET_ID_PREFIX)}) = '{DUMB_SOCKET_ID_PREFIX}'))
-        )
-        """
-    )
 
 
 def _to_socket(row: sqlite3.Row) -> Socket:

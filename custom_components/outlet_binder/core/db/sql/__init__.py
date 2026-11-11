@@ -7,7 +7,7 @@ is answered by opening exactly one module. A history log lives with the
 concept it records rather than in a module of its own, because a log is
 that concept's history, not a separate idea.
 
-Two rules keep the import graph acyclic, and both are load-bearing:
+Three rules, each load-bearing:
 
 - **Modules here never import one another.** A statement that spans two
   concepts is not a fact about either one -- it is a rule about an
@@ -15,6 +15,10 @@ Two rules keep the import graph acyclic, and both are load-bearing:
   what stops `devices` and `sockets` needing each other in both
   directions (plugging a device in validates the socket; deleting a device
   closes the log row of each of its sockets).
+- **Migration modules import nothing from the integration and build no text
+  from live values.** `migrations/` holds each migration's DDL as literal SQL,
+  one module per migration, so that nothing outside a migration's file can
+  change what it builds (tests/test_migration_modules_guard.py).
 - **Modules here never open a transaction.** Transaction boundaries
   belong to db/operations/ alone. Several functions here are called both
   standalone under autocommit and from inside an operation's

@@ -92,6 +92,7 @@ import sqlite3
 from dataclasses import dataclass
 from typing import Any, Literal, Protocol
 
+from ..domain.edit_session_upgrade import should_discard_session
 from ..domain.identifiers import (
     ApplianceId,
     CoId,
@@ -281,9 +282,16 @@ def append(
     command: EditCommand,
     payload: dict[str, str],
     now: Timestamp,
+    opened_by_version: str,
     continue_group: bool = False,
 ) -> int:
     """Stage one connection-command edit. Returns its `entry_seq`.
+
+    `opened_by_version` is the running OB version. It is recorded when this
+    entry lands in an empty log, so an upgrade can tell a session another
+    version opened (domain/edit_session_upgrade.py). It is keyword-only and
+    required: a caller that forgot it would leave sessions unstamped, and so
+    always discarded at the next setup.
 
     Nothing is validated against current state here -- that is the whole
     point of staging: the target need not exist yet, and validation
@@ -311,6 +319,11 @@ def append(
     with transaction.immediate(conn):
         cursor_seq = _ensure_session(conn)
         edit_session_sql.delete_entries_after(conn, after_seq=cursor_seq)
+        # Stamped whenever the log is empty here, not only when no stamp is
+        # set: `withdraw` empties the log without `flush`, so a stale stamp
+        # can be left behind and must not survive into the next session.
+        if entry_count(conn) == 0:
+            edit_session_sql.set_opened_by_version(conn, opened_by_version=opened_by_version)
         group_seq = (
             edit_session_sql.group_seq_of(conn, entry_seq=cursor_seq)
             if continue_group and cursor_seq != 0
@@ -385,12 +398,32 @@ def flush(conn: sqlite3.Connection) -> None:
     """Discard the whole log -- staged and redo-tail entries alike -- and
     reset the cursor. Ends the session without writing anything staged.
 
-    `update_cursor` needs no existence guard: its `UPDATE` matches zero
-    rows and does nothing when no session has ever started, the same
-    outcome as skipping it."""
+    `update_cursor` and `set_opened_by_version` need no existence guard:
+    their `UPDATE` matches zero rows and does nothing when no session has
+    ever started, the same outcome as skipping them."""
     with transaction.immediate(conn):
         edit_session_sql.delete_all_entries(conn)
         edit_session_sql.update_cursor(conn, cursor_seq=0)
+        edit_session_sql.set_opened_by_version(conn, opened_by_version=None)
+
+
+def discard_if_stale(
+    conn: sqlite3.Connection, *, running_version: str, migrations_applied: int
+) -> bool:
+    """At setup, flush a session an upgrade has made stale. True when it did.
+
+    The decision is domain/edit_session_upgrade.py's.
+    """
+    session = edit_session_sql.get_session(conn)
+    if not should_discard_session(
+        entry_count=entry_count(conn),
+        opened_by_version=session.opened_by_version if session is not None else None,
+        running_version=running_version,
+        migrations_applied=migrations_applied,
+    ):
+        return False
+    flush(conn)
+    return True
 
 
 def commit(conn: sqlite3.Connection) -> None:

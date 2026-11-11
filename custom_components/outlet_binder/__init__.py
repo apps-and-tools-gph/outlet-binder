@@ -10,14 +10,15 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import ConfigEntryError
+from homeassistant.helpers import issue_registry as ir
 from homeassistant.helpers.dispatcher import async_dispatcher_connect
 from homeassistant.helpers.typing import ConfigType
-from homeassistant.loader import async_get_integration
 
 from .core.build_stamp import (
     BUILD_STAMP_KEY,
     DEPLOYED_COMMIT_DIR,
     build_stamp,
+    integration_version,
     read_deployed_commit,
 )
 from .core.const import (
@@ -28,6 +29,7 @@ from .core.const import (
     DEFAULT_MODE,
     DEFAULT_SOCKET_REGION,
     DOMAIN,
+    EDIT_SESSION_DISCARDED_ISSUE_ID,
     MODE_IMMEDIATE,
     PANEL_URL_PATH,
     SIGNAL_SWITCHES_CHANGED,
@@ -57,6 +59,9 @@ class OutletBinderData:
     file at this project's stated scale — so there's nothing to keep open,
     and nothing for `async_unload_entry` to close.
 
+    `ob_version` is the running integration's version, which the edit session
+    stamps on the log it opens (core/domain/edit_session_upgrade.py).
+
     `patterns` is loaded once here from the shipped YAML files
     (core/device_identification/pattern_loader.py, docs/LLD.md §4), not re-read on every
     `discover_cos` call.
@@ -74,6 +79,7 @@ class OutletBinderData:
     """
 
     db_path: Path
+    ob_version: str
     patterns: tuple[CoPattern, ...]
     mirrors: MirrorSync
     immediate: bool
@@ -103,24 +109,33 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
     matters.
     """
     await async_register_static_path(hass)
-    integration = await async_get_integration(hass, DOMAIN)
     deployed_commit = await hass.async_add_executor_job(read_deployed_commit, DEPLOYED_COMMIT_DIR)
-    hass.data[BUILD_STAMP_KEY] = build_stamp(
-        str(integration.version) if integration.version else None, deployed_commit
-    )
+    hass.data[BUILD_STAMP_KEY] = build_stamp(await integration_version(hass), deployed_commit)
     return True
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: OutletBinderConfigEntry) -> bool:
     """Set up Outlet & Appliance Binding from a config entry."""
+    ob_version = await integration_version(hass) or "unknown"
     try:
-        await async_bootstrap(hass)
+        session_discarded = await async_bootstrap(hass, running_version=ob_version)
     except MigrationError as err:
-        # A schema migration failed and the database was already restored
-        # to its pre-migration state (see core/db/migrate.py) — this needs a
-        # human to look at it, not an automatic HA retry, so
-        # ConfigEntryError rather than ConfigEntryNotReady.
+        # A migration failed and the database was restored to its
+        # pre-migration state, or the database is newer than this code and was
+        # left untouched (see core/db/migrate.py) — either needs a human to
+        # look at it, not an automatic HA retry, so ConfigEntryError rather
+        # than ConfigEntryNotReady.
         raise ConfigEntryError(str(err)) from err
+    if session_discarded:
+        ir.async_create_issue(
+            hass,
+            DOMAIN,
+            EDIT_SESSION_DISCARDED_ISSUE_ID,
+            is_fixable=False,
+            is_persistent=False,
+            severity=ir.IssueSeverity.WARNING,
+            translation_key=EDIT_SESSION_DISCARDED_ISSUE_ID,
+        )
     patterns = await hass.async_add_executor_job(load_patterns)
     standard = await hass.async_add_executor_job(ob_facility_vocabulary)
     db_path = get_db_path(hass)
@@ -139,6 +154,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: OutletBinderConfigEntry)
     socket_region = entry.options.get(CONF_SOCKET_REGION, DEFAULT_SOCKET_REGION)
     entry.runtime_data = OutletBinderData(
         db_path=db_path,
+        ob_version=ob_version,
         patterns=patterns,
         mirrors=mirrors,
         immediate=immediate,

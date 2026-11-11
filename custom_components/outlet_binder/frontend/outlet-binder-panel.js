@@ -29,11 +29,11 @@ var e = globalThis, t = e.ShadowRoot && (e.ShadyCSS === void 0 || e.ShadyCSS.nat
 	let t = "";
 	for (let n of e.cssRules) t += n.cssText;
 	return a(t);
-})(e) : e, { is: l, defineProperty: u, getOwnPropertyDescriptor: d, getOwnPropertyNames: f, getOwnPropertySymbols: ee, getPrototypeOf: p } = Object, m = globalThis, te = m.trustedTypes, ne = te ? te.emptyScript : "", re = m.reactiveElementPolyfillSupport, h = (e, t) => e, ie = {
+})(e) : e, { is: l, defineProperty: u, getOwnPropertyDescriptor: d, getOwnPropertyNames: f, getOwnPropertySymbols: ee, getPrototypeOf: te } = Object, p = globalThis, ne = p.trustedTypes, re = ne ? ne.emptyScript : "", ie = p.reactiveElementPolyfillSupport, ae = (e, t) => e, oe = {
 	toAttribute(e, t) {
 		switch (t) {
 			case Boolean:
-				e = e ? ne : null;
+				e = e ? re : null;
 				break;
 			case Object:
 			case Array: e = e == null ? e : JSON.stringify(e);
@@ -58,23 +58,23 @@ var e = globalThis, t = e.ShadowRoot && (e.ShadyCSS === void 0 || e.ShadyCSS.nat
 		}
 		return n;
 	}
-}, ae = (e, t) => !l(e, t), oe = {
+}, se = (e, t) => !l(e, t), ce = {
 	attribute: !0,
 	type: String,
-	converter: ie,
+	converter: oe,
 	reflect: !1,
 	useDefault: !1,
-	hasChanged: ae
+	hasChanged: se
 };
-Symbol.metadata ??= Symbol("metadata"), m.litPropertyMetadata ??= /* @__PURE__ */ new WeakMap();
-var g = class extends HTMLElement {
+Symbol.metadata ??= Symbol("metadata"), p.litPropertyMetadata ??= /* @__PURE__ */ new WeakMap();
+var m = class extends HTMLElement {
 	static addInitializer(e) {
 		this._$Ei(), (this.l ??= []).push(e);
 	}
 	static get observedAttributes() {
 		return this.finalize(), this._$Eh && [...this._$Eh.keys()];
 	}
-	static createProperty(e, t = oe) {
+	static createProperty(e, t = ce) {
 		if (t.state && (t.attribute = !1), this._$Ei(), this.prototype.hasOwnProperty(e) && ((t = Object.create(t)).wrapped = !0), this.elementProperties.set(e, t), !t.noAccessor) {
 			let n = Symbol(), r = this.getPropertyDescriptor(e, n, t);
 			r !== void 0 && u(this.prototype, e, r);
@@ -100,16 +100,16 @@ var g = class extends HTMLElement {
 		};
 	}
 	static getPropertyOptions(e) {
-		return this.elementProperties.get(e) ?? oe;
+		return this.elementProperties.get(e) ?? ce;
 	}
 	static _$Ei() {
-		if (this.hasOwnProperty(h("elementProperties"))) return;
-		let e = p(this);
+		if (this.hasOwnProperty(ae("elementProperties"))) return;
+		let e = te(this);
 		e.finalize(), e.l !== void 0 && (this.l = [...e.l]), this.elementProperties = new Map(e.elementProperties);
 	}
 	static finalize() {
-		if (this.hasOwnProperty(h("finalized"))) return;
-		if (this.finalized = !0, this._$Ei(), this.hasOwnProperty(h("properties"))) {
+		if (this.hasOwnProperty(ae("finalized"))) return;
+		if (this.finalized = !0, this._$Ei(), this.hasOwnProperty(ae("properties"))) {
 			let e = this.properties, t = [...f(e), ...ee(e)];
 			for (let n of t) this.createProperty(n, e[n]);
 		}
@@ -171,14 +171,14 @@ var g = class extends HTMLElement {
 	_$ET(e, t) {
 		let n = this.constructor.elementProperties.get(e), r = this.constructor._$Eu(e, n);
 		if (r !== void 0 && !0 === n.reflect) {
-			let i = (n.converter?.toAttribute === void 0 ? ie : n.converter).toAttribute(t, n.type);
+			let i = (n.converter?.toAttribute === void 0 ? oe : n.converter).toAttribute(t, n.type);
 			this._$Em = e, i == null ? this.removeAttribute(r) : this.setAttribute(r, i), this._$Em = null;
 		}
 	}
 	_$AK(e, t) {
 		let n = this.constructor, r = n._$Eh.get(e);
 		if (r !== void 0 && this._$Em !== r) {
-			let e = n.getPropertyOptions(r), i = typeof e.converter == "function" ? { fromAttribute: e.converter } : e.converter?.fromAttribute === void 0 ? ie : e.converter;
+			let e = n.getPropertyOptions(r), i = typeof e.converter == "function" ? { fromAttribute: e.converter } : e.converter?.fromAttribute === void 0 ? oe : e.converter;
 			this._$Em = r;
 			let a = i.fromAttribute(t, e.type);
 			this[r] = a ?? this._$Ej?.get(r) ?? a, this._$Em = null;
@@ -187,7 +187,7 @@ var g = class extends HTMLElement {
 	requestUpdate(e, t, n, r = !1, i) {
 		if (e !== void 0) {
 			let a = this.constructor;
-			if (!1 === r && (i = this[e]), n ??= a.getPropertyOptions(e), !((n.hasChanged ?? ae)(i, t) || n.useDefault && n.reflect && i === this._$Ej?.get(e) && !this.hasAttribute(a._$Eu(e, n)))) return;
+			if (!1 === r && (i = this[e]), n ??= a.getPropertyOptions(e), !((n.hasChanged ?? se)(i, t) || n.useDefault && n.reflect && i === this._$Ej?.get(e) && !this.hasAttribute(a._$Eu(e, n)))) return;
 			this.C(e, t, n);
 		}
 		!1 === this.isUpdatePending && (this._$ES = this._$EP());
@@ -251,89 +251,89 @@ var g = class extends HTMLElement {
 	updated(e) {}
 	firstUpdated(e) {}
 };
-g.elementStyles = [], g.shadowRootOptions = { mode: "open" }, g[h("elementProperties")] = /* @__PURE__ */ new Map(), g[h("finalized")] = /* @__PURE__ */ new Map(), re?.({ ReactiveElement: g }), (m.reactiveElementVersions ??= []).push("2.1.2");
+m.elementStyles = [], m.shadowRootOptions = { mode: "open" }, m[ae("elementProperties")] = /* @__PURE__ */ new Map(), m[ae("finalized")] = /* @__PURE__ */ new Map(), ie?.({ ReactiveElement: m }), (p.reactiveElementVersions ??= []).push("2.1.2");
 //#endregion
 //#region node_modules/lit-html/lit-html.js
-var se = globalThis, ce = (e) => e, le = se.trustedTypes, ue = le ? le.createPolicy("lit-html", { createHTML: (e) => e }) : void 0, de = "$lit$", _ = `lit$${Math.random().toFixed(9).slice(2)}$`, fe = "?" + _, pe = `<${fe}>`, v = document, me = () => v.createComment(""), he = (e) => e === null || typeof e != "object" && typeof e != "function", ge = Array.isArray, _e = (e) => ge(e) || typeof e?.[Symbol.iterator] == "function", ve = "[ 	\n\f\r]", y = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g, ye = /-->/g, be = />/g, b = RegExp(`>|${ve}(?:([^\\s"'>=/]+)(${ve}*=${ve}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`, "g"), xe = /'/g, Se = /"/g, Ce = /^(?:script|style|textarea|title)$/i, x = ((e) => (t, ...n) => ({
+var le = globalThis, ue = (e) => e, de = le.trustedTypes, fe = de ? de.createPolicy("lit-html", { createHTML: (e) => e }) : void 0, pe = "$lit$", h = `lit$${Math.random().toFixed(9).slice(2)}$`, me = "?" + h, he = `<${me}>`, g = document, ge = () => g.createComment(""), _e = (e) => e === null || typeof e != "object" && typeof e != "function", ve = Array.isArray, ye = (e) => ve(e) || typeof e?.[Symbol.iterator] == "function", be = "[ 	\n\f\r]", xe = /<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g, Se = /-->/g, Ce = />/g, _ = RegExp(`>|${be}(?:([^\\s"'>=/]+)(${be}*=${be}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`, "g"), we = /'/g, Te = /"/g, Ee = /^(?:script|style|textarea|title)$/i, v = ((e) => (t, ...n) => ({
 	_$litType$: e,
 	strings: t,
 	values: n
-}))(1), S = Symbol.for("lit-noChange"), C = Symbol.for("lit-nothing"), we = /* @__PURE__ */ new WeakMap(), w = v.createTreeWalker(v, 129);
-function Te(e, t) {
-	if (!ge(e) || !e.hasOwnProperty("raw")) throw Error("invalid template strings array");
-	return ue === void 0 ? t : ue.createHTML(t);
+}))(1), y = Symbol.for("lit-noChange"), b = Symbol.for("lit-nothing"), De = /* @__PURE__ */ new WeakMap(), x = g.createTreeWalker(g, 129);
+function Oe(e, t) {
+	if (!ve(e) || !e.hasOwnProperty("raw")) throw Error("invalid template strings array");
+	return fe === void 0 ? t : fe.createHTML(t);
 }
-var Ee = (e, t) => {
-	let n = e.length - 1, r = [], i, a = t === 2 ? "<svg>" : t === 3 ? "<math>" : "", o = y;
+var ke = (e, t) => {
+	let n = e.length - 1, r = [], i, a = t === 2 ? "<svg>" : t === 3 ? "<math>" : "", o = xe;
 	for (let t = 0; t < n; t++) {
 		let n = e[t], s, c, l = -1, u = 0;
-		for (; u < n.length && (o.lastIndex = u, c = o.exec(n), c !== null);) u = o.lastIndex, o === y ? c[1] === "!--" ? o = ye : c[1] === void 0 ? c[2] === void 0 ? c[3] !== void 0 && (o = b) : (Ce.test(c[2]) && (i = RegExp("</" + c[2], "g")), o = b) : o = be : o === b ? c[0] === ">" ? (o = i ?? y, l = -1) : c[1] === void 0 ? l = -2 : (l = o.lastIndex - c[2].length, s = c[1], o = c[3] === void 0 ? b : c[3] === "\"" ? Se : xe) : o === Se || o === xe ? o = b : o === ye || o === be ? o = y : (o = b, i = void 0);
-		let d = o === b && e[t + 1].startsWith("/>") ? " " : "";
-		a += o === y ? n + pe : l >= 0 ? (r.push(s), n.slice(0, l) + de + n.slice(l) + _ + d) : n + _ + (l === -2 ? t : d);
+		for (; u < n.length && (o.lastIndex = u, c = o.exec(n), c !== null);) u = o.lastIndex, o === xe ? c[1] === "!--" ? o = Se : c[1] === void 0 ? c[2] === void 0 ? c[3] !== void 0 && (o = _) : (Ee.test(c[2]) && (i = RegExp("</" + c[2], "g")), o = _) : o = Ce : o === _ ? c[0] === ">" ? (o = i ?? xe, l = -1) : c[1] === void 0 ? l = -2 : (l = o.lastIndex - c[2].length, s = c[1], o = c[3] === void 0 ? _ : c[3] === "\"" ? Te : we) : o === Te || o === we ? o = _ : o === Se || o === Ce ? o = xe : (o = _, i = void 0);
+		let d = o === _ && e[t + 1].startsWith("/>") ? " " : "";
+		a += o === xe ? n + he : l >= 0 ? (r.push(s), n.slice(0, l) + pe + n.slice(l) + h + d) : n + h + (l === -2 ? t : d);
 	}
-	return [Te(e, a + (e[n] || "<?>") + (t === 2 ? "</svg>" : t === 3 ? "</math>" : "")), r];
-}, De = class e {
+	return [Oe(e, a + (e[n] || "<?>") + (t === 2 ? "</svg>" : t === 3 ? "</math>" : "")), r];
+}, Ae = class e {
 	constructor({ strings: t, _$litType$: n }, r) {
 		let i;
 		this.parts = [];
-		let a = 0, o = 0, s = t.length - 1, c = this.parts, [l, u] = Ee(t, n);
-		if (this.el = e.createElement(l, r), w.currentNode = this.el.content, n === 2 || n === 3) {
+		let a = 0, o = 0, s = t.length - 1, c = this.parts, [l, u] = ke(t, n);
+		if (this.el = e.createElement(l, r), x.currentNode = this.el.content, n === 2 || n === 3) {
 			let e = this.el.content.firstChild;
 			e.replaceWith(...e.childNodes);
 		}
-		for (; (i = w.nextNode()) !== null && c.length < s;) {
+		for (; (i = x.nextNode()) !== null && c.length < s;) {
 			if (i.nodeType === 1) {
-				if (i.hasAttributes()) for (let e of i.getAttributeNames()) if (e.endsWith(de)) {
-					let t = u[o++], n = i.getAttribute(e).split(_), r = /([.?@])?(.*)/.exec(t);
+				if (i.hasAttributes()) for (let e of i.getAttributeNames()) if (e.endsWith(pe)) {
+					let t = u[o++], n = i.getAttribute(e).split(h), r = /([.?@])?(.*)/.exec(t);
 					c.push({
 						type: 1,
 						index: a,
 						name: r[2],
 						strings: n,
-						ctor: r[1] === "." ? je : r[1] === "?" ? Me : r[1] === "@" ? Ne : Ae
+						ctor: r[1] === "." ? Fe : r[1] === "?" ? Ie : r[1] === "@" ? Le : Pe
 					}), i.removeAttribute(e);
-				} else e.startsWith(_) && (c.push({
+				} else e.startsWith(h) && (c.push({
 					type: 6,
 					index: a
 				}), i.removeAttribute(e));
-				if (Ce.test(i.tagName)) {
-					let e = i.textContent.split(_), t = e.length - 1;
+				if (Ee.test(i.tagName)) {
+					let e = i.textContent.split(h), t = e.length - 1;
 					if (t > 0) {
-						i.textContent = le ? le.emptyScript : "";
-						for (let n = 0; n < t; n++) i.append(e[n], me()), w.nextNode(), c.push({
+						i.textContent = de ? de.emptyScript : "";
+						for (let n = 0; n < t; n++) i.append(e[n], ge()), x.nextNode(), c.push({
 							type: 2,
 							index: ++a
 						});
-						i.append(e[t], me());
+						i.append(e[t], ge());
 					}
 				}
 			} else if (i.nodeType === 8) {
-				if (i.data === fe) c.push({
+				if (i.data === me) c.push({
 					type: 2,
 					index: a
 				});
 				else {
 					let e = -1;
-					for (; (e = i.data.indexOf(_, e + 1)) !== -1;) c.push({
+					for (; (e = i.data.indexOf(h, e + 1)) !== -1;) c.push({
 						type: 7,
 						index: a
-					}), e += _.length - 1;
+					}), e += h.length - 1;
 				}
 			}
 			a++;
 		}
 	}
 	static createElement(e, t) {
-		let n = v.createElement("template");
+		let n = g.createElement("template");
 		return n.innerHTML = e, n;
 	}
 };
-function T(e, t, n = e, r) {
-	if (t === S) return t;
-	let i = r === void 0 ? n._$Cl : n._$Co?.[r], a = he(t) ? void 0 : t._$litDirective$;
-	return i?.constructor !== a && (i?._$AO?.(!1), a === void 0 ? i = void 0 : (i = new a(e), i._$AT(e, n, r)), r === void 0 ? n._$Cl = i : (n._$Co ??= [])[r] = i), i !== void 0 && (t = T(e, i._$AS(e, t.values), i, r)), t;
+function je(e, t, n = e, r) {
+	if (t === y) return t;
+	let i = r === void 0 ? n._$Cl : n._$Co?.[r], a = _e(t) ? void 0 : t._$litDirective$;
+	return i?.constructor !== a && (i?._$AO?.(!1), a === void 0 ? i = void 0 : (i = new a(e), i._$AT(e, n, r)), r === void 0 ? n._$Cl = i : (n._$Co ??= [])[r] = i), i !== void 0 && (t = je(e, i._$AS(e, t.values), i, r)), t;
 }
-var Oe = class {
+var Me = class {
 	constructor(e, t) {
 		this._$AV = [], this._$AN = void 0, this._$AD = e, this._$AM = t;
 	}
@@ -344,28 +344,28 @@ var Oe = class {
 		return this._$AM._$AU;
 	}
 	u(e) {
-		let { el: { content: t }, parts: n } = this._$AD, r = (e?.creationScope ?? v).importNode(t, !0);
-		w.currentNode = r;
-		let i = w.nextNode(), a = 0, o = 0, s = n[0];
+		let { el: { content: t }, parts: n } = this._$AD, r = (e?.creationScope ?? g).importNode(t, !0);
+		x.currentNode = r;
+		let i = x.nextNode(), a = 0, o = 0, s = n[0];
 		for (; s !== void 0;) {
 			if (a === s.index) {
 				let t;
-				s.type === 2 ? t = new ke(i, i.nextSibling, this, e) : s.type === 1 ? t = new s.ctor(i, s.name, s.strings, this, e) : s.type === 6 && (t = new Pe(i, this, e)), this._$AV.push(t), s = n[++o];
+				s.type === 2 ? t = new Ne(i, i.nextSibling, this, e) : s.type === 1 ? t = new s.ctor(i, s.name, s.strings, this, e) : s.type === 6 && (t = new Re(i, this, e)), this._$AV.push(t), s = n[++o];
 			}
-			a !== s?.index && (i = w.nextNode(), a++);
+			a !== s?.index && (i = x.nextNode(), a++);
 		}
-		return w.currentNode = v, r;
+		return x.currentNode = g, r;
 	}
 	p(e) {
 		let t = 0;
 		for (let n of this._$AV) n !== void 0 && (n.strings === void 0 ? n._$AI(e[t]) : (n._$AI(e, n, t), t += n.strings.length - 2)), t++;
 	}
-}, ke = class e {
+}, Ne = class e {
 	get _$AU() {
 		return this._$AM?._$AU ?? this._$Cv;
 	}
 	constructor(e, t, n, r) {
-		this.type = 2, this._$AH = C, this._$AN = void 0, this._$AA = e, this._$AB = t, this._$AM = n, this.options = r, this._$Cv = r?.isConnected ?? !0;
+		this.type = 2, this._$AH = b, this._$AN = void 0, this._$AA = e, this._$AB = t, this._$AM = n, this.options = r, this._$Cv = r?.isConnected ?? !0;
 	}
 	get parentNode() {
 		let e = this._$AA.parentNode, t = this._$AM;
@@ -378,7 +378,7 @@ var Oe = class {
 		return this._$AB;
 	}
 	_$AI(e, t = this) {
-		e = T(this, e, t), he(e) ? e === C || e == null || e === "" ? (this._$AH !== C && this._$AR(), this._$AH = C) : e !== this._$AH && e !== S && this._(e) : e._$litType$ === void 0 ? e.nodeType === void 0 ? _e(e) ? this.k(e) : this._(e) : this.T(e) : this.$(e);
+		e = je(this, e, t), _e(e) ? e === b || e == null || e === "" ? (this._$AH !== b && this._$AR(), this._$AH = b) : e !== this._$AH && e !== y && this._(e) : e._$litType$ === void 0 ? e.nodeType === void 0 ? ye(e) ? this.k(e) : this._(e) : this.T(e) : this.$(e);
 	}
 	O(e) {
 		return this._$AA.parentNode.insertBefore(e, this._$AB);
@@ -387,36 +387,36 @@ var Oe = class {
 		this._$AH !== e && (this._$AR(), this._$AH = this.O(e));
 	}
 	_(e) {
-		this._$AH !== C && he(this._$AH) ? this._$AA.nextSibling.data = e : this.T(v.createTextNode(e)), this._$AH = e;
+		this._$AH !== b && _e(this._$AH) ? this._$AA.nextSibling.data = e : this.T(g.createTextNode(e)), this._$AH = e;
 	}
 	$(e) {
-		let { values: t, _$litType$: n } = e, r = typeof n == "number" ? this._$AC(e) : (n.el === void 0 && (n.el = De.createElement(Te(n.h, n.h[0]), this.options)), n);
+		let { values: t, _$litType$: n } = e, r = typeof n == "number" ? this._$AC(e) : (n.el === void 0 && (n.el = Ae.createElement(Oe(n.h, n.h[0]), this.options)), n);
 		if (this._$AH?._$AD === r) this._$AH.p(t);
 		else {
-			let e = new Oe(r, this), n = e.u(this.options);
+			let e = new Me(r, this), n = e.u(this.options);
 			e.p(t), this.T(n), this._$AH = e;
 		}
 	}
 	_$AC(e) {
-		let t = we.get(e.strings);
-		return t === void 0 && we.set(e.strings, t = new De(e)), t;
+		let t = De.get(e.strings);
+		return t === void 0 && De.set(e.strings, t = new Ae(e)), t;
 	}
 	k(t) {
-		ge(this._$AH) || (this._$AH = [], this._$AR());
+		ve(this._$AH) || (this._$AH = [], this._$AR());
 		let n = this._$AH, r, i = 0;
-		for (let a of t) i === n.length ? n.push(r = new e(this.O(me()), this.O(me()), this, this.options)) : r = n[i], r._$AI(a), i++;
+		for (let a of t) i === n.length ? n.push(r = new e(this.O(ge()), this.O(ge()), this, this.options)) : r = n[i], r._$AI(a), i++;
 		i < n.length && (this._$AR(r && r._$AB.nextSibling, i), n.length = i);
 	}
 	_$AR(e = this._$AA.nextSibling, t) {
 		for (this._$AP?.(!1, !0, t); e !== this._$AB;) {
-			let t = ce(e).nextSibling;
-			ce(e).remove(), e = t;
+			let t = ue(e).nextSibling;
+			ue(e).remove(), e = t;
 		}
 	}
 	setConnected(e) {
 		this._$AM === void 0 && (this._$Cv = e, this._$AP?.(e));
 	}
-}, Ae = class {
+}, Pe = class {
 	get tagName() {
 		return this.element.tagName;
 	}
@@ -424,47 +424,47 @@ var Oe = class {
 		return this._$AM._$AU;
 	}
 	constructor(e, t, n, r, i) {
-		this.type = 1, this._$AH = C, this._$AN = void 0, this.element = e, this.name = t, this._$AM = r, this.options = i, n.length > 2 || n[0] !== "" || n[1] !== "" ? (this._$AH = Array(n.length - 1).fill(/* @__PURE__ */ new String()), this.strings = n) : this._$AH = C;
+		this.type = 1, this._$AH = b, this._$AN = void 0, this.element = e, this.name = t, this._$AM = r, this.options = i, n.length > 2 || n[0] !== "" || n[1] !== "" ? (this._$AH = Array(n.length - 1).fill(/* @__PURE__ */ new String()), this.strings = n) : this._$AH = b;
 	}
 	_$AI(e, t = this, n, r) {
 		let i = this.strings, a = !1;
-		if (i === void 0) e = T(this, e, t, 0), a = !he(e) || e !== this._$AH && e !== S, a && (this._$AH = e);
+		if (i === void 0) e = je(this, e, t, 0), a = !_e(e) || e !== this._$AH && e !== y, a && (this._$AH = e);
 		else {
 			let r = e, o, s;
-			for (e = i[0], o = 0; o < i.length - 1; o++) s = T(this, r[n + o], t, o), s === S && (s = this._$AH[o]), a ||= !he(s) || s !== this._$AH[o], s === C ? e = C : e !== C && (e += (s ?? "") + i[o + 1]), this._$AH[o] = s;
+			for (e = i[0], o = 0; o < i.length - 1; o++) s = je(this, r[n + o], t, o), s === y && (s = this._$AH[o]), a ||= !_e(s) || s !== this._$AH[o], s === b ? e = b : e !== b && (e += (s ?? "") + i[o + 1]), this._$AH[o] = s;
 		}
 		a && !r && this.j(e);
 	}
 	j(e) {
-		e === C ? this.element.removeAttribute(this.name) : this.element.setAttribute(this.name, e ?? "");
+		e === b ? this.element.removeAttribute(this.name) : this.element.setAttribute(this.name, e ?? "");
 	}
-}, je = class extends Ae {
+}, Fe = class extends Pe {
 	constructor() {
 		super(...arguments), this.type = 3;
 	}
 	j(e) {
-		this.element[this.name] = e === C ? void 0 : e;
+		this.element[this.name] = e === b ? void 0 : e;
 	}
-}, Me = class extends Ae {
+}, Ie = class extends Pe {
 	constructor() {
 		super(...arguments), this.type = 4;
 	}
 	j(e) {
-		this.element.toggleAttribute(this.name, !!e && e !== C);
+		this.element.toggleAttribute(this.name, !!e && e !== b);
 	}
-}, Ne = class extends Ae {
+}, Le = class extends Pe {
 	constructor(e, t, n, r, i) {
 		super(e, t, n, r, i), this.type = 5;
 	}
 	_$AI(e, t = this) {
-		if ((e = T(this, e, t, 0) ?? C) === S) return;
-		let n = this._$AH, r = e === C && n !== C || e.capture !== n.capture || e.once !== n.once || e.passive !== n.passive, i = e !== C && (n === C || r);
+		if ((e = je(this, e, t, 0) ?? b) === y) return;
+		let n = this._$AH, r = e === b && n !== b || e.capture !== n.capture || e.once !== n.once || e.passive !== n.passive, i = e !== b && (n === b || r);
 		r && this.element.removeEventListener(this.name, this, n), i && this.element.addEventListener(this.name, this, e), this._$AH = e;
 	}
 	handleEvent(e) {
 		typeof this._$AH == "function" ? this._$AH.call(this.options?.host ?? this.element, e) : this._$AH.handleEvent(e);
 	}
-}, Pe = class {
+}, Re = class {
 	constructor(e, t, n) {
 		this.element = e, this.type = 6, this._$AN = void 0, this._$AM = t, this.options = n;
 	}
@@ -472,18 +472,18 @@ var Oe = class {
 		return this._$AM._$AU;
 	}
 	_$AI(e) {
-		T(this, e);
+		je(this, e);
 	}
-}, Fe = se.litHtmlPolyfillSupport;
-Fe?.(De, ke), (se.litHtmlVersions ??= []).push("3.3.3");
-var Ie = (e, t, n) => {
+}, ze = le.litHtmlPolyfillSupport;
+ze?.(Ae, Ne), (le.litHtmlVersions ??= []).push("3.3.3");
+var Be = (e, t, n) => {
 	let r = n?.renderBefore ?? t, i = r._$litPart$;
 	if (i === void 0) {
 		let e = n?.renderBefore ?? null;
-		r._$litPart$ = i = new ke(t.insertBefore(me(), e), e, void 0, n ?? {});
+		r._$litPart$ = i = new Ne(t.insertBefore(ge(), e), e, void 0, n ?? {});
 	}
 	return i._$AI(e), i;
-}, Le = globalThis, Re = class extends g {
+}, Ve = globalThis, He = class extends m {
 	constructor() {
 		super(...arguments), this.renderOptions = { host: this }, this._$Do = void 0;
 	}
@@ -493,7 +493,7 @@ var Ie = (e, t, n) => {
 	}
 	update(e) {
 		let t = this.render();
-		this.hasUpdated || (this.renderOptions.isConnected = this.isConnected), super.update(e), this._$Do = Ie(t, this.renderRoot, this.renderOptions);
+		this.hasUpdated || (this.renderOptions.isConnected = this.isConnected), super.update(e), this._$Do = Be(t, this.renderRoot, this.renderOptions);
 	}
 	connectedCallback() {
 		super.connectedCallback(), this._$Do?.setConnected(!0);
@@ -502,25 +502,25 @@ var Ie = (e, t, n) => {
 		super.disconnectedCallback(), this._$Do?.setConnected(!1);
 	}
 	render() {
-		return S;
+		return y;
 	}
 };
-Re._$litElement$ = !0, Re.finalized = !0, Le.litElementHydrateSupport?.({ LitElement: Re });
-var ze = Le.litElementPolyfillSupport;
-ze?.({ LitElement: Re }), (Le.litElementVersions ??= []).push("4.2.2");
+He._$litElement$ = !0, He.finalized = !0, Ve.litElementHydrateSupport?.({ LitElement: He });
+var Ue = Ve.litElementPolyfillSupport;
+Ue?.({ LitElement: He }), (Ve.litElementVersions ??= []).push("4.2.2");
 //#endregion
 //#region node_modules/@lit/reactive-element/decorators/custom-element.js
-var Be = (e) => (t, n) => {
+var We = (e) => (t, n) => {
 	n === void 0 ? customElements.define(e, t) : n.addInitializer(() => {
 		customElements.define(e, t);
 	});
-}, Ve = {
+}, Ge = {
 	attribute: !0,
 	type: String,
-	converter: ie,
+	converter: oe,
 	reflect: !1,
-	hasChanged: ae
-}, He = (e = Ve, t, n) => {
+	hasChanged: se
+}, Ke = (e = Ge, t, n) => {
 	let { kind: r, metadata: i } = n, a = globalThis.litPropertyMetadata.get(i);
 	if (a === void 0 && globalThis.litPropertyMetadata.set(i, a = /* @__PURE__ */ new Map()), r === "setter" && ((e = Object.create(e)).wrapped = !0), a.set(n.name, e), r === "accessor") {
 		let { name: r } = n;
@@ -543,16 +543,16 @@ var Be = (e) => (t, n) => {
 	}
 	throw Error("Unsupported decorator location: " + r);
 };
-function Ue(e) {
-	return (t, n) => typeof n == "object" ? He(e, t, n) : ((e, t, n) => {
+function qe(e) {
+	return (t, n) => typeof n == "object" ? Ke(e, t, n) : ((e, t, n) => {
 		let r = t.hasOwnProperty(n);
 		return t.constructor.createProperty(n, e), r ? Object.getOwnPropertyDescriptor(t, n) : void 0;
 	})(e, t, n);
 }
 //#endregion
 //#region node_modules/@lit/reactive-element/decorators/state.js
-function E(e) {
-	return Ue({
+function S(e) {
+	return qe({
 		...e,
 		state: !0,
 		attribute: !1
@@ -560,10 +560,10 @@ function E(e) {
 }
 //#endregion
 //#region node_modules/@lit/reactive-element/decorators/base.js
-var We = (e, t, n) => (n.configurable = !0, n.enumerable = !0, Reflect.decorate && typeof t != "object" && Object.defineProperty(e, t, n), n);
+var Je = (e, t, n) => (n.configurable = !0, n.enumerable = !0, Reflect.decorate && typeof t != "object" && Object.defineProperty(e, t, n), n);
 //#endregion
 //#region node_modules/@lit/reactive-element/decorators/query.js
-function D(e, t) {
+function C(e, t) {
 	return (n, r, i) => {
 		let a = (t) => t.renderRoot?.querySelector(e) ?? null;
 		if (t) {
@@ -578,57 +578,395 @@ function D(e, t) {
 					}
 				};
 			})();
-			return We(n, r, { get() {
+			return Je(n, r, { get() {
 				let n = e.call(this);
 				return n === void 0 && (n = a(this), (n !== null || this.hasUpdated) && t.call(this, n)), n;
 			} });
 		}
-		return We(n, r, { get() {
+		return Je(n, r, { get() {
 			return a(this);
 		} });
 	};
 }
 //#endregion
 //#region node_modules/lit-html/directives/if-defined.js
-var Ge = (e) => e ?? C, Ke = "M13,13H11V7H13M13,17H11V15H13M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z", qe = "M15,20H9V12H4.16L12,4.16L19.84,12H15V20Z", Je = "M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z", Ye = "M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z", Xe = "M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z", Ze = "M12,15.5A3.5,3.5 0 0,1 8.5,12A3.5,3.5 0 0,1 12,8.5A3.5,3.5 0 0,1 15.5,12A3.5,3.5 0 0,1 12,15.5M19.43,12.97C19.47,12.65 19.5,12.33 19.5,12C19.5,11.67 19.47,11.34 19.43,11L21.54,9.37C21.73,9.22 21.78,8.95 21.66,8.73L19.66,5.27C19.54,5.05 19.27,4.96 19.05,5.05L16.56,6.05C16.04,5.66 15.5,5.32 14.87,5.07L14.5,2.42C14.46,2.18 14.25,2 14,2H10C9.75,2 9.54,2.18 9.5,2.42L9.13,5.07C8.5,5.32 7.96,5.66 7.44,6.05L4.95,5.05C4.73,4.96 4.46,5.05 4.34,5.27L2.34,8.73C2.21,8.95 2.27,9.22 2.46,9.37L4.57,11C4.53,11.34 4.5,11.67 4.5,12C4.5,12.33 4.53,12.65 4.57,12.97L2.46,14.63C2.27,14.78 2.21,15.05 2.34,15.27L4.34,18.73C4.46,18.95 4.73,19.03 4.95,18.95L7.44,17.94C7.96,18.34 8.5,18.68 9.13,18.93L9.5,21.58C9.54,21.82 9.75,22 10,22H14C14.25,22 14.46,21.82 14.5,21.58L14.87,18.93C15.5,18.67 16.04,18.34 16.56,17.94L19.05,18.95C19.27,19.03 19.54,18.95 19.66,18.73L21.66,15.27C21.78,15.05 21.73,14.78 21.54,14.63L19.43,12.97Z", Qe = "M21 11H3V9H21V11M21 13H3V15H21V13Z", $e = "M14 2H6C4.9 2 4 2.9 4 4V20C4 21.1 4.9 22 6 22H18C19.1 22 20 21.1 20 20V8L14 2M18 20H6V4H13V9H18V20M16 11V18.1L13.9 16L11.1 18.8L8.3 16L11.1 13.2L8.9 11H16Z", et = "M6,13H18V11H6M3,6V8H21V6M10,18H14V16H10V18Z", tt = "M21.8,13H20V21H13V17.67L15.79,14.88L16.5,15C17.66,15 18.6,14.06 18.6,12.9C18.6,11.74 17.66,10.8 16.5,10.8A2.1,2.1 0 0,0 14.4,12.9L14.5,13.61L13,15.13V9.65C13.66,9.29 14.1,8.6 14.1,7.8A2.1,2.1 0 0,0 12,5.7A2.1,2.1 0 0,0 9.9,7.8C9.9,8.6 10.34,9.29 11,9.65V15.13L9.5,13.61L9.6,12.9A2.1,2.1 0 0,0 7.5,10.8A2.1,2.1 0 0,0 5.4,12.9A2.1,2.1 0 0,0 7.5,15L8.21,14.88L11,17.67V21H4V13H2.25C1.83,13 1.42,13 1.42,12.79C1.43,12.57 1.85,12.15 2.28,11.72L11,3C11.33,2.67 11.67,2.33 12,2.33C12.33,2.33 12.67,2.67 13,3L17,7V6H19V9L21.78,11.78C22.18,12.18 22.59,12.59 22.6,12.8C22.6,13 22.2,13 21.8,13M7.5,12A0.9,0.9 0 0,1 8.4,12.9A0.9,0.9 0 0,1 7.5,13.8A0.9,0.9 0 0,1 6.6,12.9A0.9,0.9 0 0,1 7.5,12M16.5,12C17,12 17.4,12.4 17.4,12.9C17.4,13.4 17,13.8 16.5,13.8A0.9,0.9 0 0,1 15.6,12.9A0.9,0.9 0 0,1 16.5,12M12,6.9C12.5,6.9 12.9,7.3 12.9,7.8C12.9,8.3 12.5,8.7 12,8.7C11.5,8.7 11.1,8.3 11.1,7.8C11.1,7.3 11.5,6.9 12,6.9Z", nt = "M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z", rt = "M12 2C7.04 2 3 6.04 3 11C3 14.91 5.5 18.24 9 19.47V22H11V19.94C11.33 20 11.66 20 12 20S12.67 20 13 19.94V22H15V19.47C18.5 18.23 21 14.9 21 11C21 6.04 16.96 2 12 2M14.25 14L11.25 17L9.75 15.5L11 14.25L9.75 13L12.75 10L14.25 11.5L13 12.75L14.25 14M16 9H8V7H16V9Z", it = "M17,13H7V11H17M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z", at = "M16,7V3H14V7H10V3H8V7H8C7,7 6,8 6,9V14.5L9.5,18V21H14.5V18L18,14.5V9C18,8 17,7 16,7Z", ot = "M20.84 22.73L15.31 17.2L14.5 18V21H9.5V18L6 14.5V9C6 8.7 6.1 8.41 6.25 8.14L1.11 3L2.39 1.73L22.11 21.46L20.84 22.73M18 14.5V9C18 8 17 7 16 7V3H14V7H10.2L17.85 14.65L18 14.5M10 3H8V4.8L10 6.8V3Z", st = "M4.22,2A2.22,2.22 0 0,0 2,4.22V19.78C2,21 3,22 4.22,22H19.78A2.22,2.22 0 0,0 22,19.78V4.22C22,3 21,2 19.78,2H4.22M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M8.27,7.54L6.27,11L8,12L10,8.54L8.27,7.54M15.73,7.54L14,8.54L16,12L17.73,11L15.73,7.54M11,14V18H13V14H11Z", ct = "M19.78 2H4.22C3 2 2 3 2 4.22V19.78C2 21 3 22 4.22 22H19.78C21 22 22 21 22 19.78V4.22C22 3 21 2 19.78 2M20 13L16.55 16.45C16.19 16.81 15.75 17 15.3 17H8.7C8.25 17 7.81 16.81 7.45 16.45L4 13C3.5 12.5 3.5 11.5 4 11L7.45 7.55C7.81 7.19 8.25 7 8.7 7H15.3C15.75 7 16.19 7.19 16.55 7.55L20 11C20.5 11.5 20.5 12.5 20 13M10.5 14C10.5 13.17 11.17 12.5 12 12.5S13.5 13.17 13.5 14 12.83 15.5 12 15.5 10.5 14.83 10.5 14M15.5 12C15.5 11.17 16.17 10.5 17 10.5S18.5 11.17 18.5 12 17.83 13.5 17 13.5 15.5 12.83 15.5 12M5.5 12C5.5 11.17 6.17 10.5 7 10.5S8.5 11.17 8.5 12 7.83 13.5 7 13.5 5.5 12.83 5.5 12Z", lt = "M4.22 2A2.22 2.22 0 0 0 2 4.22V19.78C2 21 3 22 4.22 22H19.78A2.22 2.22 0 0 0 22 19.78V4.22C22 3 21 2 19.78 2H4.22M11 4.07V6H13V4.07A8 8 0 0 1 20 12A8 8 0 0 1 13 19.93V18H11V19.93A8 8 0 0 1 4 12A8 8 0 0 1 11 4.07M7.5 10.5A1.5 1.5 0 0 0 6 12C6 12.83 6.66 13.5 7.5 13.5A1.5 1.5 0 0 0 9 12A1.5 1.5 0 0 0 7.5 10.5M16.5 10.5A1.5 1.5 0 0 0 15 12A1.5 1.5 0 0 0 16.5 13.5A1.5 1.5 0 0 0 18 12A1.5 1.5 0 0 0 16.5 10.5Z", ut = "M7.5,10.5A1.5,1.5 0 0,1 9,12A1.5,1.5 0 0,1 7.5,13.5C6.66,13.5 6,12.83 6,12A1.5,1.5 0 0,1 7.5,10.5M16.5,10.5A1.5,1.5 0 0,1 18,12A1.5,1.5 0 0,1 16.5,13.5A1.5,1.5 0 0,1 15,12A1.5,1.5 0 0,1 16.5,10.5M4.22,2H19.78C21,2 22,3 22,4.22V19.78A2.22,2.22 0 0,1 19.78,22H4.22C3,22 2,21 2,19.78V4.22A2.22,2.22 0 0,1 4.22,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4Z", dt = "M4.22 2A2.22 2.22 0 0 0 2 4.22V19.78C2 21 3 22 4.22 22H19.78A2.22 2.22 0 0 0 22 19.78V4.22C22 3 21 2 19.78 2H4.22M12 4A8 8 0 0 1 20 12A8 8 0 0 1 12 20A8 8 0 0 1 4 12A8 8 0 0 1 12 4M12 6A1.5 1.5 0 0 0 10.5 7.5A1.5 1.5 0 0 0 12 9A1.5 1.5 0 0 0 13.5 7.5A1.5 1.5 0 0 0 12 6M7.5 10.5A1.5 1.5 0 0 0 6 12C6 12.83 6.66 13.5 7.5 13.5A1.5 1.5 0 0 0 9 12A1.5 1.5 0 0 0 7.5 10.5M16.5 10.5A1.5 1.5 0 0 0 15 12A1.5 1.5 0 0 0 16.5 13.5A1.5 1.5 0 0 0 18 12A1.5 1.5 0 0 0 16.5 10.5Z", ft = "M10.5 16.5C10.5 15.68 11.17 15 12 15C12.83 15 13.5 15.68 13.5 16.5C13.5 17.34 12.83 18 12 18C11.17 18 10.5 17.34 10.5 16.5M10.5 7.5C10.5 6.67 11.17 6 12 6C12.83 6 13.5 6.67 13.5 7.5C13.5 8.33 12.83 9 12 9C11.17 9 10.5 8.33 10.5 7.5M4.22 2H19.78C21 2 22 3 22 4.22V19.78C22 21 21 22 19.78 22H4.22C3 22 2 21 2 19.78V4.22C2 3 3 2 4.22 2M12 4C7.58 4 4 7.58 4 12C4 16.42 7.58 20 12 20C16.42 20 20 16.42 20 12C20 7.58 16.42 4 12 4M10.5 12C10.5 11.17 11.17 10.5 12 10.5C12.83 10.5 13.5 11.17 13.5 12C13.5 12.83 12.83 13.5 12 13.5C11.17 13.5 10.5 12.83 10.5 12Z", pt = "M10 9.5V14.5H8V9.5M19.78 2C21 2 22 3 22 4.22V19.78C22 21 21 22 19.78 22H4.22C3 22 2 21 2 19.78V4.22C2 3 3 2 4.22 2M12 4C7.58 4 4 7.58 4 12C4 16.42 7.58 20 12 20C16.42 20 20 16.42 20 12C20 7.58 16.42 4 12 4M16 9.5V14.5H14V9.5Z", mt = "M4 2A2 2 0 0 0 2 4V20A2 2 0 0 0 4 22H20A2 2 0 0 0 22 20V4A2 2 0 0 0 20 2H4M4 4H20V20H4V4M11 7V11H13V7H11M6 14.75V17H9.5V14.75H6M14.5 14.75V17H18V14.75H14.5Z", ht = "M8,7H10V12H8V7M4.22,2H19.78C21,2 22,3 22,4.22V19.78A2.22,2.22 0 0,1 19.78,22H4.22C3,22 2,21 2,19.78V4.22A2.22,2.22 0 0,1 4.22,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4M14,7.5H16V11.5H14V7.5M10.5,16.25A1.5,1.5 0 0,1 12,14.75A1.5,1.5 0 0,1 13.5,16.25V17H10.5V16.25Z", gt = "M13,14C9.64,14 8.54,15.35 8.18,16.24C9.25,16.7 10,17.76 10,19A3,3 0 0,1 7,22A3,3 0 0,1 4,19C4,17.69 4.83,16.58 6,16.17V7.83C4.83,7.42 4,6.31 4,5A3,3 0 0,1 7,2A3,3 0 0,1 10,5C10,6.31 9.17,7.42 8,7.83V13.12C8.88,12.47 10.16,12 12,12C14.67,12 15.56,10.66 15.85,9.77C14.77,9.32 14,8.25 14,7A3,3 0 0,1 17,4A3,3 0 0,1 20,7C20,8.34 19.12,9.5 17.91,9.86C17.65,11.29 16.68,14 13,14M7,18A1,1 0 0,0 6,19A1,1 0 0,0 7,20A1,1 0 0,0 8,19A1,1 0 0,0 7,18M7,4A1,1 0 0,0 6,5A1,1 0 0,0 7,6A1,1 0 0,0 8,5A1,1 0 0,0 7,4M17,6A1,1 0 0,0 16,7A1,1 0 0,0 17,8A1,1 0 0,0 18,7A1,1 0 0,0 17,6Z", _t = "M17 6H7C3.69 6 1 8.69 1 12S3.69 18 7 18H17C20.31 18 23 15.31 23 12S20.31 6 17 6M17 16H7C4.79 16 3 14.21 3 12S4.79 8 7 8H17C19.21 8 21 9.79 21 12S19.21 16 17 16M17 9C15.34 9 14 10.34 14 12S15.34 15 17 15 20 13.66 20 12 18.66 9 17 9Z", vt = "M21.71 20.29L20.29 21.71A1 1 0 0 1 18.88 21.71L7 9.85A3.81 3.81 0 0 1 6 10A4 4 0 0 1 2.22 4.7L4.76 7.24L5.29 6.71L6.71 5.29L7.24 4.76L4.7 2.22A4 4 0 0 1 10 6A3.81 3.81 0 0 1 9.85 7L21.71 18.88A1 1 0 0 1 21.71 20.29M2.29 18.88A1 1 0 0 0 2.29 20.29L3.71 21.71A1 1 0 0 0 5.12 21.71L10.59 16.25L7.76 13.42M20 2L16 4V6L13.83 8.17L15.83 10.17L18 8H20L22 4Z", yt = "M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z", bt = "M2 12H4V17H20V12H22V17C22 18.11 21.11 19 20 19H4C2.9 19 2 18.11 2 17V12M12 2L6.46 7.46L7.88 8.88L11 5.75V15H13V5.75L16.13 8.88L17.55 7.45L12 2Z", xt = "M16 10H8V8H16M2 17A2 2 0 0 0 4 19H20A2 2 0 0 0 22 17V12H20V17H4V12H2Z", St = "M2 12H4V17H20V12H22V17A2 2 0 0 1 20 19H4A2 2 0 0 1 2 17M11 5H13V8H16V10H13V13H11V10H8V8H11Z", Ct = "M2 17A2 2 0 0 0 4 19H20A2 2 0 0 0 22 17V12H20V17H4V12H2M14.12 5.46L15.54 6.88L13.41 9L15.54 11.12L14.12 12.54L12 10.41L9.88 12.54L8.46 11.12L10.59 9L8.46 6.88L9.88 5.46L12 7.59Z", wt = [{
+var Ye = (e) => e ?? b, Xe = "M13,13H11V7H13M13,17H11V15H13M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z", Ze = "M15,20H9V12H4.16L12,4.16L19.84,12H15V20Z", Qe = "M7.41,8.58L12,13.17L16.59,8.58L18,10L12,16L6,10L7.41,8.58Z", $e = "M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z", et = "M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z", tt = "M12,15.5A3.5,3.5 0 0,1 8.5,12A3.5,3.5 0 0,1 12,8.5A3.5,3.5 0 0,1 15.5,12A3.5,3.5 0 0,1 12,15.5M19.43,12.97C19.47,12.65 19.5,12.33 19.5,12C19.5,11.67 19.47,11.34 19.43,11L21.54,9.37C21.73,9.22 21.78,8.95 21.66,8.73L19.66,5.27C19.54,5.05 19.27,4.96 19.05,5.05L16.56,6.05C16.04,5.66 15.5,5.32 14.87,5.07L14.5,2.42C14.46,2.18 14.25,2 14,2H10C9.75,2 9.54,2.18 9.5,2.42L9.13,5.07C8.5,5.32 7.96,5.66 7.44,6.05L4.95,5.05C4.73,4.96 4.46,5.05 4.34,5.27L2.34,8.73C2.21,8.95 2.27,9.22 2.46,9.37L4.57,11C4.53,11.34 4.5,11.67 4.5,12C4.5,12.33 4.53,12.65 4.57,12.97L2.46,14.63C2.27,14.78 2.21,15.05 2.34,15.27L4.34,18.73C4.46,18.95 4.73,19.03 4.95,18.95L7.44,17.94C7.96,18.34 8.5,18.68 9.13,18.93L9.5,21.58C9.54,21.82 9.75,22 10,22H14C14.25,22 14.46,21.82 14.5,21.58L14.87,18.93C15.5,18.67 16.04,18.34 16.56,17.94L19.05,18.95C19.27,19.03 19.54,18.95 19.66,18.73L21.66,15.27C21.78,15.05 21.73,14.78 21.54,14.63L19.43,12.97Z", nt = "M12,16A2,2 0 0,1 14,18A2,2 0 0,1 12,20A2,2 0 0,1 10,18A2,2 0 0,1 12,16M12,10A2,2 0 0,1 14,12A2,2 0 0,1 12,14A2,2 0 0,1 10,12A2,2 0 0,1 12,10M12,4A2,2 0 0,1 14,6A2,2 0 0,1 12,8A2,2 0 0,1 10,6A2,2 0 0,1 12,4Z", rt = "M21 11H3V9H21V11M21 13H3V15H21V13Z", it = "M14 2H6C4.9 2 4 2.9 4 4V20C4 21.1 4.9 22 6 22H18C19.1 22 20 21.1 20 20V8L14 2M18 20H6V4H13V9H18V20M16 11V18.1L13.9 16L11.1 18.8L8.3 16L11.1 13.2L8.9 11H16Z", at = "M6,13H18V11H6M3,6V8H21V6M10,18H14V16H10V18Z", ot = "M21.8,13H20V21H13V17.67L15.79,14.88L16.5,15C17.66,15 18.6,14.06 18.6,12.9C18.6,11.74 17.66,10.8 16.5,10.8A2.1,2.1 0 0,0 14.4,12.9L14.5,13.61L13,15.13V9.65C13.66,9.29 14.1,8.6 14.1,7.8A2.1,2.1 0 0,0 12,5.7A2.1,2.1 0 0,0 9.9,7.8C9.9,8.6 10.34,9.29 11,9.65V15.13L9.5,13.61L9.6,12.9A2.1,2.1 0 0,0 7.5,10.8A2.1,2.1 0 0,0 5.4,12.9A2.1,2.1 0 0,0 7.5,15L8.21,14.88L11,17.67V21H4V13H2.25C1.83,13 1.42,13 1.42,12.79C1.43,12.57 1.85,12.15 2.28,11.72L11,3C11.33,2.67 11.67,2.33 12,2.33C12.33,2.33 12.67,2.67 13,3L17,7V6H19V9L21.78,11.78C22.18,12.18 22.59,12.59 22.6,12.8C22.6,13 22.2,13 21.8,13M7.5,12A0.9,0.9 0 0,1 8.4,12.9A0.9,0.9 0 0,1 7.5,13.8A0.9,0.9 0 0,1 6.6,12.9A0.9,0.9 0 0,1 7.5,12M16.5,12C17,12 17.4,12.4 17.4,12.9C17.4,13.4 17,13.8 16.5,13.8A0.9,0.9 0 0,1 15.6,12.9A0.9,0.9 0 0,1 16.5,12M12,6.9C12.5,6.9 12.9,7.3 12.9,7.8C12.9,8.3 12.5,8.7 12,8.7C11.5,8.7 11.1,8.3 11.1,7.8C11.1,7.3 11.5,6.9 12,6.9Z", st = "M3,6H21V8H3V6M3,11H21V13H3V11M3,16H21V18H3V16Z", ct = "M12 2C7.04 2 3 6.04 3 11C3 14.91 5.5 18.24 9 19.47V22H11V19.94C11.33 20 11.66 20 12 20S12.67 20 13 19.94V22H15V19.47C18.5 18.23 21 14.9 21 11C21 6.04 16.96 2 12 2M14.25 14L11.25 17L9.75 15.5L11 14.25L9.75 13L12.75 10L14.25 11.5L13 12.75L14.25 14M16 9H8V7H16V9Z", lt = "M17,13H7V11H17M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z", ut = "M16,7V3H14V7H10V3H8V7H8C7,7 6,8 6,9V14.5L9.5,18V21H14.5V18L18,14.5V9C18,8 17,7 16,7Z", dt = "M20.84 22.73L15.31 17.2L14.5 18V21H9.5V18L6 14.5V9C6 8.7 6.1 8.41 6.25 8.14L1.11 3L2.39 1.73L22.11 21.46L20.84 22.73M18 14.5V9C18 8 17 7 16 7V3H14V7H10.2L17.85 14.65L18 14.5M10 3H8V4.8L10 6.8V3Z", ft = "M16 7V3H14V7H10V3H8V7C7 7 6 8 6 9V14.5L9.5 18V21H14.5V18L18 14.5V9C18 8 17 7 16 7M16 13.67L13.09 16.59L12.67 17H11.33L10.92 16.59L8 13.67V9.09C8 9.06 8.06 9 8.09 9H15.92C15.95 9 16 9.06 16 9.09V13.67Z", pt = "M4.22,2A2.22,2.22 0 0,0 2,4.22V19.78C2,21 3,22 4.22,22H19.78A2.22,2.22 0 0,0 22,19.78V4.22C22,3 21,2 19.78,2H4.22M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M8.27,7.54L6.27,11L8,12L10,8.54L8.27,7.54M15.73,7.54L14,8.54L16,12L17.73,11L15.73,7.54M11,14V18H13V14H11Z", mt = "M19.78 2H4.22C3 2 2 3 2 4.22V19.78C2 21 3 22 4.22 22H19.78C21 22 22 21 22 19.78V4.22C22 3 21 2 19.78 2M20 13L16.55 16.45C16.19 16.81 15.75 17 15.3 17H8.7C8.25 17 7.81 16.81 7.45 16.45L4 13C3.5 12.5 3.5 11.5 4 11L7.45 7.55C7.81 7.19 8.25 7 8.7 7H15.3C15.75 7 16.19 7.19 16.55 7.55L20 11C20.5 11.5 20.5 12.5 20 13M10.5 14C10.5 13.17 11.17 12.5 12 12.5S13.5 13.17 13.5 14 12.83 15.5 12 15.5 10.5 14.83 10.5 14M15.5 12C15.5 11.17 16.17 10.5 17 10.5S18.5 11.17 18.5 12 17.83 13.5 17 13.5 15.5 12.83 15.5 12M5.5 12C5.5 11.17 6.17 10.5 7 10.5S8.5 11.17 8.5 12 7.83 13.5 7 13.5 5.5 12.83 5.5 12Z", ht = "M4.22 2A2.22 2.22 0 0 0 2 4.22V19.78C2 21 3 22 4.22 22H19.78A2.22 2.22 0 0 0 22 19.78V4.22C22 3 21 2 19.78 2H4.22M11 4.07V6H13V4.07A8 8 0 0 1 20 12A8 8 0 0 1 13 19.93V18H11V19.93A8 8 0 0 1 4 12A8 8 0 0 1 11 4.07M7.5 10.5A1.5 1.5 0 0 0 6 12C6 12.83 6.66 13.5 7.5 13.5A1.5 1.5 0 0 0 9 12A1.5 1.5 0 0 0 7.5 10.5M16.5 10.5A1.5 1.5 0 0 0 15 12A1.5 1.5 0 0 0 16.5 13.5A1.5 1.5 0 0 0 18 12A1.5 1.5 0 0 0 16.5 10.5Z", gt = "M7.5,10.5A1.5,1.5 0 0,1 9,12A1.5,1.5 0 0,1 7.5,13.5C6.66,13.5 6,12.83 6,12A1.5,1.5 0 0,1 7.5,10.5M16.5,10.5A1.5,1.5 0 0,1 18,12A1.5,1.5 0 0,1 16.5,13.5A1.5,1.5 0 0,1 15,12A1.5,1.5 0 0,1 16.5,10.5M4.22,2H19.78C21,2 22,3 22,4.22V19.78A2.22,2.22 0 0,1 19.78,22H4.22C3,22 2,21 2,19.78V4.22A2.22,2.22 0 0,1 4.22,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4Z", _t = "M4.22 2A2.22 2.22 0 0 0 2 4.22V19.78C2 21 3 22 4.22 22H19.78A2.22 2.22 0 0 0 22 19.78V4.22C22 3 21 2 19.78 2H4.22M12 4A8 8 0 0 1 20 12A8 8 0 0 1 12 20A8 8 0 0 1 4 12A8 8 0 0 1 12 4M12 6A1.5 1.5 0 0 0 10.5 7.5A1.5 1.5 0 0 0 12 9A1.5 1.5 0 0 0 13.5 7.5A1.5 1.5 0 0 0 12 6M7.5 10.5A1.5 1.5 0 0 0 6 12C6 12.83 6.66 13.5 7.5 13.5A1.5 1.5 0 0 0 9 12A1.5 1.5 0 0 0 7.5 10.5M16.5 10.5A1.5 1.5 0 0 0 15 12A1.5 1.5 0 0 0 16.5 13.5A1.5 1.5 0 0 0 18 12A1.5 1.5 0 0 0 16.5 10.5Z", vt = "M10.5 16.5C10.5 15.68 11.17 15 12 15C12.83 15 13.5 15.68 13.5 16.5C13.5 17.34 12.83 18 12 18C11.17 18 10.5 17.34 10.5 16.5M10.5 7.5C10.5 6.67 11.17 6 12 6C12.83 6 13.5 6.67 13.5 7.5C13.5 8.33 12.83 9 12 9C11.17 9 10.5 8.33 10.5 7.5M4.22 2H19.78C21 2 22 3 22 4.22V19.78C22 21 21 22 19.78 22H4.22C3 22 2 21 2 19.78V4.22C2 3 3 2 4.22 2M12 4C7.58 4 4 7.58 4 12C4 16.42 7.58 20 12 20C16.42 20 20 16.42 20 12C20 7.58 16.42 4 12 4M10.5 12C10.5 11.17 11.17 10.5 12 10.5C12.83 10.5 13.5 11.17 13.5 12C13.5 12.83 12.83 13.5 12 13.5C11.17 13.5 10.5 12.83 10.5 12Z", yt = "M10 9.5V14.5H8V9.5M19.78 2C21 2 22 3 22 4.22V19.78C22 21 21 22 19.78 22H4.22C3 22 2 21 2 19.78V4.22C2 3 3 2 4.22 2M12 4C7.58 4 4 7.58 4 12C4 16.42 7.58 20 12 20C16.42 20 20 16.42 20 12C20 7.58 16.42 4 12 4M16 9.5V14.5H14V9.5Z", bt = "M4 2A2 2 0 0 0 2 4V20A2 2 0 0 0 4 22H20A2 2 0 0 0 22 20V4A2 2 0 0 0 20 2H4M4 4H20V20H4V4M11 7V11H13V7H11M6 14.75V17H9.5V14.75H6M14.5 14.75V17H18V14.75H14.5Z", xt = "M8,7H10V12H8V7M4.22,2H19.78C21,2 22,3 22,4.22V19.78A2.22,2.22 0 0,1 19.78,22H4.22C3,22 2,21 2,19.78V4.22A2.22,2.22 0 0,1 4.22,2M12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4M14,7.5H16V11.5H14V7.5M10.5,16.25A1.5,1.5 0 0,1 12,14.75A1.5,1.5 0 0,1 13.5,16.25V17H10.5V16.25Z", St = "M13,14C9.64,14 8.54,15.35 8.18,16.24C9.25,16.7 10,17.76 10,19A3,3 0 0,1 7,22A3,3 0 0,1 4,19C4,17.69 4.83,16.58 6,16.17V7.83C4.83,7.42 4,6.31 4,5A3,3 0 0,1 7,2A3,3 0 0,1 10,5C10,6.31 9.17,7.42 8,7.83V13.12C8.88,12.47 10.16,12 12,12C14.67,12 15.56,10.66 15.85,9.77C14.77,9.32 14,8.25 14,7A3,3 0 0,1 17,4A3,3 0 0,1 20,7C20,8.34 19.12,9.5 17.91,9.86C17.65,11.29 16.68,14 13,14M7,18A1,1 0 0,0 6,19A1,1 0 0,0 7,20A1,1 0 0,0 8,19A1,1 0 0,0 7,18M7,4A1,1 0 0,0 6,5A1,1 0 0,0 7,6A1,1 0 0,0 8,5A1,1 0 0,0 7,4M17,6A1,1 0 0,0 16,7A1,1 0 0,0 17,8A1,1 0 0,0 18,7A1,1 0 0,0 17,6Z", Ct = "M17 6H7C3.69 6 1 8.69 1 12S3.69 18 7 18H17C20.31 18 23 15.31 23 12S20.31 6 17 6M17 16H7C4.79 16 3 14.21 3 12S4.79 8 7 8H17C19.21 8 21 9.79 21 12S19.21 16 17 16M17 9C15.34 9 14 10.34 14 12S15.34 15 17 15 20 13.66 20 12 18.66 9 17 9Z", wt = "M21.71 20.29L20.29 21.71A1 1 0 0 1 18.88 21.71L7 9.85A3.81 3.81 0 0 1 6 10A4 4 0 0 1 2.22 4.7L4.76 7.24L5.29 6.71L6.71 5.29L7.24 4.76L4.7 2.22A4 4 0 0 1 10 6A3.81 3.81 0 0 1 9.85 7L21.71 18.88A1 1 0 0 1 21.71 20.29M2.29 18.88A1 1 0 0 0 2.29 20.29L3.71 21.71A1 1 0 0 0 5.12 21.71L10.59 16.25L7.76 13.42M20 2L16 4V6L13.83 8.17L15.83 10.17L18 8H20L22 4Z", Tt = "M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z", Et = "M2 12H4V17H20V12H22V17C22 18.11 21.11 19 20 19H4C2.9 19 2 18.11 2 17V12M12 2L6.46 7.46L7.88 8.88L11 5.75V15H13V5.75L16.13 8.88L17.55 7.45L12 2Z", Dt = "M16 10H8V8H16M2 17A2 2 0 0 0 4 19H20A2 2 0 0 0 22 17V12H20V17H4V12H2Z", Ot = "M2 12H4V17H20V12H22V17A2 2 0 0 1 20 19H4A2 2 0 0 1 2 17M11 5H13V8H16V10H13V13H11V10H8V8H11Z", kt = "M2 17A2 2 0 0 0 4 19H20A2 2 0 0 0 22 17V12H20V17H4V12H2M14.12 5.46L15.54 6.88L13.41 9L15.54 11.12L14.12 12.54L12 10.41L9.88 12.54L8.46 11.12L10.59 9L8.46 6.88L9.88 5.46L12 7.59Z", At = [{
 	value: "markdown",
 	label: "Markdown"
 }, {
 	value: "json",
 	label: "JSON"
-}], Tt = {
+}], jt = {
 	markdown: "text/markdown;charset=utf-8",
 	json: "application/json;charset=utf-8"
-}, Et = () => ({
+}, Mt = () => ({
 	format: "markdown",
 	includeHistory: !1,
 	saving: !1,
 	error: null
-}), Dt = (e, t) => e ? {
+}), Nt = (e, t) => e ? {
 	...e,
 	...t
-} : null, Ot = (e) => ({
+} : null, Pt = (e) => ({
 	type: "outlet_binder/export",
 	format: e.format,
 	include_history: e.includeHistory
-}), kt = (e) => e === 0 ? null : `${e} staged ${e === 1 ? "change is" : "changes are"} not in the file. It shows what has been committed.`, At = (e, t) => {
-	let n = URL.createObjectURL(new Blob([e.content], { type: Tt[t] })), r = document.createElement("a");
+}), Ft = (e) => e === 0 ? null : `${e} staged ${e === 1 ? "change is" : "changes are"} not in the file. It shows what has been committed.`, It = (e, t) => {
+	let n = URL.createObjectURL(new Blob([e.content], { type: jt[t] })), r = document.createElement("a");
 	r.href = n, r.download = e.filename, document.body.append(r), r.click(), r.remove(), URL.revokeObjectURL(n);
-}, jt = (e, t) => e ? t : null, O = (e, t) => x`<p class="dialog-title">${e}${t === null ? C : x` <span class="build-stamp">${t}</span>`}</p>`;
+}, w = {
+	primaryText: {
+		light: "#141414",
+		dark: "#e1e1e1"
+	},
+	secondaryText: {
+		light: "#5e5e5e",
+		dark: "#9b9b9b"
+	},
+	disabledText: {
+		light: "#bdbdbd",
+		dark: "#6f6f6f"
+	},
+	accent: {
+		light: "#009ac7",
+		dark: "#009ac7"
+	},
+	error: {
+		light: "#db4437",
+		dark: "#db4437"
+	},
+	warning: {
+		light: "#ffa600",
+		dark: "#ffa600"
+	},
+	pageBackground: {
+		light: "#fafafa",
+		dark: "#111111"
+	},
+	cardBackground: {
+		light: "#ffffff",
+		dark: "#1c1c1c"
+	},
+	obElementName: {
+		light: "#6c85a3",
+		dark: "#6c85a3"
+	},
+	buildStamp: {
+		light: "#b58900",
+		dark: "#ffe082"
+	},
+	onAccent: {
+		light: "#ffffff",
+		dark: "#ffffff"
+	},
+	hoverBox: {
+		light: "#2b2f33",
+		dark: "#dfe2e5"
+	},
+	hoverData: {
+		light: "#b8bec4",
+		dark: "#4a5057"
+	},
+	hoverTitle: {
+		light: "#ffffff",
+		dark: "#14171a"
+	},
+	hoverStop: {
+		light: "#ff6b5e",
+		dark: "#d93025"
+	}
+}, T = (e) => `${e / 16}rem`, Lt = {
+	fontFamily: "Roboto, sans-serif",
+	fontSize: T(14),
+	fontWeight: 400,
+	color: w.primaryText,
+	fontStyle: "normal",
+	textAlign: "start"
+}, Rt = {
+	"ob-element-name": { changes: { color: w.obElementName } },
+	"small-text": { changes: { fontSize: T(12) } },
+	"tiny-text": { changes: { fontSize: T(10) } },
+	"supporting-text": { changes: { color: w.secondaryText } },
+	"error-text": { changes: { color: w.error } },
+	"warning-text": { changes: { color: w.warning } },
+	"disabled-text": { changes: { color: w.disabledText } },
+	emphasis: { changes: { fontWeight: 700 } },
+	"italic-text": { changes: { fontStyle: "italic" } },
+	medium: { changes: { fontWeight: 500 } },
+	"strong-hover-text": { changes: { color: w.hoverTitle } },
+	"text-on-fill": { changes: { color: w.onAccent } }
+}, zt = {
+	"hover-text": { fontSize: "0.85em" },
+	"clickable-outline": { outline: 40 },
+	"strike-through": { strikeThrough: !0 }
+};
+Object.keys(Rt), Object.keys(zt);
+var E = {
+	"page-title": {
+		parent: "base",
+		changes: { fontSize: T(20) }
+	},
+	"heading-text": {
+		parent: "base",
+		changes: { fontSize: T(16) },
+		family: !0
+	},
+	heading: {
+		parent: "heading-text",
+		changes: {},
+		adds: ["medium"]
+	},
+	"tab-label": {
+		parent: "heading-text",
+		changes: {},
+		adds: ["medium"],
+		states: {
+			hover: { color: w.accent },
+			selected: {
+				color: w.accent,
+				underline: w.accent
+			}
+		},
+		underlineWidth: T(2)
+	},
+	"table-division-heading": {
+		parent: "heading-text",
+		changes: {}
+	},
+	"dialog-title": {
+		parent: "heading",
+		changes: {}
+	},
+	"dialog-section": {
+		parent: "heading",
+		changes: {},
+		adds: ["ob-element-name"]
+	},
+	"dialog-field-prompt": {
+		parent: "base",
+		changes: {},
+		adds: ["ob-element-name", "small-text"]
+	},
+	"dialog-field-note": {
+		parent: "base",
+		changes: {},
+		adds: ["supporting-text", "small-text"]
+	},
+	"column-heading": {
+		parent: "base",
+		changes: {},
+		adds: ["supporting-text", "emphasis"]
+	},
+	"dialog-metadata": {
+		parent: "dialog-field-note",
+		changes: { fontFamily: "monospace" },
+		adds: ["tiny-text"]
+	},
+	hover: {
+		parent: "base",
+		changes: {},
+		adds: ["hover-text"],
+		family: !0
+	},
+	"hover-title": {
+		parent: "hover",
+		changes: {},
+		adds: ["strong-hover-text", "emphasis"]
+	},
+	"hover-data": {
+		parent: "hover",
+		changes: { color: w.hoverData }
+	},
+	"hover-prompt": {
+		parent: "hover",
+		changes: { textAlign: "end" },
+		adds: ["ob-element-name", "emphasis"]
+	},
+	"badge-text": {
+		parent: "base",
+		changes: { fontSize: T(9) },
+		adds: ["emphasis"],
+		family: !0,
+		provisional: !0
+	},
+	"debug-badge-text": {
+		parent: "badge-text",
+		changes: { letterSpacing: "0.04em" },
+		adds: ["error-text"],
+		provisional: !0
+	},
+	"new-badge-text": {
+		parent: "badge-text",
+		changes: { lineHeight: 1.5 },
+		adds: ["text-on-fill"],
+		provisional: !0
+	},
+	"pending-marker": {
+		parent: "base",
+		changes: { color: w.accent },
+		adds: ["emphasis"],
+		provisional: !0
+	},
+	"debug-delete-label": {
+		parent: "base",
+		changes: { lineHeight: 1.3 },
+		states: { hover: { color: w.onAccent } },
+		adds: ["small-text", "error-text"],
+		provisional: !0
+	},
+	"build-stamp": {
+		parent: "base",
+		changes: { color: w.buildStamp }
+	},
+	"info-cue": {
+		parent: "base",
+		changes: {
+			fontFamily: "Georgia, serif",
+			fontStyle: "italic"
+		},
+		states: { hover: { color: w.primaryText } },
+		adds: [
+			"tiny-text",
+			"supporting-text",
+			"emphasis"
+		],
+		provisional: !0
+	},
+	"hover-action": {
+		parent: "hover",
+		changes: {},
+		adds: ["strong-hover-text"],
+		provisional: !0
+	}
+};
+Object.keys(E).filter((e) => E[e].family === !0), Object.keys(E).filter((e) => E[e].provisional === !0);
+var Bt = ["base", ...Object.keys(E)], Vt = (e) => `ts-${e}`, Ht = (e, t) => {
+	let n = [], r = /* @__PURE__ */ new Set(), i = t;
+	for (; i !== "base";) {
+		if (r.has(i)) throw Error(`text style "${t}" has a cycle through "${i}"`);
+		if (r.add(i), !Object.hasOwn(e, i)) throw Error(`text style "${i}" is not defined`);
+		let a = e[i];
+		n.unshift(a), i = a.parent;
+	}
+	return n;
+}, Ut = (e, t) => Ht(e, t).flatMap((e) => [...e.adds ?? []]), D = (e, ...t) => [.../* @__PURE__ */ new Set([
+	e,
+	...Ut(E, e),
+	...t
+])].map(Vt).join(" "), O = (...e) => e.map(Vt).join(" "), Wt = (e, t) => Ht(e, t).reduce((e, t) => ({
+	...e,
+	...t.changes
+}), Lt), Gt = (e, t) => new Set(Ht(e, t).flatMap((e) => Object.keys(e.changes))), Kt = ":host", qt = (e) => [
+	...e.fontFamily === void 0 ? [] : [`font-family: ${e.fontFamily};`],
+	...e.fontSize === void 0 ? [] : [`font-size: ${e.fontSize};`],
+	...e.fontWeight === void 0 ? [] : [`font-weight: ${e.fontWeight};`],
+	...e.color === void 0 ? [] : [`color: ${e.color.light};`],
+	...e.fontStyle === void 0 ? [] : [`font-style: ${e.fontStyle};`],
+	...e.textAlign === void 0 ? [] : [`text-align: ${e.textAlign};`],
+	...e.lineHeight === void 0 ? [] : [`line-height: ${e.lineHeight};`],
+	...e.letterSpacing === void 0 ? [] : [`letter-spacing: ${e.letterSpacing};`]
+], Jt = (e, t) => [`color: ${e.color[t]};`, ...e.underline === void 0 ? [] : [`border-bottom-color: ${e.underline[t]};`]], Yt = (e, t) => e === void 0 ? [] : [{
+	selectors: t,
+	light: Jt(e, "light"),
+	dark: Jt(e, "dark")
+}], Xt = (e, t) => {
+	let n = Wt(e, t), r = Gt(e, t);
+	return {
+		...n,
+		fontStyle: r.has("fontStyle") ? n.fontStyle : void 0,
+		textAlign: r.has("textAlign") ? n.textAlign : void 0
+	};
+}, Zt = (e) => Bt.flatMap((t) => {
+	let n = Wt(e, t), r = `.${Vt(t)}`, i = t === "base" ? void 0 : e[t], a = i?.underlineWidth;
+	return [
+		{
+			selectors: t === "base" ? [Kt, r] : [r],
+			light: [...qt(Xt(e, t)), ...a === void 0 ? [] : [`border-bottom: ${a} solid transparent;`]],
+			dark: [`color: ${n.color.dark};`]
+		},
+		...Yt(i?.states?.hover, [`${r}:hover`, `${r}:focus-visible`]),
+		...Yt(i?.states?.selected, [`${r}[aria-selected="true"]`])
+	];
+}), Qt = (e) => Object.keys(e).map((t) => {
+	let { changes: n } = e[t];
+	return {
+		selectors: [`.${Vt(t)}`],
+		light: qt(n),
+		dark: n.color === void 0 ? [] : [`color: ${n.color.dark};`]
+	};
+}), $t = (e) => "outline" in e ? `border-color: color-mix(in srgb, currentColor ${e.outline}%, transparent);` : "strikeThrough" in e ? "text-decoration: line-through;" : `font-size: ${e.fontSize};`, en = (e) => Object.keys(e).map((t) => ({
+	selectors: [`.${Vt(t)}`],
+	light: [$t(e[t])],
+	dark: []
+})), tn = (e) => e === Kt ? ":host(:not([data-theme=\"light\"]))" : `:host(:not([data-theme="light"])) ${e}`, nn = (e) => e === Kt ? ":host([data-theme=\"dark\"])" : `:host([data-theme="dark"]) ${e}`, rn = (e, t) => `${e.join(",\n")} {\n  ${t.join("\n  ")}\n}`, an = (e) => {
+	let t = e.map((e) => rn(e.selectors, e.light)), n = (t) => e.filter((e) => e.dark.length > 0).map((e) => rn(e.selectors.map(t), e.dark));
+	return [
+		...t,
+		`@media (prefers-color-scheme: dark) {\n${n(tn).join("\n")}\n}`,
+		...n(nn)
+	].join("\n");
+}, on = (e, t = Rt, n = zt) => an([
+	...Zt(e),
+	...Qt(t),
+	...en(n)
+]), sn = () => on(E), cn = (e, t) => e ? t : null, k = (e, t) => v`<p class="dialog-title ${D("dialog-title")}">${e}${t === null ? b : v` <span class="build-stamp ${D("build-stamp")}">${t}</span>`}</p>`, ln = {
+	"hover-box": {
+		background: w.hoverBox,
+		color: w.hoverData,
+		radius: "6px",
+		shadow: "0 2px 12px rgba(0, 0, 0, 0.35)",
+		vars: { "--tip-stop": w.hoverStop }
+	},
+	"modal-dialog-box": {
+		background: {
+			light: "#ffffff",
+			dark: "rgba(255, 255, 255, 0.12)"
+		},
+		radius: "8px",
+		shadow: "0 4px 24px rgba(0, 0, 0, 0.2)",
+		color: w.primaryText,
+		border: {
+			light: "none",
+			dark: "1px solid rgba(255, 255, 255, 0.18)"
+		},
+		blur: "14px",
+		backdrop: "rgba(0, 0, 0, 0.4)"
+	}
+};
+Object.keys(ln);
+var A = (e) => `sf-${e}`, un = (e, t) => [
+	`background: ${e.background[t]};`,
+	...e.color === void 0 ? [] : [`color: ${e.color[t]};`],
+	...t === "light" ? [`border-radius: ${e.radius};`, `box-shadow: ${e.shadow};`] : [],
+	...e.border === void 0 ? [] : [`border: ${e.border[t]};`],
+	...t === "dark" && e.blur !== void 0 ? [`-webkit-backdrop-filter: blur(${e.blur});`, `backdrop-filter: blur(${e.blur});`] : [],
+	...Object.entries(e.vars ?? {}).map(([e, n]) => `${e}: ${n[t]};`)
+], dn = (e) => Object.keys(e).flatMap((t) => {
+	let n = e[t], r = `.${A(t)}`;
+	return [{
+		selectors: [r],
+		light: un(n, "light"),
+		dark: un(n, "dark")
+	}, ...n.backdrop === void 0 ? [] : [{
+		selectors: [`${r}::backdrop`],
+		light: [`background: ${n.backdrop};`],
+		dark: []
+	}]];
+}), fn = (e) => an(dn(e)), pn = () => fn(ln);
 //#endregion
 //#region src/outlet-binder-panel/export-view.ts
-function Mt(e, t, n, r) {
-	return e ? x`
+function mn(e, t, n, r) {
+	return e ? v`
     <dialog
-      class="export-dialog"
+      class="export-dialog ${A("modal-dialog-box")}"
       @close=${() => n.close()}
       @cancel=${(e) => n.cancel(e)}
     >
       <div class="dialog-body">
-        ${O("Export the current state", r)}
+        ${k("Export the current state", r)}
         <fieldset class="export-formats" ?disabled=${e.saving}>
-          <legend>Format</legend>
-          ${wt.map((t) => x`
+          <legend class=${D("dialog-field-prompt")}>Format</legend>
+          ${At.map((t) => v`
               <label class="choice-row">
                 <input
                   type="radio"
@@ -650,8 +988,8 @@ function Mt(e, t, n, r) {
           />
           Include Plugged Into history
         </label>
-        ${t ? x`<p class="export-notice">${t}</p>` : ""}
-        ${e.error ? x`<p class="error">${e.error}</p>` : ""}
+        ${t ? v`<p class="export-notice ${O("supporting-text")}">${t}</p>` : ""}
+        ${e.error ? v`<p class="error ${O("error-text")}">${e.error}</p>` : ""}
       </div>
       <div class="dialog-actions">
         <button ?disabled=${e.saving} @click=${() => n.close()}>Cancel</button>
@@ -660,18 +998,142 @@ function Mt(e, t, n, r) {
         </button>
       </div>
     </dialog>
-  ` : x`<dialog class="export-dialog" @close=${() => n.close()}></dialog>`;
+  ` : v`<dialog class="export-dialog ${A("modal-dialog-box")}" @close=${() => n.close()}></dialog>`;
 }
 //#endregion
-//#region src/outlet-binder-panel/styles.ts
-var Nt = o`
+//#region src/outlet-binder-panel/control-styles.ts
+var hn = {
+	plainText: {
+		light: "#009ac7",
+		dark: "#37c8fd"
+	},
+	plainHover: {
+		light: "#dff3fc",
+		dark: "#002e3e"
+	},
+	main: {
+		light: "#009ac7",
+		dark: "#009ac7"
+	},
+	mainHover: {
+		light: "#006787",
+		dark: "#006787"
+	},
+	danger: {
+		light: "#dc3146",
+		dark: "#b30532"
+	},
+	dangerHover: {
+		light: "#b30532",
+		dark: "#8a132c"
+	},
+	go: {
+		light: "#00883c",
+		dark: "#036730"
+	},
+	goHover: {
+		light: "#036730",
+		dark: "#0a5027"
+	},
+	disabledFill: {
+		light: "#cccccc",
+		dark: "#4a4a4a"
+	},
+	disabledText: {
+		light: "#f3f3f3",
+		dark: "#7a7a7a"
+	},
+	goText: {
+		light: "#036730",
+		dark: "#00ac49"
+	},
+	dangerText: {
+		light: "#b30532",
+		dark: "#f3676c"
+	},
+	disabledQuiet: {
+		light: "#b1b1b1",
+		dark: "#7a7a7a"
+	},
+	onFill: {
+		light: "#ffffff",
+		dark: "#ffffff"
+	},
+	iconHover: {
+		light: "rgba(0, 0, 0, 0.08)",
+		dark: "rgba(255, 255, 255, 0.12)"
+	}
+};
+Object.keys(hn);
+var gn = (e) => `--ob-btn-${e.replace(/[A-Z]/g, (e) => `-${e.toLowerCase()}`)}`, _n = {
+	linked: w.error,
+	plug: w.accent,
+	unavailable: w.disabledText,
+	quiet: w.secondaryText
+};
+Object.keys(_n);
+var vn = (e) => `--ob-icon-${e.replace(/[A-Z]/g, (e) => `-${e.toLowerCase()}`)}`, yn = {
+	hoverColor: hn.plainText,
+	wash: {
+		hover: 12,
+		pressed: 18
+	},
+	room: {
+		block: "3px",
+		inline: "2px"
+	},
+	radius: "5px",
+	border: "1px"
+}, bn = () => "ct-clickable", xn = (e) => `background: color-mix(in srgb, currentColor ${e}%, transparent);`, Sn = a(`${pn()}\n${`${((e = hn) => {
+	let t = Object.entries(e), n = (e) => t.map(([t, n]) => `${gn(t)}: ${n[e]};`);
+	return an([{
+		selectors: [":host"],
+		light: n("light"),
+		dark: n("dark")
+	}]);
+})()}\n${((e = _n) => {
+	let t = Object.entries(e), n = (e) => t.map(([t, n]) => `${vn(t)}: ${n[e]};`);
+	return an([{
+		selectors: [":host"],
+		light: n("light"),
+		dark: n("dark")
+	}]);
+})()}\n${((e = yn) => {
+	let t = `.${bn()}`, n = (t) => `-${parseFloat(t) + parseFloat(e.border)}px`;
+	return `${[
+		`${t} {`,
+		`  border: ${e.border} solid transparent;`,
+		"  background: none;",
+		`  padding: ${e.room.block} ${e.room.inline};`,
+		`  margin: ${n(e.room.block)} ${n(e.room.inline)};`,
+		`  border-radius: ${e.radius};`,
+		"  font: inherit;",
+		"  color: inherit;",
+		"  text-align: inherit;",
+		"  cursor: pointer;",
+		"}",
+		`${t}:hover,\n${t}:focus-visible {`,
+		`  ${xn(e.wash.hover)}`,
+		"}",
+		`${t}:active {`,
+		`  ${xn(e.wash.pressed)}`,
+		"}"
+	].join("\n")}\n${an([{
+		selectors: [
+			`${t}:hover`,
+			`${t}:focus-visible`,
+			`${t}:active`
+		],
+		light: [`color: ${e.hoverColor.light};`],
+		dark: [`color: ${e.hoverColor.dark};`]
+	}])}`;
+})()}`}\n${sn()}`), Cn = o`
   :host {
     display: flex;
     flex-direction: column;
     height: 100vh;
     box-sizing: border-box;
     padding: 24px;
-    font-family: var(--paper-font-body1_-_font-family, sans-serif);
     color-scheme: light dark;
     background: #fff;
     /* Floor, not a true sync -- the three .structured-table elements are
@@ -700,30 +1162,8 @@ var Nt = o`
        #1c1c1c; light-mode values are the default here. */
     --column-tint-appliance: rgba(76, 175, 80, 0.08);
     --column-tint-uo: rgba(121, 85, 72, 0.08);
-    /* Buttons follow Home Assistant's own (ha-button, ha-icon-button), with
-       its colour values (src/resources/theme/color/*.globals.ts in
-       home-assistant/frontend): HA's theme variables do not reach the panel,
-       which runs in an iframe. Light here, dark below (#537). */
-    --ob-btn-plain-text: #009ac7;
-    --ob-btn-plain-hover: #dff3fc;
-    --ob-btn-main: #009ac7;
-    --ob-btn-main-hover: #006787;
-    --ob-btn-danger: #dc3146;
-    --ob-btn-danger-hover: #b30532;
-    --ob-btn-go: #00883c;
-    --ob-btn-go-hover: #036730;
-    --ob-btn-disabled-fill: #cccccc;
-    --ob-btn-disabled-text: #f3f3f3;
-    /* Coloured text and outlines (HA's on-*-normal), lighter than the fills
-       in dark mode so they read on the dark background. The disabled grey
-       is HA's on-disabled-normal: its quieter one is too faint here. */
-    --ob-btn-go-text: #036730;
-    --ob-btn-danger-text: #b30532;
-    --ob-btn-disabled-quiet: #b1b1b1;
-    --ob-btn-icon-hover: rgba(0, 0, 0, 0.08);
-  }
-  h1 {
-    color: var(--primary-text-color, #212121);
+    /* The button colours, --ob-btn-*, are generated into :host in light and
+       dark from BUTTON_COLOURS (control-styles.ts); the rules here read them. */
   }
   .header-bar {
     flex: 0 0 auto;
@@ -748,11 +1188,7 @@ var Nt = o`
     padding: 1px 7px;
     border: 1px dashed var(--error-color, #b00020);
     border-radius: 8px;
-    font-size: 0.45em;
-    font-weight: bold;
-    letter-spacing: 0.04em;
     vertical-align: middle;
-    color: var(--error-color, #b00020);
   }
   /* The header-bar's right side: the hamburger menu (#403), the permanent,
      always-right-most entry point under justify-content: space-between. The
@@ -781,7 +1217,10 @@ var Nt = o`
     cursor: move;
     touch-action: none;
     user-select: none;
-    color: var(--secondary-text-color, #727272);
+    --ob-icon-colour: var(--ob-icon-quiet);
+  }
+  .main-filter-handle .menu-entry-icon {
+    fill: var(--ob-icon-colour);
   }
   .main-filter-row {
     display: flex;
@@ -843,14 +1282,10 @@ var Nt = o`
   }
   .tab-btn {
     padding: 8px 16px;
-    font: inherit;
-    font-weight: bold;
-    color: var(--secondary-text-color, #727272);
     background: none;
     border: none;
-    /* Overlaps the row's own 1px line, so the selected underline sits on
-       it rather than below it. */
-    border-bottom: 3px solid transparent;
+    /* Overlaps the row's own 1px line, so the selected underline (the Tab
+       label style's border) sits on it rather than below it. */
     margin-bottom: -1px;
     cursor: pointer;
   }
@@ -862,19 +1297,6 @@ var Nt = o`
   .tab-row.narrow .tab-count,
   .tab-row.narrow .tab-match {
     display: block;
-  }
-  /* The main filter's match marker (#529): beside the total, never in
-     place of it. */
-  .tab-match {
-    font-weight: normal;
-  }
-  .tab-btn:hover,
-  .tab-btn:focus-visible {
-    color: var(--primary-color, #03a9f4);
-  }
-  .tab-btn[aria-selected="true"] {
-    color: var(--primary-color, #03a9f4);
-    border-bottom-color: var(--primary-color, #03a9f4);
   }
   /* Edit-session toolbar (#190). The group itself always renders in Batch
      mode, and in Immediate mode only when something is staged -- once
@@ -889,9 +1311,6 @@ var Nt = o`
   .session-btn {
     padding: 2px 9px;
     font: inherit;
-    font-size: 0.7rem;
-    font-weight: bold;
-    line-height: 1.4;
     color: var(--ob-btn-plain-text);
     background: none;
     border: 1px solid currentColor;
@@ -951,9 +1370,6 @@ var Nt = o`
   }
   .theme-options legend {
     padding: 0;
-    font-size: 0.8em;
-    font-weight: bold;
-    color: #6c85a3;
   }
   .theme-option {
     display: block;
@@ -1067,12 +1483,6 @@ var Nt = o`
     min-width: 0;
     overflow: auto;
   }
-  p {
-    color: var(--secondary-text-color, #727272);
-  }
-  p.error {
-    color: var(--error-color, #b00020);
-  }
   table {
     border-collapse: collapse;
     width: 100%;
@@ -1083,17 +1493,11 @@ var Nt = o`
     border-bottom: 1px solid var(--divider-color, #e0e0e0);
   }
   th {
-    color: var(--secondary-text-color, #727272);
     padding: 4px 12px 4px 0;
   }
   td {
     vertical-align: top;
     padding: 8px 12px;
-  }
-  .unbound {
-    color: var(--disabled-text-color, #9e9e9e);
-    font-style: italic;
-    font-size: 0.85em;
   }
   /* The pending-value cell marker (#190) -- a bare asterisk, deliberately
      not backtick-quoted in this comment since it sits inside a template
@@ -1107,8 +1511,6 @@ var Nt = o`
     background: none;
     padding: 0;
     font: inherit;
-    color: var(--primary-color, #03a9f4);
-    font-weight: bold;
     cursor: help;
     margin-right: 2px;
     /* WCAG 2.5.8 tap target, as a real box rather than a positioned
@@ -1121,8 +1523,8 @@ var Nt = o`
     min-height: 24px;
   }
   /* The one shared tooltip popover (#312): position: fixed, rendered once
-     outside .scroll-region so nothing clips it. Colours are the inverse of
-     the page (see --tip-* below and in the dark blocks at the bottom). */
+     outside .scroll-region so nothing clips it. Its colours, corners and
+     shadow are the Hover box surface's, and its text the Hover styles'. */
   /* A manual popover (#546), in the top layer above any open dialog. inset,
      margin and border undo the UA [popover] style, which centres and frames
      it; the UA's :not(:popover-open) rule hides it. */
@@ -1136,24 +1538,8 @@ var Nt = o`
     max-height: calc(100vh - 16px);
     overflow: hidden;
     padding: 6px 10px;
-    border-radius: 6px;
-    font-size: 0.85em;
     white-space: pre-wrap;
     pointer-events: none;
-    /* Deliberately the inverse of the page (dark on light theme, light on
-       dark), like GitHub's tooltips, so it never blends into the
-       background. Overridden in the dark blocks at the bottom. */
-    --tip-bg: #2b2f33;
-    --tip-fg: #ffffff;
-    --tip-fg-dim: #b8bec4;
-    --tip-stop: #ff6b5e;
-    background: var(--tip-bg);
-    color: var(--tip-fg-dim);
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.35);
-  }
-  .tip-title {
-    color: var(--tip-fg);
-    font-weight: bold;
   }
   .tip-title + .tip-body {
     margin-top: 0.6em;
@@ -1195,9 +1581,6 @@ var Nt = o`
     margin-right: 0;
     margin-left: 0.5ch;
   }
-  .tip-action {
-    color: var(--tip-fg);
-  }
   /* A blocked action is set apart from the title by a blank line. */
   .tip-action.blocked {
     margin-top: 0.6em;
@@ -1208,13 +1591,8 @@ var Nt = o`
     column-gap: 1ch;
     margin-top: 0.6em;
   }
-  /* Bold italics, so a label reads as a prompt and not as part of the data
-     beside it. */
   .tip-attr-label {
     grid-column: 1;
-    text-align: right;
-    font-weight: bold;
-    font-style: italic;
   }
   .tip-attr-value {
     grid-column: 2;
@@ -1231,18 +1609,12 @@ var Nt = o`
     margin-left: 6px;
     padding: 0 5px;
     border-radius: 8px;
-    font-size: 0.65em;
-    font-weight: bold;
-    line-height: 1.5;
     vertical-align: text-top;
     background: var(--primary-color, #03a9f4);
-    color: var(--text-primary-color, #fff);
   }
   .attr-list {
     margin: 2px 0 0 0;
     padding-left: 16px;
-    font-size: 0.8em;
-    color: var(--secondary-text-color, #727272);
   }
   .structured-table .attr-list {
     padding-left: 14px;
@@ -1251,9 +1623,10 @@ var Nt = o`
     border: none;
     background: none;
     cursor: pointer;
-    font-size: 0.85em;
+    font: inherit;
+    display: inline-flex;
+    align-items: center;
     padding: 0 2px;
-    line-height: 1;
     vertical-align: middle;
     opacity: 0.15;
     transition: opacity 0.15s ease;
@@ -1269,8 +1642,12 @@ var Nt = o`
   .link-icon {
     width: 1em;
     height: 1em;
-    fill: currentColor;
+    fill: var(--ob-icon-colour, currentColor);
     vertical-align: middle;
+  }
+  .link-btn .link-icon {
+    width: 0.85em;
+    height: 0.85em;
   }
   /* Debug-only (#246) -- deliberately unlike .link-btn/.entity-link-primary
      (no border, solid fill on hover) so it reads as debug-only rather
@@ -1287,12 +1664,9 @@ var Nt = o`
     gap: 2px;
     border: 1px dashed var(--error-color, #b00020);
     background: none;
-    color: var(--error-color, #b00020);
     border-radius: 4px;
     cursor: pointer;
-    font-size: 0.78em;
     padding: 0 3px;
-    line-height: 1.3;
     vertical-align: middle;
     margin-right: 4px;
     opacity: 0.75;
@@ -1305,7 +1679,6 @@ var Nt = o`
   .debug-delete-btn:focus-visible {
     opacity: 1;
     background: var(--error-color, #b00020);
-    color: var(--text-primary-color, #fff);
   }
   .debug-delete-icon {
     width: 1em;
@@ -1342,9 +1715,6 @@ var Nt = o`
     margin-left: 6px;
     padding: 2px 9px;
     font: inherit;
-    font-size: 0.7rem;
-    font-weight: bold;
-    line-height: 1.4;
     vertical-align: middle;
     color: var(--ob-btn-plain-text);
     background: none;
@@ -1363,7 +1733,7 @@ var Nt = o`
     }
   }
   .link-btn.linked {
-    color: var(--error-color, #b00020);
+    --ob-icon-colour: var(--ob-icon-linked);
   }
   /* Both states prominent/always visible in the central table (the
      .structured-table ancestor guard keeps other .link-btn uses out of it).
@@ -1374,6 +1744,9 @@ var Nt = o`
   .structured-table .link-btn,
   .entity-cards .link-btn {
     opacity: 1;
+  }
+  .structured-table .link-btn .link-icon,
+  .entity-cards .link-btn .link-icon {
     /* rem, not em -- em on font-size resolves against the *parent's*
        computed size (that part of the cascade is correct), but
        devtools showed that parent resolving to only ~9.8px here
@@ -1383,33 +1756,32 @@ var Nt = o`
        text-size setting -- rem keeps that responsiveness (it scales
        with the root font-size, which *does* track those settings)
        while sidestepping whatever's happening in this local chain. */
-    font-size: 1.6rem;
+    width: 1.6rem;
+    height: 1.6rem;
   }
   /* The link button is an inline SVG (.link-icon, fill: currentColor)
      rather than an emoji glyph, which browsers always render in full color
      regardless of the CSS color property, so this color rule applies. */
   .structured-table .link-btn:not(.linked),
   .entity-cards .link-btn:not(.linked) {
-    color: var(--primary-color, #03a9f4);
+    --ob-icon-colour: var(--ob-icon-plug);
   }
   /* Nothing available on the other end to plug into right now -- the button stays real-disabled (see the
      ?disabled= binding in _renderLinkButton), so this is a secondary
      visual confirmation of that, not the only signal. */
   .structured-table .link-btn:not(.linked).unavailable,
   .entity-cards .link-btn:not(.linked).unavailable {
-    color: var(--disabled-text-color, #9e9e9e);
+    --ob-icon-colour: var(--ob-icon-unavailable);
   }
+  /* The box's look (colour, corners, shadow, border, the dark frosting and
+     the backdrop) is the "modal-dialog-box" surface, named in each dialog's
+     class (surface-styles.ts); this is only its size and spacing. */
   dialog {
-    border: none;
-    border-radius: 8px;
     padding: 16px 20px;
     min-width: 360px;
     max-width: 640px;
     min-height: 320px;
     max-height: calc(100vh - 6em);
-    background: #fff;
-    color: var(--primary-text-color, #212121);
-    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
   }
   /* dialog[open] rather than plain dialog for display:flex -- an
      author-origin rule on the bare element beats the UA stylesheet's
@@ -1420,9 +1792,6 @@ var Nt = o`
     display: flex;
     flex-direction: column;
   }
-  dialog::backdrop {
-    background: rgba(0, 0, 0, 0.4);
-  }
   /* Flex item, not the scroll container itself -- .dialog-body scrolls
      so .dialog-actions (a sibling flex item) stays a fixed size and
      gets pinned to the box's bottom edge by flex-grow on the body,
@@ -1432,31 +1801,20 @@ var Nt = o`
     min-height: 0;
     overflow-y: auto;
   }
-  .ro-label,
-  .edit-field label {
-    color: #6c85a3;
-  }
   .dialog-title {
     margin: 0 0 8px 0;
     padding-bottom: 8px;
-    font-weight: bold;
-    color: var(--primary-text-color, #212121);
     border-bottom: 1px solid var(--divider-color, #e0e0e0);
   }
-  /* The build in a dialog title in debug mode (#684): quiet, and no colour
-     of its own, so it needs no dark-mode pair. */
+  /* The build in a dialog title in debug mode (#684). */
   .build-stamp {
     margin-left: 0.75em;
-    font-size: 0.75em;
-    font-weight: normal;
-    opacity: 0.6;
   }
   /* A confirm dialog's consequence listing (#300) -- what an irreversible
      action would act on, one bullet per staged group. No explicit color:
-     inherits from the dialog's own text color (light default, or #e1e1e1 in
-     dark mode via the "dialog" rule below), avoiding a second light/dark
-     pair to keep in sync -- unlike .dialog-title, which sets a specific
-     color and so does need one. list-style: none -- the manual "N. " prefix
+     inherits from the dialog's own text color (set per mode by the
+     "modal-dialog-box" surface), avoiding a second light/dark pair to keep
+     in sync. list-style: none -- the manual "N. " prefix
      each line already carries (panel.ts's _renderConsequenceLines) is the
      only marker needed; a bullet dot would double up with it. white-space:
      pre-wrap (inherited by the <li> children) makes a multi-entry group's
@@ -1466,7 +1824,6 @@ var Nt = o`
   .consequence-list {
     margin: 0 0 8px 0;
     padding-left: 20px;
-    font-size: 0.9em;
     list-style: none;
     white-space: pre-wrap;
   }
@@ -1483,8 +1840,6 @@ var Nt = o`
     flex: 0 0 auto;
     margin: 8px 0 0 0;
     text-align: center;
-    font-weight: bold;
-    color: var(--error-color, #b00020);
   }
   /* Commit's own last line (#301) -- same fixed-sibling
      positioning as .irreversible-warning above (see its own comment), but
@@ -1497,27 +1852,17 @@ var Nt = o`
     flex: 0 0 auto;
     margin: 8px 0 0 0;
     text-align: center;
-    font-weight: bold;
-    color: var(--warning-color, #ff9800);
   }
   .plugged-into {
     margin: 0 0 8px 0;
-    font-size: 0.8em;
-    color: var(--secondary-text-color, #727272);
   }
   .entity-id {
     margin: 12px 0 0 0;
     padding: 0;
     list-style: none;
-    font-size: 0.75em;
-    font-family: monospace;
-    color: var(--secondary-text-color, #727272);
   }
   .entity-id li {
     margin: 2px 0;
-  }
-  .entity-id .ro-label {
-    font-weight: bold;
   }
   .entity-id .id-row {
     margin-top: 22px;
@@ -1526,11 +1871,82 @@ var Nt = o`
   }
   /* The Smart Device's link to its Home Assistant page (#522) sits last in
      the details list, at the right edge, but keeps the dialog's own font:
-     0.85em of the dialog text, against the list's 0.75em. */
+     its class is the Dialog field note's, not the list's metadata size. */
   .entity-id .ha-device-link {
     text-align: right;
-    font-family: var(--paper-font-body1_-_font-family, sans-serif);
-    font-size: calc(0.85em / 0.75);
+  }
+  /* An Appliance's "Home Assistant items" kebab (#599): straight after the name
+     in its edit dialog's title. A plain button that reads as the dots alone,
+     dropped so the dots sit on the text rather than above it. */
+  .ha-items-wrap {
+    display: inline-block;
+    margin-left: 0.2em;
+    vertical-align: -0.25em;
+  }
+  .ha-items-btn {
+    display: inline-flex;
+    align-items: center;
+    padding: 0;
+    border: 0;
+    background: none;
+    font: inherit;
+    cursor: pointer;
+  }
+  .ha-items-btn:disabled {
+    cursor: default;
+  }
+  .ha-items-icon {
+    width: 1em;
+    height: 1em;
+    fill: currentColor;
+  }
+  /* The Home Assistant items dialog: its title and prompt stay put and only
+     the list scrolls. It is as tall as its list, where other dialogs keep a
+     minimum height. */
+  .ha-items-dialog {
+    min-height: 0;
+  }
+  .ha-items-head {
+    flex: none;
+  }
+  /* The padding holds the rows' clickable room, which spills past their
+     text, so a list that fits has nothing to scroll or bounce. */
+  .ha-items-scroll {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 4px;
+  }
+  /* The list and each group stack their rows with a gap, and a row stretches
+     across, so the whole line is what is hovered and pressed. */
+  .ha-items-scroll,
+  .ha-items-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .ha-items-prompt {
+    margin: 0 0 4px;
+  }
+  /* One item: its name, then the logo, the whole row a link. Under a domain
+     heading the items are indented; the clickable text's own margin is
+     already taken, so the indent is added to it. */
+  .ha-item {
+    display: flex;
+    align-items: center;
+  }
+  .ha-items-group-heading {
+    margin: 8px 0 0;
+  }
+  .ha-items-group .ha-item {
+    margin-left: calc(1.5em - 3px);
+  }
+  /* The logo is drawn in the colour a link has, as the logo links elsewhere
+     are, which a button's inherited colour would lose. */
+  .ha-item .ha-icon {
+    margin-left: 0.4em;
+    fill: LinkText;
   }
   /* The Home Assistant logo after the link's text, and alone as a link on a
      line naming a Smart Device (#522): it takes the link's colour, so all
@@ -1583,12 +1999,6 @@ var Nt = o`
   }
   .socket-list-occupant {
     flex: 1 1 auto;
-    color: var(--secondary-text-color, #727272);
-  }
-  /* An emptied socket's departing item (#568): struck through, in the
-     secondary colour, so it reads as not there. */
-  .departing {
-    color: var(--secondary-text-color, #727272);
   }
   .edit-field {
     display: flex;
@@ -1608,10 +2018,6 @@ var Nt = o`
   .link-filters .edit-field {
     display: contents;
   }
-  .edit-field label {
-    font-size: 0.8em;
-    font-weight: bold;
-  }
   .edit-field input,
   .edit-field select {
     font: inherit;
@@ -1619,12 +2025,10 @@ var Nt = o`
     border: 1px solid var(--divider-color, #e0e0e0);
     border-radius: 4px;
     background: var(--card-background-color, #fff);
-    color: var(--primary-text-color, #212121);
+    color: inherit;
   }
   .area-hint {
     margin: 0;
-    font-size: 0.75em;
-    color: var(--secondary-text-color, #727272);
   }
   .dialog-actions {
     flex: 0 0 auto;
@@ -1649,7 +2053,7 @@ var Nt = o`
   }
   .dialog-actions button:last-of-type:not(:disabled) {
     background: var(--ob-btn-main);
-    color: #fff;
+    color: var(--ob-btn-on-fill);
   }
   /* Same specificity as button:last-of-type above -- wins only because
      it is declared after it, since the destructive action (Unplug) is
@@ -1657,7 +2061,7 @@ var Nt = o`
      dialog, or an occupied CO Socket's unplug-only confirm). */
   .dialog-actions button.danger:not(:disabled) {
     background: var(--ob-btn-danger);
-    color: #fff;
+    color: var(--ob-btn-on-fill);
   }
   /* Same reasoning as button.danger above -- Commit's own confirm dialog
      (#301 follow-up) needs green, not button:last-of-type's default blue.
@@ -1665,12 +2069,19 @@ var Nt = o`
      a disabled one is a grey block, as in HA. */
   .dialog-actions button.go:not(:disabled) {
     background: var(--ob-btn-go);
-    color: #fff;
+    color: var(--ob-btn-on-fill);
   }
   .dialog-actions button:disabled {
     background: var(--ob-btn-disabled-fill);
     color: var(--ob-btn-disabled-text);
     cursor: default;
+  }
+  /* The control a dialog opens on (its \`autofocus\` one) always shows its focus
+     ring. The browser draws a ring for keyboard focus only, and a dialog the
+     mouse opened would show none, so the ring looked different each time. */
+  dialog [autofocus]:focus {
+    outline: 2px solid var(--primary-color, #03a9f4);
+    outline-offset: 1px;
   }
   /* Hover darkens a filled button and tints a plain one, only where there
      is a pointer, so a tap does not leave a button in its hover colour. */
@@ -1721,8 +2132,6 @@ var Nt = o`
   }
   .no-candidates {
     margin: 0;
-    font-size: 0.85em;
-    color: var(--secondary-text-color, #727272);
   }
   .link-candidates li {
     margin: 4px 0;
@@ -1731,11 +2140,6 @@ var Nt = o`
     display: flex;
     align-items: center;
     gap: 6px;
-    font-size: 0.9em;
-  }
-  .link-candidates input:disabled + span {
-    color: var(--disabled-text-color, #9e9e9e);
-    font-size: 0.9em;
   }
   /* #424: a CO's picker draws its Unmanaged Outlets and its other sockets as two
      lists, an empty one with its heading and a line saying so. Stacked by
@@ -1756,16 +2160,11 @@ var Nt = o`
   }
   .link-list-title {
     margin: 4px 0 0 0;
-    font-size: 0.85em;
-    color: var(--secondary-text-color, #727272);
   }
   .candidate-group {
     margin: 4px 0;
   }
   .candidate-group-label {
-    font-weight: bold;
-    font-size: 0.85em;
-    color: var(--secondary-text-color, #727272);
     margin-bottom: 2px;
   }
   .candidate-group-items {
@@ -1807,7 +2206,6 @@ var Nt = o`
   .export-formats legend {
     padding: 0;
     margin-bottom: 4px;
-    font-weight: 500;
   }
   .export-notice {
     margin: 8px 0 0 0;
@@ -1820,8 +2218,6 @@ var Nt = o`
   }
   .from-names-counts {
     margin-left: auto;
-    font-size: 0.85em;
-    color: var(--secondary-text-color, #727272);
   }
   .from-names-table {
     border-collapse: collapse;
@@ -1855,11 +2251,6 @@ var Nt = o`
     background: #fff;
     border-bottom: 2px solid var(--divider-color, #e0e0e0);
   }
-  /* The bracketed second line of a column heading: not the heading itself. */
-  .from-names-th-sub {
-    font-size: 0.8em;
-    font-weight: normal;
-  }
   .from-names-integration {
     white-space: nowrap;
   }
@@ -1879,7 +2270,7 @@ var Nt = o`
     border: 2px solid var(--primary-color, #03a9f4);
     border-radius: 4px;
     background: #fff;
-    color: #212121;
+    color: inherit;
     padding: 3px 6px;
   }
   /* A ticked row's radio group (#395): one option per line, in smaller text,
@@ -1889,7 +2280,6 @@ var Nt = o`
     flex-direction: column;
     align-items: flex-start;
     gap: 2px;
-    font-size: 0.85em;
   }
   .wall-batch-options .from-names-name {
     align-self: stretch;
@@ -1908,38 +2298,22 @@ var Nt = o`
     border: 1px solid var(--divider-color, #9e9e9e);
     border-radius: 4px;
     background: #fff;
-    color: #212121;
+    color: inherit;
     padding: 3px 6px;
   }
   .from-names-name:not([readonly]):focus {
     outline: 2px solid var(--primary-color, #03a9f4);
     outline-offset: 1px;
   }
-  /* Reference only, and always read-only: smaller and muted. */
-  .from-names-ha-name {
-    font-size: 0.8em;
-    color: var(--secondary-text-color, #727272);
-  }
   /* The slug of the name, the part of the entity_id it supplies: read-only, and
      monospace so it can be read character by character and copied. */
   .from-names-slug {
     margin: 2px 0 0 0;
-    font-family: monospace;
-    font-size: 0.75em;
-    color: var(--secondary-text-color, #727272);
     overflow-wrap: anywhere;
     user-select: text;
   }
   .from-names-note {
     margin: 2px 0 0 0;
-    font-size: 0.8em;
-    color: var(--secondary-text-color, #727272);
-  }
-  /* A ticked row's problem: an error, red with an icon. An unticked row's
-     note keeps the plain look above. */
-  .from-names-error,
-  .from-names-error-count {
-    color: var(--error-color, #b00020);
   }
   .from-names-error {
     display: flex;
@@ -1959,13 +2333,9 @@ var Nt = o`
   .candidate-note,
   .candidate-context {
     margin: 0 0 0 24px;
-    font-size: 0.8em;
-    color: var(--secondary-text-color, #727272);
   }
   .link-row-error {
     margin: 2px 0 0 24px;
-    font-size: 0.8em;
-    color: var(--error-color, #b00020);
   }
   .structured-table {
     width: auto;
@@ -2080,15 +2450,15 @@ var Nt = o`
      active rather than a hardcoded pair; the 55% blend is a starting
      point to eyeball live, not a measured constant. */
   .structured-table thead .th-connection .th-icon.plug {
-    color: color-mix(in srgb, var(--primary-color, #03a9f4) 55%, var(--secondary-text-color, #727272));
+    --ob-icon-colour: color-mix(in srgb, var(--ob-icon-plug) 55%, var(--ob-icon-quiet));
   }
   .structured-table thead .th-connection .th-icon.unplug {
-    color: color-mix(in srgb, var(--error-color, #b00020) 55%, var(--secondary-text-color, #727272));
+    --ob-icon-colour: color-mix(in srgb, var(--ob-icon-linked) 55%, var(--ob-icon-quiet));
   }
   .th-icon {
     width: 1.1em;
     height: 1.1em;
-    fill: currentColor;
+    fill: var(--ob-icon-colour, currentColor);
     vertical-align: middle;
   }
   .structured-table td,
@@ -2114,9 +2484,6 @@ var Nt = o`
   }
   .structured-table .row-shade {
     background: rgba(127, 127, 127, 0.06);
-  }
-  .structured-table .plugged {
-    font-weight: bold;
   }
   .structured-table .appl-cell {
     text-align: right;
@@ -2146,18 +2513,8 @@ var Nt = o`
     grid-template-columns: minmax(0, 1fr) auto;
     column-gap: 12px;
   }
-  .co-box-name {
-    font-weight: 500;
-  }
-  /* The name is the box's title, so it needs no underline to say it is a link;
-     it still changes colour on hover and focus. */
-  .co-box-name .entity-link-primary {
-    text-decoration-line: none;
-  }
   .co-box-model {
     margin-top: 2px;
-    font-size: 0.85em;
-    color: var(--secondary-text-color, #727272);
   }
   .co-box-delete {
     margin-bottom: 2px;
@@ -2169,65 +2526,16 @@ var Nt = o`
     writing-mode: vertical-rl;
     max-inline-size: 12em;
     align-self: center;
-    font-size: 0.85em;
-    color: var(--secondary-text-color, #727272);
   }
   .co-alias {
     margin-top: 2px;
-    font-weight: 500;
   }
   .card-model {
     margin-left: 4px;
-    font-size: 0.85em;
-    color: var(--secondary-text-color, #727272);
   }
-  /* Every entity's own name/identity is the click target into its edit
-     dialog (#116), so this deliberately does NOT follow .link-btn's
-     opacity:0.15-until-hover convention. Always visible, with just enough
-     styling (cursor, underline) to read as clickable. A button centres its own
-     text, so a name that wraps takes its cell's alignment instead. */
-  .entity-link-primary {
-    border: none;
-    background: none;
-    padding: 0;
-    font: inherit;
-    color: inherit;
-    text-align: inherit;
-    cursor: pointer;
-    text-decoration: underline dotted;
-    text-underline-offset: 2px;
-  }
-  .entity-link-primary:hover,
-  .entity-link-primary:focus-visible {
-    color: var(--primary-color, #03a9f4);
-    text-decoration-style: solid;
-  }
-  /* A name in a dialog (#530) reads as the main screen's name links do. A
-     held one is hover-only, so it drops the underline that says "click". */
-  .dialog-link {
-    border: none;
-    background: none;
-    padding: 0;
-    font: inherit;
-    color: inherit;
-    text-align: inherit;
-    cursor: pointer;
-    text-decoration: underline dotted;
-    text-underline-offset: 2px;
-  }
-  .dialog-link:hover,
-  .dialog-link:focus-visible {
-    color: var(--primary-color, #03a9f4);
-    text-decoration-style: solid;
-  }
-  .dialog-link.held {
-    cursor: default;
-    text-decoration: none;
-  }
-  .dialog-link.held:hover,
-  .dialog-link.held:focus-visible {
-    color: inherit;
-  }
+  /* A name that opens something (an entity's own name, or a name in a
+     dialog) is the "clickable text" look (#156), named in the button's class
+     (control-styles.ts). A name that is held is hover-only and is no button. */
   .meter-icon {
     width: 1em;
     height: 1em;
@@ -2311,7 +2619,6 @@ var Nt = o`
      its first row is left alone, since that cell is live. */
   .structured-table tr.copy-row > td:not(.uo-cell) {
     opacity: 0.55;
-    font-style: italic;
   }
   /* The dashes are painted as backgrounds, not dashed borders, so they draw
      the same in every browser: a dashed border in a collapsed-border table
@@ -2366,9 +2673,6 @@ var Nt = o`
      it hangs from: small, italic and grey, so it reads as background. */
   .power-source {
     display: block;
-    font-size: 0.8em;
-    font-style: italic;
-    color: var(--secondary-text-color, #727272);
   }
   .hosting-mark {
     margin-right: 4px;
@@ -2390,9 +2694,7 @@ var Nt = o`
     background: var(--divider-color, #e0e0e0);
   }
   .structured-table tr.section-header td {
-    font-weight: bold;
     text-align: center;
-    color: var(--primary-text-color, #212121);
     background: var(--secondary-background-color, rgba(127, 127, 127, 0.08));
     border-bottom: 1px solid var(--divider-color, #e0e0e0);
   }
@@ -2413,7 +2715,6 @@ var Nt = o`
     background: none;
     padding: 0;
     cursor: pointer;
-    color: inherit;
     display: flex;
     width: 100%;
     justify-content: center;
@@ -2460,10 +2761,6 @@ var Nt = o`
     align-items: flex-start;
     justify-content: center;
     padding-top: 3px;
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: 0.7em;
-    font-style: italic;
-    font-weight: bold;
     color: inherit;
     opacity: 0.6;
     cursor: help;
@@ -2533,7 +2830,7 @@ var Nt = o`
     padding: 6px;
     border-radius: 8px;
     background: #fff;
-    color: var(--primary-text-color, #212121);
+    color: inherit;
     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
   }
   .menu-list[hidden] {
@@ -2546,9 +2843,6 @@ var Nt = o`
     gap: 8px;
     margin: 0;
     padding: 6px 8px 2px;
-    font-size: 0.85em;
-    font-weight: bold;
-    color: var(--secondary-text-color, #727272);
   }
   .menu-entry {
     display: flex;
@@ -2595,10 +2889,6 @@ var Nt = o`
      heading has a tooltip (#312). */
   .info-cue {
     margin-left: 2px;
-    font-family: Georgia, "Times New Roman", serif;
-    font-size: 0.7em;
-    font-style: italic;
-    font-weight: bold;
     opacity: 0.6;
   }
   /* #323: a collapsed section's rows stay in the DOM and are hidden with
@@ -2736,24 +3026,6 @@ var Nt = o`
       background: #1c1c1c;
       --column-tint-appliance: rgba(76, 175, 80, 0.16);
       --column-tint-uo: rgba(121, 85, 72, 0.18);
-      --ob-btn-plain-text: #37c8fd;
-      --ob-btn-plain-hover: #002e3e;
-      --ob-btn-danger: #b30532;
-      --ob-btn-danger-hover: #8a132c;
-      --ob-btn-go: #036730;
-      --ob-btn-go-hover: #0a5027;
-      --ob-btn-disabled-fill: #4a4a4a;
-      --ob-btn-disabled-text: #7a7a7a;
-      --ob-btn-go-text: #00ac49;
-      --ob-btn-danger-text: #f3676c;
-      --ob-btn-disabled-quiet: #7a7a7a;
-      --ob-btn-icon-hover: rgba(255, 255, 255, 0.12);
-    }
-    :host(:not([data-theme="light"])) h1,
-    :host(:not([data-theme="light"])) .structured-table tr.section-header td,
-    :host(:not([data-theme="light"])) .entity-cards .card-section-header,
-    :host(:not([data-theme="light"])) .dialog-title {
-      color: #e1e1e1;
     }
     :host(:not([data-theme="light"])) .header-bar,
     :host(:not([data-theme="light"])) .structured-table thead th,
@@ -2765,52 +3037,27 @@ var Nt = o`
     :host(:not([data-theme="light"])) .from-names-table thead th {
       background: #2e2e2e;
     }
-    :host(:not([data-theme="light"])) .tooltip-popover {
-      --tip-bg: #dfe2e5;
-      --tip-fg: #14171a;
-      --tip-fg-dim: #4a5057;
-      --tip-stop: #d93025;
-    }
-    /* Frosted glass (#480): the light tint is what separates the pane from
-       the near-flat dark page behind it; the blur is only texture. */
-    :host(:not([data-theme="light"])) dialog,
+    /* Frosted glass for the header menu (#480): the light tint is what
+       separates the pane from the near-flat dark page behind it; the blur is
+       only texture. The dialogs have the same look from the
+       "modal-dialog-box" surface. */
     :host(:not([data-theme="light"])) .menu-list {
       background: rgba(255, 255, 255, 0.12);
       -webkit-backdrop-filter: blur(14px);
       backdrop-filter: blur(14px);
       border: 1px solid rgba(255, 255, 255, 0.18);
-      color: #e1e1e1;
     }
     :host(:not([data-theme="light"])) .edit-field input,
     :host(:not([data-theme="light"])) .from-names-name:not([readonly]),
     :host(:not([data-theme="light"])) .dialog-filter-input,
     :host(:not([data-theme="light"])) .edit-field select {
       background: #1c1c1c;
-      color: #e1e1e1;
     }
   }
   :host([data-theme="dark"]) {
     background: #1c1c1c;
     --column-tint-appliance: rgba(76, 175, 80, 0.16);
     --column-tint-uo: rgba(121, 85, 72, 0.18);
-    --ob-btn-plain-text: #37c8fd;
-    --ob-btn-plain-hover: #002e3e;
-    --ob-btn-danger: #b30532;
-    --ob-btn-danger-hover: #8a132c;
-    --ob-btn-go: #036730;
-    --ob-btn-go-hover: #0a5027;
-    --ob-btn-disabled-fill: #4a4a4a;
-    --ob-btn-disabled-text: #7a7a7a;
-    --ob-btn-go-text: #00ac49;
-    --ob-btn-danger-text: #f3676c;
-    --ob-btn-disabled-quiet: #7a7a7a;
-    --ob-btn-icon-hover: rgba(255, 255, 255, 0.12);
-  }
-  :host([data-theme="dark"]) h1,
-  :host([data-theme="dark"]) .structured-table tr.section-header td,
-  :host([data-theme="dark"]) .entity-cards .card-section-header,
-  :host([data-theme="dark"]) .dialog-title {
-    color: #e1e1e1;
   }
   :host([data-theme="dark"]) .header-bar,
   :host([data-theme="dark"]) .structured-table thead th,
@@ -2820,32 +3067,23 @@ var Nt = o`
   :host([data-theme="dark"]) .from-names-table thead th {
     background: #2e2e2e;
   }
-  :host([data-theme="dark"]) .tooltip-popover {
-    --tip-bg: #dfe2e5;
-    --tip-fg: #14171a;
-    --tip-fg-dim: #4a5057;
-    --tip-stop: #d93025;
-  }
-  :host([data-theme="dark"]) dialog,
   :host([data-theme="dark"]) .menu-list {
     background: rgba(255, 255, 255, 0.12);
     -webkit-backdrop-filter: blur(14px);
     backdrop-filter: blur(14px);
     border: 1px solid rgba(255, 255, 255, 0.18);
-    color: #e1e1e1;
   }
   :host([data-theme="dark"]) .edit-field input,
   :host([data-theme="dark"]) .from-names-name:not([readonly]),
   :host([data-theme="dark"]) .dialog-filter-input,
   :host([data-theme="dark"]) .edit-field select {
     background: #1c1c1c;
-    color: #e1e1e1;
   }
-`, Pt = [{
+`, wn = [{
 	label: "Filter…",
 	icon: "filter",
 	action: "show_filter"
-}], Ft = [{
+}], Tn = [{
 	heading: "Tools",
 	icon: "tools",
 	entries: [
@@ -2865,17 +3103,17 @@ var Nt = o`
 			action: "export_state"
 		}
 	]
-}], It = nt, Lt = Ze, Rt = (e) => x`<svg class="menu-entry-icon" viewBox="0 0 24 24" aria-hidden="true">
+}], En = st, Dn = tt, On = (e) => v`<svg class="menu-entry-icon" viewBox="0 0 24 24" aria-hidden="true">
     <path d="${e}"></path>
-  </svg>`, zt = (e, t, n, r) => x`<button
+  </svg>`, kn = (e, t, n, r) => v`<button
     class="menu-entry ${t ? "indented" : ""}"
     @click=${() => r.choose(e.action)}
   >
-    ${Rt(n(e.icon))}${e.label}
+    ${On(n(e.icon))}${e.label}
   </button>`;
-function Bt(e, t, n) {
+function An(e, t, n) {
 	let { tip: r } = e;
-	return x`<div class="menu-wrap">
+	return v`<div class="menu-wrap">
     <button
       class="menu-btn"
       data-tip="act"
@@ -2886,35 +3124,41 @@ function Bt(e, t, n) {
       @click=${() => n.toggle()}
     >
       <svg class="menu-icon" viewBox="0 0 24 24" aria-hidden="true">
-        <path d="${It}"></path>
+        <path d="${En}"></path>
       </svg></button
     >${r.desc}
     <div class="menu-list" id="header-menu" ?hidden=${!e.open}>
-      ${e.topEntries.map((e) => zt(e, !1, t, n))}
+      ${e.topEntries.map((e) => kn(e, !1, t, n))}
       <hr class="menu-separator" />
-      ${e.groups.map((e) => x`<div class="menu-group">
-          <p class="menu-heading">
-            ${Rt(t(e.icon))}${e.heading}
+      ${e.groups.map((e) => v`<div class="menu-group">
+          <p class="menu-heading ${D("heading")}">
+            ${On(t(e.icon))}${e.heading}
           </p>
-          ${e.entries.map((e) => zt(e, !0, t, n))}
+          ${e.entries.map((e) => kn(e, !0, t, n))}
         </div>`)}
       <hr class="menu-separator" />
       <button class="menu-entry" @click=${() => n.openSettings()}>
-        ${Rt(Lt)}Settings…
+        ${On(Dn)}Settings…
       </button>
     </div>
   </div>`;
 }
 //#endregion
+//#region src/outlet-binder-panel/ha-links.ts
+function jn(e, t) {
+	let n = new URLSearchParams(t.search);
+	return n.set("more-info-entity-id", e), n.set("more-info-view", "settings"), `${t.pathname}?${n.toString()}`;
+}
+//#endregion
 //#region src/outlet-binder-panel/utils.ts
-var k = (e) => e ?? "—", A = (e, t) => t === null ? null : e.get(t) ?? t, j = (e, t) => e.get(t) ?? k(null), Vt = (e) => e.physical_position !== null && e.physical_position !== e.position ? e.physical_position : e.position, M = (e) => e instanceof Error || typeof e == "object" && e && "message" in e && typeof e.message == "string" ? e.message : String(e), Ht = (e, t) => `${e}: ${M(t)}`, Ut = (e) => /[.!?]$/.test(e) ? e : `${e}.`, N = (e, t) => e.localeCompare(t, void 0, { numeric: !0 }), P = (e) => e.alias, Wt = "No rows match the filter.", Gt = "No Wall Sockets available", Kt = "No Smart device sockets available", qt = (e, t) => {
+var j = (e) => e ?? "—", M = (e, t) => t === null ? null : e.get(t) ?? t, N = (e, t) => e.get(t) ?? j(null), Mn = (e) => e.physical_position !== null && e.physical_position !== e.position ? e.physical_position : e.position, P = (e) => e instanceof Error || typeof e == "object" && e && "message" in e && typeof e.message == "string" ? e.message : String(e), Nn = (e, t) => `${e}: ${P(t)}`, Pn = (e) => /[.!?]$/.test(e) ? e : `${e}.`, F = (e, t) => e.localeCompare(t, void 0, { numeric: !0 }), I = (e) => e.alias, Fn = "No rows match the filter.", In = "No Wall Sockets available", Ln = "No Smart device sockets available", Rn = (e, t) => {
 	let n = e.toLowerCase().split(/\s+/).filter(Boolean);
 	if (n.length === 0) return !0;
 	let r = t.join("\n").toLowerCase();
 	return n.every((e) => r.includes(e));
-}, F = (e, t) => {
-	e && (t && !e.open ? e.showModal() : !t && e.open && e.close());
-}, Jt = (e) => `${e} powered`, Yt = (e) => e === 1 ? "1 with an Appliance" : `${e} with Appliances`, Xt = "mac", Zt = {
+}, L = (e, t) => {
+	e && (t && !e.open ? (e.showModal(), e.querySelector("[autofocus]")?.focus()) : !t && e.open && e.close());
+}, zn = (e) => `${e} powered`, Bn = (e) => e === 1 ? "1 with an Appliance" : `${e} with Appliances`, Vn = "mac", Hn = {
 	manufacturer: null,
 	model: null,
 	name: null,
@@ -2923,10 +3167,10 @@ var k = (e) => e ?? "—", A = (e, t) => t === null ? null : e.get(t) ?? t, j = 
 	mac: null,
 	area_id: null
 };
-function Qt(e, t) {
+function Un(e, t) {
 	let n = e?.[t];
-	if (!n) return Zt;
-	let r = n.connections.find(([e]) => e === Xt);
+	if (!n) return Hn;
+	let r = n.connections.find(([e]) => e === Vn);
 	return {
 		manufacturer: n.manufacturer,
 		model: n.model,
@@ -2937,12 +3181,12 @@ function Qt(e, t) {
 		area_id: n.area_id
 	};
 }
-var $t = "outlet_binder", en = /* @__PURE__ */ new WeakMap(), tn = (e) => {
-	let t = en.get(e);
+var Wn = "outlet_binder", Gn = /* @__PURE__ */ new WeakMap(), Kn = (e) => {
+	let t = Gn.get(e);
 	if (t) return t;
 	let n = /* @__PURE__ */ new Map();
 	for (let { device_id: t, platform: r } of Object.values(e)) {
-		if (t === null || r === $t) continue;
+		if (t === null || r === Wn) continue;
 		let e = n.get(t) ?? /* @__PURE__ */ new Map();
 		e.set(r, (e.get(r) ?? 0) + 1), n.set(t, e);
 	}
@@ -2951,17 +3195,17 @@ var $t = "outlet_binder", en = /* @__PURE__ */ new WeakMap(), tn = (e) => {
 		let [n] = [...t].sort(([e, t], [n, r]) => r - t || e.localeCompare(n));
 		n && r.set(e, n[0]);
 	}
-	return en.set(e, r), r;
+	return Gn.set(e, r), r;
 };
-function nn(e, t) {
-	return e ? tn(e).get(t) ?? null : null;
+function qn(e, t) {
+	return e ? Kn(e).get(t) ?? null : null;
 }
 //#endregion
 //#region src/outlet-binder-panel/chain-state.ts
-var rn = (e) => ({
+var Jn = (e) => ({
 	...e,
 	gapBefore: !0
-}), an = (e, t) => {
+}), Yn = (e, t) => {
 	let n = new Map(e.cos.map((e) => [e.co_id, e])), r = new Map(e.co_sockets.map((e) => [e.co_socket_id, e])), i = /* @__PURE__ */ new Map();
 	for (let t of e.co_sockets) {
 		let e = i.get(t.co_id) ?? [];
@@ -3014,21 +3258,21 @@ var rn = (e) => ({
 			}
 			case "nowhere": return !1;
 		}
-	}, p = (n) => {
+	}, te = (n) => {
 		let r = (e) => e.kind === "uo" && e.id === n.uo_id;
 		return e.cos.some((e) => r(t.co(e)) && d(e) === "full") || e.appliances.some((e) => r(t.appliance(e)));
-	}, m = (e) => [...i.get(e.co_id) ?? []].sort((e, t) => e.position - t.position).flatMap((e) => {
+	}, p = (e) => [...i.get(e.co_id) ?? []].sort((e, t) => e.position - t.position).flatMap((e) => {
 		if (e.plugged_into_appliance_id !== null || e.occupant_device_id === null) return [];
 		let t = n.get(e.occupant_device_id);
 		return t === void 0 ? [] : [{
 			child: t,
 			via: e
 		}];
-	}), te = (e, t, n) => {
+	}), ne = (e, t, n) => {
 		if (n.has(e.co_id)) return [];
-		let r = new Set(n).add(e.co_id), i = m(e).map(({ child: e, via: n }) => ({
+		let r = new Set(n).add(e.co_id), i = p(e).map(({ child: e, via: n }) => ({
 			via: n,
-			rows: te(e, t, r)
+			rows: ne(e, t, r)
 		})).filter((e) => e.rows.length > 0), a = i.flatMap((e) => e.rows);
 		return d(e) === t ? [{
 			kind: "live",
@@ -3049,12 +3293,12 @@ var rn = (e) => ({
 		bandOf: d,
 		socketIsComplete: f,
 		applianceIsComplete: ee,
-		uoIsComplete: p,
+		uoIsComplete: te,
 		blocks: (n) => {
-			let r = [], i = /* @__PURE__ */ new Map(), s = [...e.cos].sort((e, t) => N(P(e), P(t))), c = s.filter((e) => a(e) === void 0), l = /* @__PURE__ */ new Set(), u = (e) => {
+			let r = [], i = /* @__PURE__ */ new Map(), s = [...e.cos].sort((e, t) => F(I(e), I(t))), c = s.filter((e) => a(e) === void 0), l = /* @__PURE__ */ new Set(), u = (e) => {
 				if (!l.has(e.co_id)) {
 					l.add(e.co_id);
-					for (let { child: t } of m(e)) u(t);
+					for (let { child: t } of p(e)) u(t);
 				}
 			};
 			c.forEach(u);
@@ -3064,16 +3308,16 @@ var rn = (e) => ({
 				c.push(t), u(t);
 			}
 			for (let e of c) {
-				let a = te(e, n, /* @__PURE__ */ new Set());
+				let a = ne(e, n, /* @__PURE__ */ new Set());
 				if (a.length === 0) continue;
 				let o = t.co(e), s = o.kind === "uo" ? o.id : null, c = s === null ? void 0 : i.get(s);
 				if (c !== void 0) {
-					c.rows.push(...a.map((e, t) => t === 0 ? rn(e) : e));
+					c.rows.push(...a.map((e, t) => t === 0 ? Jn(e) : e));
 					continue;
 				}
 				let l = {
 					uoId: s,
-					sortKey: P(e),
+					sortKey: I(e),
 					rows: a
 				};
 				r.push(l), s !== null && i.set(s, l);
@@ -3085,7 +3329,7 @@ var rn = (e) => ({
 						appliance: e,
 						uoId: n.id
 					}] : [];
-				}).sort((e, t) => N(e.appliance.name, t.appliance.name));
+				}).sort((e, t) => F(e.appliance.name, t.appliance.name));
 				for (let { appliance: t, uoId: a } of n) {
 					let n = i.get(a);
 					if (n !== void 0) {
@@ -3108,41 +3352,41 @@ var rn = (e) => ({
 					r.push(o), i.set(a, o);
 				}
 			}
-			return r.sort((e, t) => N(e.sortKey, t.sortKey)).map(({ uoId: e, rows: t }) => ({
+			return r.sort((e, t) => F(e.sortKey, t.sortKey)).map(({ uoId: e, rows: t }) => ({
 				uoId: e,
 				rows: t
 			}));
 		}
 	};
-}, on = (e) => e.uo_id === null ? e.plugged_into_co_socket_id === null ? { kind: "nowhere" } : {
+}, Xn = (e) => e.uo_id === null ? e.plugged_into_co_socket_id === null ? { kind: "nowhere" } : {
 	kind: "co_socket",
 	id: e.plugged_into_co_socket_id
 } : {
 	kind: "uo",
 	id: e.uo_id
-}, I = (e) => on(e), L = (e) => on(e), sn = (e) => e.sockets_in_use > 0, cn = (e, t) => {
+}, R = (e) => Xn(e), z = (e) => Xn(e), Zn = (e) => e.sockets_in_use > 0, Qn = (e, t) => {
 	if (e.occupant_device_id === null) return null;
 	let n = e.plugged_into_appliance_id === null ? t.coNames : t.applianceNames;
 	return {
 		id: e.occupant_device_id,
 		name: n.get(e.occupant_device_id) ?? null
 	};
-}, ln = (e, t) => ({
+}, $n = (e, t) => ({
 	device: e.coNames.get(t.co_id) ?? t.co_id,
 	socket: (e.socketsByCo.get(t.co_id) ?? []).length <= 1 ? null : t.alias
-}), R = (e, t) => {
-	let { device: n, socket: r } = ln(e, t);
+}), B = (e, t) => {
+	let { device: n, socket: r } = $n(e, t);
 	return r === null ? n : `${n} > ${r}`;
-}, un = (e, t) => {
-	let { device: n, socket: r } = ln(e, t);
+}, er = (e, t) => {
+	let { device: n, socket: r } = $n(e, t);
 	return r === null ? n : `${r} on ${n}`;
-}, z = (e) => {
+}, V = (e) => {
 	let t = new Map(e.uos.map((e) => [e.uo_id, e.name])), n = new Map(e.uos.map((e) => [e.uo_id, e])), r = new Map(e.cos.map((e) => [e.co_id, e.alias])), i = new Map(e.appliances.map((e) => [e.appliance_id, e.name])), a = new Map(e.appliances.map((e) => [e.appliance_id, e])), o = /* @__PURE__ */ new Map();
 	for (let t of e.co_sockets) {
 		let e = o.get(t.co_id) ?? [];
 		e.push(t), o.set(t.co_id, e);
 	}
-	let s = new Map(e.co_sockets.map((e) => [e.co_socket_id, R({
+	let s = new Map(e.co_sockets.map((e) => [e.co_socket_id, B({
 		coNames: r,
 		socketsByCo: o
 	}, e)])), c = /* @__PURE__ */ new Map();
@@ -3153,15 +3397,15 @@ var rn = (e) => ({
 	}
 	let l = /* @__PURE__ */ new Map();
 	for (let t of e.appliances) {
-		let e = L(t);
+		let e = z(t);
 		if (e.kind !== "uo") continue;
 		let n = l.get(e.id) ?? [];
 		n.push(t), l.set(e.id, n);
 	}
-	let u = an(e, {
-		co: I,
-		appliance: L
-	}), d = u.bandOf, f = (e) => d(e) === "full", ee = u.socketIsComplete, p = u.applianceIsComplete, m = u.uoIsComplete;
+	let u = Yn(e, {
+		co: R,
+		appliance: z
+	}), d = u.bandOf, f = (e) => d(e) === "full", ee = u.socketIsComplete, te = u.applianceIsComplete, p = u.uoIsComplete;
 	return {
 		uoNames: t,
 		uosById: n,
@@ -3178,56 +3422,57 @@ var rn = (e) => ({
 		coBand: d,
 		coIsFullyChained: f,
 		socketIsFullyChained: ee,
-		applianceIsFullyChained: p,
-		uoIsFullyChained: m
+		applianceIsFullyChained: te,
+		uoIsFullyChained: p
 	};
-}, B = [
+}, H = [
 	"appliances",
 	"devices",
 	"uos"
-], dn = {
+], tr = {
 	devices: "Smart Devices",
 	appliances: "Appliances",
 	uos: "Wall Sockets"
-}, fn = (e) => e >= 1320 ? "wide" : e >= 780 ? "medium" : "narrow", pn = (e) => `· ${e} match`, mn = (e, t, n = null) => n === null ? `${dn[e]} (${t})` : `${dn[e]} (${t}) ${pn(n)}`, hn = (e, t) => {
-	let n = B.indexOf(e), r = B.length;
+}, nr = (e) => e >= 1320 ? "wide" : e >= 780 ? "medium" : "narrow", rr = (e) => `· ${e} match`, ir = (e, t, n = null) => n === null ? `${tr[e]} (${t})` : `${tr[e]} (${t}) ${rr(n)}`, ar = (e, t) => {
+	let n = H.indexOf(e), r = H.length;
 	switch (t) {
-		case "ArrowRight": return B[(n + 1) % r];
-		case "ArrowLeft": return B[(n - 1 + r) % r];
-		case "Home": return B[0];
-		case "End": return B[r - 1];
+		case "ArrowRight": return H[(n + 1) % r];
+		case "ArrowLeft": return H[(n - 1 + r) % r];
+		case "Home": return H[0];
+		case "End": return H[r - 1];
 		default: return null;
 	}
-}, gn = (e, t, n, r = 8) => {
+}, or = (e, t, n, r = 8) => {
 	let i = (e, t, n) => Math.max(r, Math.min(e, n - r - t));
 	return {
 		left: i(e.left, t.width, n.width),
 		top: i(e.top, t.height, n.height)
 	};
-}, _n = (e, t) => ({
+}, sr = (e, t) => ({
 	dx: e.x - t.left,
 	dy: e.y - t.top
-}), vn = (e, t) => ({
+}), cr = (e, t) => ({
 	left: e.x - t.dx,
 	top: e.y - t.dy
-}), yn = (e, t, n, r) => {
-	let i = gn(e, t, n);
+}), lr = (e, t, n, r) => {
+	let i = or(e, t, n);
 	return {
 		left: i.left - r.left,
 		top: i.top - r.top
 	};
-}, bn = (e, t, n) => ({
+}, ur = (e, t, n) => ({
 	kind: e,
 	id: t,
 	...n,
 	savedDraft: { ...n.draft },
 	saving: !1,
-	error: null
-}), xn = (e) => Object.entries(e.draft).some(([t, n]) => e.savedDraft[t] !== n), V = (e, t) => e === null ? null : {
+	error: null,
+	haItemsOpen: !1
+}), dr = (e) => Object.entries(e.draft).some(([t, n]) => e.savedDraft[t] !== n), fr = (e, t) => e === null ? null : {
 	...e,
 	saving: !1,
-	error: M(t)
-}, H = (e, t) => {
+	error: P(t)
+}, pr = (e, t) => {
 	let n = e.uosById.get(t);
 	return n === void 0 ? null : {
 		kind: "uo",
@@ -3239,16 +3484,16 @@ var rn = (e) => ({
 		kind: "co",
 		entity: n
 	};
-}, Sn = (e, t) => {
+}, mr = (e, t) => {
 	let n = e.appliancesById.get(t);
 	return n === void 0 ? null : {
 		kind: "appliance",
 		entity: n
 	};
-}, Cn = (e, t) => {
+}, hr = (e, t) => {
 	let n = e.socketsById.get(t);
 	return n === void 0 ? null : U(e, n.co_id);
-}, wn = (e, t) => e.plugged_into_appliance_id === null ? e.occupant_device_id === null ? null : U(t, e.occupant_device_id) : Sn(t, e.plugged_into_appliance_id), Tn = {
+}, gr = (e, t) => e.plugged_into_appliance_id === null ? e.occupant_device_id === null ? null : U(t, e.occupant_device_id) : mr(t, e.plugged_into_appliance_id), _r = {
 	name: "name",
 	alias: "alias",
 	location_note: "location note",
@@ -3259,15 +3504,15 @@ var rn = (e) => ({
 	socket_type: "type",
 	ha_area_id: "HA area",
 	socket_count: "sockets"
-}, En = /* @__PURE__ */ new Map([["ha_area_id", "— none —"], ["location_override_ha_area_id", "— inherit —"]]), Dn = "Areas are defined in Home Assistant, not in Outlet Binder.", On = /* @__PURE__ */ new Set(["socket_count"]), kn = /^\s*-?\d+\s*$/, An = (e) => {
-	let t = Mn[e.kind].requiredField;
-	return (e.draft[t] ?? "").trim() !== "" && Object.entries(e.draft).every(([e, t]) => !On.has(e) || kn.test(t));
-}, jn = (e) => {
-	let t = Mn[e.kind], n = {
+}, vr = /* @__PURE__ */ new Map([["ha_area_id", "— none —"], ["location_override_ha_area_id", "— inherit —"]]), yr = "Areas are defined in Home Assistant, not in Outlet Binder.", br = /* @__PURE__ */ new Set(["socket_count"]), xr = /^\s*-?\d+\s*$/, Sr = (e) => {
+	let t = wr[e.kind].requiredField;
+	return (e.draft[t] ?? "").trim() !== "" && Object.entries(e.draft).every(([e, t]) => !br.has(e) || xr.test(t));
+}, Cr = (e) => {
+	let t = wr[e.kind], n = {
 		type: t.wsType,
 		[t.idField]: e.id
 	};
-	for (let [r, i] of Object.entries(e.draft)) n[r] = On.has(r) ? Number(i) : r === t.requiredField ? i : i.trim() === "" ? null : i;
+	for (let [r, i] of Object.entries(e.draft)) n[r] = br.has(r) ? Number(i) : r === t.requiredField ? i : i.trim() === "" ? null : i;
 	for (let [t, r] of Object.entries(e.passthrough)) n[t] = r;
 	return n;
 }, W = {
@@ -3275,7 +3520,7 @@ var rn = (e) => ({
 	appliance: "Appliance",
 	co: "Smart Device",
 	co_socket: "Socket"
-}, Mn = {
+}, wr = {
 	uo: {
 		wsType: "outlet_binder/update_uo",
 		idField: "uo_id",
@@ -3296,7 +3541,7 @@ var rn = (e) => ({
 		idField: "co_socket_id",
 		requiredField: "alias"
 	}
-}, Nn = {
+}, Tr = {
 	uo: {
 		wsType: "outlet_binder/delete_uo",
 		idField: "uo_id"
@@ -3309,7 +3554,7 @@ var rn = (e) => ({
 		wsType: "outlet_binder/delete_co",
 		idField: "co_id"
 	}
-}, Pn = {
+}, Er = {
 	uo: {
 		wsType: "outlet_binder/create_uo",
 		requiredField: "name"
@@ -3318,7 +3563,7 @@ var rn = (e) => ({
 		wsType: "outlet_binder/create_appliance",
 		requiredField: "name"
 	}
-}, Fn = {
+}, Dr = {
 	uo: {
 		name: "",
 		location_note: "",
@@ -3329,7 +3574,7 @@ var rn = (e) => ({
 		appliance_type: "",
 		description: ""
 	}
-}, In = (e) => ({
+}, Or = (e) => ({
 	draft: {
 		name: e.name,
 		ha_area_id: e.ha_area_id ?? "",
@@ -3340,21 +3585,21 @@ var rn = (e) => ({
 	pluggedIntoHaDevice: null,
 	titleHaDevice: null,
 	readonlyFields: [["sockets in use", String(e.sockets_in_use)]]
-}), Ln = "Socket's HA name", Rn = (e) => [Ln, e === void 0 ? "…" : k(e)], zn = (e, t) => {
-	let n = L(e);
+}), kr = "Socket's HA name", Ar = (e) => [kr, e === void 0 ? "…" : j(e)], jr = (e, t) => {
+	let n = z(e);
 	switch (n.kind) {
 		case "co_socket": return {
-			text: j(t.coSocketLabels, n.id),
-			target: Cn(t, n.id)
+			text: N(t.coSocketLabels, n.id),
+			target: hr(t, n.id)
 		};
 		case "uo": return {
-			text: j(t.uoNames, n.id),
-			target: H(t, n.id)
+			text: N(t.uoNames, n.id),
+			target: pr(t, n.id)
 		};
 		case "nowhere": return null;
 	}
-}, Bn = (e, t, n) => {
-	let r = L(e);
+}, Mr = (e, t, n) => {
+	let r = z(e);
 	return {
 		draft: {
 			name: e.name,
@@ -3362,22 +3607,22 @@ var rn = (e) => ({
 			description: e.description ?? ""
 		},
 		passthrough: {},
-		pluggedInto: zn(e, t),
+		pluggedInto: jr(e, t),
 		pluggedIntoHaDevice: r.kind === "co_socket" ? t.socketsById.get(r.id)?.co_id ?? null : null,
 		titleHaDevice: null,
-		readonlyFields: [Rn(n)]
+		readonlyFields: [Ar(n)]
 	};
-}, Vn = (e, t, n) => {
+}, Nr = (e, t, n) => {
 	if (!e.has_plug) return "---> —";
-	if (I(e).kind === "nowhere") return "---> unplugged";
+	if (R(e).kind === "nowhere") return "---> unplugged";
 	let r = e.inherited_ha_area_source_id;
 	if (r === null) return "---> —";
-	let i = (e) => k(A(n, e)), a = t.uosById.get(r);
+	let i = (e) => j(M(n, e)), a = t.uosById.get(r);
 	if (a) return `---> ${a.name} : ${i(a.ha_area_id)}`;
 	let o = t.cosById.get(r);
 	return o ? `---> ${o.alias} : ${i(o.location_override?.ha_area_id ?? null)}` : "---> —";
-}, Hn = (e, t, n) => {
-	let r = I(e), i = r.kind === "co_socket" ? t.socketsById.get(r.id) : void 0;
+}, Pr = (e, t, n) => {
+	let r = R(e), i = r.kind === "co_socket" ? t.socketsById.get(r.id) : void 0;
 	return {
 		draft: {
 			alias: e.alias,
@@ -3385,23 +3630,23 @@ var rn = (e) => ({
 			location_override_location_note: e.location_override?.location_note ?? ""
 		},
 		passthrough: {},
-		inheritLabel: Vn(e, t, n),
+		inheritLabel: Nr(e, t, n),
 		pluggedInto: r.kind === "uo" ? {
-			text: A(t.uoNames, r.id) ?? r.id,
-			target: H(t, r.id)
+			text: M(t.uoNames, r.id) ?? r.id,
+			target: pr(t, r.id)
 		} : r.kind === "co_socket" ? i ? {
-			text: R(t, i),
+			text: B(t, i),
 			target: U(t, i.co_id)
 		} : {
-			text: k(null),
+			text: j(null),
 			target: null
 		} : null,
 		pluggedIntoHaDevice: i?.co_id ?? null,
 		titleHaDevice: e.co_id,
-		readonlyFields: [["all on/off entity", k(e.all_on_off_entity_registry_id)], ["created at", e.created_at]]
+		readonlyFields: [["all on/off entity", j(e.all_on_off_entity_registry_id)], ["created at", e.created_at]]
 	};
-}, Un = (e, t) => {
-	let n = cn(e, t);
+}, Fr = (e, t) => {
+	let n = Qn(e, t);
 	return {
 		draft: {
 			alias: e.alias,
@@ -3409,29 +3654,29 @@ var rn = (e) => ({
 		},
 		passthrough: { physical_position: e.physical_position },
 		pluggedInto: n === null ? null : {
-			text: k(n.name),
-			target: wn(e, t)
+			text: j(n.name),
+			target: gr(e, t)
 		},
 		pluggedIntoHaDevice: n !== null && e.plugged_into_appliance_id === null ? n.id : null,
 		titleHaDevice: e.co_id,
 		readonlyFields: [
-			["smart device", k(A(t.coNames, e.co_id))],
+			["smart device", j(M(t.coNames, e.co_id))],
 			["position", String(e.position)],
-			["monitoring entity", k(e.monitoring_entity_registry_id)]
+			["monitoring entity", j(e.monitoring_entity_registry_id)]
 		]
 	};
-}, Wn = 4, G = 8;
-function Gn(e, t, n) {
+}, Ir = 4, G = 8;
+function Lr(e, t, n) {
 	return n < t ? t : Math.min(Math.max(e, t), n);
 }
-function Kn(e, t, n, r = null) {
-	let i = n.height - (e.top + e.height) - Wn, a = e.top - Wn, o = t.height + G <= i, s = t.height + G <= a, c = o || !s && i >= a ? e.top + e.height + Wn : e.top - Wn - t.height, l = r === null ? null : r.left - Wn - t.width;
+function Rr(e, t, n, r = null) {
+	let i = n.height - (e.top + e.height) - Ir, a = e.top - Ir, o = t.height + G <= i, s = t.height + G <= a, c = o || !s && i >= a ? e.top + e.height + Ir : e.top - Ir - t.height, l = r === null ? null : r.left - Ir - t.width;
 	return {
-		left: Gn(l !== null && l >= G ? l : e.left, G, n.width - t.width - G),
-		top: Gn(c, G, n.height - t.height - G)
+		left: Lr(l !== null && l >= G ? l : e.left, G, n.width - t.width - G),
+		top: Lr(c, G, n.height - t.height - G)
 	};
 }
-function qn(e) {
+function zr(e) {
 	let { event: t, pointerType: n, lastInput: r, host: i } = e;
 	if (t === "escape") return "hide";
 	if (t === "click") return i === "info" && n === "touch" ? "toggle" : "hide";
@@ -3443,13 +3688,13 @@ function qn(e) {
 		case "focusin": return r === "keyboard" ? "show" : "ignore";
 	}
 }
-var Jn = /^(- |\d+\. )/;
-function Yn(e) {
+var Br = /^(- |\d+\. )/;
+function Vr(e) {
 	let t = e.indexOf("\n\n");
 	return t >= 0 ? {
 		title: e.slice(0, t),
 		body: e.slice(t + 2)
-	} : Jn.test(e) ? {
+	} : Br.test(e) ? {
 		title: "",
 		body: e
 	} : {
@@ -3457,9 +3702,9 @@ function Yn(e) {
 		body: ""
 	};
 }
-function Xn(e) {
+function Hr(e) {
 	return e.split("\n").map((e) => {
-		let t = Jn.exec(e);
+		let t = Br.exec(e);
 		return t ? {
 			kind: "item",
 			marker: t[1].trim(),
@@ -3475,32 +3720,32 @@ function Xn(e) {
 		};
 	});
 }
-var Zn = [
+var Ur = [
 	"appliance",
 	"co",
 	"uo"
-], Qn = (e) => Zn.includes(e), $n = {
+], Wr = (e) => Ur.includes(e), Gr = {
 	...W,
 	co_socket: "Smart Socket"
-}, er = {
+}, Kr = {
 	appliance: "appliance",
 	co: "co",
 	co_socket: "co",
 	uo: "uo"
-}, tr = (e, t, n) => ({
+}, qr = (e, t, n) => ({
 	icon: e,
 	title: t,
 	action: n.action ?? "",
 	blocked: n.blocked ?? !1,
 	attrs: n.attrs ?? []
-}), K = (e, t, n = {}) => tr(er[e], `${$n[e]}: ${t}`, n), nr = (e, t = {}) => tr(null, e, t), rr = "- ", ir = (e) => e.replace(/[\t\r\n]+/g, " "), ar = (e) => {
-	let t = (e.action === "" ? [e.title] : [e.title, e.action]).map(ir), n = e.attrs.flatMap((e) => [`${ir(e.label)}:\t${ir(e.value)}`, ...(e.items ?? []).map((e) => `${rr}${ir(e)}`)]);
+}), K = (e, t, n = {}) => qr(Kr[e], `${Gr[e]}: ${t}`, n), Jr = (e, t = {}) => qr(null, e, t), Yr = "- ", Xr = (e) => e.replace(/[\t\r\n]+/g, " "), Zr = (e) => {
+	let t = (e.action === "" ? [e.title] : [e.title, e.action]).map(Xr), n = e.attrs.flatMap((e) => [`${Xr(e.label)}:\t${Xr(e.value)}`, ...(e.items ?? []).map((e) => `${Yr}${Xr(e)}`)]);
 	return [t.join("\n"), ...n.length > 0 ? [n.join("\n")] : []].join("\n\n");
-}, or = (e, t, n) => {
+}, Qr = (e, t, n) => {
 	let r = e.indexOf("\n\n"), i = (r >= 0 ? e.slice(0, r) : e).split("\n"), a = [];
 	if (r >= 0) for (let t of e.slice(r + 2).split("\n")) {
 		let e = a.at(-1);
-		if (t.startsWith(rr) && e !== void 0) {
+		if (t.startsWith(Yr) && e !== void 0) {
 			e.items.push(t.slice(2));
 			continue;
 		}
@@ -3525,21 +3770,21 @@ var Zn = [
 			items: e
 		} : t)
 	};
-}, sr = {
+}, $r = {
 	system: "Auto",
 	light: "Light",
 	dark: "Dark"
-}, cr = "system", lr = "outlet-binder-panel:theme-override", ur = () => {
+}, ei = "system", ti = "outlet-binder-panel:theme-override", ni = () => {
 	try {
-		let e = localStorage.getItem(lr);
-		return e !== null && Object.hasOwn(sr, e) ? e : cr;
+		let e = localStorage.getItem(ti);
+		return e !== null && Object.hasOwn($r, e) ? e : ei;
 	} catch {
-		return cr;
+		return ei;
 	}
-}, dr = "outlet-binder-panel:seen-cos", fr = () => {
+}, ri = "outlet-binder-panel:seen-cos", ii = () => {
 	let e;
 	try {
-		e = localStorage.getItem(dr);
+		e = localStorage.getItem(ri);
 	} catch {
 		return null;
 	}
@@ -3549,11 +3794,11 @@ var Zn = [
 	} catch {
 		return {};
 	}
-}, pr = (e) => {
+}, ai = (e) => {
 	try {
-		localStorage.setItem(dr, JSON.stringify(e));
+		localStorage.setItem(ri, JSON.stringify(e));
 	} catch {}
-}, mr = (e, t, n) => {
+}, oi = (e, t, n) => {
 	let r = t === null, i = t ?? {}, a = /* @__PURE__ */ new Set(), o = {};
 	for (let t of e) {
 		let e = i[t.co_id], s = e && e.createdAt === t.created_at ? e : {
@@ -3566,83 +3811,83 @@ var Zn = [
 		newIds: a,
 		nextSeen: o
 	};
-}, hr = (e) => L(e).kind === "nowhere", gr = (e) => !sn(e), _r = (e, t) => e.name.localeCompare(t.name), vr = (e) => {
+}, si = (e) => z(e).kind === "nowhere", ci = (e) => !Zn(e), li = (e, t) => e.name.localeCompare(t.name), ui = (e) => {
 	let t = [], n = [];
-	for (let r of e.appliances) (hr(r) ? t : n).push(r);
+	for (let r of e.appliances) (si(r) ? t : n).push(r);
 	return {
-		isolated: t.sort(_r),
-		inUse: n.sort(_r)
+		isolated: t.sort(li),
+		inUse: n.sort(li)
 	};
-}, yr = (e) => {
+}, di = (e) => {
 	let t = [], n = [];
-	for (let r of e.uos) (gr(r) ? t : n).push(r);
+	for (let r of e.uos) (ci(r) ? t : n).push(r);
 	return {
-		isolated: t.sort(_r),
-		inUse: n.sort(_r)
+		isolated: t.sort(li),
+		inUse: n.sort(li)
 	};
-}, br = {
+}, fi = {
 	full: "Appliance → Smart Socket → Wall Socket",
 	partial: "Appliance → Smart Socket OR Smart Socket → Wall Socket",
 	orphan: "Unconnected Smart Socket"
-}, xr = [
+}, pi = [
 	"full",
 	"partial",
 	"orphan"
-], Sr = "outlet-binder-panel:collapsed-sections", Cr = () => {
+], mi = "outlet-binder-panel:collapsed-sections", hi = () => {
 	try {
-		let e = localStorage.getItem(Sr);
+		let e = localStorage.getItem(mi);
 		if (e === null) return /* @__PURE__ */ new Set();
 		let t = JSON.parse(e);
-		return Array.isArray(t) ? new Set(t.filter((e) => xr.includes(e))) : /* @__PURE__ */ new Set();
+		return Array.isArray(t) ? new Set(t.filter((e) => pi.includes(e))) : /* @__PURE__ */ new Set();
 	} catch {
 		return /* @__PURE__ */ new Set();
 	}
-}, wr = (e) => {
+}, gi = (e) => {
 	try {
-		localStorage.setItem(Sr, JSON.stringify([...e]));
+		localStorage.setItem(mi, JSON.stringify([...e]));
 	} catch {}
-}, Tr = {
+}, _i = {
 	isolated: "Isolated",
 	in_use: "In use"
-}, Er = ["isolated", "in_use"], Dr = "outlet-binder-panel:collapsed-side-sections", Or = () => ({
+}, vi = ["isolated", "in_use"], yi = "outlet-binder-panel:collapsed-side-sections", bi = () => ({
 	appliance: /* @__PURE__ */ new Set(["in_use"]),
 	uo: /* @__PURE__ */ new Set(["in_use"])
-}), kr = () => {
+}), xi = () => {
 	try {
-		let e = localStorage.getItem(Dr);
-		if (e === null) return Or();
+		let e = localStorage.getItem(yi);
+		if (e === null) return bi();
 		let t = JSON.parse(e);
-		if (typeof t != "object" || !t) return Or();
-		let n = t, r = Or(), i = (e) => {
+		if (typeof t != "object" || !t) return bi();
+		let n = t, r = bi(), i = (e) => {
 			let t = n[e];
-			return Array.isArray(t) ? new Set(t.filter((e) => Er.includes(e))) : r[e];
+			return Array.isArray(t) ? new Set(t.filter((e) => vi.includes(e))) : r[e];
 		};
 		return {
 			appliance: i("appliance"),
 			uo: i("uo")
 		};
 	} catch {
-		return Or();
+		return bi();
 	}
-}, Ar = (e) => {
+}, Si = (e) => {
 	try {
-		localStorage.setItem(Dr, JSON.stringify({
+		localStorage.setItem(yi, JSON.stringify({
 			appliance: [...e.appliance],
 			uo: [...e.uo]
 		}));
 	} catch {}
-}, jr = "outlet-binder-panel:active-tab", Mr = () => {
+}, Ci = "outlet-binder-panel:active-tab", wi = () => {
 	try {
-		let e = localStorage.getItem(jr);
-		return B.includes(e) ? e : "devices";
+		let e = localStorage.getItem(Ci);
+		return H.includes(e) ? e : "devices";
 	} catch {
 		return "devices";
 	}
-}, Nr = (e) => {
+}, Ti = (e) => {
 	try {
-		localStorage.setItem(jr, e);
+		localStorage.setItem(Ci, e);
 	} catch {}
-}, Pr = (e, t) => {
+}, Ei = (e, t) => {
 	let n = e.plugged_into_appliance_id;
 	return n === null ? e.occupant_device_id === null ? {
 		appliance: void 0,
@@ -3651,47 +3896,47 @@ var Zn = [
 	} : {
 		appliance: void 0,
 		co: t.cosById.get(e.occupant_device_id),
-		name: k(t.coNames.get(e.occupant_device_id))
+		name: j(t.coNames.get(e.occupant_device_id))
 	} : {
 		appliance: t.appliancesById.get(n),
 		co: void 0,
-		name: k(A(t.applianceNames, n))
+		name: j(M(t.applianceNames, n))
 	};
-}, Fr = (e, t) => {
-	let n = I(e);
+}, Di = (e, t) => {
+	let n = R(e);
 	if (n.kind !== "co_socket") return null;
 	let r = t.socketsById.get(n.id), i = r === void 0 ? void 0 : t.cosById.get(r.co_id);
-	return r === void 0 || i === void 0 ? null : (t.socketsByCo.get(i.co_id) ?? []).length > 1 ? `${i.alias} Socket ${Vt(r)}` : i.alias;
-}, Ir = (e, t) => {
-	let n = Fr(e, t);
+	return r === void 0 || i === void 0 ? null : (t.socketsByCo.get(i.co_id) ?? []).length > 1 ? `${i.alias} Socket ${Mn(r)}` : i.alias;
+}, Oi = (e, t) => {
+	let n = Di(e, t);
 	return n === null ? null : `In: ${n}`;
-}, Lr = (e, t) => {
+}, ki = (e, t) => {
 	let n = t.chain.ancestors(e).at(-1) ?? e;
 	if (!n.has_plug) return n.alias;
-	let r = I(n);
+	let r = R(n);
 	return r.kind === "uo" ? t.uoNames.get(r.id) ?? null : null;
-}, Rr = (e, t) => e.has_plug ? Lr(e, t) : null, zr = (e, t) => `${k(e)}: ${k(t)}`, Br = "View/Edit", Vr = (e) => K("co", e.name, {
-	action: Br,
+}, Ai = (e, t) => e.has_plug ? ki(e, t) : null, ji = (e, t) => `${j(e)}: ${j(t)}`, Mi = "View/Edit", Ni = (e) => K("co", e.name, {
+	action: Mi,
 	attrs: [
 		{
 			label: "Model",
-			value: `${k(e.integration)} : ${k(e.model)}`
+			value: `${j(e.integration)} : ${j(e.model)}`
 		},
 		...e.uoName === null ? [] : [{
 			label: "In",
-			value: zr(e.uoName, e.effectiveArea)
+			value: ji(e.uoName, e.effectiveArea)
 		}],
 		{
 			label: "Area",
-			value: k(e.deviceArea)
+			value: j(e.deviceArea)
 		}
 	]
-}), Hr = (e) => K("appliance", e.name, {
-	action: Br,
+}), Pi = (e) => K("appliance", e.name, {
+	action: Mi,
 	attrs: [
 		{
 			label: "Type",
-			value: k(e.type)
+			value: j(e.type)
 		},
 		{
 			label: "Plugged into",
@@ -3699,19 +3944,19 @@ var Zn = [
 		},
 		...e.uoName === null ? [] : [{
 			label: "In",
-			value: zr(e.uoName, e.effectiveArea)
+			value: ji(e.uoName, e.effectiveArea)
 		}],
 		...e.description ? [{
 			label: "Description",
 			value: e.description
 		}] : []
 	]
-}), Ur = (e) => K("uo", e.name, {
-	action: Br,
+}), Fi = (e) => K("uo", e.name, {
+	action: Mi,
 	attrs: [
 		{
 			label: "Area",
-			value: k(e.area)
+			value: j(e.area)
 		},
 		...e.note ? [{
 			label: "Note",
@@ -3722,12 +3967,12 @@ var Zn = [
 			value: `${e.socketsInUse} of ${e.socketCount} in use`
 		}
 	]
-}), Wr = (e, t, n) => {
+}), Ii = (e, t, n) => {
 	if ((n.socketsByCo.get(e.co_id) ?? []).length < 2) return e.alias;
-	let r = t.map(Vt).sort((e, t) => e - t);
+	let r = t.map(Mn).sort((e, t) => e - t);
 	return `${e.alias} ${r.length === 1 ? "Socket" : "Sockets"} ${r.join(", ")}`;
-}, Gr = (e, t) => t.coBand(e), Kr = (e, t) => {
-	let n = L(e);
+}, Li = (e, t) => t.coBand(e), Ri = (e, t) => {
+	let n = z(e);
 	switch (n.kind) {
 		case "co_socket": {
 			let e = t.socketsById.get(n.id), r = e ? t.cosById.get(e.co_id) : void 0;
@@ -3746,11 +3991,11 @@ var Zn = [
 		}
 		case "nowhere": return null;
 	}
-}, qr = (e, t) => [...t.cosByUo.get(e.uo_id) ?? []].sort((e, t) => N(P(e), P(t))), Jr = (e, t) => [...t.appliancesByUo.get(e.uo_id) ?? []].sort(_r), Yr = (e) => ({
+}, zi = (e, t) => [...t.cosByUo.get(e.uo_id) ?? []].sort((e, t) => F(I(e), I(t))), Bi = (e, t) => [...t.appliancesByUo.get(e.uo_id) ?? []].sort(li), Vi = (e) => ({
 	full: e.chain.blocks("full"),
 	partial: e.chain.blocks("partial"),
 	orphan: e.chain.blocks("orphan")
-}), Xr = () => ({
+}), Hi = () => ({
 	appliance: 0,
 	co: 0,
 	coReadyNotPowered: 0,
@@ -3758,15 +4003,15 @@ var Zn = [
 	uo: 0,
 	socketTotal: 0,
 	socketInUse: 0
-}), Zr = (e, t) => {
+}), Ui = (e, t) => {
 	let n = {
-		full: Xr(),
-		partial: Xr(),
-		orphan: Xr()
+		full: Hi(),
+		partial: Hi(),
+		orphan: Hi()
 	};
-	for (let r of e.appliances) hr(r) ? n.orphan.appliance += 1 : t.applianceIsFullyChained(r) ? n.full.appliance += 1 : n.partial.appliance += 1;
+	for (let r of e.appliances) si(r) ? n.orphan.appliance += 1 : t.applianceIsFullyChained(r) ? n.full.appliance += 1 : n.partial.appliance += 1;
 	for (let r of e.cos) {
-		let e = t.socketsByCo.get(r.co_id) ?? [], i = Gr(r, t);
+		let e = t.socketsByCo.get(r.co_id) ?? [], i = Li(r, t);
 		if (n[i].socketTotal += e.length, n[i].socketInUse += e.filter((e) => e.occupant_device_id !== null).length, i === "full") {
 			n.full.co += 1;
 			continue;
@@ -3777,10 +4022,10 @@ var Zn = [
 		}
 		n.partial.co += 1, t.chain.isPowered(r) ? n.partial.coNoConsumersButPowered += 1 : n.partial.coReadyNotPowered += 1;
 	}
-	for (let r of e.uos) gr(r) ? n.orphan.uo += 1 : t.uoIsFullyChained(r) ? n.full.uo += 1 : n.partial.uo += 1;
+	for (let r of e.uos) ci(r) ? n.orphan.uo += 1 : t.uoIsFullyChained(r) ? n.full.uo += 1 : n.partial.uo += 1;
 	return n;
-}, Qr = (e, t) => {
-	let n = `${t.socketTotal}, ${Yt(t.socketInUse)}`;
+}, Wi = (e, t) => {
+	let n = `${t.socketTotal}, ${Bn(t.socketInUse)}`;
 	switch (e) {
 		case "orphan": return [{
 			label: "Devices",
@@ -3792,7 +4037,7 @@ var Zn = [
 		case "partial": return [
 			{
 				label: "Devices",
-				value: `${t.co}, ${Jt(t.coNoConsumersButPowered)}`
+				value: `${t.co}, ${zn(t.coNoConsumersButPowered)}`
 			},
 			{
 				label: "Sockets",
@@ -3818,39 +4063,39 @@ var Zn = [
 			}
 		];
 	}
-}, $r = "Clear the filter to collapse sections", ei = (e, t) => e ? "filtering" : t ? "expand" : "collapse", ti = {
+}, Gi = "Clear the filter to collapse sections", Ki = (e, t) => e ? "filtering" : t ? "expand" : "collapse", qi = {
 	collapse: "Collapse",
 	expand: "Expand",
 	info: ""
-}, ni = (e, t, n) => n === "filtering" ? nr($r, { attrs: t }) : nr(e, {
-	action: ti[n],
+}, Ji = (e, t, n) => n === "filtering" ? Jr(Gi, { attrs: t }) : Jr(e, {
+	action: qi[n],
 	attrs: t
-}), ri = (e, t, n) => ni(br[e], Qr(e, t), n), ii = {
+}), Yi = (e, t, n) => Ji(fi[e], Wi(e, t), n), Xi = {
 	appliance: "Appliances",
 	uo: "Wall Sockets"
-}, ai = (e, t, n, r) => ni(`${Tr[t]} ${ii[e]}`, [{
+}, Zi = (e, t, n, r) => Ji(`${_i[t]} ${Xi[e]}`, [{
 	label: "Count",
 	value: String(n)
-}], r), oi = (e, t) => {
+}], r), Qi = (e, t) => {
 	switch (e) {
-		case "appliance": return nr("Appliances", {
+		case "appliance": return Jr("Appliances", {
 			action: "Plugged in to a Smart Socket",
 			attrs: [{
 				label: "All Appliances",
 				value: String(t.appliances)
 			}]
 		});
-		case "co": return nr("Smart devices & Sockets", {
+		case "co": return Jr("Smart devices & Sockets", {
 			action: "Smart plugs and power strips, and the switchable Sockets on each",
 			attrs: [{
 				label: "Devices",
 				value: String(t.cos)
 			}, {
 				label: "Sockets",
-				value: `${t.socketTotal}, ${Yt(t.socketInUse)}`
+				value: `${t.socketTotal}, ${Bn(t.socketInUse)}`
 			}]
 		});
-		case "uo": return nr("Wall Sockets", {
+		case "uo": return Jr("Wall Sockets", {
 			action: "Where your Smart devices are plugged in",
 			attrs: [{
 				label: "All Wall Sockets",
@@ -3858,14 +4103,14 @@ var Zn = [
 			}]
 		});
 	}
-}, si = (e, t, n) => `${e} ${e === 1 ? t : n}`, ci = (e, t) => {
+}, $i = (e, t, n) => `${e} ${e === 1 ? t : n}`, ea = (e, t) => {
 	let n = e.area_id ? t.areas?.[e.area_id] : void 0;
 	return {
 		area: n,
 		floor: n?.floor_id ? t.floors?.[n.floor_id] : void 0
 	};
-}, li = (e, t, n, r) => {
-	let i = Qt(r.devices, e.co_id), { area: a, floor: o } = ci(i, r), s = n.filter((e) => e.monitoring_entity_registry_id !== null).map((e) => String(Vt(e)));
+}, ta = (e, t, n, r) => {
+	let i = Un(r.devices, e.co_id), { area: a, floor: o } = ea(i, r), s = n.filter((e) => e.monitoring_entity_registry_id !== null).map((e) => String(Mn(e)));
 	return {
 		coId: e.co_id,
 		title: {
@@ -3877,13 +4122,13 @@ var Zn = [
 		},
 		fields: [
 			["device name", i.name],
-			["make and model", i.manufacturer === null && i.model === null ? null : `${k(i.manufacturer)}:${k(i.model)}`],
+			["make and model", i.manufacturer === null && i.model === null ? null : `${j(i.manufacturer)}:${j(i.model)}`],
 			["MAC address", i.mac],
 			["hardware version", i.hw_version],
 			["software version", i.sw_version],
 			["area", a?.name ?? null],
 			["floor", o?.name ?? null],
-			["Wall Socket", I(e).kind === "nowhere" ? "Not linked yet" : "Linked"],
+			["Wall Socket", R(e).kind === "nowhere" ? "Not linked yet" : "Linked"],
 			["Sockets", String(n.length)],
 			["reporting power", s.length > 0 ? s.join(", ") : "None"],
 			["all on/off", e.all_on_off_entity_registry_id === null ? "No" : "Yes"],
@@ -3891,71 +4136,71 @@ var Zn = [
 			["pattern", t.pattern_id]
 		]
 	};
-}, ui = (e, t, n) => {
+}, na = (e, t, n) => {
 	let r = new Map(t.cos.map((e) => [e.co_id, e])), i = [], a = 0;
 	for (let o of e) {
 		let e = r.get(o.co_id);
 		if (!e) continue;
 		let s = t.co_sockets.filter((t) => t.co_id === e.co_id).sort((e, t) => e.position - t.position);
-		a += s.length, i.push(li(e, o, s, n));
+		a += s.length, i.push(ta(e, o, s, n));
 	}
-	return i.length === 0 ? null : (i.sort((e, t) => N(e.title.text, t.title.text)), {
-		heading: `Found ${si(i.length, "new Smart Device", "new Smart Devices")} with ${si(a, "Socket", "Sockets")}`,
+	return i.length === 0 ? null : (i.sort((e, t) => F(e.title.text, t.title.text)), {
+		heading: `Found ${$i(i.length, "new Smart Device", "new Smart Devices")} with ${$i(a, "Socket", "Sockets")}`,
 		entries: i
 	});
-}, di = (e) => e.trim() !== "", fi = "powering", pi = "holding", mi = (e, t) => `${e}: ${k(t)}`, hi = (e, t) => [["HA area", t], ["location note", e.location_note]], gi = (e, t) => [e.name, ...hi(e, t.uoArea(e)).map(([e, t]) => mi(e, t))], _i = (e, t) => t === "table" ? `(${k(e.manufacturer)}:${k(e.model)})` : `(${k(e.manufacturer)} : ${k(e.model)})`, vi = (e, t) => (t.socketsByCo.get(e.co_id) ?? []).map((e) => Pr(e, t).name), yi = (e, t) => [
+}, ra = (e) => e.trim() !== "", ia = "powering", aa = "holding", oa = (e, t) => `${e}: ${j(t)}`, sa = (e, t) => [["HA area", t], ["location note", e.location_note]], ca = (e, t) => [e.name, ...sa(e, t.uoArea(e)).map(([e, t]) => oa(e, t))], la = (e, t) => t === "table" ? `(${j(e.manufacturer)}:${j(e.model)})` : `(${j(e.manufacturer)} : ${j(e.model)})`, ua = (e, t) => (t.socketsByCo.get(e.co_id) ?? []).map((e) => Ei(e, t).name), da = (e, t) => [
 	e.alias,
-	_i(t.coModel(e), "table"),
-	Fr(e, t.h) ?? "",
-	...vi(e, t.h)
-], bi = (e, t, n) => {
-	let r = e === null ? null : Ir(e, n.h);
-	return e !== null && r !== null ? [r, Lr(e, n.h) ?? ""] : t === null ? [] : gi(t, n);
-}, xi = (e, t, n) => [
+	la(t.coModel(e), "table"),
+	Di(e, t.h) ?? "",
+	...ua(e, t.h)
+], fa = (e, t, n) => {
+	let r = e === null ? null : Oi(e, n.h);
+	return e !== null && r !== null ? [r, ki(e, n.h) ?? ""] : t === null ? [] : ca(t, n);
+}, pa = (e, t, n) => [
 	e.alias,
-	_i(n.coModel(e), "cards"),
-	...vi(e, n.h),
-	...bi(e, t, n)
-], Si = (e, t, n, r) => {
+	la(n.coModel(e), "cards"),
+	...ua(e, n.h),
+	...fa(e, t, n)
+], ma = (e, t, n, r) => {
 	switch (e.kind) {
-		case "live": return n === "table" ? yi(e.co, r) : xi(e.co, t, r);
-		case "copy": return n === "table" ? [Wr(e.co, e.sockets, r.h)] : [];
-		case "direct": return n === "table" ? [e.appliance.name] : [e.appliance.name, ...bi(null, t, r)];
+		case "live": return n === "table" ? da(e.co, r) : pa(e.co, t, r);
+		case "copy": return n === "table" ? [Ii(e.co, e.sockets, r.h)] : [];
+		case "direct": return n === "table" ? [e.appliance.name] : [e.appliance.name, ...fa(null, t, r)];
 	}
-}, Ci = (e, t, n) => {
+}, ha = (e, t, n) => {
 	let r = e.uoId === null ? null : n.h.uosById.get(e.uoId) ?? null;
-	return [...t === "table" && r !== null ? gi(r, n) : [], ...e.rows.flatMap((e) => Si(e, r, t, n))];
-}, wi = (e, t) => `${e}:${t}`, Ti = (e, t) => {
-	let n = Kr(e, t);
+	return [...t === "table" && r !== null ? ca(r, n) : [], ...e.rows.flatMap((e) => ma(e, r, t, n))];
+}, ga = (e, t) => `${e}:${t}`, _a = (e, t) => {
+	let n = Ri(e, t);
 	return n === null ? null : n.kind === "co_socket" ? {
 		name: n.co.alias,
-		suffix: `: ${Vt(n.socket)}`
+		suffix: `: ${Mn(n.socket)}`
 	} : {
 		name: n.uo.name,
 		suffix: null
 	};
-}, Ei = (e, t) => {
-	let n = Ti(e, t);
+}, va = (e, t) => {
+	let n = _a(e, t);
 	return [e.name, ...n === null ? [] : [
 		"in",
 		n.name,
 		n.suffix ?? ""
 	]];
-}, Di = (e, t) => {
-	let n = qr(e, t.h), r = Jr(e, t.h);
+}, ya = (e, t) => {
+	let n = zi(e, t.h), r = Bi(e, t.h);
 	return [
-		...gi(e, t),
-		...n.length === 0 ? [] : [fi, ...n.map((e) => e.alias)],
-		...r.length === 0 ? [] : [pi, ...r.map((e) => e.name)]
+		...ca(e, t),
+		...n.length === 0 ? [] : [ia, ...n.map((e) => e.alias)],
+		...r.length === 0 ? [] : [aa, ...r.map((e) => e.name)]
 	];
-}, Oi = (e, t, n, r, i, a) => {
-	let o = (t) => !di(e) || qt(e, t()), s = /* @__PURE__ */ new Set(), c = 0;
+}, ba = (e, t, n, r, i, a) => {
+	let o = (t) => !ra(e) || Rn(e, t()), s = /* @__PURE__ */ new Set(), c = 0;
 	for (let [e, n] of Object.entries(t)) n.forEach((t, n) => {
-		o(() => Ci(t, i, a)) && (s.add(wi(e, n)), c += t.rows.filter((e) => e.kind !== "copy").length);
+		o(() => ha(t, i, a)) && (s.add(ga(e, n)), c += t.rows.filter((e) => e.kind !== "copy").length);
 	});
-	let l = new Set(n.filter((e) => o(() => Ei(e, a.h))).map((e) => e.appliance_id)), u = new Set(r.filter((e) => o(() => Di(e, a))).map((e) => e.uo_id));
+	let l = new Set(n.filter((e) => o(() => va(e, a.h))).map((e) => e.appliance_id)), u = new Set(r.filter((e) => o(() => ya(e, a))).map((e) => e.uo_id));
 	return {
-		filtering: di(e),
+		filtering: ra(e),
 		blocks: s,
 		appliances: l,
 		uos: u,
@@ -3965,20 +4210,20 @@ var Zn = [
 			uos: u.size
 		}
 	};
-}, ki = {
-	uk: mt,
-	eu: ut,
-	us: ht,
-	de: lt,
-	fr: dt,
-	it: ft,
-	jp: pt,
-	au: st,
-	ch: ct
+}, xa = {
+	uk: bt,
+	eu: gt,
+	us: xt,
+	de: ht,
+	fr: _t,
+	it: vt,
+	jp: yt,
+	au: pt,
+	ch: mt
 };
 //#endregion
 //#region src/outlet-binder-panel/area-picker.ts
-function Ai(e, t) {
+function Sa(e, t) {
 	let n = new Map(t.map((e) => [e.floor_id, e])), r = /* @__PURE__ */ new Map(), i = [];
 	for (let t of e) {
 		let e = {
@@ -4002,18 +4247,18 @@ function Ai(e, t) {
 		options: i
 	}]);
 }
-function ji(e) {
+function Ca(e) {
 	return new Map(e.map((e) => [e.area_id, e.name]));
 }
-function Mi(e, t) {
+function wa(e, t) {
 	let n = Object.values(e ?? {});
 	return {
-		groups: Ai(n, Object.values(t ?? {})),
-		names: ji(n)
+		groups: Sa(n, Object.values(t ?? {})),
+		names: Ca(n)
 	};
 }
-var Ni = { kind: "none" }, Pi = (e, t) => e === null || e === t, Fi = (e, t, n) => {
-	let r = e.cos.filter((e) => e.has_plug && I(e).kind === "nowhere").map((e) => {
+var Ta = { kind: "none" }, Ea = (e, t) => e === null || e === t, Da = (e, t, n) => {
+	let r = e.cos.filter((e) => e.has_plug && R(e).kind === "nowhere").map((e) => {
 		let r = t(e.co_id), i = r === null ? null : n.get(r) ?? null;
 		return {
 			coId: e.co_id,
@@ -4022,8 +4267,8 @@ var Ni = { kind: "none" }, Pi = (e, t) => e === null || e === t, Fi = (e, t, n) 
 			areaName: i
 		};
 	}), i = (e) => e.areaName ?? "￿";
-	return r.sort((e, t) => N(i(e), i(t)) || N(e.label, t.label) || e.coId.localeCompare(t.coId));
-}, Ii = (e) => e ?? "No room in HA", Li = (e) => e.label, Ri = (e) => [Ii(e.areaName), Li(e)], zi = (e, t, n) => e.filter((e) => J(t, e).kind !== "none" || qt(n, Ri(e))), Bi = (e) => {
+	return r.sort((e, t) => F(i(e), i(t)) || F(e.label, t.label) || e.coId.localeCompare(t.coId));
+}, Oa = (e) => e ?? "No room in HA", ka = (e) => e.label, Aa = (e) => [Oa(e.areaName), ka(e)], ja = (e, t, n) => e.filter((e) => J(t, e).kind !== "none" || Rn(n, Aa(e))), Ma = (e) => {
 	let t = [];
 	for (let n of e) {
 		let e = t[t.length - 1];
@@ -4034,24 +4279,24 @@ var Ni = { kind: "none" }, Pi = (e, t) => e === null || e === t, Fi = (e, t, n) 
 		});
 	}
 	return t;
-}, q = (e, t) => t[e.coId] ?? e.areaName ?? e.label, Vi = "\0", Hi = (e) => {
+}, q = (e, t) => t[e.coId] ?? e.areaName ?? e.label, Na = "\0", Pa = (e) => {
 	switch (e.kind) {
 		case "none": return "none";
 		case "new": return "new";
-		case "existing": return `existing${Vi}${e.uoId}`;
+		case "existing": return `existing${Na}${e.uoId}`;
 	}
-}, Ui = (e) => {
-	let [t, n] = e.split(Vi);
+}, Fa = (e) => {
+	let [t, n] = e.split(Na);
 	return t === "new" ? { kind: "new" } : t === "existing" && n ? {
 		kind: "existing",
 		uoId: n
-	} : Ni;
-}, J = (e, t) => e[t.coId] ?? Ni, Wi = (e, t, n) => {
-	let r = [], i = t.uos.filter((t) => Pi(e.areaId, t.ha_area_id)).sort((e, t) => N(e.name, t.name) || e.uo_id.localeCompare(t.uo_id));
+	} : Ta;
+}, J = (e, t) => e[t.coId] ?? Ta, Ia = (e, t, n) => {
+	let r = [], i = t.uos.filter((t) => Ea(e.areaId, t.ha_area_id)).sort((e, t) => F(e.name, t.name) || e.uo_id.localeCompare(t.uo_id));
 	for (let t of i) {
 		let i = e.areaId === null && t.ha_area_id !== null ? n.get(t.ha_area_id) : void 0;
 		r.push({
-			value: Hi({
+			value: Pa({
 				kind: "existing",
 				uoId: t.uo_id
 			}),
@@ -4059,8 +4304,8 @@ var Ni = { kind: "none" }, Pi = (e, t) => e === null || e === t, Fi = (e, t, n) 
 		});
 	}
 	return r;
-}, Gi = (e) => e.trim() === "", Ki = (e, t, n) => new Set(e.filter((e) => J(t, e).kind === "new" && Gi(q(e, n))).map((e) => e.coId)), Y = (e) => e.trim().replace(/ /g, "_").replace(/[A-Z]/g, (e) => e.toLowerCase()), qi = (e, t, n, r) => {
-	let i = new Set(r.map((e) => Y(e.name))), a = e.filter((e) => J(t, e).kind === "new" && !Gi(q(e, n))).map((e) => ({
+}, La = (e) => e.trim() === "", Ra = (e, t, n) => new Set(e.filter((e) => J(t, e).kind === "new" && La(q(e, n))).map((e) => e.coId)), Y = (e) => e.trim().replace(/ /g, "_").replace(/[A-Z]/g, (e) => e.toLowerCase()), za = (e, t, n, r) => {
+	let i = new Set(r.map((e) => Y(e.name))), a = e.filter((e) => J(t, e).kind === "new" && !La(q(e, n))).map((e) => ({
 		coId: e.coId,
 		key: Y(q(e, n))
 	})), o = /* @__PURE__ */ new Map();
@@ -4068,23 +4313,23 @@ var Ni = { kind: "none" }, Pi = (e, t) => e === null || e === t, Fi = (e, t, n) 
 	let s = /* @__PURE__ */ new Map();
 	for (let { coId: e, key: t } of a) i.has(t) ? s.set(e, "existing") : (o.get(t) ?? 0) > 1 && s.set(e, "new");
 	return s;
-}, Ji = (e, t, n, r) => {
+}, Ba = (e, t, n, r) => {
 	let i = new Set(r.map((e) => Y(e.name)));
 	for (let r of e) {
 		let e = q(r, n);
-		J(t, r).kind === "new" && !Gi(e) && i.add(Y(e));
+		J(t, r).kind === "new" && !La(e) && i.add(Y(e));
 	}
 	let a = {};
 	for (let r of e) {
 		if (J(t, r).kind !== "none") continue;
 		let e = q(r, n);
-		Gi(e) || i.has(Y(e)) || (i.add(Y(e)), a[r.coId] = { kind: "new" });
+		La(e) || i.has(Y(e)) || (i.add(Y(e)), a[r.coId] = { kind: "new" });
 	}
 	return {
 		...t,
 		...a
 	};
-}, Yi = (e, t) => e.filter((e) => J(t, e).kind !== "none").length, Xi = (e, t, n) => {
+}, Va = (e, t) => e.filter((e) => J(t, e).kind !== "none").length, Ha = (e, t, n) => {
 	let r = [], i = [];
 	for (let a of e) {
 		let e = J(t, a);
@@ -4116,42 +4361,42 @@ var Ni = { kind: "none" }, Pi = (e, t) => e === null || e === t, Fi = (e, t, n) 
 		creates: r,
 		assigns: i
 	};
-}, Zi = () => ({
+}, Ua = () => ({
 	choices: {},
 	edits: {},
 	filter: "",
 	saving: !1,
 	failures: []
-}), Qi = (e, t, n) => ({
+}), Wa = (e, t, n) => ({
 	...e,
 	choices: {
 		...e.choices,
 		[t]: n
 	}
-}), $i = (e, t) => (e.choices[t] ?? Ni).kind === "none" ? { kind: "new" } : Ni, ea = (e, t) => ({
+}), Ga = (e, t) => (e.choices[t] ?? Ta).kind === "none" ? { kind: "new" } : Ta, Ka = (e, t) => ({
 	...e,
 	choices: t
-}), ta = (e, t) => ({
+}), qa = (e, t) => ({
 	...e,
 	filter: t
-}), na = (e, t, n) => ({
+}), Ja = (e, t, n) => ({
 	...e,
 	edits: {
 		...e.edits,
 		[t]: n
 	}
-}), ra = (e) => ({
+}), Ya = (e) => ({
 	...e,
 	saving: !0,
 	failures: []
-}), ia = (e, t) => ({
+}), Xa = (e, t) => ({
 	...e,
 	choices: {},
 	saving: !1,
 	failures: t
-}), aa = et, oa = Xe, sa = Qe, ca = (e, t) => {
+}), Za = at, Qa = et, $a = rt, eo = (e, t) => {
 	let { tip: n, closeTip: r } = e;
-	return x`<div class="main-filter-wrap">
+	return v`<div class="main-filter-wrap">
       <button
         type="button"
         class="main-filter-open"
@@ -4163,7 +4408,7 @@ var Ni = { kind: "none" }, Pi = (e, t) => e === null || e === t, Fi = (e, t, n) 
         @click=${() => t.show()}
       >
         <svg class="menu-icon" viewBox="0 0 24 24" aria-hidden="true">
-          <path d="${aa}"></path>
+          <path d="${Za}"></path>
         </svg></button
       >${n.desc}
       <div
@@ -4180,7 +4425,7 @@ var Ni = { kind: "none" }, Pi = (e, t) => e === null || e === t, Fi = (e, t, n) 
           @pointercancel=${() => t.endDrag()}
         >
           <svg class="menu-entry-icon" viewBox="0 0 24 24" aria-hidden="true">
-            <path d="${sa}"></path>
+            <path d="${$a}"></path>
           </svg>
         </div>
         <div class="main-filter-row">
@@ -4205,20 +4450,20 @@ var Ni = { kind: "none" }, Pi = (e, t) => e === null || e === t, Fi = (e, t, n) 
           @click=${() => t.close()}
         >
           <svg class="menu-entry-icon" viewBox="0 0 24 24" aria-hidden="true">
-            <path d="${oa}"></path>
+            <path d="${Qa}"></path>
           </svg></button
         >${r.desc}
         </div>
       </div>
     </div>`;
-}, la = { reason: null }, ua = { reason: "Choose where to plug it in first" }, da = { reason: "Choose where to move it first" }, fa = { reason: "Tick or untick something first" }, pa = { reason: "Tick a row first" }, ma = { reason: "Fix the marked rows first" }, ha = Ke, ga = "Creates the Wall Sockets now; adds the links to the batch, which take effect on Commit", _a = {
+}, to = { reason: null }, no = { reason: "Choose where to plug it in first" }, ro = { reason: "Choose where to move it first" }, io = { reason: "Tick or untick something first" }, ao = { reason: "Tick a row first" }, oo = { reason: "Fix the marked rows first" }, so = Xe, co = "Creates the Wall Sockets now; adds the links to the batch, which take effect on Commit", lo = {
 	blank: "The Wall Socket needs a name.",
 	existing: "A Wall Socket with this name already exists. Choose a different name.",
 	new: "Another new Wall Socket has this name. Choose a different name."
-}, va = (e, t, n, r) => {
+}, uo = (e, t, n, r) => {
 	let { dialog: i } = t, a = J(i.choices, e);
 	if (a.kind === "none") return "";
-	let o = Hi(a), s = Hi({ kind: "new" }), c = `wall-batch-${e.coId}`, l = Wi(e, t.state, t.areaNames), u = (t, n) => x`
+	let o = Pa(a), s = Pa({ kind: "new" }), c = `wall-batch-${e.coId}`, l = Ia(e, t.state, t.areaNames), u = (t, n) => v`
       <label class="choice-row">
         <input
           type="radio"
@@ -4231,8 +4476,8 @@ var Ni = { kind: "none" }, Pi = (e, t) => e === null || e === t, Fi = (e, t, n) 
         ${n}
       </label>
     `, d = a.kind === "new";
-	return x`
-      <div class="wall-batch-options">
+	return v`
+      <div class="wall-batch-options ${O("small-text")}">
       ${u(s, "New")}
       <input
         type="text"
@@ -4243,53 +4488,53 @@ var Ni = { kind: "none" }, Pi = (e, t) => e === null || e === t, Fi = (e, t, n) 
         ?readonly=${!d || i.saving}
         tabindex=${d && !i.saving ? 0 : -1}
         @input=${(t) => r.editName(e.coId, t.target.value)}
-      />${n === null ? "" : x`<p class="from-names-note from-names-error"><svg class="from-names-error-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="${ha}"></path></svg><span>${_a[n]}</span></p>`}
+      />${n === null ? "" : v`<p class="from-names-note from-names-error ${D("dialog-field-note")} ${O("error-text")}"><svg class="from-names-error-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="${so}"></path></svg><span>${lo[n]}</span></p>`}
       ${l.map((e) => u(e.value, e.label))}
       </div>
     `;
-}, ya = (e, t, n, r) => {
-	if (!e) return x`<dialog class="wall-batch-dialog" @close=${() => t.close()}></dialog>`;
-	let { dialog: i, state: a, rows: o } = e, s = i.choices, c = Ki(o, s, i.edits), l = qi(o, s, i.edits, a.uos), u = Yi(o, s), d = zi(o, s, i.filter);
-	return x`
+}, fo = (e, t, n, r) => {
+	if (!e) return v`<dialog class="wall-batch-dialog ${A("modal-dialog-box")}" @close=${() => t.close()}></dialog>`;
+	let { dialog: i, state: a, rows: o } = e, s = i.choices, c = Ra(o, s, i.edits), l = za(o, s, i.edits, a.uos), u = Va(o, s), d = ja(o, s, i.filter);
+	return v`
       <dialog
-        class="wall-batch-dialog"
+        class="wall-batch-dialog ${A("modal-dialog-box")}"
         @close=${() => t.close()}
         @cancel=${(e) => t.cancel(e)}
       >
         <div class="dialog-body">
-          ${O("Wall Sockets for Smart Devices", r)}
-          ${o.length === 0 ? x`<p>Every Smart Device already has a Wall Socket.</p>` : x`
+          ${k("Wall Sockets for Smart Devices", r)}
+          ${o.length === 0 ? v`<p class=${O("supporting-text")}>Every Smart Device already has a Wall Socket.</p>` : v`
                 <div class="from-names-toolbar">
                   ${n.renderDialogFilter(i.filter, i.saving, (e) => t.setFilter(e))}
                   <button
                     class="plain-btn"
                     ?disabled=${i.saving}
-                    @click=${() => t.setChoices(Ji(d, s, i.edits, a.uos))}
+                    @click=${() => t.setChoices(Ba(d, s, i.edits, a.uos))}
                   >
                     Tick all
                   </button>
                   <button class="plain-btn" ?disabled=${i.saving} @click=${() => t.setChoices({})}>
                     Untick all
                   </button>
-                  <span class="from-names-counts">
-                    ${u} of ${o.length} ticked${d.length < o.length ? x` · ${d.length} shown` : ""}${l.size > 0 ? x` · <span class="from-names-error-count">${l.size} duplicate${l.size === 1 ? "" : "s"}</span>` : ""}${c.size > 0 ? x` · <span class="from-names-error-count">${c.size} need${c.size === 1 ? "s" : ""} a name</span>` : ""}
+                  <span class="from-names-counts ${D("dialog-field-note")}">
+                    ${u} of ${o.length} ticked${d.length < o.length ? v` · ${d.length} shown` : ""}${l.size > 0 ? v` · <span class="from-names-error-count ${O("error-text")}">${l.size} duplicate${l.size === 1 ? "" : "s"}</span>` : ""}${c.size > 0 ? v` · <span class="from-names-error-count ${O("error-text")}">${c.size} need${c.size === 1 ? "s" : ""} a name</span>` : ""}
                   </span>
                 </div>
                 <div class="from-names-scroll">
                   <table class="from-names-table">
                     <thead>
                       <tr>
-                        <th>Room</th>
-                        <th></th>
-                        <th>Smart Device</th>
-                        <th class="from-names-col-name">Wall Socket</th>
+                        <th class=${D("column-heading")}>Room</th>
+                        <th class=${D("column-heading")}></th>
+                        <th class=${D("column-heading")}>Smart Device</th>
+                        <th class="from-names-col-name ${D("column-heading")}">Wall Socket</th>
                       </tr>
                     </thead>
                     <tbody>
-                      ${Bi(d).map((n) => n.rows.map((r, a) => x`
+                      ${Ma(d).map((n) => n.rows.map((r, a) => v`
                             <tr>
-                              ${a === 0 ? x`<td class="from-names-integration" rowspan=${n.rows.length}>
-                                    <strong>${Ii(n.areaName)}</strong>
+                              ${a === 0 ? v`<td class="from-names-integration" rowspan=${n.rows.length}>
+                                    <span class=${O("emphasis")}>${Oa(n.areaName)}</span>
                                   </td>` : ""}
                               <td>
                                 <label class="choice-row">
@@ -4302,48 +4547,48 @@ var Ni = { kind: "none" }, Pi = (e, t) => e === null || e === t, Fi = (e, t, n) 
                                   />
                                 </label>
                               </td>
-                              <td class="from-names-ha-name">${Li(r)}</td>
+                              <td class="from-names-ha-name ${D("dialog-field-note")}">${ka(r)}</td>
                               <td class="from-names-col-name">
-                                ${va(r, e, c.has(r.coId) ? "blank" : l.get(r.coId) ?? null, t)}
+                                ${uo(r, e, c.has(r.coId) ? "blank" : l.get(r.coId) ?? null, t)}
                               </td>
                             </tr>
                           `))}
                     </tbody>
                   </table>
-                  ${d.length === 0 ? x`<p>${Wt}</p>` : ""}
+                  ${d.length === 0 ? v`<p class=${O("supporting-text")}>${Fn}</p>` : ""}
                 </div>
               `}
-          ${i.failures.map((e) => x`<p class="error">${e.label}: ${e.message}</p>`)}
+          ${i.failures.map((e) => v`<p class="error ${O("error-text")}">${e.label}: ${e.message}</p>`)}
         </div>
         <div class="dialog-actions">
           <button ?disabled=${i.saving} @click=${() => t.close()}>Cancel</button>
           ${n.renderStagingButton({
 		label: `Apply ${u}`,
-		tip: ga,
+		tip: co,
 		className: "go",
-		disabled: i.saving ? la : u === 0 ? pa : c.size > 0 || l.size > 0 ? ma : !1,
+		disabled: i.saving ? to : u === 0 ? ao : c.size > 0 || l.size > 0 ? oo : !1,
 		onClick: () => t.apply()
 	})}
         </div>
       </dialog>
     `;
-}, ba = (e) => {
+}, po = (e) => {
 	let t = e.replace(/'+/g, "-").normalize("NFKD").replace(/⁄/g, "/").replace(/\p{M}+/gu, "").toLowerCase().replace(/'+/g, "").replace(/(?<=\d),(?=\d)/g, "").replace(/[^-a-z0-9]+/g, "-").replace(/-{2,}/g, "-").replace(/^-|-$/g, "").replace(/-/g, "_");
 	return t === "" ? "unknown" : t;
-}, xa = (e, t = null) => ba(`ob ${e}${t ? ` ${t}` : ""}`), Sa = (e) => ba(e), Ca = (e) => e === null || e.trim() === "", wa = (e, t) => {
+}, mo = (e, t = null) => po(`ob ${e}${t ? ` ${t}` : ""}`), ho = (e) => po(e), go = (e) => e === null || e.trim() === "", _o = (e, t) => {
 	let n = new Map(e.cos.map((e) => [e.co_id, e])), r = /* @__PURE__ */ new Map();
 	for (let t of e.appliances) {
-		let e = xa(t.name, t.type);
+		let e = mo(t.name, t.type);
 		r.has(e) || r.set(e, t.name);
 	}
 	let i = [];
 	for (let r of e.co_sockets) {
 		if (r.occupant_device_id !== null) continue;
 		let e = t[r.co_socket_id]?.name ?? null;
-		if (e === null || Ca(e)) continue;
+		if (e === null || go(e)) continue;
 		let a = n.get(r.co_id);
 		a && i.push({
-			sortKey: P(a),
+			sortKey: I(a),
 			position: r.position,
 			row: {
 				coSocketId: r.co_socket_id,
@@ -4355,29 +4600,29 @@ var Ni = { kind: "none" }, Pi = (e, t) => e === null || e === t, Fi = (e, t, n) 
 		});
 	}
 	let a = (e) => e.integrationDomain === null ? "￿" : e.integrationDomain;
-	return i.sort((e, t) => a(e.row).localeCompare(a(t.row)) || N(e.sortKey, t.sortKey) || e.row.coId.localeCompare(t.row.coId) || e.position - t.position), {
+	return i.sort((e, t) => a(e.row).localeCompare(a(t.row)) || F(e.sortKey, t.sortKey) || e.row.coId.localeCompare(t.row.coId) || e.position - t.position), {
 		rows: i.map((e) => e.row),
 		existing: r
 	};
-}, Ta = () => /* @__PURE__ */ new Set(), Ea = (e, t) => t[e.coSocketId] ?? e.defaultName, Da = (e) => k(e.integrationDomain), Oa = (e) => k(e.friendlyName), ka = (e) => e.trim() === "" ? null : `….${Sa(e)}_…`, Aa = (e, t) => {
-	let n = Ea(e, t);
+}, vo = () => /* @__PURE__ */ new Set(), yo = (e, t) => t[e.coSocketId] ?? e.defaultName, bo = (e) => j(e.integrationDomain), xo = (e) => j(e.friendlyName), So = (e) => e.trim() === "" ? null : `….${ho(e)}_…`, Co = (e, t) => {
+	let n = yo(e, t);
 	return [
-		Da(e),
+		bo(e),
 		n,
-		ka(n),
-		Oa(e)
+		So(n),
+		xo(e)
 	];
-}, ja = (e, t, n, r) => e.filter((e) => t.has(e.coSocketId) || qt(r, Aa(e, n))), Ma = (e, t, n, r) => {
+}, wo = (e, t, n, r) => e.filter((e) => t.has(e.coSocketId) || Rn(r, Co(e, n))), To = (e, t, n, r) => {
 	let i = /* @__PURE__ */ new Map(), a = /* @__PURE__ */ new Map(), o = (e) => e.friendlyName ?? e.defaultName;
 	for (let s of e) {
-		let e = n.has(s.coSocketId), c = Ea(s, r), l = null, u = "duplicate";
-		if (!Ca(c)) {
-			let e = t.get(xa(c));
+		let e = n.has(s.coSocketId), c = yo(s, r), l = null, u = "duplicate";
+		if (!go(c)) {
+			let e = t.get(mo(c));
 			e !== void 0 && (l = `Clashes with the Appliance “${e}”. Choose a different name.`);
 		}
-		if (l === null && e && Ca(c) && (l = "The Appliance needs a name.", u = "blank"), l === null && e) {
-			let e = xa(c), t = a.get(e);
-			t ? l = `Clashes with “${Ea(t, r)}” (Socket “${o(t)}”). Choose a different name.` : a.set(e, s);
+		if (l === null && e && go(c) && (l = "The Appliance needs a name.", u = "blank"), l === null && e) {
+			let e = mo(c), t = a.get(e);
+			t ? l = `Clashes with “${yo(t, r)}” (Socket “${o(t)}”). Choose a different name.` : a.set(e, s);
 		}
 		l !== null && i.set(s.coSocketId, {
 			text: l,
@@ -4386,13 +4631,13 @@ var Ni = { kind: "none" }, Pi = (e, t) => e === null || e === t, Fi = (e, t, n) 
 		});
 	}
 	return i;
-}, Na = (e) => Array.from(e.values()).filter((e) => e.blocking).length, Pa = (e, t) => Array.from(e.values()).filter((e) => e.blocking && e.kind === t).length, Fa = (e, t, n) => {
-	let r = new Set(e.map((e) => e.coSocketId)), i = Ma(e, t, r, n);
+}, Eo = (e) => Array.from(e.values()).filter((e) => e.blocking).length, Do = (e, t) => Array.from(e.values()).filter((e) => e.blocking && e.kind === t).length, Oo = (e, t, n) => {
+	let r = new Set(e.map((e) => e.coSocketId)), i = To(e, t, r, n);
 	return new Set(Array.from(r).filter((e) => !i.has(e)));
-}, Ia = (e, t, n) => e.filter((e) => t.has(e.coSocketId)).map((e) => ({
+}, ko = (e, t, n) => e.filter((e) => t.has(e.coSocketId)).map((e) => ({
 	row: e,
-	name: Ea(e, n).trim()
-})), La = (e) => {
+	name: yo(e, n).trim()
+})), Ao = (e) => {
 	let t = [];
 	for (let n of e) {
 		let e = t[t.length - 1];
@@ -4402,10 +4647,10 @@ var Ni = { kind: "none" }, Pi = (e, t) => e === null || e === t, Fi = (e, t, n) 
 		});
 	}
 	return t;
-}, Ra = (e) => e.candidates.some((e) => e.disabledBy === null), za = (e) => {
+}, jo = (e) => e.candidates.some((e) => e.disabledBy === null), Mo = (e) => {
 	let t = new Set(e.candidates.map((e) => e.action));
 	return t.size === 0 || t.size === 1 && t.has("appliance_into_socket") ? "Appliance" : t.size === 1 && t.has("co_into_co_socket") ? "Smart Device" : "Plug in";
-}, Ba = (e) => Array.from(new Set(e.candidates.filter((e) => e.disabledBy === null).map((e) => e.uoName).filter((e) => e !== null))).sort(N), Va = (e, t) => {
+}, No = (e) => Array.from(new Set(e.candidates.filter((e) => e.disabledBy === null).map((e) => e.uoName).filter((e) => e !== null))).sort(F), Po = (e, t) => {
 	let n = /* @__PURE__ */ new Map();
 	for (let r of e.candidates) r.disabledBy === null && r.coId !== null && r.coAlias !== null && (t === null || r.uoName === t) && (n.has(r.coId) || n.set(r.coId, {
 		alias: r.coAlias,
@@ -4416,37 +4661,37 @@ var Ni = { kind: "none" }, Pi = (e, t) => e === null || e === t, Fi = (e, t, n) 
 	return Array.from(n, ([e, { alias: t, place: n }]) => ({
 		coId: e,
 		alias: t,
-		text: (r.get(t) ?? 0) > 1 ? `${t} (${k(n)})` : t
-	})).sort((e, t) => N(e.alias, t.alias) || N(e.text, t.text) || e.coId.localeCompare(t.coId)).map(({ coId: e, text: t }) => ({
+		text: (r.get(t) ?? 0) > 1 ? `${t} (${j(n)})` : t
+	})).sort((e, t) => F(e.alias, t.alias) || F(e.text, t.text) || e.coId.localeCompare(t.coId)).map(({ coId: e, text: t }) => ({
 		coId: e,
 		text: t
 	}));
-}, Ha = "Already powering:", Ua = "Powering:", Wa = (e) => `${e}:`, Ga = (e) => `${e.label}${e.disabledBy ? ` — ${e.disabledBy.kind === "current" ? "current" : e.disabledBy.name}` : e.note === null ? "" : " —"}`, Ka = (e) => e.context === null ? null : `(${e.context})`, qa = (e) => e.groupContext === null ? null : `(${e.groupContext})`, Ja = (e) => [
-	e.groupLabel === null ? "" : Wa(e.groupLabel),
-	qa(e) ?? "",
-	Ga(e),
-	Ka(e) ?? "",
-	e.note === null ? "" : `${Ha} ${e.note}`
-], Ya = (e, t) => e.trim() === "" || qt(e, t()), X = { kind: "available" }, Xa = (e) => e.kind === "co" ? `co:${e.coId}` : e.kind, Za = (e) => e === "all" ? { kind: "all" } : e.startsWith("co:") ? {
+}, Fo = "Already powering:", Io = "Powering:", Lo = (e) => `${e}:`, Ro = (e) => `${e.label}${e.disabledBy ? ` — ${e.disabledBy.kind === "current" ? "current" : e.disabledBy.name}` : e.note === null ? "" : " —"}`, zo = (e) => e.context === null ? null : `(${e.context})`, Bo = (e) => e.groupContext === null ? null : `(${e.groupContext})`, Vo = (e) => [
+	e.groupLabel === null ? "" : Lo(e.groupLabel),
+	Bo(e) ?? "",
+	Ro(e),
+	zo(e) ?? "",
+	e.note === null ? "" : `${Fo} ${e.note}`
+], Ho = (e, t) => e.trim() === "" || Rn(e, t()), Uo = { kind: "available" }, Wo = (e) => e.kind === "co" ? `co:${e.coId}` : e.kind, Go = (e) => e === "all" ? { kind: "all" } : e.startsWith("co:") ? {
 	kind: "co",
 	coId: e.slice(3)
-} : X, Qa = {
+} : Uo, Ko = {
 	room: null,
 	co: null
-}, $a = (e) => e.disabledBy === null || e.groupLabel !== null, eo = (e, t) => e === null ? $a(t) : e.kind === "all" || e.kind === "available" && t.disabledBy === null || e.kind === "co" && (t.coId === null || t.coId === e.coId), to = (e) => e.candidates.filter($a), no = (e) => e.view === "picker" ? new Set(e.selectedId === null ? [] : [e.selectedId]) : /* @__PURE__ */ new Set([...e.rows.filter((t) => !e.selectedIds.has(t.deviceId)).map((e) => e.deviceId), ...e.selectedCandidateIds]), ro = (e) => ({
+}, qo = (e) => e.disabledBy === null || e.groupLabel !== null, Jo = (e, t) => e === null ? qo(t) : e.kind === "all" || e.kind === "available" && t.disabledBy === null || e.kind === "co" && (t.coId === null || t.coId === e.coId), Yo = (e) => e.candidates.filter(qo), Xo = (e) => e.view === "picker" ? new Set(e.selectedId === null ? [] : [e.selectedId]) : /* @__PURE__ */ new Set([...e.rows.filter((t) => !e.selectedIds.has(t.deviceId)).map((e) => e.deviceId), ...e.selectedCandidateIds]), Zo = (e) => ({
 	...e,
-	pinned: no(e)
-}), io = (e, t, n) => e.pinned.has(t) || n.has(t), ao = (e, t, n) => io(e, t.id, no(e)) || (n.room === null || t.uoName === n.room) && eo(n.co, t) && Ya(e.filter, () => Ja(t)), oo = (e, t) => e.candidates.filter((n) => ao(e, n, t)), so = (e) => new Set(e.map((e) => e.kind)).size > 1, co = (e, t) => t ? `(${e === "co" ? "Smart Device" : "Appliance"})` : null, lo = (e, t) => [
+	pinned: Xo(e)
+}), Qo = (e, t, n) => e.pinned.has(t) || n.has(t), $o = (e, t, n) => Qo(e, t.id, Xo(e)) || (n.room === null || t.uoName === n.room) && Jo(n.co, t) && Ho(e.filter, () => Vo(t)), es = (e, t) => e.candidates.filter((n) => $o(e, n, t)), ts = (e) => new Set(e.map((e) => e.kind)).size > 1, ns = (e, t) => t ? `(${e === "co" ? "Smart Device" : "Appliance"})` : null, rs = (e, t) => [
 	e.label,
-	co(e.kind, t) ?? "",
-	e.powering.length === 0 ? "" : `${Ua} ${e.powering.join(", ")}`
-], uo = (e, t) => [e.label, co(e.kind, t) ?? ""], fo = (e) => {
-	let t = so(e.rows), n = no(e);
-	return e.rows.filter((r) => io(e, r.deviceId, n) || Ya(e.filter, () => lo(r, t)));
-}, po = (e) => {
-	let t = so(e.candidates), n = no(e);
-	return e.candidates.filter((r) => io(e, r.deviceId, n) || Ya(e.filter, () => uo(r, t)));
-}, mo = {
+	ns(e.kind, t) ?? "",
+	e.powering.length === 0 ? "" : `${Io} ${e.powering.join(", ")}`
+], is = (e, t) => [e.label, ns(e.kind, t) ?? ""], as = (e) => {
+	let t = ts(e.rows), n = Xo(e);
+	return e.rows.filter((r) => Qo(e, r.deviceId, n) || Ho(e.filter, () => rs(r, t)));
+}, os = (e) => {
+	let t = ts(e.candidates), n = Xo(e);
+	return e.candidates.filter((r) => Qo(e, r.deviceId, n) || Ho(e.filter, () => is(r, t)));
+}, ss = {
 	appliance_into_socket: {
 		wsType: "outlet_binder/create_plugged_into",
 		plugField: "appliance_id",
@@ -4462,14 +4707,14 @@ var Ni = { kind: "none" }, Pi = (e, t) => e === null || e === t, Fi = (e, t, n) 
 		plugField: "co_id",
 		socketField: "co_socket_id"
 	}
-}, ho = (e, t) => {
-	let n = mo[t.action], r = e.kind === "co_socket";
+}, cs = (e, t) => {
+	let n = ss[t.action], r = e.kind === "co_socket";
 	return {
 		type: n.wsType,
 		[n.plugField]: r ? t.id : e.subjectId,
 		[n.socketField]: r ? e.subjectId : t.id
 	};
-}, go = {
+}, ls = {
 	co: {
 		plug: "outlet_binder/assign_co_to_uo",
 		unplug: "outlet_binder/unassign_co_from_uo",
@@ -4480,51 +4725,51 @@ var Ni = { kind: "none" }, Pi = (e, t) => e === null || e === t, Fi = (e, t, n) 
 		unplug: "outlet_binder/unassign_appliance_from_uo",
 		deviceField: "appliance_id"
 	}
-}, _o = (e, t) => {
-	let n = go[t.kind];
+}, us = (e, t) => {
+	let n = ls[t.kind];
 	return {
 		type: n.plug,
 		[n.deviceField]: t.deviceId,
 		uo_id: e
 	};
-}, vo = (e) => {
-	let t = go[e.kind];
+}, ds = (e) => {
+	let t = ls[e.kind];
 	return {
 		type: t.unplug,
 		[t.deviceField]: e.deviceId
 	};
-}, yo = (e, t) => {
-	let n = e.cosById.get(t), r = n === void 0 ? null : I(n);
+}, fs = (e, t) => {
+	let n = e.cosById.get(t), r = n === void 0 ? null : R(n);
 	return r?.kind === "uo" ? e.uoNames.get(r.id) ?? r.id : null;
-}, bo = (e, t) => {
+}, ps = (e, t) => {
 	let n = e.cosById.get(t);
 	if (n === void 0) return null;
-	let r = I(n);
+	let r = R(n);
 	switch (r.kind) {
 		case "uo": return e.uoNames.get(r.id) ?? r.id;
 		case "co_socket": {
 			let t = e.socketsById.get(r.id);
-			return t === void 0 ? null : R(e, t);
+			return t === void 0 ? null : B(e, t);
 		}
 		case "nowhere": return null;
 	}
-}, xo = (e, t) => {
-	let n = bo(e, t), r = e.cosById.get(t);
+}, ms = (e, t) => {
+	let n = ps(e, t), r = e.cosById.get(t);
 	if (n === null || r === void 0) return null;
-	let i = I(r);
+	let i = R(r);
 	return {
 		text: n,
-		target: i.kind === "uo" ? H(e, i.id) : i.kind === "co_socket" ? Cn(e, i.id) : null
+		target: i.kind === "uo" ? pr(e, i.id) : i.kind === "co_socket" ? hr(e, i.id) : null
 	};
-}, So = (e, t) => {
+}, hs = (e, t) => {
 	let n = e.cosById.get(t);
 	if (n === void 0) return null;
-	let r = I(n);
+	let r = R(n);
 	return r.kind === "co_socket" ? e.socketsById.get(r.id)?.co_id ?? null : null;
-}, Co = (e, t) => e.coNames.get(t) ?? t, wo = (e, t) => {
-	let n = bo(e, t.co_id);
-	return `${R(e, t)}${n === null ? "" : ` (${n})`}`;
-}, To = (e) => [...e].sort((e, t) => N(e.label, t.label)), Eo = (e) => {
+}, gs = (e, t) => e.coNames.get(t) ?? t, _s = (e, t) => {
+	let n = ps(e, t.co_id);
+	return `${B(e, t)}${n === null ? "" : ` (${n})`}`;
+}, vs = (e) => [...e].sort((e, t) => F(e.label, t.label)), ys = (e) => {
 	let t = e.findIndex((e) => e.disabledBy?.kind === "current");
 	if (t === -1) return e;
 	let n = e[t].groupKey;
@@ -4535,18 +4780,18 @@ var Ni = { kind: "none" }, Pi = (e, t) => e === null || e === t, Fi = (e, t, n) 
 	for (; i < e.length - 1 && e[i + 1].groupKey === n;) i += 1;
 	let a = e.slice(r, i + 1), o = [...e.slice(0, r), ...e.slice(i + 1)];
 	return [...a, ...o];
-}, Do = (e, t) => Eo(Array.from(e.socketsById.values()).filter((e) => !t.excludeCoIds.has(e.co_id)).map((t) => ({
+}, bs = (e, t) => ys(Array.from(e.socketsById.values()).filter((e) => !t.excludeCoIds.has(e.co_id)).map((t) => ({
 	sock: t,
-	prefixLabel: Co(e, t.co_id)
-})).sort((e, t) => N(e.prefixLabel, t.prefixLabel) || e.sock.co_id.localeCompare(t.sock.co_id) || N(e.sock.alias, t.sock.alias)).map(({ sock: n }) => {
-	let r = cn(n, e), i = n.co_socket_id === t.currentSocketId ? { kind: "current" } : r === null ? null : {
+	prefixLabel: gs(e, t.co_id)
+})).sort((e, t) => F(e.prefixLabel, t.prefixLabel) || e.sock.co_id.localeCompare(t.sock.co_id) || F(e.sock.alias, t.sock.alias)).map(({ sock: n }) => {
+	let r = Qn(n, e), i = n.co_socket_id === t.currentSocketId ? { kind: "current" } : r === null ? null : {
 		kind: "occupied",
-		name: k(r.name)
-	}, a = (e.socketsByCo.get(n.co_id) ?? []).length > 1, o = bo(e, n.co_id), s = Co(e, n.co_id);
+		name: j(r.name)
+	}, a = (e.socketsByCo.get(n.co_id) ?? []).length > 1, o = ps(e, n.co_id), s = gs(e, n.co_id);
 	return {
 		id: n.co_socket_id,
 		label: a ? n.alias : s,
-		fullLabel: wo(e, n),
+		fullLabel: _s(e, n),
 		context: a ? null : o,
 		disabledBy: i,
 		groupLabel: a ? s : null,
@@ -4554,12 +4799,12 @@ var Ni = { kind: "none" }, Pi = (e, t) => e === null || e === t, Fi = (e, t, n) 
 		groupKey: a ? n.co_id : null,
 		note: null,
 		action: t.action,
-		uoName: yo(e, n.co_id),
-		coAlias: Co(e, n.co_id),
+		uoName: fs(e, n.co_id),
+		coAlias: gs(e, n.co_id),
 		coId: n.co_id
 	};
-})), Oo = (e, t) => {
-	let n = L(e), r = n.kind === "co_socket" ? n.id : null, i = Do(t, {
+})), xs = (e, t) => {
+	let n = z(e), r = n.kind === "co_socket" ? n.id : null, i = bs(t, {
 		currentSocketId: r,
 		excludeCoIds: /* @__PURE__ */ new Set(),
 		action: "appliance_into_socket"
@@ -4571,11 +4816,11 @@ var Ni = { kind: "none" }, Pi = (e, t) => e === null || e === t, Fi = (e, t, n) 
 		subjectLabel: e.name,
 		linked: n.kind !== "nowhere",
 		currentLabel: a ? {
-			text: wo(t, a),
+			text: _s(t, a),
 			target: U(t, a.co_id)
 		} : o !== null && n.kind === "uo" ? {
 			text: o,
-			target: H(t, n.id)
+			target: pr(t, n.id)
 		} : null,
 		currentHaDevice: a?.co_id ?? null,
 		subjectHaDevice: null,
@@ -4593,18 +4838,18 @@ var Ni = { kind: "none" }, Pi = (e, t) => e === null || e === t, Fi = (e, t, n) 
 		saving: !1,
 		error: null
 	};
-}, ko = (e, t) => (e.socketsByCo.get(t) ?? []).flatMap((t) => {
-	let n = cn(t, e);
+}, Ss = (e, t) => (e.socketsByCo.get(t) ?? []).flatMap((t) => {
+	let n = Qn(t, e);
 	return n === null ? [] : [{
-		text: k(n.name),
-		target: wn(t, e)
+		text: j(n.name),
+		target: gr(t, e)
 	}];
-}), Ao = (e, t) => ko(e, t).map((e) => e.text), jo = (e, t) => {
+}), Cs = (e, t) => Ss(e, t).map((e) => e.text), ws = (e, t) => {
 	let n = /* @__PURE__ */ new Set();
 	for (let r of e.cosById.values()) {
 		let i = [r.co_id], a = r;
 		for (; a !== void 0;) {
-			let r = I(a);
+			let r = R(a);
 			if (r.kind !== "co_socket") break;
 			let o = e.socketsById.get(r.id)?.co_id;
 			if (o === void 0 || i.includes(o)) break;
@@ -4616,17 +4861,17 @@ var Ni = { kind: "none" }, Pi = (e, t) => e === null || e === t, Fi = (e, t, n) 
 		}
 	}
 	return n;
-}, Mo = (e) => {
+}, Ts = (e) => {
 	switch (e) {
 		case "co_into_uo": return "outlets";
 		case "co_into_co_socket":
 		case "appliance_into_socket": return "sockets";
 	}
-}, No = (e) => ({
-	outlets: e.filter((e) => Mo(e.action) === "outlets"),
-	sockets: e.filter((e) => Mo(e.action) === "sockets")
-}), Po = (e, t) => {
-	let n = I(e), r = n.kind === "uo" ? n.id : null, i = n.kind === "co_socket" ? n.id : null, a = To(Array.from(t.uosById.values()).filter((e) => e.uo_id !== r).map((e) => {
+}, Es = (e) => ({
+	outlets: e.filter((e) => Ts(e.action) === "outlets"),
+	sockets: e.filter((e) => Ts(e.action) === "sockets")
+}), Ds = (e, t) => {
+	let n = R(e), r = n.kind === "uo" ? n.id : null, i = n.kind === "co_socket" ? n.id : null, a = vs(Array.from(t.uosById.values()).filter((e) => e.uo_id !== r).map((e) => {
 		let n = t.cosByUo.get(e.uo_id) ?? [], r = n.length === 0 ? null : n.map((e) => e.alias).join(", ");
 		return {
 			id: e.uo_id,
@@ -4643,9 +4888,9 @@ var Ni = { kind: "none" }, Pi = (e, t) => e === null || e === t, Fi = (e, t, n) 
 			coAlias: null,
 			coId: null
 		};
-	})), o = e.has_plug ? [...a, ...Do(t, {
+	})), o = e.has_plug ? [...a, ...bs(t, {
 		currentSocketId: i,
-		excludeCoIds: /* @__PURE__ */ new Set([e.co_id, ...jo(t, e.co_id)]),
+		excludeCoIds: /* @__PURE__ */ new Set([e.co_id, ...ws(t, e.co_id)]),
 		action: "co_into_co_socket"
 	}).map((e) => ({
 		...e,
@@ -4664,12 +4909,12 @@ var Ni = { kind: "none" }, Pi = (e, t) => e === null || e === t, Fi = (e, t, n) 
 				entity: s
 			}
 		} : c ? {
-			text: wo(t, c),
+			text: _s(t, c),
 			target: U(t, c.co_id)
 		} : null,
 		currentHaDevice: s ? null : c?.co_id ?? null,
 		subjectHaDevice: e.co_id,
-		powering: ko(t, e.co_id),
+		powering: Ss(t, e.co_id),
 		contextLabel: null,
 		candidates: o,
 		selectedId: null,
@@ -4678,28 +4923,28 @@ var Ni = { kind: "none" }, Pi = (e, t) => e === null || e === t, Fi = (e, t, n) 
 		unlink: n.kind === "uo" ? {
 			wsType: "outlet_binder/unassign_co_from_uo",
 			payload: { co_id: e.co_id },
-			label: `Unplug from ${s?.name ?? k(null)}`
+			label: `Unplug from ${s?.name ?? j(null)}`
 		} : n.kind === "co_socket" ? {
 			wsType: "outlet_binder/unassign_co_from_co_socket",
 			payload: { co_id: e.co_id },
-			label: `Unplug from ${k(c ? t.coNames.get(c.co_id) ?? null : null)}`
+			label: `Unplug from ${j(c ? t.coNames.get(c.co_id) ?? null : null)}`
 		} : null,
 		saving: !1,
 		error: null
 	};
-}, Fo = (e, t) => {
-	let n = cn(e, t);
+}, Os = (e, t) => {
+	let n = Qn(e, t);
 	if (n !== null) {
-		let r = k(n.name);
+		let r = j(n.name);
 		return {
 			view: "picker",
 			kind: "co_socket",
 			subjectId: e.co_socket_id,
-			subjectLabel: R(t, e),
+			subjectLabel: B(t, e),
 			linked: !0,
 			currentLabel: {
 				text: r,
-				target: wn(e, t)
+				target: gr(e, t)
 			},
 			currentHaDevice: e.plugged_into_appliance_id === null ? n.id : null,
 			subjectHaDevice: null,
@@ -4736,10 +4981,10 @@ var Ni = { kind: "none" }, Pi = (e, t) => e === null || e === t, Fi = (e, t, n) 
 		uoName: null,
 		coAlias: null,
 		coId: null
-	}), i = To(Array.from(t.appliancesById.values()).filter((e) => L(e).kind === "nowhere").map((e) => ({
+	}), i = vs(Array.from(t.appliancesById.values()).filter((e) => z(e).kind === "nowhere").map((e) => ({
 		id: e.appliance_id,
 		label: e.name
-	}))), a = To(Array.from(t.cosById.values()).filter((n) => n.has_plug && n.co_id !== e.co_id && I(n).kind === "nowhere" && !jo(t, n.co_id).has(e.co_id)).map((e) => ({
+	}))), a = vs(Array.from(t.cosById.values()).filter((n) => n.has_plug && n.co_id !== e.co_id && R(n).kind === "nowhere" && !ws(t, n.co_id).has(e.co_id)).map((e) => ({
 		id: e.co_id,
 		label: e.alias
 	}))), o = i.length > 0 && a.length > 0, s = [...i.map(r("appliance_into_socket", o ? "Appliances" : null)), ...a.map(r("co_into_co_socket", o ? "Smart Devices" : null))];
@@ -4747,15 +4992,15 @@ var Ni = { kind: "none" }, Pi = (e, t) => e === null || e === t, Fi = (e, t, n) 
 		view: "picker",
 		kind: "co_socket",
 		subjectId: e.co_socket_id,
-		subjectLabel: R(t, e),
+		subjectLabel: B(t, e),
 		linked: !1,
 		currentLabel: null,
 		currentHaDevice: null,
 		subjectHaDevice: e.co_id,
 		powering: [],
 		contextLabel: {
-			placeName: xo(t, e.co_id),
-			placeHaDevice: So(t, e.co_id)
+			placeName: ms(t, e.co_id),
+			placeHaDevice: hs(t, e.co_id)
 		},
 		candidates: s,
 		selectedId: s.length === 1 ? s[0].id : null,
@@ -4765,22 +5010,22 @@ var Ni = { kind: "none" }, Pi = (e, t) => e === null || e === t, Fi = (e, t, n) 
 		saving: !1,
 		error: null
 	};
-}, Io = (e, t) => {
-	let n = (e, t) => (e.kind === t.kind ? 0 : e.kind === "co" ? -1 : 1) || N(e.label, t.label), r = [...(t.cosByUo.get(e.uo_id) ?? []).map((e) => ({
+}, ks = (e, t) => {
+	let n = (e, t) => (e.kind === t.kind ? 0 : e.kind === "co" ? -1 : 1) || F(e.label, t.label), r = [...(t.cosByUo.get(e.uo_id) ?? []).map((e) => ({
 		deviceId: e.co_id,
 		kind: "co",
 		label: e.alias,
-		powering: Ao(t, e.co_id)
+		powering: Cs(t, e.co_id)
 	})), ...(t.appliancesByUo.get(e.uo_id) ?? []).map((e) => ({
 		deviceId: e.appliance_id,
 		kind: "appliance",
 		label: e.name,
 		powering: []
-	}))].sort(n), i = [...Array.from(t.cosById.values()).filter((e) => e.has_plug && I(e).kind === "nowhere").map((e) => ({
+	}))].sort(n), i = [...Array.from(t.cosById.values()).filter((e) => e.has_plug && R(e).kind === "nowhere").map((e) => ({
 		deviceId: e.co_id,
 		kind: "co",
 		label: e.alias
-	})), ...Array.from(t.appliancesById.values()).filter((e) => L(e).kind === "nowhere").map((e) => ({
+	})), ...Array.from(t.appliancesById.values()).filter((e) => z(e).kind === "nowhere").map((e) => ({
 		deviceId: e.appliance_id,
 		kind: "appliance",
 		label: e.name
@@ -4801,27 +5046,27 @@ var Ni = { kind: "none" }, Pi = (e, t) => e === null || e === t, Fi = (e, t, n) 
 		saving: !1,
 		error: null
 	};
-}, Lo = (e) => {
+}, As = (e) => {
 	switch (e.kind) {
-		case "appliance": return L(e.entity).kind !== "nowhere";
-		case "co": return I(e.entity).kind !== "nowhere";
+		case "appliance": return z(e.entity).kind !== "nowhere";
+		case "co": return R(e.entity).kind !== "nowhere";
 		case "co_socket": return e.entity.occupant_device_id !== null;
-		case "uo": return sn(e.entity);
+		case "uo": return Zn(e.entity);
 	}
-}, Ro = (e) => {
+}, js = (e) => {
 	switch (e.kind) {
-		case "co": return I(e.entity).kind === "co_socket" ? "hosted" : "unplug";
+		case "co": return R(e.entity).kind === "co_socket" ? "hosted" : "unplug";
 		case "co_socket": return e.entity.plugged_into_appliance_id === null ? "hosting" : "unplug";
 		case "appliance":
 		case "uo": return "unplug";
 	}
-}, zo = (e, t) => {
+}, Ms = (e, t) => {
 	switch (e.kind) {
 		case "appliance": return e.entity.name;
 		case "co": return e.entity.alias;
-		case "co_socket": return R(t, e.entity);
+		case "co_socket": return B(t, e.entity);
 	}
-}, Bo = {
+}, Ns = {
 	appliance: {
 		one: "Appliance",
 		many: "Appliances"
@@ -4830,7 +5075,7 @@ var Ni = { kind: "none" }, Pi = (e, t) => e === null || e === t, Fi = (e, t, n) 
 		one: "Smart Device",
 		many: "Smart Devices"
 	}
-}, Vo = {
+}, Ps = {
 	uo: {
 		one: "Wall Socket",
 		many: "Wall Sockets"
@@ -4839,7 +5084,7 @@ var Ni = { kind: "none" }, Pi = (e, t) => e === null || e === t, Fi = (e, t, n) 
 		one: "Smart Device socket",
 		many: "Smart Device sockets"
 	}
-}, Ho = (e, t, n) => {
+}, Fs = (e, t, n) => {
 	let [r] = e;
 	if (e.length === 1 && r !== void 0) return {
 		label: "Available",
@@ -4866,23 +5111,23 @@ var Ni = { kind: "none" }, Pi = (e, t) => e === null || e === t, Fi = (e, t, n) 
 			return `${t} ${t === 1 ? a[e].one : a[e].many}`;
 		})
 	};
-}, Uo = (e, t) => {
+}, Is = (e, t) => {
 	switch (e.kind) {
-		case "uo": return j(t.uoNames, e.id);
+		case "uo": return N(t.uoNames, e.id);
 		case "co_socket": {
 			let n = t.socketsById.get(e.id);
-			return n === void 0 ? k(null) : wo(t, n);
+			return n === void 0 ? j(null) : _s(t, n);
 		}
-		case "nowhere": return k(null);
+		case "nowhere": return j(null);
 	}
-}, Wo = (e, t) => e.kind === "co_socket" ? un(t, e.entity) : zo(e, t), Go = {
+}, Ls = (e, t) => e.kind === "co_socket" ? er(t, e.entity) : Ms(e, t), Rs = {
 	appliance: "Nothing to plug into",
 	co: "Add a Wall Socket first",
 	co_socket: "Nothing to plug in"
-}, Ko = (e, t) => {
-	let n = Io(e.entity, t), r = n.candidates.length, i = n.rows.length, a = Lo(e), o = r === 0 && i === 0, s = e.entity.name, c = Ho(n.candidates, (e) => e.label, {
+}, zs = (e, t) => {
+	let n = ks(e.entity, t), r = n.candidates.length, i = n.rows.length, a = As(e), o = r === 0 && i === 0, s = e.entity.name, c = Fs(n.candidates, (e) => e.label, {
 		kindOf: (e) => e.kind,
-		nouns: Bo
+		nouns: Ns
 	}), l = {
 		label: "Plugged in",
 		value: n.rows.map((e) => e.label).join(", ")
@@ -4904,9 +5149,9 @@ var Ni = { kind: "none" }, Pi = (e, t) => e === null || e === t, Fi = (e, t, n) 
 		disabled: o,
 		iconKind: a ? "unplug" : "socket",
 		hover: K("uo", s, u),
-		ariaLabel: Zo("uo", r > 0 || o, s)
+		ariaLabel: Ws("uo", r > 0 || o, s)
 	};
-}, qo = (e, t) => ({
+}, Bs = (e, t) => ({
 	linked: !1,
 	disabled: !0,
 	iconKind: "plug",
@@ -4914,54 +5159,54 @@ var Ni = { kind: "none" }, Pi = (e, t) => e === null || e === t, Fi = (e, t, n) 
 		action: "Fixed in place",
 		blocked: !0
 	}),
-	ariaLabel: Zo("co", !0, t)
-}), Jo = {
+	ariaLabel: Ws("co", !0, t)
+}), Vs = {
 	co_socket: (e, t) => {
-		let n = Fo(e.entity, t).candidates;
+		let n = Os(e.entity, t).candidates;
 		return {
 			count: n.length,
-			attr: Ho(n, (e) => e.fullLabel, {
+			attr: Fs(n, (e) => e.fullLabel, {
 				kindOf: (e) => e.action === "co_into_co_socket" ? "co" : "appliance",
-				nouns: Bo
+				nouns: Ns
 			})
 		};
 	},
 	appliance: (e, t) => {
-		let n = Oo(e.entity, t).candidates.filter((e) => e.disabledBy === null);
+		let n = xs(e.entity, t).candidates.filter((e) => e.disabledBy === null);
 		return {
 			count: n.length,
-			attr: Ho(n, (e) => e.fullLabel)
+			attr: Fs(n, (e) => e.fullLabel)
 		};
 	},
 	co: (e, t) => {
-		let n = Po(e.entity, t).candidates.filter((e) => e.disabledBy === null);
+		let n = Ds(e.entity, t).candidates.filter((e) => e.disabledBy === null);
 		return {
 			count: n.length,
-			attr: Ho(n, (e) => e.fullLabel, {
+			attr: Fs(n, (e) => e.fullLabel, {
 				kindOf: (e) => e.action === "co_into_co_socket" ? "co_socket" : "uo",
-				nouns: Vo
+				nouns: Ps
 			})
 		};
 	}
-}, Yo = (e, t) => {
-	if (Lo(e)) return null;
-	let n = Jo[e.kind];
+}, Hs = (e, t) => {
+	if (As(e)) return null;
+	let n = Vs[e.kind];
 	return n(e, t);
-}, Xo = (e, t) => {
-	if (e.kind === "uo") return Ko(e, t);
-	let n = Lo(e), r = zo(e, t), i = Wo(e, t);
-	if (e.kind === "co" && !e.entity.has_plug) return qo(r, i);
-	let a = n ? Ro(e) : e.kind === "co_socket" ? "socket" : "plug", o = Yo(e, t), s = n && (e.kind === "appliance" || e.kind === "co") && Ra(e.kind === "appliance" ? Oo(e.entity, t) : Po(e.entity, t)), c = o?.count === 0, l = o === null ? {
+}, Us = (e, t) => {
+	if (e.kind === "uo") return zs(e, t);
+	let n = As(e), r = Ms(e, t), i = Ls(e, t);
+	if (e.kind === "co" && !e.entity.has_plug) return Bs(r, i);
+	let a = n ? js(e) : e.kind === "co_socket" ? "socket" : "plug", o = Hs(e, t), s = n && (e.kind === "appliance" || e.kind === "co") && jo(e.kind === "appliance" ? xs(e.entity, t) : Ds(e.entity, t)), c = o?.count === 0, l = o === null ? {
 		action: s ? "Unplug / Move" : "Unplug",
 		attrs: [e.kind === "co_socket" ? {
 			label: "Plugged in",
-			value: Fo(e.entity, t).currentLabel?.text ?? k(null)
+			value: Os(e.entity, t).currentLabel?.text ?? j(null)
 		} : {
 			label: "Plugged into",
-			value: Uo(e.kind === "appliance" ? L(e.entity) : I(e.entity), t)
+			value: Is(e.kind === "appliance" ? z(e.entity) : R(e.entity), t)
 		}]
 	} : o.count === 0 ? {
-		action: Go[e.kind],
+		action: Rs[e.kind],
 		blocked: !0
 	} : {
 		action: "Plug in",
@@ -4972,9 +5217,9 @@ var Ni = { kind: "none" }, Pi = (e, t) => e === null || e === t, Fi = (e, t, n) 
 		disabled: c,
 		iconKind: a,
 		hover: K(e.kind, r, l),
-		ariaLabel: Zo(e.kind, !n, i)
+		ariaLabel: Ws(e.kind, !n, i)
 	};
-}, Zo = (e, t, n) => e === "co_socket" || e === "uo" ? `${t ? "Plug into" : "Unplug from"} ${n}` : `${t ? "Plug in" : "Unplug"} ${n}`, Qo = (e) => e.saving || e.selectedIds.size === e.rows.length && e.selectedCandidateIds.size === 0, $o = () => {
+}, Ws = (e, t, n) => e === "co_socket" || e === "uo" ? `${t ? "Plug into" : "Unplug from"} ${n}` : `${t ? "Plug in" : "Unplug"} ${n}`, Gs = (e) => e.saving || e.selectedIds.size === e.rows.length && e.selectedCandidateIds.size === 0, Ks = () => {
 	let e = !1;
 	return {
 		next: () => e,
@@ -4982,9 +5227,9 @@ var Ni = { kind: "none" }, Pi = (e, t) => e === null || e === t, Fi = (e, t, n) 
 			e = !0;
 		}
 	};
-}, es = (e, t, n) => {
-	let { failures: r, candidateFailures: i, filter: a } = n, o = Io(e, t), s = new Set(r.map((e) => e.deviceId)), c = new Set(i.map((e) => e.deviceId));
-	return ro({
+}, qs = (e, t, n) => {
+	let { failures: r, candidateFailures: i, filter: a } = n, o = ks(e, t), s = new Set(r.map((e) => e.deviceId)), c = new Set(i.map((e) => e.deviceId));
+	return Zo({
 		...o,
 		selectedIds: new Set(o.rows.map((e) => e.deviceId).filter((e) => !s.has(e))),
 		failures: r,
@@ -4992,8 +5237,8 @@ var Ni = { kind: "none" }, Pi = (e, t) => e === null || e === t, Fi = (e, t, n) 
 		candidateFailures: i,
 		filter: a
 	});
-}, ts = async (e, t) => {
-	let n = $o(), r = [];
+}, Js = async (e, t) => {
+	let n = Ks(), r = [];
 	for (let i of e) {
 		if ("failed" in i) {
 			r.push({
@@ -5015,36 +5260,36 @@ var Ni = { kind: "none" }, Pi = (e, t) => e === null || e === t, Fi = (e, t, n) 
 		}
 	}
 	return r;
-}, ns = (e) => e.linked ? Ra(e) ? "Unplug / Move:" : `${W[e.kind]}:` : e.kind === "co_socket" ? "Plug in to socket:" : "Plug in:", rs = (e, t) => e.unlink ? "Move to…" : t ? "Into a socket in:" : e.kind === "co_socket" ? `${za(e)}:` : "Into:", is = (e) => e.saving ? "busy" : e.selectedId === null ? e.unlink ? "choose_move" : "choose_plug_in" : null, as = (e, t) => {
-	let n = e.kind === "appliance", r = n ? Ba(e) : [], i = n || e.kind === "co" ? Va(e, n ? t.room : null) : [], a = r.length > 0 || i.length > 0, o = n && a, s = to(e).length;
+}, Ys = (e) => e.linked ? jo(e) ? "Unplug / Move:" : `${W[e.kind]}:` : e.kind === "co_socket" ? "Plug in to socket:" : "Plug in:", Xs = (e, t) => e.unlink ? "Move to…" : t ? "Into a socket in:" : e.kind === "co_socket" ? `${Mo(e)}:` : "Into:", Zs = (e) => e.saving ? "busy" : e.selectedId === null ? e.unlink ? "choose_move" : "choose_plug_in" : null, Qs = (e, t) => {
+	let n = e.kind === "appliance", r = n ? No(e) : [], i = n || e.kind === "co" ? Po(e, n ? t.room : null) : [], a = r.length > 0 || i.length > 0, o = n && a, s = Yo(e).length;
 	return {
-		titleLabel: ns(e),
+		titleLabel: Ys(e),
 		roomOptions: r,
 		coOptions: i,
 		hasFilters: a,
 		showsDropdownsInBar: o,
-		visible: oo(e, a ? {
+		visible: es(e, a ? {
 			room: n ? t.room : null,
 			co: t.co
-		} : Qa),
+		} : Ko),
 		offeredCount: s,
 		hasFilterBar: o || s > 1,
 		currentWord: s > 0 ? "Plugged into:" : "Currently:",
 		loneCandidate: s === 1 && e.kind === "co_socket",
-		listHeading: rs(e, o),
+		listHeading: Xs(e, o),
 		socketsHeading: i.length === 0 ? "title" : "co_dropdown",
 		primary: s > 0 ? {
 			label: e.unlink ? "Move" : "Plug in",
-			disabled: is(e)
+			disabled: Zs(e)
 		} : null,
 		unplugBusy: e.saving
 	};
-}, os = Ke, ss = "Creates the Appliances now; adds the plug-ins to the batch, which take effect on Commit", cs = (e, t, n, r, i) => {
-	let a = t.ticked.has(e.coSocketId), o = a && !t.saving, s = Ea(e, t.edits), c = ka(s);
-	return x`
+}, $s = Xe, ec = "Creates the Appliances now; adds the plug-ins to the batch, which take effect on Commit", tc = (e, t, n, r, i) => {
+	let a = t.ticked.has(e.coSocketId), o = a && !t.saving, s = yo(e, t.edits), c = So(s);
+	return v`
       <tr class="${n?.blocking ? "from-names-blocked" : ""} ${n ? "from-names-has-note" : ""}">
-        ${r ? x`<td class="from-names-integration" rowspan=${r.span}>
-              <strong>${Da(e)}</strong>
+        ${r ? v`<td class="from-names-integration" rowspan=${r.span}>
+              <span class=${O("emphasis")}>${bo(e)}</span>
             </td>` : ""}
         <td>
           <label class="choice-row">
@@ -5068,77 +5313,77 @@ var Ni = { kind: "none" }, Pi = (e, t) => e === null || e === t, Fi = (e, t, n) 
             tabindex=${o ? 0 : -1}
             @input=${(t) => i.editName(e.coSocketId, t.target.value)}
           />
-          ${c === null ? "" : x`<p class="from-names-slug">${c}</p>`}
+          ${c === null ? "" : v`<p class="from-names-slug ${D("dialog-metadata")}">${c}</p>`}
         </td>
-        <td class="from-names-ha-name">${Oa(e)}</td>
+        <td class="from-names-ha-name ${D("dialog-field-note")}">${xo(e)}</td>
       </tr>
-      ${n ? x`<tr class="from-names-note-row ${n.blocking ? "from-names-blocked" : ""}">
+      ${n ? v`<tr class="from-names-note-row ${n.blocking ? "from-names-blocked" : ""}">
             <td></td>
             <td colspan="2">
-              <p class="from-names-note ${n.blocking ? "from-names-error" : ""}">${n.blocking ? x`<svg class="from-names-error-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="${os}"></path></svg>` : ""}<span>${n.text}</span></p>
+              <p class="from-names-note ${D("dialog-field-note")} ${n.blocking ? `from-names-error ${O("error-text")}` : ""}">${n.blocking ? v`<svg class="from-names-error-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="${$s}"></path></svg>` : ""}<span>${n.text}</span></p>
             </td>
           </tr>` : ""}
     `;
-}, ls = (e, t, n, r) => {
-	if (!e) return x`<dialog class="from-names-dialog" @close=${() => t.close()}></dialog>`;
-	let i = Ma(e.rows, e.existing, e.ticked, e.edits), a = Na(i), o = Pa(i, "duplicate"), s = Pa(i, "blank"), c = Ia(e.rows, e.ticked, e.edits).length, l = ja(e.rows, e.ticked, e.edits, e.filter), u = La(l);
-	return x`
+}, nc = (e, t, n, r) => {
+	if (!e) return v`<dialog class="from-names-dialog ${A("modal-dialog-box")}" @close=${() => t.close()}></dialog>`;
+	let i = To(e.rows, e.existing, e.ticked, e.edits), a = Eo(i), o = Do(i, "duplicate"), s = Do(i, "blank"), c = ko(e.rows, e.ticked, e.edits).length, l = wo(e.rows, e.ticked, e.edits, e.filter), u = Ao(l);
+	return v`
       <dialog
-        class="from-names-dialog"
+        class="from-names-dialog ${A("modal-dialog-box")}"
         @close=${() => t.close()}
         @cancel=${(e) => t.cancel(e)}
       >
         <div class="dialog-body">
-          ${O("Appliances from Socket names", r)}
-          ${e.loading ? x`<p>Loading the Socket names…</p>` : e.loadError ? x`<p class="error">${e.loadError}</p>` : e.rows.length === 0 ? x`<p>No empty Socket has a name of its own in Home Assistant to make an Appliance from.</p>` : x`
+          ${k("Appliances from Socket names", r)}
+          ${e.loading ? v`<p class=${O("supporting-text")}>Loading the Socket names…</p>` : e.loadError ? v`<p class="error ${O("error-text")}">${e.loadError}</p>` : e.rows.length === 0 ? v`<p class=${O("supporting-text")}>No empty Socket has a name of its own in Home Assistant to make an Appliance from.</p>` : v`
                 <div class="from-names-toolbar">
                   ${n.renderDialogFilter(e.filter, e.saving, (e) => t.setFilter(e))}
                   <button
                     class="plain-btn"
                     ?disabled=${e.saving}
-                    @click=${() => t.setTicks(Fa(l, e.existing, e.edits))}
+                    @click=${() => t.setTicks(Oo(l, e.existing, e.edits))}
                   >
                     Tick all
                   </button>
                   <button class="plain-btn" ?disabled=${e.saving} @click=${() => t.setTicks(/* @__PURE__ */ new Set())}>
                     Untick all
                   </button>
-                  <span class="from-names-counts">
-                    ${c} of ${e.rows.length} ticked${l.length < e.rows.length ? x` · ${l.length} shown` : ""}${o > 0 ? x` · <span class="from-names-error-count">${o} duplicate${o === 1 ? "" : "s"}</span>` : ""}${s > 0 ? x` · <span class="from-names-error-count">${s} need${s === 1 ? "s" : ""} a name</span>` : ""}
+                  <span class="from-names-counts ${D("dialog-field-note")}">
+                    ${c} of ${e.rows.length} ticked${l.length < e.rows.length ? v` · ${l.length} shown` : ""}${o > 0 ? v` · <span class="from-names-error-count ${O("error-text")}">${o} duplicate${o === 1 ? "" : "s"}</span>` : ""}${s > 0 ? v` · <span class="from-names-error-count ${O("error-text")}">${s} need${s === 1 ? "s" : ""} a name</span>` : ""}
                   </span>
                 </div>
                 <div class="from-names-scroll">
                   <table class="from-names-table">
                     <thead>
                       <tr>
-                        <th>Integration</th>
-                        <th></th>
-                        <th class="from-names-col-name">Create Appliance <br /><span class="from-names-th-sub">(based on HA Entity Name)</span></th>
-                        <th>HA Entity Name <br /><span class="from-names-th-sub">(from Smart Socket integration)</span></th>
+                        <th class=${D("column-heading")}>Integration</th>
+                        <th class=${D("column-heading")}></th>
+                        <th class="from-names-col-name ${D("column-heading")}">Create Appliance <br /><span class="from-names-th-sub ${D("dialog-field-note")}">(based on HA Entity Name)</span></th>
+                        <th class=${D("column-heading")}>HA Entity Name <br /><span class="from-names-th-sub ${D("dialog-field-note")}">(from Smart Socket integration)</span></th>
                       </tr>
                     </thead>
                     <tbody>
                       ${u.map((n) => {
 		let r = n.rows.length + n.rows.filter((e) => i.has(e.coSocketId)).length;
-		return n.rows.map((a, o) => cs(a, e, i.get(a.coSocketId) ?? null, o === 0 ? {
+		return n.rows.map((a, o) => tc(a, e, i.get(a.coSocketId) ?? null, o === 0 ? {
 			group: n,
 			span: r
 		} : null, t));
 	})}
                     </tbody>
                   </table>
-                  ${l.length === 0 ? x`<p>${Wt}</p>` : ""}
+                  ${l.length === 0 ? v`<p class=${O("supporting-text")}>${Fn}</p>` : ""}
                 </div>
               `}
-          ${e.failures.map((e) => x`<p class="error">${e.label}: ${e.message}</p>`)}
+          ${e.failures.map((e) => v`<p class="error ${O("error-text")}">${e.label}: ${e.message}</p>`)}
         </div>
         <div class="dialog-actions">
           <button ?disabled=${e.saving} @click=${() => t.close()}>Cancel</button>
           ${n.renderStagingButton({
 		label: `Apply ${c}`,
-		tip: ss,
+		tip: ec,
 		className: "go",
-		disabled: e.saving || e.loading ? la : c === 0 ? pa : a > 0 && ma,
+		disabled: e.saving || e.loading ? to : c === 0 ? ao : a > 0 && oo,
 		onClick: () => t.apply()
 	})}
         </div>
@@ -5147,11 +5392,11 @@ var Ni = { kind: "none" }, Pi = (e, t) => e === null || e === t, Fi = (e, t, n) 
 };
 //#endregion
 //#region src/outlet-binder-panel/settings-view.ts
-function us(e, t, n) {
-	return x`
-    <dialog class="settings-dialog" @close=${() => t()}>
+function rc(e, t, n) {
+	return v`
+    <dialog class="settings-dialog ${A("modal-dialog-box")}" @close=${() => t()}>
       <div class="dialog-body">
-        ${O("Settings", n)}
+        ${k("Settings", n)}
         ${e}
       </div>
       <div class="dialog-actions">
@@ -5161,15 +5406,64 @@ function us(e, t, n) {
   `;
 }
 //#endregion
+//#region src/outlet-binder-panel/ha-items-state.ts
+var ic = (e) => e.entity_id.split(".")[0] ?? "", ac = (e) => {
+	let t = e.find((e) => e.on_off) ?? null, n = /* @__PURE__ */ new Map();
+	for (let r of e) {
+		if (r === t) continue;
+		let e = ic(r), i = n.get(e);
+		i === void 0 ? n.set(e, [r]) : i.push(r);
+	}
+	return {
+		onOff: t,
+		groups: Array.from(n, ([e, t]) => ({
+			label: e.replaceAll("_", " "),
+			items: t
+		}))
+	};
+};
+//#endregion
+//#region src/outlet-binder-panel/ha-items-view.ts
+function oc(e, t, n) {
+	return v`
+    <dialog
+      class="ha-items-dialog ${A("modal-dialog-box")}"
+      @close=${() => t()}
+    >
+      ${e === null ? b : v`<div class="ha-items-head">
+              ${k(v`<span class=${O("ob-element-name")}>Entities:</span>
+                  ${e.name}`, n)}
+              <p class="ha-items-prompt ${O("ob-element-name")}">
+                Open in Home Assistant:
+              </p>
+            </div>
+            <div class="ha-items-scroll">
+              ${e.layout.onOff === null ? b : e.renderItem(e.layout.onOff)}
+            ${e.layout.groups.map((t) => v`<div class="ha-items-group">
+                <p
+                  class="ha-items-group-heading ${O("supporting-text", "italic-text")}"
+                >
+                  ${t.label}
+                </p>
+                ${t.items.map(e.renderItem)}
+              </div>`)}
+          </div>`}
+      <div class="dialog-actions">
+        <button autofocus @click=${() => t()}>Close</button>
+      </div>
+    </dialog>
+  `;
+}
+//#endregion
 //#region src/outlet-binder-panel/discovered-view.ts
-function ds(e, t, n, r) {
-	return x`
-    <dialog class="discovered-dialog" @close=${() => t()}>
-      ${e ? x`
+function sc(e, t, n, r) {
+	return v`
+    <dialog class="discovered-dialog ${A("modal-dialog-box")}" @close=${() => t()}>
+      ${e ? v`
             <div class="dialog-body">
-              ${O(e.heading, r)}
-              ${e.entries.map((e) => x`
-                  <p><strong>${n.renderMention(e.title)}</strong></p>
+              ${k(e.heading, r)}
+              ${e.entries.map((e) => v`
+                  <p class=${O("supporting-text")}><span class=${O("emphasis")}>${n.renderMention(e.title)}</span></p>
                   ${n.renderAttrList(e.fields)}
                 `)}
             </div>
@@ -5182,7 +5476,7 @@ function ds(e, t, n, r) {
 }
 //#endregion
 //#region src/outlet-binder-panel/from-names-state.ts
-var fs = () => ({
+var cc = () => ({
 	loading: !0,
 	loadError: null,
 	names: {},
@@ -5194,69 +5488,69 @@ var fs = () => ({
 	saving: !1,
 	error: null,
 	failures: []
-}), ps = (e, t, n) => {
+}), lc = (e, t, n) => {
 	if (!e) return null;
-	let { rows: r, existing: i } = wa(e, t);
+	let { rows: r, existing: i } = _o(e, t);
 	return {
 		loading: !1,
 		loadError: null,
 		names: t,
 		rows: r,
 		existing: i,
-		ticked: Ta(),
+		ticked: vo(),
 		edits: n,
 		filter: "",
 		saving: !1,
 		error: null,
 		failures: []
 	};
-}, ms = (e, t) => ({
+}, uc = (e, t) => ({
 	...e,
 	loading: !1,
 	loadError: t
-}), hs = (e, t) => ({
+}), dc = (e, t) => ({
 	...e,
 	ticked: t
-}), gs = (e, t) => ({
+}), fc = (e, t) => ({
 	...e,
 	filter: t
-}), _s = (e, t, n) => ({
+}), pc = (e, t, n) => ({
 	...e,
 	edits: {
 		...e.edits,
 		[t]: n
 	}
-}), vs = (e, t) => {
+}), mc = (e, t) => {
 	let n = new Set(e), r = !n.has(t);
 	return r ? n.add(t) : n.delete(t), {
 		ticked: n,
 		ticking: r
 	};
-}, ys = (e) => ({
+}, hc = (e) => ({
 	...e,
 	saving: !0,
 	error: null,
 	failures: []
-}), bs = (e, t, n, r) => ({
+}), gc = (e, t, n, r) => ({
 	...e,
 	ticked: new Set(e.rows.filter((e) => t.has(e.coSocketId)).map((e) => e.coSocketId)),
 	filter: n,
 	failures: r
-}), xs = (e, t) => Math.max((e.get(t.co_id) ?? []).length, 1), Ss = (e, t) => {
+}), _c = (e, t) => Math.max((e.get(t.co_id) ?? []).length, 1), vc = (e, t) => {
 	switch (t.kind) {
-		case "live": return xs(e, t.co);
+		case "live": return _c(e, t.co);
 		case "copy": return t.sockets.length;
 		case "direct": return 1;
 	}
-}, Cs = (e, t) => t.rows.reduce((t, n) => t + Ss(e, n) + +!!n.gapBefore, 0), ws = (e) => ({
+}, yc = (e, t) => t.rows.reduce((t, n) => t + vc(e, n) + +!!n.gapBefore, 0), bc = (e) => ({
 	socketTotal: e.full.socketTotal + e.partial.socketTotal + e.orphan.socketTotal,
 	socketInUse: e.full.socketInUse + e.partial.socketInUse + e.orphan.socketInUse
-}), Ts = (e, t, n, r) => e.filtering ? !e.blocks.has(r) : t.has(n), Es = (e, t, n) => {
+}), xc = (e, t, n, r) => e.filtering ? !e.blocks.has(r) : t.has(n), Sc = (e, t, n) => {
 	let r = [], i = !1;
 	for (let a of e) {
 		let e = t[a];
 		if (e.length === 0) continue;
-		let o = !n.filtering || e.some((e, t) => n.blocks.has(wi(a, t)));
+		let o = !n.filtering || e.some((e, t) => n.blocks.has(ga(a, t)));
 		r.push({
 			section: a,
 			blocks: e,
@@ -5265,13 +5559,13 @@ var fs = () => ({
 		}), o && (i = !0);
 	}
 	return r;
-}, Ds = () => {
+}, Cc = () => {
 	let e = 0;
 	return () => {
 		let t = e % 2 == 1;
 		return e += 1, t ? "row-shade" : "";
 	};
-}, Os = (e) => e.cursor_seq > 0, ks = (e) => e.cursor_seq < e.entry_count, As = (e, t) => `${e} ${t}${e === 1 ? "" : "s"}`, js = {
+}, wc = (e) => e.cursor_seq > 0, Tc = (e) => e.cursor_seq < e.entry_count, Ec = (e, t) => `${e} ${t}${e === 1 ? "" : "s"}`, Dc = {
 	create_plugged_into: {
 		verb: "Plug",
 		ids: [["appliance", "appliance_id"], ["co_socket", "co_socket_id"]]
@@ -5304,8 +5598,8 @@ var fs = () => ({
 		verb: "Unassign",
 		ids: [["co", "co_id"]]
 	}
-}, Ms = (e) => Object.hasOwn(js, e), Ns = (e) => {
-	let t = Ms(e.command) ? js[e.command] : void 0;
+}, Oc = (e) => Object.hasOwn(Dc, e), kc = (e) => {
+	let t = Oc(e.command) ? Dc[e.command] : void 0;
 	return {
 		command: e.command,
 		verb: t?.verb ?? e.command,
@@ -5314,18 +5608,18 @@ var fs = () => ({
 			id: e.payload[n]
 		}))
 	};
-}, Ps = (e) => {
+}, Ac = (e) => {
 	let t = [];
 	for (let n of e) {
-		let e = Ns(n), r = t.at(-1);
+		let e = kc(n), r = t.at(-1);
 		r && r.group_seq === n.group_seq ? r.entries.push(e) : t.push({
 			group_seq: n.group_seq,
 			entries: [e]
 		});
 	}
 	return t.map(({ entries: e }) => ({ entries: e }));
-}, Fs = (e) => Ps(e.commit_entries), Is = (e) => Ps(e.flush_entries), Ls = (e) => Ps(e.commit_entries).reverse(), Rs = (e) => Ps(e.flush_entries.slice(e.commit_entries.length)), zs = (e) => {
-	let t = Os(e), n = ks(e), r = e.entry_count > 0, i = e.failed_entry !== null, a = e.undo_group_count, o = e.redo_group_count, s = e.undo_group_count + e.redo_group_count;
+}, jc = (e) => Ac(e.commit_entries), Mc = (e) => Ac(e.flush_entries), Nc = (e) => Ac(e.commit_entries).reverse(), Pc = (e) => Ac(e.flush_entries.slice(e.commit_entries.length)), Fc = (e) => {
+	let t = wc(e), n = Tc(e), r = e.entry_count > 0, i = e.failed_entry !== null, a = e.undo_group_count, o = e.redo_group_count, s = e.undo_group_count + e.redo_group_count;
 	return {
 		undo: {
 			disabled: !t,
@@ -5348,16 +5642,16 @@ var fs = () => ({
 			title: r ? `Discard every staged change (${s} pending)` : "Nothing staged"
 		}
 	};
-}, Bs = (e, t, n) => {
+}, Ic = (e, t, n) => {
 	if (t === null) return;
 	let r = e.get(t) ?? [];
 	r.push(n), e.set(t, r);
-}, Vs = (e) => {
-	let t = on(e);
+}, Lc = (e) => {
+	let t = Xn(e);
 	return t.kind === "nowhere" ? null : t;
-}, Hs = (e, t) => e === null || t === null ? e === t : e.kind === t.kind && e.id === t.id, Us = (e, t, n) => {
-	t !== null && Bs(t.kind === "uo" ? e.uo : e.coSocket, t.id, n);
-}, Ws = (e, t) => {
+}, Rc = (e, t) => e === null || t === null ? e === t : e.kind === t.kind && e.id === t.id, zc = (e, t, n) => {
+	t !== null && Ic(t.kind === "uo" ? e.uo : e.coSocket, t.id, n);
+}, Bc = (e, t) => {
 	let n = {
 		appliance: /* @__PURE__ */ new Map(),
 		co: /* @__PURE__ */ new Map(),
@@ -5368,34 +5662,34 @@ var fs = () => ({
 	for (let r of e.appliances) {
 		let e = t.appliances[r.appliance_id];
 		if (e === void 0) continue;
-		let i = Vs(e), a = Vs(r);
-		if (Hs(i, a)) continue;
+		let i = Lc(e), a = Lc(r);
+		if (Rc(i, a)) continue;
 		let o = {
 			kind: "appliance",
 			subjectId: r.appliance_id,
 			from: i,
 			to: a
 		};
-		Bs(n.appliance, r.appliance_id, o), Us(n, o.from, o), Us(n, o.to, o);
+		Ic(n.appliance, r.appliance_id, o), zc(n, o.from, o), zc(n, o.to, o);
 	}
 	for (let r of e.cos) {
 		let e = t.cos[r.co_id];
 		if (e === void 0) continue;
-		let i = Vs(e), a = Vs(r);
-		if (Hs(i, a)) continue;
+		let i = Lc(e), a = Lc(r);
+		if (Rc(i, a)) continue;
 		let o = {
 			kind: "co",
 			subjectId: r.co_id,
 			from: i,
 			to: a
 		};
-		Bs(n.co, r.co_id, o), Us(n, o.from, o), Us(n, o.to, o);
+		Ic(n.co, r.co_id, o), zc(n, o.from, o), zc(n, o.to, o);
 	}
 	return n;
-}, Gs = (e, t, n) => t ? n.coSocket.get(e)?.find((t) => t.from?.kind === "co_socket" && t.from.id === e) ?? null : null, Ks = (e, t, n) => t === null ? `Plug ${e} into ${k(n)}` : n === null ? `Unplug ${e} from ${t}` : `Move ${e} from ${t} to ${n}`;
+}, Vc = (e, t, n) => t ? n.coSocket.get(e)?.find((t) => t.from?.kind === "co_socket" && t.from.id === e) ?? null : null, Hc = (e, t, n) => t === null ? `Plug ${e} into ${j(n)}` : n === null ? `Unplug ${e} from ${t}` : `Move ${e} from ${t} to ${n}`;
 //#endregion
 //#region \0@oxc-project+runtime@0.147.0/helpers/esm/decorate.js
-function Z(e, t, n, r) {
+function X(e, t, n, r) {
 	var i = arguments.length, a = i < 3 ? t : r === null ? r = Object.getOwnPropertyDescriptor(t, n) : r, o;
 	if (typeof Reflect == "object" && typeof Reflect.decorate == "function") a = Reflect.decorate(e, t, n, r);
 	else for (var s = e.length - 1; s >= 0; s--) (o = e[s]) && (a = (i < 3 ? o(a) : i > 3 ? o(t, n, a) : o(t, n)) || a);
@@ -5403,22 +5697,22 @@ function Z(e, t, n, r) {
 }
 //#endregion
 //#region src/outlet-binder-panel/panel.ts
-var qs = {
-	busy: la,
-	choose_move: da,
-	choose_plug_in: ua
-}, Js = at, Ys = _t, Xs = it, Zs = ot, Qs = gt, $s = qe, ec = rt, tc = yt, nc = Je, rc = Ye, ic = et, ac = tt, oc = St, sc = xt, cc = St, lc = bt, uc = Ct, dc = "Adds this change to the batch; it takes effect on Commit", fc = {
-	tools: vt,
-	appliance: Js,
-	filter: ic,
-	export: $e
-}, pc = 6, mc = (e) => x`<tr class="section-spacer"><td colspan="${e}"></td></tr>`, hc = (e) => x`<tbody class="${e ? "collapsed" : ""}" ?inert=${e}>
-    ${mc(pc)}
-  </tbody>`, gc = [
+var Uc = {
+	busy: to,
+	choose_move: ro,
+	choose_plug_in: no
+}, Z = `unbound ${O("small-text", "disabled-text")}`, Wc = ut, Gc = Ct, Kc = lt, qc = dt, Jc = St, Yc = Ze, Xc = ct, Zc = Tt, Qc = Qe, $c = $e, el = at, tl = ot, nl = nt, rl = ft, il = Ot, al = Dt, ol = Ot, sl = Et, cl = kt, ll = "Adds this change to the batch; it takes effect on Commit", ul = {
+	tools: wt,
+	appliance: Wc,
+	filter: el,
+	export: it
+}, dl = 6, fl = (e) => v`<tr class="section-spacer"><td colspan="${e}"></td></tr>`, pl = (e) => v`<tbody class="${e ? "collapsed" : ""}" ?inert=${e}>
+    ${fl(dl)}
+  </tbody>`, ml = [
 	"full",
 	"partial",
 	"orphan"
-], _c = (e) => {
+], hl = (e) => {
 	let t = getComputedStyle(e);
 	if (t.boxSizing === "border-box") return {
 		height: 0,
@@ -5429,36 +5723,52 @@ var qs = {
 		height: n(t.paddingTop) + n(t.paddingBottom) + n(t.borderTopWidth) + n(t.borderBottomWidth),
 		width: n(t.paddingLeft) + n(t.paddingRight) + n(t.borderLeftWidth) + n(t.borderRightWidth)
 	};
-}, vc = "none", yc = (e) => Qn(e) ? e : null, Q = (e, t) => {
+}, gl = "none", _l = (e) => Wr(e) ? e : null, Q = (e, t) => {
 	let n = document.createElement("div");
 	return n.className = e, n.textContent = t, n;
-}, bc = (e, t) => {
+}, vl = (e, t) => {
 	let n = document.createElementNS("http://www.w3.org/2000/svg", "svg");
 	n.setAttribute("class", e), n.setAttribute("viewBox", "0 0 24 24"), n.setAttribute("aria-hidden", "true");
 	let r = document.createElementNS("http://www.w3.org/2000/svg", "path");
 	return r.setAttribute("d", t), n.appendChild(r), n;
-}, xc = {
+}, yl = {
 	dirty: "Save or cancel your changes first",
 	saving: "Wait for the save to finish first"
-}, Sc = (e) => {
+}, bl = (e) => {
 	switch (e.kind) {
 		case "uo": return e.entity.name;
 		case "co": return e.entity.alias;
 		case "appliance": return e.entity.name;
 	}
-}, Cc = {
+}, xl = {
 	_editing: "edit-dialog",
 	_editingSocket: "socket-edit-dialog"
-}, $ = class extends Re {
+}, $ = class extends He {
 	constructor(...e) {
-		super(...e), this._state = null, this._editSession = null, this._debugMode = !1, this._build = null, this._error = null, this._loading = !1, this._socketRegion = "uk", this._mode = "batch", this._themeOverride = ur(), this._collapsedSections = Cr(), this._collapsedCardBandGroups = kr(), this._layoutTier = "wide", this._activeTab = Mr(), this._editing = null, this._editingSocket = null, this._linking = null, this._linkRoomFilter = null, this._linkCoFilter = X, this._heldDialogs = /* @__PURE__ */ new Set(), this._dialogMin = /* @__PURE__ */ new WeakMap(), this._creating = null, this._deleting = null, this._flushConfirm = null, this._commitConfirm = null, this._settingsOpen = !1, this._menuOpen = !1, this._mainFilter = "", this._filterOpen = !1, this._filterPos = null, this._filterDrag = null, this._fromNames = null, this._exporting = null, this._wallBatch = null, this._discovered = null, this._areas = Mi(null, null), this._areasSource = null, this._fetched = !1, this._tipShown = !1, this._tipSeq = 0, this._tipHost = null, this._tipTimer = null, this._pointerPos = null, this._lastPointerType = null, this._lastInput = null, this._onWindowResize = () => {
+		super(...e), this._state = null, this._editSession = null, this._debugMode = !1, this._build = null, this._error = null, this._loading = !1, this._socketRegion = "uk", this._haItems = {}, this._mode = "batch", this._themeOverride = ni(), this._collapsedSections = hi(), this._collapsedCardBandGroups = xi(), this._layoutTier = "wide", this._activeTab = wi(), this._editing = null, this._editingSocket = null, this._linking = null, this._linkRoomFilter = null, this._linkCoFilter = Uo, this._heldDialogs = /* @__PURE__ */ new Set(), this._dialogMin = /* @__PURE__ */ new WeakMap(), this._creating = null, this._deleting = null, this._flushConfirm = null, this._commitConfirm = null, this._settingsOpen = !1, this._menuOpen = !1, this._mainFilter = "", this._filterOpen = !1, this._filterPos = null, this._filterDrag = null, this._fromNames = null, this._exporting = null, this._wallBatch = null, this._discovered = null, this._areas = wa(null, null), this._areasSource = null, this._fetched = !1, this._tipShown = !1, this._tipSeq = 0, this._tipHost = null, this._tipTimer = null, this._pointerPos = null, this._lastPointerType = null, this._lastInput = null, this._onWindowResize = () => {
 			this._hideTip(), this._keepMainFilterOnScreen();
 		}, this._onDocumentClick = (e) => {
 			e.composedPath().some((e) => e instanceof Element && e.classList.contains("menu-wrap")) || this._closeMenu();
-		}, this._resizeObserver = null, this._dialogObserver = null, this._newCoIds = /* @__PURE__ */ new Set(), this._helpersCache = null;
+		}, this._resizeObserver = null, this._dialogObserver = null, this._newCoIds = /* @__PURE__ */ new Set(), this._helpersCache = null, this._renderHaItem = (e) => {
+			let t = e.vendor?.toUpperCase();
+			return v`<button
+      class="ha-item ${bn()}"
+      aria-label=${`Open ${e.name}${t === void 0 ? "" : ` [${t}]`} in Home Assistant`}
+      @click=${() => {
+				let t = jn(e.entity_id, this._topLocation());
+				this._setHaItemsOpen(!1), this._openInHomeAssistant(t);
+			}}
+    >
+      <span class=${e.on_off ? O("emphasis") : ""}
+        >${e.name}${e.vendor === null ? "" : v` <span class=${O("supporting-text")}
+                >[${t}]</span
+              >`}</span
+      >${this._renderHaLogo()}
+    </button>`;
+		};
 	}
 	static {
-		this.styles = Nt;
+		this.styles = [Cn, Sn];
 	}
 	firstUpdated() {
 		let e = this.renderRoot, t = (t, n, r = !1) => e.addEventListener(t, n, r);
@@ -5474,7 +5784,7 @@ var qs = {
 		}), this._resizeObserver = new ResizeObserver((e) => {
 			let t = e[0]?.contentRect.width;
 			if (t === void 0) return;
-			let n = fn(t);
+			let n = nr(t);
 			n !== this._layoutTier && (this._layoutTier = n);
 		}), this._resizeObserver.observe(this);
 	}
@@ -5490,7 +5800,7 @@ var qs = {
 	_tipEvent(e, t) {
 		e === "pointerover" && this._trackPointer(t);
 		let n = e === "escape" ? null : t.target?.closest("[data-tip]") ?? null;
-		switch (qn({
+		switch (zr({
 			event: e,
 			host: n ? n.getAttribute("data-tip") : null,
 			pointerType: this._lastPointerType,
@@ -5517,7 +5827,7 @@ var qs = {
 		let n = this._popoverEl, r = e.getAttribute("aria-describedby"), i = r ? this.renderRoot.querySelector(`#${r}`) : null, a = i?.textContent;
 		if (!n || !i || !a) return;
 		this._hideTip(), this._fillPopover(n, i, a), n.showPopover(), this._tipShown = !0;
-		let { left: o, top: s } = Kn(e.getBoundingClientRect(), n.getBoundingClientRect(), {
+		let { left: o, top: s } = Rr(e.getBoundingClientRect(), n.getBoundingClientRect(), {
 			width: window.innerWidth,
 			height: window.innerHeight
 		}, t);
@@ -5526,34 +5836,34 @@ var qs = {
 	_fillPopover(e, t, n) {
 		let r = t.getAttribute("data-hover");
 		if (r !== null) {
-			this._fillHoverPopover(e, or(n, yc(r), t.getAttribute("data-blocked") === "true"));
+			this._fillHoverPopover(e, Qr(n, _l(r), t.getAttribute("data-blocked") === "true"));
 			return;
 		}
-		let { title: i, body: a } = Yn(n), o = [];
-		if (i !== "" && o.push(Q("tip-title", i)), a !== "") {
-			let e = Xn(a), t = document.createElement("div");
+		let { title: i, body: a } = Vr(n), o = [];
+		if (i !== "" && o.push(Q(`tip-title ${D("hover-title")}`, i)), a !== "") {
+			let e = Hr(a), t = document.createElement("div");
 			t.className = "tip-body", t.style.setProperty("--tip-marker", `${Math.max(0, ...e.map((e) => e.marker.length))}ch`);
 			for (let n of e) {
 				let e = document.createElement("div");
-				e.className = `tip-line ${n.kind}`, n.kind !== "plain" && e.appendChild(Q("tip-marker", n.marker)), e.appendChild(Q("tip-text-cell", n.text)), t.appendChild(e);
+				e.className = `tip-line ${n.kind}`, n.kind !== "plain" && e.appendChild(Q(`tip-marker ${D("hover-data")}`, n.marker)), e.appendChild(Q(`tip-text-cell ${D("hover-data")}`, n.text)), t.appendChild(e);
 			}
 			o.push(t);
 		}
 		e.replaceChildren(...o);
 	}
 	_fillHoverPopover(e, t) {
-		let n = Q("tip-title", "");
-		t.icon !== null && n.appendChild(bc("tip-icon", this._hoverIconPath(t.icon))), n.appendChild(document.createTextNode(t.title));
+		let n = Q(`tip-title ${D("hover-title")}`, "");
+		t.icon !== null && n.appendChild(vl("tip-icon", this._hoverIconPath(t.icon))), n.appendChild(document.createTextNode(t.title));
 		let r = [n];
 		if (t.action !== "") {
-			let e = Q(t.blocked ? "tip-action blocked" : "tip-action", "");
-			t.blocked && e.appendChild(bc("tip-no-entry", Xs)), e.appendChild(document.createTextNode(t.action)), t.blocked && e.appendChild(bc("tip-no-entry end", Xs)), r.push(e);
+			let e = Q(`${t.blocked ? "tip-action blocked" : "tip-action"} ${D("hover-action")}`, "");
+			t.blocked && e.appendChild(vl("tip-no-entry", Kc)), e.appendChild(document.createTextNode(t.action)), t.blocked && e.appendChild(vl("tip-no-entry end", Kc)), r.push(e);
 		}
 		if (t.attrs.length > 0) {
 			let e = Q("tip-attrs", "");
 			for (let n of t.attrs) {
-				e.append(Q("tip-attr-label", n.label === "" ? "" : `${n.label}:`), Q("tip-attr-value", n.value));
-				for (let t of n.items ?? []) e.appendChild(Q("tip-attr-item", `- ${t}`));
+				e.append(Q(`tip-attr-label ${D("hover-prompt")}`, n.label === "" ? "" : `${n.label}:`), Q(`tip-attr-value ${D("hover-data")}`, n.value));
+				for (let t of n.items ?? []) e.appendChild(Q(`tip-attr-item ${D("hover-data")}`, `- ${t}`));
 			}
 			r.push(e);
 		}
@@ -5561,9 +5871,9 @@ var qs = {
 	}
 	_hoverIconPath(e) {
 		switch (e) {
-			case "appliance": return Js;
-			case "co": return Ys;
-			case "uo": return ki[this._socketRegion];
+			case "appliance": return Wc;
+			case "co": return Gc;
+			case "uo": return xa[this._socketRegion];
 		}
 	}
 	_hideTip() {
@@ -5576,16 +5886,16 @@ var qs = {
 			created: e?.created ?? [],
 			state: t
 		}))).then(({ created: e, state: t }) => {
-			let { newIds: n, nextSeen: r } = mr(t.cos, fr(), Date.now());
-			pr(r), this._newCoIds = n, this._state = t, this._editSession = t.edit_session, this._debugMode = t.debug_mode, this._build = t.build, this._socketRegion = t.socket_region, this._mode = t.mode, this._discovered = ui(e, t, this._registries()) ? e : null, this._error = null;
+			let { newIds: n, nextSeen: r } = oi(t.cos, ii(), Date.now());
+			ai(r), this._newCoIds = n, this._state = t, this._editSession = t.edit_session, this._debugMode = t.debug_mode, this._build = t.build, this._socketRegion = t.socket_region, this._haItems = t.ha_items, this._mode = t.mode, this._discovered = na(e, t, this._registries()) ? e : null, this._error = null;
 		}).catch((e) => {
-			this._error = Ht("Failed to load state", e);
+			this._error = Nn("Failed to load state", e);
 		}).finally(() => {
 			this._loading = !1;
 		}));
 	}
 	updated() {
-		this._tipHost && !this._tipHost.isConnected && this._hideTip(), F(this._dialogEl, this._editing !== null), F(this._socketDialogEl, this._editingSocket !== null), F(this._linkDialogEl, this._linking !== null), F(this._createDialogEl, this._creating !== null), F(this._deleteDialogEl, this._deleting !== null), F(this._flushDialogEl, this._flushConfirm !== null), F(this._commitDialogEl, this._commitConfirm !== null), F(this._settingsDialogEl, this._settingsOpen), F(this._fromNamesDialogEl, this._fromNames !== null), F(this._exportDialogEl, this._exporting !== null), F(this._wallBatchDialogEl, this._wallBatch !== null), F(this._discoveredDialogEl, this._discovered !== null), this._holdDialogSizes(), this._themeOverride === "system" ? this.removeAttribute("data-theme") : this.setAttribute("data-theme", this._themeOverride);
+		this._tipHost && !this._tipHost.isConnected && this._hideTip(), L(this._dialogEl, this._editing !== null), L(this._socketDialogEl, this._editingSocket !== null), L(this._linkDialogEl, this._linking !== null), L(this._createDialogEl, this._creating !== null), L(this._deleteDialogEl, this._deleting !== null), L(this._flushDialogEl, this._flushConfirm !== null), L(this._commitDialogEl, this._commitConfirm !== null), L(this._settingsDialogEl, this._settingsOpen), L(this._haItemsDialogEl, this._haItemsOpen()), L(this._fromNamesDialogEl, this._fromNames !== null), L(this._exportDialogEl, this._exporting !== null), L(this._wallBatchDialogEl, this._wallBatch !== null), L(this._discoveredDialogEl, this._discovered !== null), this._holdDialogSizes(), this._themeOverride === "system" ? this.removeAttribute("data-theme") : this.setAttribute("data-theme", this._themeOverride);
 	}
 	_holdDialogSizes() {
 		for (let e of Array.from(this._heldDialogs)) (!e.open || !e.isConnected) && this._releaseDialog(e);
@@ -5606,46 +5916,55 @@ var qs = {
 			width: Math.max(n, r.width)
 		};
 		this._dialogMin.set(e, i);
-		let a = _c(e);
+		let a = hl(e);
 		e.style.minHeight = `min(${i.height - a.height}px, calc(100vh - 6em))`, e.style.minWidth = `min(${i.width - a.width}px, calc(100vw - 6em))`;
 	}
 	async _refresh() {
 		if (this.hass) try {
-			let e = await this.hass.callWS({ type: "outlet_binder/get_state" }), { newIds: t, nextSeen: n } = mr(e.cos, fr(), Date.now());
-			pr(n), this._newCoIds = t, this._state = e, this._editSession = e.edit_session, this._debugMode = e.debug_mode, this._build = e.build, this._socketRegion = e.socket_region, this._mode = e.mode, this._error = null;
+			let e = await this.hass.callWS({ type: "outlet_binder/get_state" }), { newIds: t, nextSeen: n } = oi(e.cos, ii(), Date.now());
+			ai(n), this._newCoIds = t, this._state = e, this._editSession = e.edit_session, this._debugMode = e.debug_mode, this._build = e.build, this._socketRegion = e.socket_region, this._haItems = e.ha_items, this._mode = e.mode, this._error = null;
 		} catch (e) {
-			this._error = Ht("Failed to refresh after save", e);
+			this._error = Nn("Failed to refresh after save", e);
 		}
 	}
 	_openEdit(e) {
 		if (!this._state) return;
-		let t = z(this._state);
+		let t = V(this._state);
 		switch (e.kind) {
 			case "uo":
-				this._editing = bn("uo", e.entity.uo_id, In(e.entity));
+				this._editing = ur("uo", e.entity.uo_id, Or(e.entity));
 				return;
 			case "appliance": {
-				let n = L(e.entity), r = n.kind === "co_socket" ? n.id : null;
-				this._editing = bn("appliance", e.entity.appliance_id, Bn(e.entity, t, r === null ? null : void 0)), r !== null && this._loadApplianceHaName(e.entity.appliance_id, r);
+				let n = z(e.entity), r = n.kind === "co_socket" ? n.id : null;
+				this._editing = ur("appliance", e.entity.appliance_id, Mr(e.entity, t, r === null ? null : void 0)), r !== null && this._loadApplianceHaName(e.entity.appliance_id, r);
 				return;
 			}
 			case "co":
-				this._editing = bn("co", e.entity.co_id, Hn(e.entity, t, this._areas.names));
+				this._editing = ur("co", e.entity.co_id, Pr(e.entity, t, this._areas.names));
 				return;
 		}
 	}
 	_openSocketEdit(e) {
-		this._state && (this._editingSocket = bn("co_socket", e.co_socket_id, Un(e, z(this._state))));
+		this._state && (this._editingSocket = ur("co_socket", e.co_socket_id, Fr(e, V(this._state))));
 	}
 	async _followLink(e) {
 		this._hideTip(), this._linking = null, this._editingSocket = null, this._editing = null, this._discovered = null, await this.updateComplete;
 		let t = this._helpers();
 		if (!t) return;
-		let n = e.kind === "uo" ? H(t, e.entity.uo_id) : e.kind === "co" ? U(t, e.entity.co_id) : Sn(t, e.entity.appliance_id);
+		let n = e.kind === "uo" ? pr(t, e.entity.uo_id) : e.kind === "co" ? U(t, e.entity.co_id) : mr(t, e.entity.appliance_id);
 		n && this._openEdit(n);
 	}
 	_closeEdit(e) {
 		this[e] = null;
+	}
+	_haItemsOpen() {
+		return this._editing?.kind === "appliance" && this._editing.haItemsOpen;
+	}
+	_setHaItemsOpen(e) {
+		this._editing && this._editing.haItemsOpen !== e && (this._editing = {
+			...this._editing,
+			haItemsOpen: e
+		});
 	}
 	_updateDraftField(e, t, n) {
 		let r = this[e];
@@ -5658,12 +5977,12 @@ var qs = {
 		});
 	}
 	_isEditValid(e) {
-		return An(e);
+		return Sr(e);
 	}
 	async _saveEdit(e) {
 		let t = this[e];
 		if (!t || !this.hass) return;
-		let n = jn(t);
+		let n = Cr(t);
 		this[e] = {
 			...t,
 			saving: !0,
@@ -5672,7 +5991,7 @@ var qs = {
 		try {
 			await this.hass.callWS(n), this._closeEdit(e), await this._refresh();
 		} catch (t) {
-			this[e] = V(this[e], t);
+			this[e] = fr(this[e], t);
 		}
 	}
 	_openDeleteConfirm(e) {
@@ -5703,7 +6022,7 @@ var qs = {
 	async _confirmDelete() {
 		let e = this._deleting;
 		if (!e || !this.hass) return;
-		let t = Nn[e.kind];
+		let t = Tr[e.kind];
 		this._deleting = {
 			...e,
 			saving: !0,
@@ -5715,7 +6034,7 @@ var qs = {
 				[t.idField]: e.id
 			}), this._closeDeleteConfirm(), await this._refresh();
 		} catch (e) {
-			this._deleting = V(this._deleting, e);
+			this._deleting = fr(this._deleting, e);
 		}
 	}
 	_openSettings() {
@@ -5742,7 +6061,7 @@ var qs = {
 				this._openWallBatch();
 				return;
 			case "export_state":
-				this._exporting = Et();
+				this._exporting = Mt();
 				return;
 			default: throw Error(`Unhandled menu action: ${String(e)}`);
 		}
@@ -5757,7 +6076,7 @@ var qs = {
 		let r = this._editing;
 		!r || r.kind !== "appliance" || r.id !== e || (this._editing = {
 			...r,
-			readonlyFields: r.readonlyFields.map((e) => e[0] === "Socket's HA name" ? Rn(n) : e)
+			readonlyFields: r.readonlyFields.map((e) => e[0] === "Socket's HA name" ? Ar(n) : e)
 		});
 	}
 	_closeSettings() {
@@ -5765,23 +6084,23 @@ var qs = {
 	}
 	async _openFromNames() {
 		if (!this.hass) return;
-		let e = fs();
+		let e = cc();
 		this._fromNames = e;
 		try {
 			await this._refresh();
 			let t = await this.hass.callWS({ type: "outlet_binder/get_socket_ha_names" });
 			if (this._fromNames !== e) return;
-			this._fromNames = ps(this._state, t, {}) ?? ms(e, "Couldn't read the Socket names");
+			this._fromNames = lc(this._state, t, {}) ?? uc(e, "Couldn't read the Socket names");
 		} catch (t) {
 			if (this._fromNames !== e) return;
-			this._fromNames = ms(e, Ht("Couldn't read the Socket names", t));
+			this._fromNames = uc(e, Nn("Couldn't read the Socket names", t));
 		}
 	}
 	_closeExport() {
 		this._exporting = null;
 	}
 	_updateExport(e) {
-		this._exporting = Dt(this._exporting, e);
+		this._exporting = Nt(this._exporting, e);
 	}
 	async _runExport() {
 		let e = this._exporting;
@@ -5792,13 +6111,13 @@ var qs = {
 				error: null
 			};
 			try {
-				let t = await this.hass.callWS(Ot(e));
+				let t = await this.hass.callWS(Pt(e));
 				if (!this._exporting) return;
-				At(t, e.format), this._closeExport();
+				It(t, e.format), this._closeExport();
 			} catch (e) {
 				this._updateExport({
 					saving: !1,
-					error: Ht("Couldn't export the state", e)
+					error: Nn("Couldn't export the state", e)
 				});
 			}
 		}
@@ -5807,17 +6126,17 @@ var qs = {
 		this._fromNames = null;
 	}
 	_setFromNamesTicks(e) {
-		this._fromNames &&= hs(this._fromNames, e);
+		this._fromNames &&= dc(this._fromNames, e);
 	}
 	_setFromNamesFilter(e) {
-		this._fromNames &&= gs(this._fromNames, e);
+		this._fromNames &&= fc(this._fromNames, e);
 	}
 	_editFromNamesName(e, t) {
-		this._fromNames &&= _s(this._fromNames, e, t);
+		this._fromNames &&= pc(this._fromNames, e, t);
 	}
 	_toggleFromNamesRow(e) {
 		if (!this._fromNames) return;
-		let { ticked: t, ticking: n } = vs(this._fromNames.ticked, e);
+		let { ticked: t, ticking: n } = mc(this._fromNames.ticked, e);
 		this._setFromNamesTicks(t), n && this.updateComplete.then(() => {
 			let t = this.shadowRoot?.querySelector(`input.from-names-name[data-id="${e}"]`);
 			t?.focus(), t?.select();
@@ -5826,13 +6145,13 @@ var qs = {
 	async _applyFromNames() {
 		let e = this._fromNames;
 		if (!e || !this.hass) return;
-		let t = Ia(e.rows, e.ticked, e.edits), n = Ma(e.rows, e.existing, e.ticked, e.edits);
-		if (t.length === 0 || Na(n) > 0) return;
-		this._fromNames = ys(e);
+		let t = ko(e.rows, e.ticked, e.edits), n = To(e.rows, e.existing, e.ticked, e.edits);
+		if (t.length === 0 || Eo(n) > 0) return;
+		this._fromNames = hc(e);
 		let r = new Set((this._state?.appliances ?? []).map((e) => e.appliance_id)), i = [], a = /* @__PURE__ */ new Set(), o = ({ row: e }, t) => {
 			a.add(e.coSocketId), i.push({
 				label: e.friendlyName ?? e.defaultName,
-				message: M(t)
+				message: P(t)
 			});
 		};
 		for (let e of t) try {
@@ -5859,57 +6178,57 @@ var qs = {
 				}
 			}];
 		});
-		for (let { item: e, error: t } of await ts(l, (e) => c.callWS(e))) o(e, t);
+		for (let { item: e, error: t } of await Js(l, (e) => c.callWS(e))) o(e, t);
 		if (await this._refresh(), i.length === 0) {
 			this._closeFromNames();
 			return;
 		}
-		let u = ps(this._state, e.names, e.edits);
+		let u = lc(this._state, e.names, e.edits);
 		if (!u) {
 			this._closeFromNames();
 			return;
 		}
-		this._fromNames = bs(u, a, e.filter, i);
+		this._fromNames = gc(u, a, e.filter, i);
 	}
 	_wallBatchRows() {
-		return this._state ? Fi(this._state, (e) => Qt(this.hass?.devices, e).area_id, this._areas.names) : [];
+		return this._state ? Da(this._state, (e) => Un(this.hass?.devices, e).area_id, this._areas.names) : [];
 	}
 	_openWallBatch() {
-		this._wallBatch = Zi();
+		this._wallBatch = Ua();
 	}
 	_closeWallBatch() {
 		this._wallBatch = null;
 	}
 	_toggleWallBatchRow(e) {
 		let t = this._wallBatch;
-		t && this._setWallBatchChoice(e, $i(t, e));
+		t && this._setWallBatchChoice(e, Ga(t, e));
 	}
 	_chooseWallBatch(e, t) {
-		this._setWallBatchChoice(e, Ui(t));
+		this._setWallBatchChoice(e, Fa(t));
 	}
 	_setWallBatchChoice(e, t) {
 		let n = this._wallBatch;
-		n && (this._wallBatch = Qi(n, e, t), t.kind === "new" && this.updateComplete.then(() => {
+		n && (this._wallBatch = Wa(n, e, t), t.kind === "new" && this.updateComplete.then(() => {
 			let t = this.shadowRoot?.querySelector(`input.from-names-name[data-id="${e}"]`);
 			t?.focus(), t?.select();
 		}));
 	}
 	_setWallBatchChoices(e) {
-		this._wallBatch &&= ea(this._wallBatch, e);
+		this._wallBatch &&= Ka(this._wallBatch, e);
 	}
 	_setWallBatchFilter(e) {
-		this._wallBatch &&= ta(this._wallBatch, e);
+		this._wallBatch &&= qa(this._wallBatch, e);
 	}
 	_editWallBatchName(e, t) {
 		let n = this._wallBatch;
-		n && (this._wallBatch = na(n, e, t));
+		n && (this._wallBatch = Ja(n, e, t));
 	}
 	async _applyWallBatch() {
 		let e = this._wallBatch;
 		if (!e || !this.hass || !this._state) return;
-		let t = this._wallBatchRows(), n = Xi(t, e.choices, e.edits);
-		if (n.assigns.length === 0 || Ki(t, e.choices, e.edits).size > 0 || qi(t, e.choices, e.edits, this._state.uos).size > 0) return;
-		this._wallBatch = ra(e);
+		let t = this._wallBatchRows(), n = Ha(t, e.choices, e.edits);
+		if (n.assigns.length === 0 || Ra(t, e.choices, e.edits).size > 0 || za(t, e.choices, e.edits, this._state.uos).size > 0) return;
+		this._wallBatch = Ya(e);
 		let r = [], i = /* @__PURE__ */ new Map();
 		for (let e of n.creates) {
 			let t = new Set((this._state?.uos ?? []).map((e) => e.uo_id));
@@ -5925,7 +6244,7 @@ var qs = {
 			} catch (t) {
 				r.push({
 					label: e.label,
-					message: M(t)
+					message: P(t)
 				});
 			}
 		}
@@ -5940,20 +6259,20 @@ var qs = {
 				}
 			}];
 		});
-		for (let { item: e, error: t } of await ts(o, (e) => a.callWS(e))) r.push({
+		for (let { item: e, error: t } of await Js(o, (e) => a.callWS(e))) r.push({
 			label: e,
-			message: M(t)
+			message: P(t)
 		});
 		if (await this._refresh(), r.length === 0) {
 			this._closeWallBatch();
 			return;
 		}
-		this._wallBatch = ia(e, r);
+		this._wallBatch = Xa(e, r);
 	}
 	_openCreate(e) {
 		this._creating = {
 			kind: e,
-			draft: { ...Fn[e] },
+			draft: { ...Dr[e] },
 			saving: !1,
 			error: null
 		};
@@ -5963,7 +6282,7 @@ var qs = {
 		(this._areasSource?.areas !== e || this._areasSource?.floors !== t) && (this._areasSource = {
 			areas: e,
 			floors: t
-		}, this._areas = Mi(e, t));
+		}, this._areas = wa(e, t));
 	}
 	_registries() {
 		return {
@@ -5973,7 +6292,7 @@ var qs = {
 		};
 	}
 	_coDevice(e) {
-		return Qt(this.hass?.devices, e.co_id);
+		return Un(this.hass?.devices, e.co_id);
 	}
 	_closeCreate() {
 		this._creating = null;
@@ -5988,13 +6307,13 @@ var qs = {
 		};
 	}
 	_isCreateValid(e) {
-		let t = Pn[e.kind].requiredField;
+		let t = Er[e.kind].requiredField;
 		return e.draft[t].trim() !== "";
 	}
 	async _saveCreate() {
 		let e = this._creating;
 		if (!e || !this.hass) return;
-		let t = Pn[e.kind], n = (e) => e.trim() === "" ? null : e, r = { type: t.wsType };
+		let t = Er[e.kind], n = (e) => e.trim() === "" ? null : e, r = { type: t.wsType };
 		for (let [i, a] of Object.entries(e.draft)) r[i] = i === t.requiredField ? a : n(a);
 		this._creating = {
 			...e,
@@ -6004,28 +6323,28 @@ var qs = {
 		try {
 			await this.hass.callWS(r), this._closeCreate(), await this._refresh();
 		} catch (e) {
-			this._creating = V(this._creating, e);
+			this._creating = fr(this._creating, e);
 		}
 	}
 	_maybeNewBadge(e) {
-		return this._newCoIds.has(e) ? x`<span class="new-badge">NEW</span>` : "";
+		return this._newCoIds.has(e) ? v`<span class="new-badge ${D("new-badge-text")}">NEW</span>` : "";
 	}
 	_renderAttrList(e) {
-		return x`
-      <ul class="attr-list">
-        ${e.map(([e, t]) => x`<li>${mi(e, t)}</li>`)}
+		return v`
+      <ul class="attr-list ${D("dialog-field-note")}">
+        ${e.map(([e, t]) => v`<li>${oa(e, t)}</li>`)}
       </ul>
     `;
 	}
 	_renderNameLink(e, t) {
 		let n = this._tip(this._nameHover(e));
-		return x`<button class="entity-link-primary" data-tip="act" aria-describedby=${n.id} @click=${() => this._openEdit(e)}>${t}</button>${n.desc}`;
+		return v`<button class="entity-link-primary ${bn()}" data-tip="act" aria-describedby=${n.id} @click=${() => this._openEdit(e)}>${t}</button>${n.desc}`;
 	}
 	_nameHover(e) {
 		switch (e.kind) {
 			case "appliance": return this._applianceNameHover(e.entity);
 			case "co": return this._coNameHover(e.entity);
-			case "uo": return Ur({
+			case "uo": return Fi({
 				name: e.entity.name,
 				area: this._uoArea(e.entity),
 				note: e.entity.location_note,
@@ -6041,26 +6360,26 @@ var qs = {
 		if (t !== null) {
 			let n = this._tip({
 				...r,
-				action: xc[t],
+				action: yl[t],
 				blocked: !0
 			});
-			return x`<span class="dialog-link held" tabindex="0" data-tip="info" aria-describedby=${n.id}>${e.text}</span>${n.desc}`;
+			return v`<span class="dialog-link held" tabindex="0" data-tip="info" aria-describedby=${n.id}>${e.text}</span>${n.desc}`;
 		}
 		let i = this._tip(r);
-		return x`<button class="dialog-link" data-tip="act" aria-describedby=${i.id} @click=${() => this._followLink(n)}>${e.text}</button>${i.desc}`;
+		return v`<button class="dialog-link ${bn()} ${O("clickable-outline")}" data-tip="act" aria-describedby=${i.id} @click=${() => this._followLink(n)}>${e.text}</button>${i.desc}`;
 	}
 	_editHold() {
 		let e = [this._editing, this._editingSocket].filter((e) => e !== null);
-		return e.some((e) => e.saving) ? "saving" : e.some(xn) ? "dirty" : null;
+		return e.some((e) => e.saving) ? "saving" : e.some(dr) ? "dirty" : null;
 	}
 	_applianceNameHover(e) {
-		let t = this._helpers(), n = t ? Kr(e, t) : null, r = n?.kind === "co_socket" ? n.co : null;
-		return Hr({
+		let t = this._helpers(), n = t ? Ri(e, t) : null, r = n?.kind === "co_socket" ? n.co : null;
+		return Pi({
 			name: e.name,
 			type: e.type,
-			pluggedInto: t ? zn(e, t)?.text ?? null : null,
-			uoName: r && t ? Rr(r, t) : null,
-			effectiveArea: r?.effective_ha_area_id ? A(this._areas.names, r.effective_ha_area_id) : null,
+			pluggedInto: t ? jr(e, t)?.text ?? null : null,
+			uoName: r && t ? Ai(r, t) : null,
+			effectiveArea: r?.effective_ha_area_id ? M(this._areas.names, r.effective_ha_area_id) : null,
 			description: e.description
 		});
 	}
@@ -6068,37 +6387,37 @@ var qs = {
 		let e = this._state;
 		return e ? (this._helpersCache?.state !== e && (this._helpersCache = {
 			state: e,
-			h: z(e)
+			h: V(e)
 		}), this._helpersCache.h) : null;
 	}
 	_maybeDebugBadge() {
-		return this._debugMode ? x`<span class="debug-mode-badge">DEBUG</span>` : "";
+		return this._debugMode ? v`<span class="debug-mode-badge ${D("debug-badge-text")}">DEBUG</span>` : "";
 	}
 	get _buildStamp() {
-		return jt(this._debugMode, this._build);
+		return cn(this._debugMode, this._build);
 	}
 	_renderDeleteButton(e) {
 		if (!this._debugMode || e.kind === "co_socket") return "";
-		let t = e.kind, n = this._tip(K(t, Sc(e), { action: "Delete (debug)" }));
-		return x`<button
-      class="debug-delete-btn"
+		let t = e.kind, n = this._tip(K(t, bl(e), { action: "Delete (debug)" }));
+		return v`<button
+      class="debug-delete-btn ${D("debug-delete-label")}"
       data-tip="act"
       aria-describedby=${n.id}
       aria-label="Debug: delete this ${W[t]}"
       @click=${() => this._openDeleteConfirm(e)}
     >
       <svg class="debug-delete-icon" viewBox="0 0 24 24" aria-hidden="true">
-        <path d="${tc}"></path>
+        <path d="${Zc}"></path>
       </svg>
       <span class="debug-delete-label">Delete</span>
     </button>${n.desc}`;
 	}
 	_renderMenu() {
-		return Bt({
+		return An({
 			open: this._menuOpen,
 			tip: this._plainTip("Menu"),
-			topEntries: Pt,
-			groups: Ft
+			topEntries: wn,
+			groups: Tn
 		}, (e) => this._menuIconPath(e), {
 			toggle: () => this._toggleMenu(),
 			choose: (e) => this._chooseMenuAction(e),
@@ -6108,27 +6427,27 @@ var qs = {
 		});
 	}
 	_menuIconPath(e) {
-		return e === "uo" ? ki[this._socketRegion] : fc[e];
+		return e === "uo" ? xa[this._socketRegion] : ul[e];
 	}
 	_renderConfirmDialog(e, t) {
-		return x`
+		return v`
       <dialog
-        class=${e.className}
+        class="${e.className} ${A("modal-dialog-box")}"
         @close=${() => e.onClose()}
         @cancel=${(t) => {
 			e.isSaving() && t.preventDefault();
 		}}
       >
-        ${t ? x`
+        ${t ? v`
               <div class="dialog-body">
-                ${O(t.title, this._buildStamp)}
-                <p>${t.message}</p>
-                ${t.lines.length > 0 ? x`<ul class="consequence-list">
-                        ${t.lines.map((e) => x`<li>${e}</li>`)}
+                ${k(t.title, this._buildStamp)}
+                <p class=${O("supporting-text")}>${t.message}</p>
+                ${t.lines.length > 0 ? v`<ul class="consequence-list ${O("small-text")}">
+                        ${t.lines.map((e) => v`<li>${e}</li>`)}
                       </ul>` : ""}
-                ${t.error ? x`<p class="error">${t.error}</p>` : ""}
+                ${t.error ? v`<p class="error ${O("error-text")}">${t.error}</p>` : ""}
               </div>
-              <p class=${t.warning.className}>${t.warning.text}</p>
+              <p class="${t.warning.className} ${O(t.warning.tone)}"><strong class=${O("emphasis")}>${t.warning.text}</strong></p>
               <div class="dialog-actions">
                 <button @click=${() => e.onClose()}>Cancel</button>
                 <button class=${t.confirm.className} ?disabled=${e.isSaving()} @click=${() => t.confirm.onClick()}>
@@ -6152,6 +6471,7 @@ var qs = {
 			error: e.error,
 			warning: {
 				className: "irreversible-warning",
+				tone: "error-text",
 				text: "!! This cannot be undone !!"
 			},
 			confirm: {
@@ -6174,6 +6494,7 @@ var qs = {
 			error: e.error,
 			warning: {
 				className: "irreversible-warning",
+				tone: "error-text",
 				text: "!! This cannot be undone !!"
 			},
 			confirm: {
@@ -6196,6 +6517,7 @@ var qs = {
 			error: e.error,
 			warning: {
 				className: "write-warning",
+				tone: "warning-text",
 				text: "!! This will write to the live system !!"
 			},
 			confirm: {
@@ -6206,8 +6528,8 @@ var qs = {
 		});
 	}
 	_renderExportDialog() {
-		let e = this._editSession ? kt(this._editSession.commit_entries.length) : null;
-		return Mt(this._exporting, e, {
+		let e = this._editSession ? Ft(this._editSession.commit_entries.length) : null;
+		return mn(this._exporting, e, {
 			close: () => this._closeExport(),
 			cancel: (e) => {
 				this._exporting?.saving && e.preventDefault();
@@ -6218,7 +6540,7 @@ var qs = {
 		}, this._buildStamp);
 	}
 	_renderFromNamesDialog() {
-		return ls(this._fromNames, {
+		return nc(this._fromNames, {
 			close: () => this._closeFromNames(),
 			cancel: (e) => {
 				this._fromNames?.saving && e.preventDefault();
@@ -6235,7 +6557,7 @@ var qs = {
 	}
 	_renderWallBatchDialog() {
 		let e = this._state, t = this._wallBatch;
-		return ya(e && t ? {
+		return fo(e && t ? {
 			dialog: t,
 			state: e,
 			rows: this._wallBatchRows(),
@@ -6257,7 +6579,7 @@ var qs = {
 		}, this._buildStamp);
 	}
 	_renderDiscoveredDialog() {
-		return ds(this._discovered && this._state ? ui(this._discovered, this._state, this._registries()) : null, () => {
+		return sc(this._discovered && this._state ? na(this._discovered, this._state, this._registries()) : null, () => {
 			this._discovered = null;
 		}, {
 			renderMention: (e) => this._renderMention(e, null),
@@ -6265,13 +6587,13 @@ var qs = {
 		}, this._buildStamp);
 	}
 	_renderHostingMark() {
-		return x`<svg class="link-icon hosting-mark" viewBox="0 0 24 24" aria-hidden="true">
-      <path d="${Qs}"></path>
+		return v`<svg class="link-icon hosting-mark" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="${Jc}"></path>
     </svg>`;
 	}
 	_renderMeterIcon() {
-		return x`<svg class="meter-icon" viewBox="0 0 24 24" role="img" aria-label="Metered">
-      <path d="${ec}"></path>
+		return v`<svg class="meter-icon" viewBox="0 0 24 24" role="img" aria-label="Metered">
+      <path d="${Xc}"></path>
     </svg>`;
 	}
 	_renderSocketIdentity(e) {
@@ -6288,11 +6610,11 @@ var qs = {
 	}
 	_linkIconPath(e) {
 		switch (e) {
-			case "plug": return Js;
-			case "unplug": return Zs;
-			case "socket": return ki[this._socketRegion];
-			case "hosting": return Qs;
-			case "hosted": return $s;
+			case "plug": return Wc;
+			case "unplug": return qc;
+			case "socket": return xa[this._socketRegion];
+			case "hosting": return Jc;
+			case "hosted": return Yc;
 		}
 	}
 	_renderOccupantName(e, t, n) {
@@ -6305,12 +6627,14 @@ var qs = {
 		}, n) : n;
 	}
 	_renderDepartingName(e, t, n) {
-		let r = Gs(e.co_socket_id, e.occupant_device_id === null && e.plugged_into_appliance_id === null, t);
-		return r === null ? "" : x`<s class="departing">${j(r.kind === "appliance" ? n.applianceNames : n.coNames, r.subjectId)}</s>`;
+		let r = Vc(e.co_socket_id, e.occupant_device_id === null && e.plugged_into_appliance_id === null, t);
+		if (r === null) return "";
+		let i = r.kind === "appliance" ? n.applianceNames : n.coNames;
+		return v`<s class="departing ${O("supporting-text", "strike-through")}">${N(i, r.subjectId)}</s>`;
 	}
 	_renderLinkButton(e, t) {
-		let n = Xo(e, t), r = this._linkIconPath(n.iconKind), i = this._tip(n.hover);
-		return x`<button
+		let n = Us(e, t), r = this._linkIconPath(n.iconKind), i = this._tip(n.hover);
+		return v`<button
       class="link-btn ${n.linked ? "linked" : ""} ${n.disabled ? "unavailable" : ""}"
       data-tip="act"
       aria-describedby=${i.id}
@@ -6325,19 +6649,19 @@ var qs = {
 	}
 	_openLink(e) {
 		if (!this._state) return;
-		let t = z(this._state);
-		switch (this._linkRoomFilter = null, this._linkCoFilter = X, e.kind) {
+		let t = V(this._state);
+		switch (this._linkRoomFilter = null, this._linkCoFilter = Uo, e.kind) {
 			case "appliance":
-				this._linking = Oo(e.entity, t);
+				this._linking = xs(e.entity, t);
 				return;
 			case "co":
-				this._linking = Po(e.entity, t);
+				this._linking = Ds(e.entity, t);
 				return;
 			case "co_socket":
-				this._linking = Fo(e.entity, t);
+				this._linking = Os(e.entity, t);
 				return;
 			case "uo":
-				this._linking = Io(e.entity, t);
+				this._linking = ks(e.entity, t);
 				return;
 		}
 	}
@@ -6355,7 +6679,7 @@ var qs = {
 		if (!e || e.view !== "picker" || e.selectedId === null || !this.hass) return;
 		let t = e.candidates.find((t) => t.id === e.selectedId);
 		if (!t || t.disabledBy !== null) return;
-		let n = ho(e, t);
+		let n = cs(e, t);
 		this._linking = {
 			...e,
 			saving: !0,
@@ -6364,7 +6688,7 @@ var qs = {
 		try {
 			await this.hass.callWS(n), this._closeLink(), await this._refresh();
 		} catch (e) {
-			this._linking = V(this._linking, e), await this._refresh();
+			this._linking = fr(this._linking, e), await this._refresh();
 		}
 	}
 	async _submitUnlink() {
@@ -6382,7 +6706,7 @@ var qs = {
 				...t.payload
 			}), this._closeLink(), await this._refresh();
 		} catch (e) {
-			this._linking = V(this._linking, e), await this._refresh();
+			this._linking = fr(this._linking, e), await this._refresh();
 		}
 	}
 	_toggleUoRow(e) {
@@ -6402,12 +6726,12 @@ var qs = {
 		};
 	}
 	_renderUoKind(e, t) {
-		let n = co(e, t);
-		return n === null ? "" : x` <span class="ro-label">${n}</span>`;
+		let n = ns(e, t);
+		return n === null ? "" : v` <span class=${O("ob-element-name")}>${n}</span>`;
 	}
 	_renderRowPowering(e) {
-		return e.length === 0 ? "" : x`<p class="candidate-note">
-      <span class="ro-label">${Ua}</span> ${e.join(", ")}
+		return e.length === 0 ? "" : v`<p class="candidate-note ${D("dialog-field-note")}">
+      <span class=${D("dialog-field-prompt")}>${Io}</span> ${e.join(", ")}
     </p>`;
 	}
 	async _submitMultiApply() {
@@ -6420,24 +6744,24 @@ var qs = {
 			saving: !0,
 			error: null
 		};
-		let r = this.hass, i = await ts([...t.map((e) => ({
+		let r = this.hass, i = await Js([...t.map((e) => ({
 			item: {
 				kind: "unplug",
 				deviceId: e.deviceId,
 				label: e.label
 			},
-			message: vo(e)
+			message: ds(e)
 		})), ...n.map((t) => ({
 			item: {
 				kind: "plug-in",
 				deviceId: t.deviceId,
 				label: t.label
 			},
-			message: _o(e.subjectId, t)
+			message: us(e.subjectId, t)
 		}))], (e) => r.callWS(e)), a = (e) => i.filter(({ item: t }) => t.kind === e).map(({ item: e, error: t }) => ({
 			deviceId: e.deviceId,
 			label: e.label,
-			message: M(t)
+			message: P(t)
 		})), o = a("unplug"), s = a("plug-in");
 		if (await this._refresh(), o.length === 0 && s.length === 0) {
 			this._closeLink();
@@ -6447,24 +6771,24 @@ var qs = {
 			this._closeLink();
 			return;
 		}
-		let c = z(this._state), l = c.uosById.get(e.subjectId);
+		let c = V(this._state), l = c.uosById.get(e.subjectId);
 		if (!l) {
 			this._closeLink();
 			return;
 		}
-		this._linking = es(l, c, {
+		this._linking = qs(l, c, {
 			failures: o,
 			candidateFailures: s,
 			filter: e.filter
 		});
 	}
 	_pickerDialogTitle(e, t) {
-		return x`<span class="ro-label">${e}</span> ${t.subjectLabel}`;
+		return v`<span class=${O("ob-element-name")}>${e}</span> ${t.subjectLabel}`;
 	}
 	_setLinkRoomFilter(e) {
 		this._pinLinkRows(), this._linkRoomFilter = e;
 		let t = this._linking, n = this._linkCoFilter;
-		t && t.view === "picker" && n.kind === "co" && (Va(t, e).some((e) => e.coId === n.coId) || (this._linkCoFilter = X));
+		t && t.view === "picker" && n.kind === "co" && (Po(t, e).some((e) => e.coId === n.coId) || (this._linkCoFilter = Uo));
 	}
 	_setLinkCoFilter(e) {
 		if (this._pinLinkRows(), this._linkCoFilter = e, e.kind === "co") {
@@ -6476,16 +6800,16 @@ var qs = {
 		}
 	}
 	_pinLinkRows() {
-		this._linking &&= ro(this._linking);
+		this._linking &&= Zo(this._linking);
 	}
 	_setLinkFilter(e) {
 		this._linking &&= {
-			...ro(this._linking),
+			...Zo(this._linking),
 			filter: e
 		};
 	}
 	_renderDialogFilter(e, t, n, r = "") {
-		return x`<div class="dialog-filter">
+		return v`<div class="dialog-filter">
       ${r}<input
         type="search"
         class="dialog-filter-input"
@@ -6498,14 +6822,14 @@ var qs = {
     </div>`;
 	}
 	_renderLinkFilterSelect(e, t, n, r, i) {
-		return x`
+		return v`
       <div class="edit-field">
-        <label for=${e}>${t}</label>
+        <label for=${e} class=${D("dialog-field-prompt")}>${t}</label>
         <select
           id=${e}
           @change=${(e) => i(e.target.value)}
         >
-          ${n.map((e) => x`<option value=${e.value} .selected=${r === e.value}>${e.text}</option>`)}
+          ${n.map((e) => v`<option value=${e.value} .selected=${r === e.value}>${e.text}</option>`)}
         </select>
       </div>
     `;
@@ -6520,10 +6844,10 @@ var qs = {
 			}
 			let a = t[r].groupLabel, o = [];
 			for (; r < t.length && t[r].groupKey === i;) o.push(t[r]), r += 1;
-			n.push(x`
+			n.push(v`
         <li class="candidate-group">
-          <div class="candidate-group-label">${a === null ? "" : Wa(a)}</div>
-          ${qa(o[0]) === null ? "" : x`<div class="candidate-context group-context">${qa(o[0])}</div>`}
+          <div class="candidate-group-label ${D("dialog-field-note", "emphasis")}">${a === null ? "" : Lo(a)}</div>
+          ${Bo(o[0]) === null ? "" : v`<div class="candidate-context group-context ${D("dialog-field-note")}">${Bo(o[0])}</div>`}
           <ul class="candidate-group-items">
             ${o.map((t) => this._renderCandidateRow(e, t))}
           </ul>
@@ -6533,30 +6857,30 @@ var qs = {
 		return n;
 	}
 	_renderUoIdentity(e) {
-		return x`${this._renderNameLink({
+		return v`${this._renderNameLink({
 			kind: "uo",
 			entity: e
-		}, e.name)}${this._renderAttrList(hi(e, this._uoArea(e)))}`;
+		}, e.name)}${this._renderAttrList(sa(e, this._uoArea(e)))}`;
 	}
 	_uoArea(e) {
-		return A(this._areas.names, e.ha_area_id);
+		return M(this._areas.names, e.ha_area_id);
 	}
 	_renderCoCandidateLists(e, t, n) {
-		let r = No(to(e)), i = No(t), a = (t, n, r, i, a, o) => x`<section class="link-list" data-list=${t} aria-label=${n}>
+		let r = Es(Yo(e)), i = Es(t), a = (t, n, r, i, a, o) => v`<section class="link-list" data-list=${t} aria-label=${n}>
         ${r}
-        ${i.length === 0 ? x`<p class="no-candidates">${o}</p>` : this._renderCandidateList(e, a)}
+        ${i.length === 0 ? v`<p class="no-candidates ${D("dialog-field-note")}">${o}</p>` : this._renderCandidateList(e, a)}
       </section>`;
-		return x`<div class="link-lists ${this._linkListsSideBySide(e) ? "side-by-side" : ""}">
-      ${a("outlets", "Wall Sockets", ((e) => x`<h4 class="link-list-title">${e}</h4>`)("Wall Sockets"), r.outlets, i.outlets, Gt)}${a("sockets", "Smart device sockets", n, r.sockets, i.sockets, Kt)}
+		return v`<div class="link-lists ${this._linkListsSideBySide(e) ? "side-by-side" : ""}">
+      ${a("outlets", "Wall Sockets", ((e) => v`<h4 class="link-list-title ${D("dialog-field-note")}">${e}</h4>`)("Wall Sockets"), r.outlets, i.outlets, In)}${a("sockets", "Smart device sockets", n, r.sockets, i.sockets, Ln)}
     </div>`;
 	}
 	_renderCandidateList(e, t) {
-		return t.length > 0 ? x`<ul class="link-candidates">${this._renderCandidateItems(e, t)}</ul>` : x`<p class="no-candidates">${Wt}</p>`;
+		return t.length > 0 ? v`<ul class="link-candidates">${this._renderCandidateItems(e, t)}</ul>` : v`<p class="no-candidates ${D("dialog-field-note")}">${Fn}</p>`;
 	}
 	_renderCandidateRow(e, t) {
-		return x`
+		return v`
       <li>
-        <label class="choice-row">
+        <label class="choice-row ${O("small-text")}">
           <input
             type="radio"
             name="link-candidate"
@@ -6564,36 +6888,36 @@ var qs = {
             ?disabled=${t.disabledBy !== null}
             @change=${() => this._setLinkSelection(t.id)}
           />
-          <span>${Ga(t)}</span>
+          <span class=${t.disabledBy === null ? "" : O("disabled-text")}>${Ro(t)}</span>
         </label>
-        ${Ka(t) === null ? "" : x`<p class="candidate-context">${Ka(t)}</p>`}
-        ${t.note === null ? "" : x`<p class="candidate-note">
-              <span class="ro-label">${Ha}</span> ${t.note}
+        ${zo(t) === null ? "" : v`<p class="candidate-context ${D("dialog-field-note")}">${zo(t)}</p>`}
+        ${t.note === null ? "" : v`<p class="candidate-note ${D("dialog-field-note")}">
+              <span class=${D("dialog-field-prompt")}>${Fo}</span> ${t.note}
             </p>`}
       </li>
     `;
 	}
 	_renderPickerDialogBody(e) {
-		let t = e.saving ? "saving" : null, n = as(e, {
+		let t = e.saving ? "saving" : null, n = Qs(e, {
 			room: this._linkRoomFilter,
 			co: this._linkCoFilter
 		}), { roomOptions: r, coOptions: i, offeredCount: a } = n, o = i.length > 0 ? this._renderLinkFilterSelect("link-filter-co", "Smart Device:", [
 			{
-				value: Xa(X),
+				value: Wo(Uo),
 				text: "All available"
 			},
 			{
-				value: Xa({ kind: "all" }),
+				value: Wo({ kind: "all" }),
 				text: "All"
 			},
 			...i.map((e) => ({
-				value: Xa({
+				value: Wo({
 					kind: "co",
 					coId: e.coId
 				}),
 				text: e.text
 			}))
-		], Xa(this._linkCoFilter), (e) => this._setLinkCoFilter(Za(e))) : "", s = n.hasFilterBar ? this._renderDialogFilter(e.filter, e.saving, (e) => this._setLinkFilter(e), n.showsDropdownsInBar ? x`<div class="link-filters">
+		], Wo(this._linkCoFilter), (e) => this._setLinkCoFilter(Go(e))) : "", s = n.hasFilterBar ? this._renderDialogFilter(e.filter, e.saving, (e) => this._setLinkFilter(e), n.showsDropdownsInBar ? v`<div class="link-filters">
               ${r.length > 0 ? this._renderLinkFilterSelect("link-filter-room", "Room:", [{
 			value: "",
 			text: "All"
@@ -6602,59 +6926,59 @@ var qs = {
 			text: e
 		}))], this._linkRoomFilter ?? "", (e) => this._setLinkRoomFilter(e === "" ? null : e)) : ""}
               ${o}
-            </div>` : "") : "", c = n.socketsHeading === "title" ? x`<h4 class="link-list-title">Smart device sockets</h4>` : x`<div class="link-filters">${o}</div>`;
-		return x`
+            </div>` : "") : "", c = n.socketsHeading === "title" ? v`<h4 class="link-list-title ${D("dialog-field-note")}">Smart device sockets</h4>` : v`<div class="link-filters">${o}</div>`;
+		return v`
       <div class="dialog-body">
-        ${O(x`${this._pickerDialogTitle(n.titleLabel, e)}${this._renderHaDeviceIconLink(e.subjectHaDevice, "inline")}`, this._buildStamp)}
-        ${e.currentLabel === null ? "" : x`<p class="plugged-into">
-              <span class="ro-label">${n.currentWord}</span>
+        ${k(v`${this._pickerDialogTitle(n.titleLabel, e)}${this._renderHaDeviceIconLink(e.subjectHaDevice, "inline")}`, this._buildStamp)}
+        ${e.currentLabel === null ? "" : v`<p class="plugged-into ${D("dialog-field-note")}">
+              <span class=${D("dialog-field-prompt")}>${n.currentWord}</span>
               ${this._renderMention(e.currentLabel, t)}${this._renderHaDeviceIconLink(e.currentHaDevice, "inline")}
             </p>`}
-        ${e.powering.length > 0 ? x`<p class="plugged-into"><span class="ro-label">Powering:</span> ${e.powering.map((e, n) => x`${n > 0 ? ", " : ""}${this._renderMention(e, t)}`)}</p>` : ""}
-        ${e.contextLabel === null ? "" : e.contextLabel.placeName === null ? x`<p class="plugged-into">Not plugged in currently.</p>` : x`<p class="plugged-into">
-                <span class="ro-label">Plugged into:</span> ${this._renderMention(e.contextLabel.placeName, t)}${this._renderHaDeviceIconLink(e.contextLabel.placeHaDevice, "inline")}
+        ${e.powering.length > 0 ? v`<p class="plugged-into ${D("dialog-field-note")}"><span class=${D("dialog-field-prompt")}>Powering:</span> ${e.powering.map((e, n) => v`${n > 0 ? ", " : ""}${this._renderMention(e, t)}`)}</p>` : ""}
+        ${e.contextLabel === null ? "" : e.contextLabel.placeName === null ? v`<p class="plugged-into ${D("dialog-field-note")}">Not plugged in currently.</p>` : v`<p class="plugged-into ${D("dialog-field-note")}">
+                <span class=${D("dialog-field-prompt")}>Plugged into:</span> ${this._renderMention(e.contextLabel.placeName, t)}${this._renderHaDeviceIconLink(e.contextLabel.placeHaDevice, "inline")}
               </p>`}
-        ${n.loneCandidate ? x`<p class="lone-candidate"><span class="ro-label">${za(e)}:</span> ${e.candidates[0].fullLabel}</p>` : a > 0 ? x`
-                <p class="ro-label">
+        ${n.loneCandidate ? v`<p class="lone-candidate ${O("supporting-text")}"><span class=${D("dialog-field-prompt")}>${Mo(e)}:</span> ${e.candidates[0].fullLabel}</p>` : a > 0 ? v`
+                <p class=${D("dialog-section")}>
                   ${n.listHeading}
                 </p>
                 ${s}
                 ${e.kind === "co" ? this._renderCoCandidateLists(e, n.visible, c) : this._renderCandidateList(e, n.visible)}
               ` : ""}
-        ${e.error ? x`<p class="error">${e.error}</p>` : ""}
+        ${e.error ? v`<p class="error ${O("error-text")}">${e.error}</p>` : ""}
       </div>
       <div class="dialog-actions">
         <button autofocus @click=${() => this._closeLink()}>Cancel</button>
         ${e.unlink ? this._renderStagingButton({
 			label: e.unlink.label,
-			tip: dc,
+			tip: ll,
 			className: "danger",
-			disabled: n.unplugBusy ? la : !1,
+			disabled: n.unplugBusy ? to : !1,
 			onClick: () => this._submitUnlink()
 		}) : ""}
         ${n.primary === null ? "" : this._renderStagingButton({
 			label: n.primary.label,
-			tip: dc,
-			disabled: n.primary.disabled !== null && qs[n.primary.disabled],
+			tip: ll,
+			disabled: n.primary.disabled !== null && Uc[n.primary.disabled],
 			onClick: () => this._submitLink()
 		})}
       </div>
     `;
 	}
 	_renderMultiDialogBody(e) {
-		let t = fo(e), n = po(e), r = so(e.rows), i = so(e.candidates), a = x`<p class="no-candidates">${Wt}</p>`, o = e.rows.length + e.candidates.length > 1 ? this._renderDialogFilter(e.filter, e.saving, (e) => this._setLinkFilter(e)) : "";
-		return x`
+		let t = as(e), n = os(e), r = ts(e.rows), i = ts(e.candidates), a = v`<p class="no-candidates ${D("dialog-field-note")}">${Fn}</p>`, o = e.rows.length + e.candidates.length > 1 ? this._renderDialogFilter(e.filter, e.saving, (e) => this._setLinkFilter(e)) : "";
+		return v`
       <div class="dialog-body uo-picker">
-        ${O(x`<span class="ro-label">Wall Socket:</span> ${e.subjectLabel}`, this._buildStamp)}
+        ${k(v`<span class=${O("ob-element-name")}>Wall Socket:</span> ${e.subjectLabel}`, this._buildStamp)}
         ${e.candidates.length > 0 ? "" : o}
-        ${e.rows.length > 0 ? x`
-              <p class="ro-label">Currently plugged in:</p>
-              ${t.length === 0 ? a : x`<ul class="link-candidates">
+        ${e.rows.length > 0 ? v`
+              <p class=${D("dialog-section")}>Currently plugged in:</p>
+              ${t.length === 0 ? a : v`<ul class="link-candidates">
                 ${t.map((t) => {
 			let n = e.failures.find((e) => e.deviceId === t.deviceId);
-			return x`
+			return v`
                     <li>
-                      <label class="choice-row">
+                      <label class="choice-row ${O("small-text")}">
                         <input
                           type="checkbox"
                           .checked=${e.selectedIds.has(t.deviceId)}
@@ -6663,21 +6987,21 @@ var qs = {
                         <span>${t.label}</span>${this._renderUoKind(t.kind, r)}
                       </label>
                       ${this._renderRowPowering(t.powering)}
-                      ${n ? x`<p class="link-row-error">${n.message}</p>` : ""}
+                      ${n ? v`<p class="link-row-error ${D("dialog-field-note", "error-text")}">${n.message}</p>` : ""}
                     </li>
                   `;
 		})}
               </ul>`}
             ` : ""}
-        ${e.candidates.length > 0 ? x`
-              <p class="ro-label">Available to plug in:</p>
+        ${e.candidates.length > 0 ? v`
+              <p class=${D("dialog-section")}>Available to plug in:</p>
               ${o}
-              ${n.length === 0 ? a : x`<ul class="link-candidates">
+              ${n.length === 0 ? a : v`<ul class="link-candidates">
                 ${n.map((t) => {
 			let n = e.candidateFailures.find((e) => e.deviceId === t.deviceId);
-			return x`
+			return v`
                     <li>
-                      <label class="choice-row">
+                      <label class="choice-row ${O("small-text")}">
                         <input
                           type="checkbox"
                           .checked=${e.selectedCandidateIds.has(t.deviceId)}
@@ -6685,33 +7009,33 @@ var qs = {
                         />
                         <span>${t.label}</span>${this._renderUoKind(t.kind, i)}
                       </label>
-                      ${n ? x`<p class="link-row-error">${n.message}</p>` : ""}
+                      ${n ? v`<p class="link-row-error ${D("dialog-field-note", "error-text")}">${n.message}</p>` : ""}
                     </li>
                   `;
 		})}
               </ul>`}
             ` : ""}
-        ${e.error ? x`<p class="error">${e.error}</p>` : ""}
+        ${e.error ? v`<p class="error ${O("error-text")}">${e.error}</p>` : ""}
       </div>
       <div class="dialog-actions">
         <button autofocus @click=${() => this._closeLink()}>Cancel</button>
         ${this._renderStagingButton({
 			label: "Apply",
-			tip: dc,
-			disabled: e.saving ? la : Qo(e) ? fa : !1,
+			tip: ll,
+			disabled: e.saving ? to : Gs(e) ? io : !1,
 			onClick: () => this._submitMultiApply()
 		})}
       </div>
     `;
 	}
 	_linkListsSideBySide(e) {
-		return e.kind !== "co" || this._layoutTier === "narrow" ? !1 : to(e).length > 0;
+		return e.kind !== "co" || this._layoutTier === "narrow" ? !1 : Yo(e).length > 0;
 	}
 	_renderLinkDialog() {
 		let e = this._linking;
-		return x`
+		return v`
       <dialog
-        class="link-dialog ${e !== null && e.view === "picker" && this._linkListsSideBySide(e) ? "side-by-side" : ""}"
+        class="link-dialog ${e !== null && e.view === "picker" && this._linkListsSideBySide(e) ? "side-by-side" : ""} ${A("modal-dialog-box")}"
         @close=${() => this._closeLink()}
         @cancel=${(e) => {
 			this._linking?.saving && e.preventDefault();
@@ -6723,14 +7047,14 @@ var qs = {
 	}
 	_renderSocketsList(e) {
 		if (!this._state) return "";
-		let t = z(this._state), n = this._editHold(), r = Ws(this._state, this._editSession), i = [...t.socketsByCo.get(e) ?? []].sort((e, t) => e.position - t.position);
+		let t = V(this._state), n = this._editHold(), r = Bc(this._state, this._editSession), i = [...t.socketsByCo.get(e) ?? []].sort((e, t) => e.position - t.position);
 		if (i.length === 0) return "";
 		let a = i.length === 1 ? "Socket" : "Sockets";
-		return x`<div class="socket-list" role="group" aria-label=${a}>
-      <p class="ro-label">${a}</p>
+		return v`<div class="socket-list" role="group" aria-label=${a}>
+      <p class=${D("dialog-section")}>${a}</p>
       <ul>
         ${i.map((e) => {
-			let i = Pr(e, t), a = r.coSocket.get(e.co_socket_id), o = {
+			let i = Ei(e, t), a = r.coSocket.get(e.co_socket_id), o = {
 				text: i.name,
 				target: i.appliance ? {
 					kind: "appliance",
@@ -6740,9 +7064,9 @@ var qs = {
 					entity: i.co
 				} : null
 			};
-			return x`<li class="socket-list-line">
+			return v`<li class="socket-list-line">
             <span class="socket-list-meter">${this._renderSocketIdentity(e)}</span>
-            <span class="socket-list-occupant">${a ? this._renderPendingMarker(this._pendingMarkerText(a, t)) : ""}${this._renderMention(o, n)}${this._renderDepartingName(e, r, t)}</span>
+            <span class="socket-list-occupant ${O("supporting-text")}">${a ? this._renderPendingMarker(this._pendingMarkerText(a, t)) : ""}${this._renderMention(o, n)}${this._renderDepartingName(e, r, t)}</span>
             <button
               class="plain-btn"
               aria-label="Edit ${e.alias}"
@@ -6757,9 +7081,9 @@ var qs = {
 	}
 	_renderEditDialog(e) {
 		let t = this[e];
-		return x`
+		return v`
       <dialog
-        class=${Cc[e]}
+        class="${xl[e]} ${A("modal-dialog-box")}"
         @close=${(t) => {
 			t.target.open || this._closeEdit(e);
 		}}
@@ -6767,32 +7091,33 @@ var qs = {
 			this[e]?.saving && t.preventDefault();
 		}}
       >
-        ${t ? x`
+        ${t ? v`
               <div class="dialog-body">
-                ${O(x`<span class="ro-label">${W[t.kind]}:</span>
-                  ${t.draft[Mn[t.kind].requiredField]}
+                ${k(v`<span class=${O("ob-element-name")}>${W[t.kind]}:</span>
+                  ${t.draft[wr[t.kind].requiredField]}${t.kind === "appliance" ? this._renderHaItems(t.id) : ""}
                   ${this._renderHaDeviceIconLink(t.titleHaDevice, "edge")}`, this._buildStamp)}
-                ${t.pluggedInto === void 0 ? "" : x`<p class="plugged-into">
-                      ${t.pluggedInto === null ? x`<span class="ro-label">Unplugged</span>` : x`<span class="ro-label">Plugged into:</span> ${this._renderMention(t.pluggedInto, this._editHold())}${this._renderHaDeviceIconLink(t.pluggedIntoHaDevice, "inline")}`}
+                ${t.pluggedInto === void 0 ? "" : v`<p class="plugged-into ${D("dialog-field-note")}">
+                      ${t.pluggedInto === null ? v`<span class=${O("ob-element-name")}>Unplugged</span>` : v`<span class=${D("dialog-field-prompt")}>Plugged into:</span> ${this._renderMention(t.pluggedInto, this._editHold())}${this._renderHaDeviceIconLink(t.pluggedIntoHaDevice, "inline")}`}
                     </p>`}
-                ${Object.keys(t.draft).map((n) => x`
+                ${Object.keys(t.draft).map((n, r) => v`
                     <div class="edit-field">
-                      <label>${Tn[n] ?? n}</label>
-                      ${En.has(n) ? this._renderAreaSelect(t.draft[n], (t) => this._updateDraftField(e, n, t), t.inheritLabel ?? En.get(n)) : x`<input
-                            type=${On.has(n) ? "number" : "text"}
-                            .step=${On.has(n) ? "1" : ""}
+                      <label class=${D("dialog-field-prompt")}>${_r[n] ?? n}</label>
+                      ${vr.has(n) ? this._renderAreaSelect(t.draft[n], (t) => this._updateDraftField(e, n, t), t.inheritLabel ?? vr.get(n)) : v`<input
+                            ?autofocus=${r === 0}
+                            type=${br.has(n) ? "number" : "text"}
+                            .step=${br.has(n) ? "1" : ""}
                             .value=${t.draft[n]}
                             @input=${(t) => this._updateDraftField(e, n, t.target.value)}
                           />`}
                     </div>
                   `)}
                 ${t.kind === "co" ? this._renderSocketsList(t.id) : ""}
-                <ul class="entity-id">
-                  <li class="id-row"><span class="ro-label">id</span>: ${t.id}</li>
-                  ${t.readonlyFields.map(([e, t]) => x`<li><span class="ro-label">${e}</span>: ${t}</li>`)}
+                <ul class="entity-id ${D("dialog-metadata")}">
+                  <li class="id-row"><span class=${O("ob-element-name")}>id</span>: ${t.id}</li>
+                  ${t.readonlyFields.map(([e, t]) => v`<li><span class=${O("ob-element-name")}>${e}</span>: ${t}</li>`)}
                   ${t.kind === "co" ? this._renderHaDeviceLink(t.id) : ""}
                 </ul>
-                ${t.error ? x`<p class="error">${t.error}</p>` : ""}
+                ${t.error ? v`<p class="error ${O("error-text")}">${t.error}</p>` : ""}
               </div>
               <div class="dialog-actions">
                 <button @click=${() => this._closeEdit(e)}>Cancel</button>
@@ -6808,68 +7133,132 @@ var qs = {
     `;
 	}
 	_renderHaDeviceLink(e) {
-		return x`<li class="ha-device-link">
+		return v`<li class="ha-device-link ${D("dialog-field-note")}">
       ${this._renderHaDeviceAnchor(e, "ha-device-text-link", "Open in Home Assistant", void 0)}
     </li>`;
 	}
 	_renderHaDeviceIconLink(e, t) {
 		if (e === null) return "";
 		let n = this._state?.cos.find((t) => t.co_id === e)?.alias ?? "device", r = this._renderHaDeviceAnchor(e, `ha-device-icon-link ${t}`, "", `Open ${n} in Home Assistant`);
-		return t === "inline" ? x`<span class="ha-gap"> </span>${r}` : r;
+		return t === "inline" ? v`<span class="ha-gap"> </span>${r}` : r;
 	}
 	_renderHaDeviceAnchor(e, t, n, r) {
-		let i = `/config/devices/device/${encodeURIComponent(e)}`;
-		return x`<a
+		return this._renderHaAnchor(`/config/devices/device/${encodeURIComponent(e)}`, t, n, r);
+	}
+	_customPanel() {
+		try {
+			return window.parent.customPanel;
+		} catch {
+			return;
+		}
+	}
+	_openInHomeAssistant(e) {
+		let t = this._customPanel();
+		t === void 0 ? window.parent.location.assign(e) : t.navigate(e);
+	}
+	_topLocation() {
+		try {
+			let { pathname: e, search: t } = window.parent.location;
+			return {
+				pathname: e,
+				search: t
+			};
+		} catch {
+			return window.location;
+		}
+	}
+	_renderHaItems(e) {
+		let t = (this._haItems[e] ?? []).length > 0, n = this._plainTip(t ? `List the entities for ${this._applianceName(e)}` : this._noHaItemsReason(e));
+		return v`<span class="ha-items-wrap"
+      ><button
+        class="ha-items-btn ${t ? bn() : O("disabled-text")}"
+        data-tip="act"
+        aria-label="Home Assistant items"
+        aria-haspopup="dialog"
+        aria-describedby=${n.id}
+        ?disabled=${!t}
+        @click=${() => this._setHaItemsOpen(!0)}
+      >
+        <svg class="ha-items-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="${rl}"></path>
+        </svg>
+        <svg class="ha-items-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="${nl}"></path>
+        </svg></button
+      >${n.desc}</span
+    >`;
+	}
+	_applianceName(e) {
+		return N(this._helpers()?.applianceNames ?? /* @__PURE__ */ new Map(), e);
+	}
+	_haItemsContent() {
+		let e = this._editing;
+		return e?.kind !== "appliance" || !e.haItemsOpen ? null : {
+			name: this._applianceName(e.id),
+			layout: ac(this._haItems[e.id] ?? []),
+			renderItem: this._renderHaItem
+		};
+	}
+	_noHaItemsReason(e) {
+		let t = this._helpers()?.appliancesById.get(e);
+		return t !== void 0 && z(t).kind === "co_socket" ? "Not yet created in Home Assistant" : "Not plugged into a Smart Device, so it has no Home Assistant items";
+	}
+	_renderHaAnchor(e, t, n, r) {
+		return v`<a
         class=${t}
-        href=${i}
+        href=${e}
         target="_top"
-        aria-label=${Ge(r)}
-        @click=${(e) => {
-			let t = window.parent.customPanel;
-			t !== void 0 && (e.preventDefault(), t.navigate(i));
+        aria-label=${Ye(r)}
+        @click=${(t) => {
+			let n = this._customPanel();
+			n !== void 0 && (t.preventDefault(), n.navigate(e));
 		}}
-        >${n}<svg class="ha-icon" viewBox="0 0 24 24" aria-hidden="true">
-          <path d="${ac}"></path></svg
-      ></a>`;
+        >${n}${this._renderHaLogo()}</a
+      >`;
+	}
+	_renderHaLogo() {
+		return v`<svg class="ha-icon" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="${tl}"></path>
+    </svg>`;
 	}
 	_renderAreaSelect(e, t, n) {
-		let r = this._areas.groups, i = (t) => x`<option value=${t.area_id} .selected=${e === t.area_id}>
+		let r = this._areas.groups, i = (t) => v`<option value=${t.area_id} .selected=${e === t.area_id}>
         ${t.name}
       </option>`;
-		return x`
+		return v`
       <select
         @change=${(e) => t(e.target.value)}
       >
         <option value="" .selected=${e === ""}>${n}</option>
-        ${r.map((e) => e.label === null ? e.options.map(i) : x`<optgroup label=${e.label}>${e.options.map(i)}</optgroup>`)}
+        ${r.map((e) => e.label === null ? e.options.map(i) : v`<optgroup label=${e.label}>${e.options.map(i)}</optgroup>`)}
       </select>
-      <p class="area-hint">${Dn}</p>
+      <p class="area-hint ${D("dialog-field-note")}">${yr}</p>
     `;
 	}
 	_renderCreateDialog() {
 		let e = this._creating;
-		return x`
+		return v`
       <dialog
-        class="create-dialog"
+        class="create-dialog ${A("modal-dialog-box")}"
         @close=${() => this._closeCreate()}
         @cancel=${(e) => {
 			this._creating?.saving && e.preventDefault();
 		}}
       >
-        ${e ? x`
+        ${e ? v`
               <div class="dialog-body">
-                ${O(`New ${W[e.kind]}`, this._buildStamp)}
-                ${Object.keys(e.draft).map((t) => x`
+                ${k(`New ${W[e.kind]}`, this._buildStamp)}
+                ${Object.keys(e.draft).map((t) => v`
                     <div class="edit-field">
-                      <label>${Tn[t] ?? t}</label>
-                      ${t === "ha_area_id" ? this._renderAreaSelect(e.draft.ha_area_id, (e) => this._updateCreateDraftField("ha_area_id", e), "— none —") : x`<input
+                      <label class=${D("dialog-field-prompt")}>${_r[t] ?? t}</label>
+                      ${t === "ha_area_id" ? this._renderAreaSelect(e.draft.ha_area_id, (e) => this._updateCreateDraftField("ha_area_id", e), "— none —") : v`<input
                             type="text"
                             .value=${e.draft[t]}
                             @input=${(e) => this._updateCreateDraftField(t, e.target.value)}
                           />`}
                     </div>
                   `)}
-                ${e.error ? x`<p class="error">${e.error}</p>` : ""}
+                ${e.error ? v`<p class="error ${O("error-text")}">${e.error}</p>` : ""}
               </div>
               <div class="dialog-actions">
                 <button @click=${() => this._closeCreate()}>Cancel</button>
@@ -6885,24 +7274,24 @@ var qs = {
     `;
 	}
 	_renderPowerIcon(e, t, n) {
-		return x`<svg class="th-icon ${n ?? ""}" viewBox="0 0 24 24" role="img" aria-label="${t}">
+		return v`<svg class="th-icon ${n ?? ""}" viewBox="0 0 24 24" role="img" aria-label="${t}">
       <path d="${e}"></path>
     </svg>`;
 	}
 	_setThemeOverride(e) {
 		this._themeOverride = e;
 		try {
-			localStorage.setItem(lr, e);
+			localStorage.setItem(ti, e);
 		} catch {}
 	}
 	_toggleSectionCollapse(e) {
 		let t = new Set(this._collapsedSections);
-		t.has(e) ? t.delete(e) : t.add(e), this._collapsedSections = t, wr(t);
+		t.has(e) ? t.delete(e) : t.add(e), this._collapsedSections = t, gi(t);
 	}
 	_renderSectionCollapseToggle(e, t, n) {
-		let r = !n && this._collapsedSections.has(e), i = this._tip(ri(e, t, ei(n, r)));
-		return x`<div class="section-toggle-row"><button
-      class="section-collapse-btn"
+		let r = !n && this._collapsedSections.has(e), i = this._tip(Yi(e, t, Ki(n, r)));
+		return v`<div class="section-toggle-row"><button
+      class="section-collapse-btn ${D("table-division-heading")}"
       data-tip="act"
       aria-describedby=${i.id}
       aria-expanded="${!r}"
@@ -6910,16 +7299,16 @@ var qs = {
       @click=${() => this._toggleSectionCollapse(e)}
     >
       <svg class="collapse-icon" viewBox="0 0 24 24" aria-hidden="true">
-        <path d="${r ? rc : nc}"></path>
+        <path d="${r ? $c : Qc}"></path>
       </svg>
-      <span class="tooltip-cue">${br[e]}</span>
-    </button>${i.desc}${this._renderSectionInfoButton(br[e], ri(e, t, "info"))}</div>`;
+      <span class="tooltip-cue">${fi[e]}</span>
+    </button>${i.desc}${this._renderSectionInfoButton(fi[e], Yi(e, t, "info"))}</div>`;
 	}
 	_renderSectionInfoButton(e, t) {
 		let n = this._tip(t);
-		return x`<button
+		return v`<button
       type="button"
-      class="info-btn"
+      class="info-btn ${D("info-cue")}"
       data-tip="info"
       aria-label="Counts for ${e}"
       aria-describedby=${n.id}
@@ -6930,12 +7319,12 @@ var qs = {
 			...this._collapsedCardBandGroups,
 			[e]: new Set(this._collapsedCardBandGroups[e])
 		}, r = n[e];
-		r.has(t) ? r.delete(t) : r.add(t), this._collapsedCardBandGroups = n, Ar(n);
+		r.has(t) ? r.delete(t) : r.add(t), this._collapsedCardBandGroups = n, Si(n);
 	}
 	_renderCardBandGroupToggle(e, t, n, r) {
-		let i = !r && this._collapsedCardBandGroups[e].has(t), a = this._tip(ai(e, t, n, ei(r, i)));
-		return x`<div class="section-toggle-row"><button
-      class="section-collapse-btn"
+		let i = !r && this._collapsedCardBandGroups[e].has(t), a = this._tip(Zi(e, t, n, Ki(r, i)));
+		return v`<div class="section-toggle-row"><button
+      class="section-collapse-btn ${D("table-division-heading")}"
       data-tip="act"
       aria-describedby=${a.id}
       aria-expanded="${!i}"
@@ -6943,15 +7332,15 @@ var qs = {
       @click=${() => this._toggleCardBandGroup(e, t)}
     >
       <svg class="collapse-icon" viewBox="0 0 24 24" aria-hidden="true">
-        <path d="${i ? rc : nc}"></path>
+        <path d="${i ? $c : Qc}"></path>
       </svg>
-      <span class="tooltip-cue">${Tr[t]}</span>
-    </button>${a.desc}${this._renderSectionInfoButton(Tr[t], ai(e, t, n, "info"))}</div>`;
+      <span class="tooltip-cue">${_i[t]}</span>
+    </button>${a.desc}${this._renderSectionInfoButton(_i[t], Zi(e, t, n, "info"))}</div>`;
 	}
 	_renderThemeRadios() {
-		return x`<fieldset class="theme-options">
-      <legend>Theme</legend>
-      ${Object.entries(sr).map(([e, t]) => x`<label class="theme-option choice-row">
+		return v`<fieldset class="theme-options">
+      <legend class=${D("dialog-field-prompt")}>Theme</legend>
+      ${Object.entries($r).map(([e, t]) => v`<label class="theme-option choice-row">
           <input
             type="radio"
             name="theme"
@@ -6970,55 +7359,55 @@ var qs = {
 		let t = `tip-${this._tipSeq++}`;
 		return {
 			id: t,
-			desc: x`<span class="tip-text" id=${t} hidden data-hover=${e.icon ?? vc} data-blocked=${e.blocked ? "true" : "false"}>${ar(e)}</span>`
+			desc: v`<span class="tip-text" id=${t} hidden data-hover=${e.icon ?? gl} data-blocked=${e.blocked ? "true" : "false"}>${Zr(e)}</span>`
 		};
 	}
 	_plainTip(e) {
 		let t = `tip-${this._tipSeq++}`;
 		return {
 			id: t,
-			desc: x`<span class="tip-text" id=${t} hidden>${e}</span>`
+			desc: v`<span class="tip-text" id=${t} hidden>${e}</span>`
 		};
 	}
 	_renderTrayIcon(e) {
-		return x`<svg class="tray-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="${e}"></path></svg>`;
+		return v`<svg class="tray-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="${e}"></path></svg>`;
 	}
 	_renderStagingButton(e) {
 		let t = e.disabled !== !1, n = t ? e.disabled.reason : e.tip;
-		if (this._mode !== "batch" || n === null) return x`<button
+		if (this._mode !== "batch" || n === null) return v`<button
         class="staging-btn ${e.className ?? ""}"
         ?disabled=${t}
         @click=${e.onClick}
-      >${this._mode === "batch" ? this._renderTrayIcon(oc) : ""}${e.label}</button>`;
+      >${this._mode === "batch" ? this._renderTrayIcon(il) : ""}${e.label}</button>`;
 		let r = this._plainTip(n);
-		return x`<button
+		return v`<button
       class="staging-btn ${e.className ?? ""}"
       data-tip="act"
       aria-describedby=${r.id}
       ?disabled=${t}
       @click=${e.onClick}
-    >${this._renderTrayIcon(oc)}${e.label}</button>${r.desc}`;
+    >${this._renderTrayIcon(il)}${e.label}</button>${r.desc}`;
 	}
 	_pendingMarkerText(e, t) {
 		let n = (e) => {
 			let n = t.socketsById.get(e);
-			if (n === void 0) return k(null);
-			let r = j(t.coNames, n.co_id);
-			return (t.socketsByCo.get(n.co_id)?.length ?? 0) > 1 ? `Socket ${Vt(n)} of ${r}` : r;
-		}, r = (e) => t.uoNames.has(e) ? `Wall Socket ${j(t.uoNames, e)}` : k(null), i = (e) => e === null ? null : e.kind === "uo" ? r(e.id) : n(e.id), a = e.map((e) => Ks(j(e.kind === "appliance" ? t.applianceNames : t.coNames, e.subjectId), i(e.from), i(e.to)));
+			if (n === void 0) return j(null);
+			let r = N(t.coNames, n.co_id);
+			return (t.socketsByCo.get(n.co_id)?.length ?? 0) > 1 ? `Socket ${Mn(n)} of ${r}` : r;
+		}, r = (e) => t.uoNames.has(e) ? `Wall Socket ${N(t.uoNames, e)}` : j(null), i = (e) => e === null ? null : e.kind === "uo" ? r(e.id) : n(e.id), a = e.map((e) => Hc(N(e.kind === "appliance" ? t.applianceNames : t.coNames, e.subjectId), i(e.from), i(e.to)));
 		return this._withTooltipBody("Pending:", a.join("\n"));
 	}
 	_renderPendingMarker(e) {
 		let t = this._plainTip(e);
-		return x`<button type="button" class="pending-marker" data-tip="info" aria-label="Pending change" aria-describedby=${t.id}>*</button>${t.desc}`;
+		return v`<button type="button" class="pending-marker ${D("pending-marker")}" data-tip="info" aria-label="Pending change" aria-describedby=${t.id}>*</button>${t.desc}`;
 	}
 	_renderConsequenceLine(e, t) {
 		let n = (e, n) => {
 			switch (e) {
-				case "appliance": return j(t.applianceNames, n);
-				case "co_socket": return j(t.coSocketLabels, n);
-				case "co": return j(t.coNames, n);
-				case "uo": return j(t.uoNames, n);
+				case "appliance": return N(t.applianceNames, n);
+				case "co_socket": return N(t.coSocketLabels, n);
+				case "co": return N(t.coNames, n);
+				case "uo": return N(t.uoNames, n);
 			}
 		}, r = e.ids.map((e) => n(e.role, e.id));
 		switch (e.command) {
@@ -7036,44 +7425,44 @@ var qs = {
 		});
 	}
 	_renderSessionToolbar(e, t) {
-		let n = zs(e), r = this._withTooltipBody(n.undo.title, this._renderConsequenceLines(Ls(e), t).join("\n")), i = this._withTooltipBody(n.redo.title, this._renderConsequenceLines(Rs(e), t).join("\n")), a = this._withTooltipBody(n.commit.title, this._renderConsequenceLines(Fs(e), t).join("\n")), o = this._withTooltipBody(n.flush.title, this._renderConsequenceLines(Is(e), t).join("\n")), s = this._plainTip(r), c = this._plainTip(i), l = this._plainTip(a), u = this._plainTip(o);
-		return x`
+		let n = Fc(e), r = this._withTooltipBody(n.undo.title, this._renderConsequenceLines(Nc(e), t).join("\n")), i = this._withTooltipBody(n.redo.title, this._renderConsequenceLines(Pc(e), t).join("\n")), a = this._withTooltipBody(n.commit.title, this._renderConsequenceLines(jc(e), t).join("\n")), o = this._withTooltipBody(n.flush.title, this._renderConsequenceLines(Mc(e), t).join("\n")), s = this._plainTip(r), c = this._plainTip(i), l = this._plainTip(a), u = this._plainTip(o);
+		return v`
       <div class="session-toolbar">
         <button
-          class="session-btn"
+          class="session-btn ${O("small-text", "emphasis")}"
           data-tip="act"
           aria-describedby=${s.id}
           ?disabled=${n.undo.disabled}
           @click=${() => this._runSessionCommand("outlet_binder/edit_session_undo")}
         >
-          ${this._renderTrayIcon(sc)}Undo${n.undo.count > 0 ? ` (${n.undo.count})` : ""}
+          ${this._renderTrayIcon(al)}Undo${n.undo.count > 0 ? ` (${n.undo.count})` : ""}
         </button>${s.desc}
         <button
-          class="session-btn"
+          class="session-btn ${O("small-text", "emphasis")}"
           data-tip="act"
           aria-describedby=${c.id}
           ?disabled=${n.redo.disabled}
           @click=${() => this._runSessionCommand("outlet_binder/edit_session_redo")}
         >
-          ${this._renderTrayIcon(cc)}Redo${n.redo.count > 0 ? ` (${n.redo.count})` : ""}
+          ${this._renderTrayIcon(ol)}Redo${n.redo.count > 0 ? ` (${n.redo.count})` : ""}
         </button>${c.desc}
         <button
-          class="session-btn go"
+          class="session-btn go ${O("small-text", "emphasis")}"
           data-tip="act"
           aria-describedby=${l.id}
           ?disabled=${n.commit.disabled}
           @click=${() => this._openCommitConfirm(e, t)}
         >
-          ${this._renderTrayIcon(lc)}Commit${n.commit.count > 0 ? ` (${n.commit.count})` : ""}
+          ${this._renderTrayIcon(sl)}Commit${n.commit.count > 0 ? ` (${n.commit.count})` : ""}
         </button>${l.desc}
         <button
-          class="session-btn danger"
+          class="session-btn danger ${O("small-text", "emphasis")}"
           data-tip="act"
           aria-describedby=${u.id}
           ?disabled=${n.flush.disabled}
           @click=${() => this._openFlushConfirm(e, t)}
         >
-          ${this._renderTrayIcon(uc)}Flush${n.flush.count > 0 ? ` (${n.flush.count})` : ""}
+          ${this._renderTrayIcon(cl)}Flush${n.flush.count > 0 ? ` (${n.flush.count})` : ""}
         </button>${u.desc}
       </div>
     `;
@@ -7084,15 +7473,15 @@ var qs = {
 			try {
 				await this.hass.callWS({ type: e }), await this._refresh();
 			} catch (e) {
-				await this._refresh(), this._error = Ht("Edit session command failed", e);
+				await this._refresh(), this._error = Nn("Edit session command failed", e);
 			}
 		}
 	}
 	_openFlushConfirm(e, t) {
 		let n = e.undo_group_count + e.redo_group_count;
 		this._flushConfirm = {
-			message: `Discard ${As(n, "staged change")}?`,
-			lines: this._renderConsequenceLines(Is(e), t),
+			message: `Discard ${Ec(n, "staged change")}?`,
+			lines: this._renderConsequenceLines(Mc(e), t),
 			saving: !1,
 			error: null
 		};
@@ -7114,15 +7503,15 @@ var qs = {
 				this._flushConfirm = {
 					...e,
 					saving: !1,
-					error: M(t)
+					error: P(t)
 				};
 			}
 		}
 	}
 	_openCommitConfirm(e, t) {
 		this._commitConfirm = {
-			message: `Apply ${As(e.undo_group_count, "staged change")}?`,
-			lines: this._renderConsequenceLines(Fs(e), t),
+			message: `Apply ${Ec(e.undo_group_count, "staged change")}?`,
+			lines: this._renderConsequenceLines(jc(e), t),
 			saving: !1,
 			error: null
 		};
@@ -7144,44 +7533,45 @@ var qs = {
 				this._commitConfirm = {
 					...e,
 					saving: !1,
-					error: M(t)
+					error: P(t)
 				}, await this._refresh();
 			}
 		}
 	}
 	render() {
 		let e = this._editSession?.failed_entry ?? null, t = this._state ? this._deriveMainView(this._state) : null;
-		return this._tipSeq = 0, x`
+		return this._tipSeq = 0, v`
       ${this._renderEditDialog("_editing")} ${this._renderEditDialog("_editingSocket")} ${this._renderLinkDialog()} ${this._renderCreateDialog()}
       ${this._renderDeleteConfirmDialog()} ${this._renderFlushConfirmDialog()}
       ${this._renderCommitConfirmDialog()}
-      ${us(this._renderThemeRadios(), () => this._closeSettings(), this._buildStamp)}
+      ${rc(this._renderThemeRadios(), () => this._closeSettings(), this._buildStamp)}
+      ${oc(this._haItemsContent(), () => this._setHaItemsOpen(!1), this._buildStamp)}
       ${this._renderFromNamesDialog()} ${this._renderWallBatchDialog()}
       ${this._renderExportDialog()}
       ${this._renderDiscoveredDialog()}
       ${this._renderHeaderBar()}
-      ${this._editSession && t && (this._mode === "batch" || this._editSession.entry_count > 0) ? x`<div class="toolbar-row">
+      ${this._editSession && t && (this._mode === "batch" || this._editSession.entry_count > 0) ? v`<div class="toolbar-row">
               ${this._renderSessionToolbar(this._editSession, t.h)}
             </div>` : ""}
       ${this._layoutTier !== "wide" && t ? this._renderTabRow(t.state, t.matches) : ""}
       <div class="scroll-region">
-        ${this._loading && !this._state ? x`<p>Loading…</p>` : ""}
-        ${this._error ? x`<p class="error">${this._error}</p>` : ""}
-        ${e ? x`<p class="error">
+        ${this._loading && !this._state ? v`<p class=${O("supporting-text")}>Loading…</p>` : ""}
+        ${this._error ? v`<p class="error ${O("error-text")}">${this._error}</p>` : ""}
+        ${e ? v`<p class="error ${O("error-text")}">
               Staged change #${e.entry_seq} (${e.command}) failed:
-              ${Ut(e.message)} The rows below show state up to that point.
+              ${Pn(e.message)} The rows below show state up to that point.
             </p>` : ""}
         ${t ? this._renderStructuredView(t.state, t.h, t.pending, t.matches) : ""}
       </div>
-      <div class="tooltip-popover" popover="manual" aria-hidden="true"></div>
+      <div class="tooltip-popover ${A("hover-box")}" popover="manual" aria-hidden="true"></div>
     `;
 	}
 	_deriveMainView(e) {
-		let t = z(e);
+		let t = V(e);
 		return {
 			state: e,
 			h: t,
-			pending: Ws(e, this._editSession),
+			pending: Bc(e, this._editSession),
 			matches: this._mainMatches(e, t)
 		};
 	}
@@ -7193,17 +7583,17 @@ var qs = {
 		};
 	}
 	_mainMatches(e, t) {
-		return Oi(this._mainFilter, Yr(t), e.appliances, e.uos, this._layoutTier === "narrow" ? "cards" : "table", this._mainTextSources(t));
+		return ba(this._mainFilter, Vi(t), e.appliances, e.uos, this._layoutTier === "narrow" ? "cards" : "table", this._mainTextSources(t));
 	}
 	_renderHeaderBar() {
-		return x`<div class="header-bar">
-      <h1>${this._maybeDebugBadge()} Outlet &amp; Appliance Binding</h1>
+		return v`<div class="header-bar">
+      <h1 class=${D("page-title")}>${this._maybeDebugBadge()} Outlet &amp; Appliance Binding</h1>
       <div class="header-controls">${this._renderMainFilter()}${this._renderMenu()}</div>
     </div>`;
 	}
 	_renderMainFilter() {
 		let e = this._plainTip("Filter"), t = this._plainTip("Close the filter");
-		return ca({
+		return eo({
 			open: this._filterOpen,
 			pos: this._filterPos,
 			text: this._mainFilter,
@@ -7228,14 +7618,14 @@ var qs = {
 		if (!t) return;
 		e.preventDefault();
 		let n = t.getBoundingClientRect();
-		this._filterDrag = _n({
+		this._filterDrag = sr({
 			x: e.clientX,
 			y: e.clientY
 		}, n), e.currentTarget.setPointerCapture?.(e.pointerId);
 	}
 	_moveFilterDrag(e) {
 		if (!this._filterDrag) return;
-		let t = vn({
+		let t = cr({
 			x: e.clientX,
 			y: e.clientY
 		}, this._filterDrag);
@@ -7248,7 +7638,7 @@ var qs = {
 		let n = this._mainFilterEl, r = n?.parentElement;
 		if (!n || !r) return;
 		let i = n.getBoundingClientRect();
-		this._filterPos = yn({
+		this._filterPos = lr({
 			left: e,
 			top: t
 		}, {
@@ -7273,37 +7663,37 @@ var qs = {
 			appliances: e.appliances.length,
 			uos: e.uos.length
 		};
-		return x`<div
+		return v`<div
       class="tab-row ${this._layoutTier === "narrow" ? "narrow" : ""}"
       role="tablist"
       aria-label="Tables"
       @keydown=${(e) => this._onTabKeydown(e)}
     >
-      ${B.map((e) => {
+      ${H.map((e) => {
 			let r = e === this._activeTab;
-			return x`<button
+			return v`<button
           type="button"
           role="tab"
-          class="tab-btn"
+          class="tab-btn ${D("tab-label")}"
           id="tab-${e}"
           aria-controls="tabpanel"
-          aria-label=${mn(e, n[e], t.filtering ? t.counts[e] : null)}
+          aria-label=${ir(e, n[e], t.filtering ? t.counts[e] : null)}
           aria-selected=${r ? "true" : "false"}
           tabindex=${r ? "0" : "-1"}
           @click=${() => this._selectTab(e)}
-        ><span class="tab-name">${dn[e]}</span> <span class="tab-count">(${n[e]})</span>${t.filtering ? x` <span class="tab-match">${pn(t.counts[e])}</span>` : ""}</button>`;
+        ><span class="tab-name">${tr[e]}</span> <span class="tab-count">(${n[e]})</span>${t.filtering ? v` <span class="tab-match ${O("small-text")}">${rr(t.counts[e])}</span>` : ""}</button>`;
 		})}
     </div>`;
 	}
 	_selectTab(e) {
-		this._activeTab = e, Nr(e);
+		this._activeTab = e, Ti(e);
 	}
 	_onTabKeydown(e) {
-		let t = hn(this._activeTab, e.key);
+		let t = ar(this._activeTab, e.key);
 		t !== null && (e.preventDefault(), this._selectTab(t), this.updateComplete.then(() => this.renderRoot.querySelector(`#tab-${t}`)?.focus()));
 	}
 	_renderStructuredView(e, t, n, r) {
-		if (this._layoutTier === "wide") return x`
+		if (this._layoutTier === "wide") return v`
         <div class="panes">
           <div class="pane pane-side">${this._renderApplianceCards(e, t, n, r)}</div>
           <div class="pane pane-main">${this._renderCoTable(e, t, n, r)}</div>
@@ -7311,7 +7701,7 @@ var qs = {
         </div>
       `;
 		let i = this._activeTab === "devices" ? this._layoutTier === "narrow" ? this._renderCoCards(e, t, n, r) : this._renderCoTable(e, t, n, r) : this._activeTab === "appliances" ? this._renderApplianceCards(e, t, n, r) : this._renderUoCards(e, t, n, r);
-		return x`
+		return v`
       <div class="panes">
         <div class="pane pane-single" id="tabpanel" role="tabpanel" aria-labelledby="tab-${this._activeTab}">
           ${i}
@@ -7323,21 +7713,21 @@ var qs = {
 		let o = i ? n.filter(a) : n;
 		if (i && o.length === 0) return "";
 		let s = !i && this._collapsedCardBandGroups[e].has(t);
-		return x`
-      <div class="card-section-header section-${t === "isolated" ? "isolated" : "in-use"}" role="group" aria-label="${Tr[t]}">
+		return v`
+      <div class="card-section-header section-${t === "isolated" ? "isolated" : "in-use"}" role="group" aria-label="${_i[t]}">
         ${this._renderCardBandGroupToggle(e, t, n.length, i)}
       </div>
-      ${s ? "" : o.length === 0 ? x`<div class="card-none unbound">— none —</div>` : o.map(r)}
+      ${s ? "" : o.length === 0 ? v`<div class="card-none ${Z}">— none —</div>` : o.map(r)}
     `;
 	}
 	_renderNoMainMatch(e, t) {
-		return e && !t ? x`<p class="no-filter-match">${Wt}</p>` : "";
+		return e && !t ? v`<p class="no-filter-match ${O("supporting-text")}">${Fn}</p>` : "";
 	}
 	_renderApplianceCards(e, t, n, r) {
-		let { isolated: i, inUse: a } = vr(e), o = (e) => r.appliances.has(e.appliance_id), s = this._plainTip("New Appliance"), c = (e, r) => {
-			let i = n.appliance.get(e.appliance_id), a = Kr(e, t), o = Ti(e, t);
-			return x`<div
-        class="entity-card appliance-card ${r ? "unbound" : ""} ${i ? "pending" : ""}"
+		let { isolated: i, inUse: a } = ui(e), o = (e) => r.appliances.has(e.appliance_id), s = this._plainTip("New Appliance"), c = (e, r) => {
+			let i = n.appliance.get(e.appliance_id), a = Ri(e, t), o = _a(e, t);
+			return v`<div
+        class="entity-card appliance-card ${r ? Z : ""} ${i ? "pending" : ""}"
         role="group"
         aria-label=${e.name}
       >
@@ -7352,7 +7742,7 @@ var qs = {
 			}, e.name)}
         </div>
         <div class="card-line appliance-connection">
-          ${a === null || o === null ? "" : x`<span class="connection-host">${"in"}
+          ${a === null || o === null ? "" : v`<span class="connection-host">${"in"}
                   ${this._renderNameLink(a.kind === "co_socket" ? {
 				kind: "co",
 				entity: a.co
@@ -7369,9 +7759,9 @@ var qs = {
         </div>
       </div>`;
 		};
-		return x`
+		return v`
       <div class="card-header">
-        <button class="create-btn" data-tip="act" aria-describedby=${s.id} @click=${() => this._openCreate("appliance")}>
+        <button class="create-btn ${O("small-text", "emphasis")}" data-tip="act" aria-describedby=${s.id} @click=${() => this._openCreate("appliance")}>
           Add Appliance
         </button>${s.desc}
       </div>
@@ -7383,10 +7773,10 @@ var qs = {
     `;
 	}
 	_renderUoCards(e, t, n, r) {
-		let { isolated: i, inUse: a } = yr(e), o = (e) => r.uos.has(e.uo_id), s = this._plainTip("New Wall Socket"), c = (e, r) => {
-			let i = n.uo.get(e.uo_id), a = qr(e, t), o = Jr(e, t);
-			return x`<div
-        class="entity-card uo-card ${r ? "unbound" : ""} ${i ? "pending" : ""}"
+		let { isolated: i, inUse: a } = di(e), o = (e) => r.uos.has(e.uo_id), s = this._plainTip("New Wall Socket"), c = (e, r) => {
+			let i = n.uo.get(e.uo_id), a = zi(e, t), o = Bi(e, t);
+			return v`<div
+        class="entity-card uo-card ${r ? Z : ""} ${i ? "pending" : ""}"
         role="group"
         aria-label=${e.name}
       >
@@ -7400,7 +7790,7 @@ var qs = {
 				kind: "uo",
 				entity: e
 			}, e.name)}
-            ${this._renderAttrList(hi(e, this._uoArea(e)))}
+            ${this._renderAttrList(sa(e, this._uoArea(e)))}
           </div>
         </div>
         <div class="card-line uo-connection">
@@ -7409,22 +7799,22 @@ var qs = {
 				kind: "uo",
 				entity: e
 			}, t)}
-          ${a.length > 0 ? x`<span class="uo-occupants">${fi}
-                  <span class="uo-occupant-list">${a.map((e) => x`<div>${this._renderNameLink({
+          ${a.length > 0 ? v`<span class="uo-occupants">${ia}
+                  <span class="uo-occupant-list">${a.map((e) => v`<div>${this._renderNameLink({
 				kind: "co",
 				entity: e
 			}, e.alias)}</div>`)}</span></span>` : ""}
-          ${o.length > 0 ? x`<span class="uo-occupants">${pi}
-                  <span class="uo-occupant-list">${o.map((e) => x`<div>${this._renderNameLink({
+          ${o.length > 0 ? v`<span class="uo-occupants">${aa}
+                  <span class="uo-occupant-list">${o.map((e) => v`<div>${this._renderNameLink({
 				kind: "appliance",
 				entity: e
 			}, e.name)}</div>`)}</span></span>` : ""}
         </div>
       </div>`;
 		};
-		return x`
+		return v`
       <div class="card-header">
-        <button class="create-btn" data-tip="act" aria-describedby=${s.id} @click=${() => this._openCreate("uo")}>
+        <button class="create-btn ${O("small-text", "emphasis")}" data-tip="act" aria-describedby=${s.id} @click=${() => this._openCreate("uo")}>
           Add Wall Socket
         </button>${s.desc}
       </div>
@@ -7437,7 +7827,7 @@ var qs = {
 	}
 	_renderDeviceInfo(e) {
 		let t = this._coDevice(e);
-		return x`<div class="card-name">
+		return v`<div class="card-name">
       ${this._renderDeleteButton({
 			kind: "co",
 			entity: e
@@ -7446,46 +7836,46 @@ var qs = {
 			kind: "co",
 			entity: e
 		}, e.alias)}${this._maybeNewBadge(e.co_id)}
-      <span class="card-model">${_i(t, "cards")}</span>
+      <span class="card-model ${D("dialog-field-note")}">${la(t, "cards")}</span>
     </div>`;
 	}
 	_coNameHover(e) {
 		let t = this._coDevice(e), n = this._helpers(), r = this._areas.names;
-		return Vr({
+		return Ni({
 			name: e.alias,
-			integration: nn(this.hass?.entities, e.co_id),
+			integration: qn(this.hass?.entities, e.co_id),
 			model: t.model,
-			uoName: n ? Rr(e, n) : null,
-			effectiveArea: e.effective_ha_area_id ? A(r, e.effective_ha_area_id) : null,
-			deviceArea: t.area_id ? A(r, t.area_id) : null
+			uoName: n ? Ai(e, n) : null,
+			effectiveArea: e.effective_ha_area_id ? M(r, e.effective_ha_area_id) : null,
+			deviceArea: t.area_id ? M(r, t.area_id) : null
 		});
 	}
 	_renderCoBox(e, t) {
-		let n = this._coDevice(e), r = Fr(e, t);
-		return x`<div class="co-box">
+		let n = this._coDevice(e), r = Di(e, t);
+		return v`<div class="co-box">
       <div class="co-box-identity">
-        ${this._debugMode ? x`<div class="co-box-delete">${this._renderDeleteButton({
+        ${this._debugMode ? v`<div class="co-box-delete">${this._renderDeleteButton({
 			kind: "co",
 			entity: e
 		})}</div>` : ""}
-        <div class="co-box-name">
+        <div class="co-box-name ${O("medium")}">
           ${this._renderNameLink({
 			kind: "co",
 			entity: e
 		}, e.alias)}${this._maybeNewBadge(e.co_id)}
         </div>
-        <div class="co-box-model">${_i(n, "table")}</div>
+        <div class="co-box-model ${D("dialog-field-note")}">${la(n, "table")}</div>
       </div>
-      ${r === null ? "" : x`<div class="co-box-plugged">${r}</div>`}
+      ${r === null ? "" : v`<div class="co-box-plugged ${D("dialog-field-note")}">${r}</div>`}
     </div>`;
 	}
 	_renderCoCards(e, t, n, r) {
-		let i = Yr(t), a = Zr(e, t), o = r.filtering;
-		return x`<div class="entity-cards co-cards">
-      ${gc.map((e) => {
+		let i = Vi(t), a = Ui(e, t), o = r.filtering;
+		return v`<div class="entity-cards co-cards">
+      ${ml.map((e) => {
 			let s = i[e].map((t, n) => ({
 				block: t,
-				key: wi(e, n)
+				key: ga(e, n)
 			})).filter(({ key: e }) => !o || r.blocks.has(e));
 			return s.length === 0 ? "" : this._renderCoCardSection(e, s, a[e], o, t, n);
 		})}
@@ -7494,8 +7884,8 @@ var qs = {
 	}
 	_renderCoCardSection(e, t, n, r, i, a) {
 		let o = !r && this._collapsedSections.has(e);
-		return x`
-      <div class="card-section-header section-${e}" role="group" aria-label="${br[e]}">
+		return v`
+      <div class="card-section-header section-${e}" role="group" aria-label="${fi[e]}">
         ${this._renderSectionCollapseToggle(e, n, r)}
       </div>
       ${o ? "" : t.map(({ block: e, key: t }) => {
@@ -7512,8 +7902,8 @@ var qs = {
 		}
 	}
 	_renderCoCardSocketLine(e, t, n, r) {
-		let { appliance: i, co: a, name: o } = Pr(t, n), s = r.coSocket.get(t.co_socket_id);
-		return x`<div class="card-line socket-line ${n.socketIsFullyChained(e, t) ? "" : "unbound"}">
+		let { appliance: i, co: a, name: o } = Ei(t, n), s = r.coSocket.get(t.co_socket_id);
+		return v`<div class="card-line socket-line ${n.socketIsFullyChained(e, t) ? "" : Z}">
       ${this._renderSocketLinkButton(t, i, n)}
       ${this._renderSocketIdentity(t)}
       ${s ? this._renderPendingMarker(this._pendingMarkerText(s, n)) : ""}
@@ -7521,17 +7911,17 @@ var qs = {
     </div>`;
 	}
 	_renderCoCard(e, t, n, r, i) {
-		let a = r.socketsByCo.get(e.co_id) ?? [], o = i.co.get(e.co_id), s = !r.coIsFullyChained(e), c = t === null || !r.uoIsFullyChained(t), l = Ir(e, r), u = l === null ? null : Lr(e, r);
-		return x`<div
-      class="entity-card co-card ${s ? "unbound" : ""} ${o ? "pending" : ""}"
+		let a = r.socketsByCo.get(e.co_id) ?? [], o = i.co.get(e.co_id), s = !r.coIsFullyChained(e), c = t === null || !r.uoIsFullyChained(t), l = Oi(e, r), u = l === null ? null : ki(e, r);
+		return v`<div
+      class="entity-card co-card ${s ? Z : ""} ${o ? "pending" : ""}"
       role="group"
       aria-label=${e.alias}
       data-block=${n}
     >
       <div class="card-identity">${this._renderDeviceInfo(e)}</div>
       ${a.map((t) => this._renderCoCardSocketLine(e, t, r, i))}
-      <div class="card-line uo-line ${c ? "unbound" : ""}">
-        ${l === null ? t ? this._renderCoCardUoText(t) : "" : x`<span class="entity-flank-content uo-text host-text"><span class="host-name">${l}</span>${u === null ? "" : x`<span class="power-source">${u}</span>`}</span>`}
+      <div class="card-line uo-line ${c ? Z : ""}">
+        ${l === null ? t ? this._renderCoCardUoText(t) : "" : v`<span class="entity-flank-content uo-text host-text"><span class="host-name">${l}</span>${u === null ? "" : v`<span class="power-source ${D("dialog-field-note")}">${u}</span>`}</span>`}
         ${o ? this._renderPendingMarker(this._pendingMarkerText(o, r)) : ""}
         ${this._renderLinkButton({
 			kind: "co",
@@ -7541,12 +7931,12 @@ var qs = {
     </div>`;
 	}
 	_renderCoCardUoText(e) {
-		return x`<span class="entity-flank-content uo-text">
+		return v`<span class="entity-flank-content uo-text">
       ${this._renderUoIdentity(e)}
     </span>`;
 	}
 	_renderCoDirectCard(e, t, n, r) {
-		return x`<div
+		return v`<div
       class="entity-card co-card direct-card"
       role="group"
       aria-label=${e.name}
@@ -7568,44 +7958,44 @@ var qs = {
     </div>`;
 	}
 	_renderCoTable(e, t, n, r) {
-		let i = Yr(t), a = Zr(e, t), o = {
+		let i = Vi(t), a = Ui(e, t), o = {
 			h: t,
 			pending: n,
 			matches: r,
 			sectionCounts: a,
-			nextShade: Ds()
+			nextShade: Cc()
 		};
-		return x`
+		return v`
       <table class="structured-table co-table">
         ${this._renderCoTableHead({
 			appliances: e.appliances.length,
 			cos: e.cos.length,
-			...ws(a),
+			...bc(a),
 			uos: e.uos.length
-		})} ${Es(gc, i, r).map((e) => this._renderCoSection(e, o))}
+		})} ${Sc(ml, i, r).map((e) => this._renderCoSection(e, o))}
       </table>
       ${this._renderNoMainMatch(r.filtering, r.blocks.size > 0)}
     `;
 	}
 	_renderCoTableHead(e) {
-		let t = this._tip(oi("appliance", e)), n = this._tip(oi("co", e)), r = this._tip(oi("uo", e)), i = x`${this._renderPowerIcon(Js, "Plug", "plug")}${this._renderPowerIcon(Zs, "Unplug", "unplug")}`;
-		return x`<thead>
+		let t = this._tip(Qi("appliance", e)), n = this._tip(Qi("co", e)), r = this._tip(Qi("uo", e)), i = v`${this._renderPowerIcon(Wc, "Plug", "plug")}${this._renderPowerIcon(qc, "Unplug", "unplug")}`;
+		return v`<thead>
           <tr>
-            <th class="th-appliance">
+            <th class="th-appliance ${D("column-heading")}">
               <div class="th-stack">
-                <span class="th-content section-count-tooltip" tabindex="0" data-tip="info" aria-describedby=${t.id}>Appliances<sup class="info-cue" aria-hidden="true">i</sup></span>${t.desc}
+                <span class="th-content section-count-tooltip" tabindex="0" data-tip="info" aria-describedby=${t.id}>Appliances<sup class="info-cue ${D("info-cue")}" aria-hidden="true">i</sup></span>${t.desc}
               </div>
             </th>
-            <th class="th-connection"><div class="th-row">${i}</div></th>
-            <th class="th-co" colspan="2">
+            <th class="th-connection ${D("column-heading")}"><div class="th-row">${i}</div></th>
+            <th class="th-co ${D("column-heading")}" colspan="2">
               <div class="th-stack">
-                <span class="th-content section-count-tooltip" tabindex="0" data-tip="info" aria-describedby=${n.id}>Smart devices &amp; Sockets<sup class="info-cue" aria-hidden="true">i</sup></span>${n.desc}
+                <span class="th-content section-count-tooltip" tabindex="0" data-tip="info" aria-describedby=${n.id}>Smart devices &amp; Sockets<sup class="info-cue ${D("info-cue")}" aria-hidden="true">i</sup></span>${n.desc}
               </div>
             </th>
-            <th class="th-connection"><div class="th-row">${i}</div></th>
-            <th class="th-uo">
+            <th class="th-connection ${D("column-heading")}"><div class="th-row">${i}</div></th>
+            <th class="th-uo ${D("column-heading")}">
               <div class="th-stack">
-                <span class="th-content section-count-tooltip" tabindex="0" data-tip="info" aria-describedby=${r.id}>Wall Sockets<sup class="info-cue" aria-hidden="true">i</sup></span>${r.desc}
+                <span class="th-content section-count-tooltip" tabindex="0" data-tip="info" aria-describedby=${r.id}>Wall Sockets<sup class="info-cue ${D("info-cue")}" aria-hidden="true">i</sup></span>${r.desc}
               </div>
             </th>
           </tr>
@@ -7613,30 +8003,30 @@ var qs = {
 	}
 	_renderCoSection({ section: e, blocks: t, headed: n, spacerBefore: r }, i) {
 		let { matches: a, sectionCounts: o } = i;
-		return x`
-      ${r ? x`<tbody>
-                  ${mc(pc)}
+		return v`
+      ${r ? v`<tbody>
+                  ${fl(dl)}
                 </tbody>` : ""}
-      ${n ? x`<tbody>
-                <tr class="section-header section-${e}" aria-label="${br[e]}">
-                  <td colspan="${pc}">
+      ${n ? v`<tbody>
+                <tr class="section-header section-${e}" aria-label="${fi[e]}">
+                  <td colspan="${dl}">
                     ${this._renderSectionCollapseToggle(e, o[e], a.filtering)}
                   </td>
                 </tr>
               </tbody>` : ""}
       ${t.map((t, n) => {
-			let r = wi(e, n), o = Ts(a, this._collapsedSections, e, r);
-			return x`${hc(o)}${this._renderCoBlock(t, r, o, i)}`;
+			let r = ga(e, n), o = xc(a, this._collapsedSections, e, r);
+			return v`${pl(o)}${this._renderCoBlock(t, r, o, i)}`;
 		})}
     `;
 	}
 	_renderCoBlock(e, t, n, r) {
-		let { h: i, pending: a } = r, o = Cs(i.socketsByCo, e), s = e.uoId === null ? null : i.uosById.get(e.uoId) ?? null, c = s === null || !i.uoIsFullyChained(s), l = r.nextShade(), u = !1, d = () => u ? "" : (u = !0, x`<td rowspan="${o}" class="uo-cell ${c ? "unbound" : ""}">
-          ${s ? x`<div class="entity-flank-content">
+		let { h: i, pending: a } = r, o = yc(i.socketsByCo, e), s = e.uoId === null ? null : i.uosById.get(e.uoId) ?? null, c = s === null || !i.uoIsFullyChained(s), l = r.nextShade(), u = !1, d = () => u ? "" : (u = !0, v`<td rowspan="${o}" class="uo-cell ${c ? Z : ""}">
+          ${s ? v`<div class="entity-flank-content">
                 ${this._renderUoIdentity(s)}
               </div>` : ""}
-        </td>`), f = e.rows.flatMap((e) => [...e.gapBefore ? [mc(5)] : [], ...this._renderCoRows(e, d, i, a)]);
-		return x`<tbody class="${l} ${n ? "collapsed" : ""}" ?inert=${n} data-block=${t}>${f}</tbody>`;
+        </td>`), f = e.rows.flatMap((e) => [...e.gapBefore ? [fl(5)] : [], ...this._renderCoRows(e, d, i, a)]);
+		return v`<tbody class="${l} ${n ? "collapsed" : ""}" ?inert=${n} data-block=${t}>${f}</tbody>`;
 	}
 	_renderCoRows(e, t, n, r) {
 		switch (e.kind) {
@@ -7646,7 +8036,7 @@ var qs = {
 		}
 	}
 	_renderLiveRows(e, t, n, r) {
-		let i = [], a = n.socketsByCo.get(e.co_id) ?? [], o = !n.coIsFullyChained(e), s = xs(n.socketsByCo, e), c = r.co.get(e.co_id), l = x`<td
+		let i = [], a = n.socketsByCo.get(e.co_id) ?? [], o = !n.coIsFullyChained(e), s = _c(n.socketsByCo, e), c = r.co.get(e.co_id), l = v`<td
       rowspan="${s}"
       class="connection-cell co-connection"
     >
@@ -7655,9 +8045,9 @@ var qs = {
 			entity: e
 		}, n)}${c ? this._renderPendingMarker(this._pendingMarkerText(c, n)) : ""}
     </td>`, u = t(), d = (e, t, i) => {
-			let a = e.occupant_device_id !== null, { appliance: o, co: s, name: c } = Pr(e, n);
-			return x`<td
-          class="appl-cell ${a ? "plugged" : ""} ${t ? "unbound" : ""}"
+			let a = e.occupant_device_id !== null, { appliance: o, co: s, name: c } = Ei(e, n);
+			return v`<td
+          class="appl-cell ${a ? `plugged ${O("emphasis")}` : ""} ${t ? Z : ""}"
         >
           ${i ? this._renderPendingMarker(this._pendingMarkerText(i, n)) : ""}
           ${this._renderOccupantName(o, s, c)}${this._renderDepartingName(e, r, n)}
@@ -7666,34 +8056,34 @@ var qs = {
           ${this._renderSocketLinkButton(e, o, n)}<span class="connection-leader after"></span>
         </td>`;
 		}, f = this._renderCoBox(e, n);
-		return a.length === 0 ? (i.push(x`
+		return a.length === 0 ? (i.push(v`
         <tr class="${c ? "pending" : ""}">
           <td class="appl-cell"></td>
           <td class="connection-cell"></td>
-          <td colspan="2" class="co-cell co-box-left co-box-right co-box-top co-box-bottom ${o ? "unbound" : ""}">
+          <td colspan="2" class="co-cell co-box-left co-box-right co-box-top co-box-bottom ${o ? Z : ""}">
             ${f}
           </td>
           ${l}
           ${u}
         </tr>
       `), i) : (a.forEach((t, s) => {
-			let ee = !n.socketIsFullyChained(e, t), p = r.coSocket.get(t.co_socket_id), m = s === 0, te = s === a.length - 1;
-			i.push(x`
-        <tr class="socket-row ${m && c || p ? "pending" : ""}">
-          ${d(t, ee, p)}
-          <td class="socket-cell co-box-left ${m ? "co-box-top" : ""} ${te ? "co-box-bottom" : ""} ${ee ? "unbound" : ""}">
+			let ee = !n.socketIsFullyChained(e, t), te = r.coSocket.get(t.co_socket_id), p = s === 0, ne = s === a.length - 1;
+			i.push(v`
+        <tr class="socket-row ${p && c || te ? "pending" : ""}">
+          ${d(t, ee, te)}
+          <td class="socket-cell co-box-left ${p ? "co-box-top" : ""} ${ne ? "co-box-bottom" : ""} ${ee ? Z : ""}">
             <div class="entity-flank-content">
               ${this._renderSocketIdentity(t)}
             </div>
           </td>
-          ${m ? x`<td
+          ${p ? v`<td
                   rowspan="${a.length}"
-                  class="co-cell co-box-right co-box-top co-box-bottom ${o ? "unbound" : ""}"
+                  class="co-cell co-box-right co-box-top co-box-bottom ${o ? Z : ""}"
                 >
                   ${f}
                 </td>` : ""}
-          ${m ? l : ""}
-          ${m ? u : ""}
+          ${p ? l : ""}
+          ${p ? u : ""}
         </tr>
       `);
 		}), i);
@@ -7702,7 +8092,7 @@ var qs = {
 		let i = n();
 		return t.map((n, a) => {
 			let o = a === 0, s = a === t.length - 1;
-			return x`
+			return v`
         <tr class="socket-row copy-row">
           <td class="appl-cell" inert></td>
           <td class="connection-cell socket-connection" inert>
@@ -7711,21 +8101,21 @@ var qs = {
           <td class="socket-cell co-box-left ${o ? "co-box-top" : ""} ${s ? "co-box-bottom" : ""}" inert>
             <div class="entity-flank-content">${this._renderSocketIdentity(n)}</div>
           </td>
-          ${o ? x`<td
+          ${o ? v`<td
                   rowspan="${t.length}"
                   class="co-cell copy-cell co-box-right co-box-top co-box-bottom"
                   inert
                 >
-                  <div class="co-alias">${Wr(e, t, r)}</div>
+                  <div class="co-alias ${O("medium")}">${Ii(e, t, r)}</div>
                 </td>` : ""}
-          ${o ? x`<td rowspan="${t.length}" class="connection-cell co-connection" inert></td>` : ""}
+          ${o ? v`<td rowspan="${t.length}" class="connection-cell co-connection" inert></td>` : ""}
           ${o ? i : ""}
         </tr>
       `;
 		});
 	}
 	_renderDirectRow(e, t, n) {
-		return x`
+		return v`
       <tr class="direct-row">
         <td class="appl-cell plugged">
           ${this._renderNameLink({
@@ -7746,6 +8136,6 @@ var qs = {
     `;
 	}
 };
-Z([Ue({ attribute: !1 })], $.prototype, "hass", void 0), Z([E()], $.prototype, "_state", void 0), Z([E()], $.prototype, "_editSession", void 0), Z([E()], $.prototype, "_debugMode", void 0), Z([E()], $.prototype, "_build", void 0), Z([E()], $.prototype, "_error", void 0), Z([E()], $.prototype, "_loading", void 0), Z([E()], $.prototype, "_socketRegion", void 0), Z([E()], $.prototype, "_mode", void 0), Z([E()], $.prototype, "_themeOverride", void 0), Z([E()], $.prototype, "_collapsedSections", void 0), Z([E()], $.prototype, "_collapsedCardBandGroups", void 0), Z([E()], $.prototype, "_layoutTier", void 0), Z([E()], $.prototype, "_activeTab", void 0), Z([E()], $.prototype, "_editing", void 0), Z([E()], $.prototype, "_editingSocket", void 0), Z([E()], $.prototype, "_linking", void 0), Z([E()], $.prototype, "_linkRoomFilter", void 0), Z([E()], $.prototype, "_linkCoFilter", void 0), Z([E()], $.prototype, "_creating", void 0), Z([E()], $.prototype, "_deleting", void 0), Z([E()], $.prototype, "_flushConfirm", void 0), Z([E()], $.prototype, "_commitConfirm", void 0), Z([E()], $.prototype, "_settingsOpen", void 0), Z([E()], $.prototype, "_menuOpen", void 0), Z([E()], $.prototype, "_mainFilter", void 0), Z([E()], $.prototype, "_filterOpen", void 0), Z([E()], $.prototype, "_filterPos", void 0), Z([E()], $.prototype, "_fromNames", void 0), Z([E()], $.prototype, "_exporting", void 0), Z([E()], $.prototype, "_wallBatch", void 0), Z([E()], $.prototype, "_discovered", void 0), Z([D("dialog.edit-dialog")], $.prototype, "_dialogEl", void 0), Z([D("dialog.socket-edit-dialog")], $.prototype, "_socketDialogEl", void 0), Z([D("dialog.link-dialog")], $.prototype, "_linkDialogEl", void 0), Z([D("dialog.create-dialog")], $.prototype, "_createDialogEl", void 0), Z([D("dialog.delete-dialog")], $.prototype, "_deleteDialogEl", void 0), Z([D("dialog.flush-dialog")], $.prototype, "_flushDialogEl", void 0), Z([D("dialog.commit-dialog")], $.prototype, "_commitDialogEl", void 0), Z([D("dialog.settings-dialog")], $.prototype, "_settingsDialogEl", void 0), Z([D("dialog.from-names-dialog")], $.prototype, "_fromNamesDialogEl", void 0), Z([D("dialog.export-dialog")], $.prototype, "_exportDialogEl", void 0), Z([D("dialog.wall-batch-dialog")], $.prototype, "_wallBatchDialogEl", void 0), Z([D("dialog.discovered-dialog")], $.prototype, "_discoveredDialogEl", void 0), Z([D("input.main-filter-input")], $.prototype, "_mainFilterInputEl", void 0), Z([D("button.main-filter-open")], $.prototype, "_mainFilterOpenEl", void 0), Z([D("#main-filter")], $.prototype, "_mainFilterEl", void 0), Z([D(".tooltip-popover")], $.prototype, "_popoverEl", void 0), Z([D(".menu-btn")], $.prototype, "_menuBtnEl", void 0), $ = Z([Be("outlet-binder-panel")], $);
+X([qe({ attribute: !1 })], $.prototype, "hass", void 0), X([S()], $.prototype, "_state", void 0), X([S()], $.prototype, "_editSession", void 0), X([S()], $.prototype, "_debugMode", void 0), X([S()], $.prototype, "_build", void 0), X([S()], $.prototype, "_error", void 0), X([S()], $.prototype, "_loading", void 0), X([S()], $.prototype, "_socketRegion", void 0), X([S()], $.prototype, "_haItems", void 0), X([S()], $.prototype, "_mode", void 0), X([S()], $.prototype, "_themeOverride", void 0), X([S()], $.prototype, "_collapsedSections", void 0), X([S()], $.prototype, "_collapsedCardBandGroups", void 0), X([S()], $.prototype, "_layoutTier", void 0), X([S()], $.prototype, "_activeTab", void 0), X([S()], $.prototype, "_editing", void 0), X([S()], $.prototype, "_editingSocket", void 0), X([S()], $.prototype, "_linking", void 0), X([S()], $.prototype, "_linkRoomFilter", void 0), X([S()], $.prototype, "_linkCoFilter", void 0), X([S()], $.prototype, "_creating", void 0), X([S()], $.prototype, "_deleting", void 0), X([S()], $.prototype, "_flushConfirm", void 0), X([S()], $.prototype, "_commitConfirm", void 0), X([S()], $.prototype, "_settingsOpen", void 0), X([S()], $.prototype, "_menuOpen", void 0), X([S()], $.prototype, "_mainFilter", void 0), X([S()], $.prototype, "_filterOpen", void 0), X([S()], $.prototype, "_filterPos", void 0), X([S()], $.prototype, "_fromNames", void 0), X([S()], $.prototype, "_exporting", void 0), X([S()], $.prototype, "_wallBatch", void 0), X([S()], $.prototype, "_discovered", void 0), X([C("dialog.edit-dialog")], $.prototype, "_dialogEl", void 0), X([C("dialog.socket-edit-dialog")], $.prototype, "_socketDialogEl", void 0), X([C("dialog.link-dialog")], $.prototype, "_linkDialogEl", void 0), X([C("dialog.create-dialog")], $.prototype, "_createDialogEl", void 0), X([C("dialog.delete-dialog")], $.prototype, "_deleteDialogEl", void 0), X([C("dialog.flush-dialog")], $.prototype, "_flushDialogEl", void 0), X([C("dialog.commit-dialog")], $.prototype, "_commitDialogEl", void 0), X([C("dialog.settings-dialog")], $.prototype, "_settingsDialogEl", void 0), X([C("dialog.ha-items-dialog")], $.prototype, "_haItemsDialogEl", void 0), X([C("dialog.from-names-dialog")], $.prototype, "_fromNamesDialogEl", void 0), X([C("dialog.export-dialog")], $.prototype, "_exportDialogEl", void 0), X([C("dialog.wall-batch-dialog")], $.prototype, "_wallBatchDialogEl", void 0), X([C("dialog.discovered-dialog")], $.prototype, "_discoveredDialogEl", void 0), X([C("input.main-filter-input")], $.prototype, "_mainFilterInputEl", void 0), X([C("button.main-filter-open")], $.prototype, "_mainFilterOpenEl", void 0), X([C("#main-filter")], $.prototype, "_mainFilterEl", void 0), X([C(".tooltip-popover")], $.prototype, "_popoverEl", void 0), X([C(".menu-btn")], $.prototype, "_menuBtnEl", void 0), $ = X([We("outlet-binder-panel")], $);
 //#endregion
 export { $ as OutletBinderPanel };
