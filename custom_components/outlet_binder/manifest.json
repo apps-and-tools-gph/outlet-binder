@@ -2,7 +2,8 @@
   "domain": "outlet_binder",
   "name": "Outlet & Appliance Binding",
   "after_dependencies": ["template", "input_text"],
-  "codeowners": ["@guyhindle"],
+  "categories": ["plugs_switches"],
+  "codeowners": ["@apps-and-tools-gph"],
   "config_flow": true,
   "dependencies": ["http"],
   "documentation": "https://github.com/apps-and-tools-gph/outlet-binder",
@@ -11,5 +12,5 @@
   "issue_tracker": "https://github.com/apps-and-tools-gph/outlet-binder/issues",
   "requirements": ["jsonschema==4.26.0"],
   "single_config_entry": true,
-  "version": "0.3.0"
+  "version": "0.3.1"
 }

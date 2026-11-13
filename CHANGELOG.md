@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+## [0.3.1] - 2026-11-13
+
+The integration now lists its category, Plugs & switches, and names the organisation as its code owner. Nothing changes in how it works.
+
 ## [0.3.0] - 2026-11-11
 
 First beta drop.
