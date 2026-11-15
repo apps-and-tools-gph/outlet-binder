@@ -49,8 +49,8 @@ HaDeviceRegistryId = NewType("HaDeviceRegistryId", str)
 HaEntityRegistryId = NewType("HaEntityRegistryId", str)
 HaEntityDottedId = NewType("HaEntityDottedId", str)  # "switch.living_room_lamp"
 HaAreaId = NewType("HaAreaId", str)
-# An entity registry entry's `translation_key`. The integration sets it from its
-# own stable feature id, so it names a facility the same way in every language,
+# The YAML key of an entry in an integration's vocabulary file: the `<name>` in
+# `<integration>_<name>`. A person writes it, so it is the same in every language,
 # unlike `original_name`, which HA translates into the configured language.
 VendorFacilityKey = NewType("VendorFacilityKey", str)
 

@@ -15,18 +15,16 @@ step (see that section for the full rationale).
 
 import re
 from collections import Counter
-from collections.abc import Callable, Iterable, Mapping
-from dataclasses import dataclass, field, replace
+from collections.abc import Callable, Iterable
+from dataclasses import dataclass, replace
 from enum import StrEnum
-from types import MappingProxyType
 from typing import Literal
 
-from .facility_rules import FacilityRule
+from .facility_rules import FacilityEntry
 from .identifiers import (
     HaDeviceRegistryId,
     HaEntityDottedId,
     HaEntityRegistryId,
-    VendorFacilityKey,
 )
 from .normalization import normalize_name
 from .repairs import stale_issue_ids
@@ -155,18 +153,66 @@ class IdentifiedBy:
 
     `identifier` is a template over a closed set of placeholders, filled
     in from the entity and the matched device: `{unique_id}` is the
-    entity's, `{parent_identifier}` is the matched device's own identifier
-    (any one of them, in the pattern's integration domain), and is only
-    valid with `device="child"`. Everything device-specific, such as the
-    `_` a KP303 puts between the two, is written in the pattern's YAML;
-    the code only fills in the template and compares strings exactly.
+    entity's, `{unique_id_stem}` is the entity's with `unique_id_suffix`
+    taken off its end, `{parent_identifier}` is the matched device's own
+    identifier (any one of them, in the pattern's integration domain), and
+    is only valid with `device="child"`. Everything device-specific, such
+    as the `_` a KP303 puts between the two, is written in the pattern's
+    YAML; the code only fills in the template and compares strings exactly.
+
+    `unique_id_suffix` is for an integration whose device identifier is a
+    leading part of every one of its entities' `unique_id`s (Matter), so
+    that only the ending tells one entity from another. It is literal text,
+    never a template. With it, an entity is accepted only if its
+    `unique_id` ends with it and has at least one character before it (the
+    stem), and the device holds the identifier built from that stem; the
+    template then uses `{unique_id_stem}` and never `{unique_id}`. Without
+    it, the template uses `{unique_id}` and never `{unique_id_stem}`. A rule
+    that breaks this cannot be built.
     """
 
     device: Literal["self", "child"]
     identifier: str
+    unique_id_suffix: str | None = None
+
+    def __post_init__(self) -> None:
+        # Which of the two placeholders names the entity's id depends on
+        # whether an ending is stated, and the wrong one never matches, so the
+        # invalid pairing is refused here, wherever the rule is built.
+        if self.unique_id_suffix == "":
+            raise ValueError(
+                "identified_by.unique_id_suffix is empty -- it would name no ending, and"
+                " every entity would get the same stem"
+            )
+        has_whole = UNIQUE_ID_PLACEHOLDER in self.identifier
+        has_stem = UNIQUE_ID_STEM_PLACEHOLDER in self.identifier
+        if self.unique_id_suffix is None:
+            if has_stem:
+                raise ValueError(
+                    f"identified_by.identifier uses {UNIQUE_ID_STEM_PLACEHOLDER} without"
+                    " unique_id_suffix -- there is no ending to take off"
+                )
+            if not has_whole:
+                raise ValueError(
+                    f"identified_by.identifier has no {UNIQUE_ID_PLACEHOLDER} -- it would not"
+                    " depend on the entity, so it could not tell entities apart"
+                )
+        else:
+            if has_whole:
+                raise ValueError(
+                    f"identified_by.identifier uses {UNIQUE_ID_PLACEHOLDER} together with"
+                    f" unique_id_suffix -- use {UNIQUE_ID_STEM_PLACEHOLDER}, the unique_id"
+                    " without that ending"
+                )
+            if not has_stem:
+                raise ValueError(
+                    f"identified_by.identifier has no {UNIQUE_ID_STEM_PLACEHOLDER} -- the stated"
+                    " unique_id_suffix would not be used to find the device"
+                )
 
 
 UNIQUE_ID_PLACEHOLDER = "{unique_id}"
+UNIQUE_ID_STEM_PLACEHOLDER = "{unique_id_stem}"
 PARENT_IDENTIFIER_PLACEHOLDER = "{parent_identifier}"
 
 
@@ -331,18 +377,14 @@ class CoPattern:
     three named roles above and plays no part in matching. None means the
     pattern declares no default names."""
 
-    facility_rules: Mapping[tuple[str, VendorFacilityKey], FacilityRule] = field(
-        default_factory=lambda: MappingProxyType({})
-    )
-    """This model's final facility rules by (HA domain, id): its integration's
-    defaults with the model's own rules laid over them, compiled once when the
-    pattern loads (#681). They play no part in matching; domain/facilities.py
-    reads them."""
-
-    vocabulary: frozenset[tuple[str, VendorFacilityKey]] = frozenset()
-    """Every (HA domain, id) the pattern's integration offers, from its
-    vocabulary file. domain/facilities.py tells an id with no rule apart from
-    one the integration does not offer by it."""
+    entries: tuple[FacilityEntry, ...] = ()
+    """This model's final facility entries: its integration's vocabulary file
+    with the model's own entries laid over it, compiled once when the pattern
+    loads (#681). Each states the facts that recognise an entity and, if there is
+    one, its rule. No entity satisfies two of them (the loader refuses overlapping
+    entries), so domain/facilities.py finds an entity's entry without a precedence
+    rule, and an entity none recognises is unlisted. They play no part in
+    matching a device."""
 
 
 # Known device patterns are loaded from
@@ -435,7 +477,7 @@ def _identity_of(device: DiscoveredDevice, pattern: CoPattern) -> _Identity:
     return _Identity(values(device.identifiers), values(device.child_identifiers))
 
 
-_PLACEHOLDER_RE = re.compile(r"\{(unique_id|parent_identifier)\}")
+_PLACEHOLDER_RE = re.compile(r"\{(unique_id|unique_id_stem|parent_identifier)\}")
 
 
 def _fill(template: str, values: dict[str, str]) -> str:
@@ -453,13 +495,31 @@ def expected_identifiers(
     `unique_id` to carry: one for `device: self`, and one per parent
     identifier for `device: child`. Shared by matching and by the resolver in
     domain/facilities.py, so the two can never read a pattern's template
-    differently."""
+    differently. An entity whose `unique_id` does not fit a stated
+    `unique_id_suffix` has no expected identifier, so nothing can match it."""
+    entity_values = _entity_values(rule, unique_id)
+    if entity_values is None:
+        return frozenset()
     if rule.device == "self":
-        return frozenset({_fill(rule.identifier, {"unique_id": unique_id})})
+        return frozenset({_fill(rule.identifier, entity_values)})
     return frozenset(
-        _fill(rule.identifier, {"unique_id": unique_id, "parent_identifier": own})
+        _fill(rule.identifier, {**entity_values, "parent_identifier": own})
         for own in own_identifiers
     )
+
+
+def _entity_values(rule: IdentifiedBy, unique_id: str) -> dict[str, str] | None:
+    """The placeholder `rule` uses for the entity, filled in; None when the
+    stated ending does not fit. `IdentifiedBy` guarantees the template names
+    the placeholder given here and not the other. The stem is cut at the end,
+    never searched for, so an ending that also occurs earlier in the id is
+    taken off once."""
+    suffix = rule.unique_id_suffix
+    if suffix is None:
+        return {"unique_id": unique_id}
+    if not unique_id.endswith(suffix) or len(unique_id) == len(suffix):
+        return None
+    return {"unique_id_stem": unique_id[: -len(suffix)]}
 
 
 def _identified(entity: DiscoveredEntity, role: EntityRoleMatch, identity: _Identity) -> bool:

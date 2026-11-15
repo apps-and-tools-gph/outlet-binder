@@ -1,0 +1,130 @@
+# yaml-language-server: $schema=../../schemas/vocabulary_and_defaults_schema.yaml
+# Every entity the IKEA GRILLPLATS plug offers through Matter, how OB recognises
+# it, and what OB makes of each. How to read the file, and what each facility
+# is: device_identification/ob_facility_vocabulary.yaml.
+#
+# An entry's key is its name: the `<name>` in `<integration>_<name>`, which this
+# file's author chooses. It is listed under the HA domain of its entity. The
+# keys below are the labels HA shows for the entities, in lowercase words.
+#
+# OB recognises an entity by what the entry states:
+#   unique_id_suffix      what the entity's `unique_id` ends with. Required. Each
+#                         ending here starts at the endpoint and is the plug's
+#                         own, as the plug reports it.
+#   device_class          an HA device class the entity must also have. Optional.
+#
+# What else an entry says is its default, and may be left out:
+#   device: true          the plug's own, not a socket's. An Appliance never
+#                         mirrors it.
+#   socket: <facility>    a socket has it, and an Appliance mirrors it as that
+#                         facility from OB's facility vocabulary.
+#   nothing               the plug offers it and OB has no name for it. The
+#                         Appliance still gets the entity as
+#                         `<integration>_<name>`.
+#
+# An enabled matter entity on a socket's device that no entry recognises gets no
+# OB entity, and OB raises a Repairs issue saying the file does not list it. The
+# plug has entities that HA leaves disabled until someone enables them (Thread
+# channel, Thread routing role, Thread network name, reboot count, uptime); they
+# are listed so that enabling one raises nothing.
+vocabulary:
+  button:
+    # The plug's Identify button.
+    identify:
+      unique_id_suffix: -1-IdentifyButton-3-1
+      device: true
+
+  select:
+    # The plug's Power-on behaviour setting.
+    power_on_behaviour:
+      unique_id_suffix: -1-MatterStartUpOnOff-6-16387
+      device: true
+
+  sensor:
+    # Active current. The plug also reports effective and apparent current.
+    active_current:
+      unique_id_suffix: -2-ElectricalPowerMeasurementActiveCurrent-144-5
+
+    # Apparent current.
+    apparent_current:
+      unique_id_suffix: -2-ElectricalPowerMeasurementApparentCurrent-144-7
+
+    # Apparent power, in volt-amperes.
+    apparent_power:
+      unique_id_suffix: -2-ElectricalPowerMeasurementApparentPower-144-10
+      socket: ha_apparent_power
+
+    # Effective current, in amps: Matter's RMS current. It is the plug's reading
+    # of the current drawn, so it is the socket's `current`.
+    effective_current:
+      unique_id_suffix: -2-ElectricalPowerMeasurementRMSCurrent-144-12
+      socket: ha_current
+
+    # Effective voltage (Matter's RMS voltage). The plug also reports `voltage`.
+    effective_voltage:
+      unique_id_suffix: -2-ElectricalPowerMeasurementRMSVoltage-144-11
+
+    # Energy imported, in total, in kWh.
+    energy:
+      unique_id_suffix: -2-ElectricalEnergyMeasurementCumulativeEnergyImported-145-1
+      socket: ha_energy
+
+    # Mains frequency, in hertz.
+    frequency:
+      unique_id_suffix: -2-ElectricalPowerMeasurementFrequency-144-14
+      socket: ha_frequency
+
+    # Power drawn right now, in watts (Matter's active power).
+    power:
+      unique_id_suffix: -2-ElectricalPowerMeasurementWatt-144-8
+      socket: ha_power
+
+    # The ratio of real to apparent power.
+    power_factor:
+      unique_id_suffix: -2-ElectricalPowerMeasurementPowerFactor-144-17
+      socket: ha_power_factor
+
+    # Reactive current.
+    reactive_current:
+      unique_id_suffix: -2-ElectricalPowerMeasurementReactiveCurrent-144-6
+
+    # Reactive power, in volt-amperes reactive.
+    reactive_power:
+      unique_id_suffix: -2-ElectricalPowerMeasurementReactivePower-144-9
+      socket: ha_reactive_power
+
+    # How many times the plug has restarted.
+    reboot_count:
+      unique_id_suffix: -0-GeneralDiagnosticsRebootCount-51-1
+      device: true
+
+    # The Thread channel the plug uses.
+    thread_channel:
+      unique_id_suffix: -0-ThreadDiagnosticsChannel-53-0
+      device: true
+
+    # The name of the Thread network the plug is on.
+    thread_network_name:
+      unique_id_suffix: -0-ThreadDiagnosticsNetworkName-53-2
+      device: true
+
+    # The plug's routing role in the Thread network.
+    thread_routing_role:
+      unique_id_suffix: -0-ThreadDiagnosticsRoutingRole-53-1
+      device: true
+
+    # How long the plug has been running.
+    uptime:
+      unique_id_suffix: -0-GeneralDiagnosticsUpTime-51-2
+      device: true
+
+    # Voltage, in volts.
+    voltage:
+      unique_id_suffix: -2-ElectricalPowerMeasurementVoltage-144-4
+      socket: ha_voltage
+
+  update:
+    # The plug's firmware update.
+    firmware:
+      unique_id_suffix: -0-MatterUpdate-40-9
+      device: true

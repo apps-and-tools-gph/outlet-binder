@@ -35,7 +35,6 @@ from ..domain.identifiers import (
     HaDeviceRegistryId,
     HaEntityDottedId,
     HaEntityRegistryId,
-    VendorFacilityKey,
 )
 
 
@@ -46,9 +45,7 @@ def _registry_entity(entry: er.RegistryEntry) -> RegistryEntity:
         unique_id=entry.unique_id,
         domain=entry.domain,
         platform=entry.platform,
-        translation_key=(
-            VendorFacilityKey(entry.translation_key) if entry.translation_key else None
-        ),
+        device_class=entry.device_class or entry.original_device_class,
         original_name=entry.original_name,
         device_id=HaDeviceRegistryId(entry.device_id) if entry.device_id else None,
         disabled=entry.disabled_by is not None,

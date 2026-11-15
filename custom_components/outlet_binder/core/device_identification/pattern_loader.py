@@ -99,7 +99,6 @@ from collections.abc import Iterator
 from dataclasses import dataclass
 from functools import lru_cache
 from pathlib import Path
-from types import MappingProxyType
 
 from homeassistant.exceptions import HomeAssistantError
 from homeassistant.util.yaml import load_yaml_dict
@@ -110,21 +109,22 @@ from jsonschema.validators import extend
 from ..domain.discovery import (
     PARENT_IDENTIFIER_PLACEHOLDER,
     UNIQUE_ID_PLACEHOLDER,
+    UNIQUE_ID_STEM_PLACEHOLDER,
     CoPattern,
     EntityRoleMatch,
     IdentifiedBy,
     PatternKind,
 )
-from ..domain.facility_rules import ON_OFF, IntegrationVocabulary, effective_rules
+from ..domain.facility_rules import ON_OFF, IntegrationVocabulary, effective_entries
 from ..domain.versions import ANY_VERSION, VersionConstraint, parse_version
 from .facility_loader import (
     SCHEMAS_DIR,
-    check_rules,
+    check_entries,
     is_integration_domain,
     is_vocabulary_file,
     load_integration_vocabulary,
     ob_facility_vocabulary,
-    parse_facility_rules,
+    parse_facility_entries,
     refuse_repeated_keys,
 )
 
@@ -165,7 +165,11 @@ def _parse_version_token(token: str) -> VersionConstraint:
     return VersionConstraint(version=parse_version(token[1:] if exact else token), exact=exact)
 
 
-_KNOWN_PLACEHOLDERS = (UNIQUE_ID_PLACEHOLDER, PARENT_IDENTIFIER_PLACEHOLDER)
+_KNOWN_PLACEHOLDERS = (
+    UNIQUE_ID_PLACEHOLDER,
+    UNIQUE_ID_STEM_PLACEHOLDER,
+    PARENT_IDENTIFIER_PLACEHOLDER,
+)
 _PLACEHOLDER_RE = re.compile(r"\{[^{}]*\}")
 
 
@@ -208,16 +212,25 @@ def _raise_if_invalid(validator: Draft202012Validator, raw: object) -> None:
     raise ValueError(f"{error.json_path}: {error.message}")
 
 
-def _parse_identified_by(raw: dict) -> IdentifiedBy:
+def _parse_identified_by(raw: dict, role_name: str) -> IdentifiedBy:
     """Shape and vocabulary (unknown keys, the `device` enum, `identifier`
     being a string) are enforced by the pattern schema before this runs.
-    What the rule means for the *pattern* it sits in (child models) is
-    checked separately by `_validate_identified_by`, which needs that
-    context."""
-    return IdentifiedBy(device=raw["device"], identifier=raw["identifier"])
+    `IdentifiedBy` refuses an `identifier` that does not fit
+    `unique_id_suffix`; this only says which role it was in. What the rule
+    means for the *pattern* it sits in (child models, the role's other suffix
+    lists) is checked separately by `_validate_identified_by`, which needs
+    that context."""
+    try:
+        return IdentifiedBy(
+            device=raw["device"],
+            identifier=raw["identifier"],
+            unique_id_suffix=raw.get("unique_id_suffix"),
+        )
+    except ValueError as err:
+        raise ValueError(f"{role_name} role's {err}") from err
 
 
-def _parse_role(raw: dict) -> EntityRoleMatch:
+def _parse_role(raw: dict, role_name: str) -> EntityRoleMatch:
     identified_by_raw = raw.get("identified_by")
     return EntityRoleMatch(
         domain=raw["domain"],
@@ -225,7 +238,9 @@ def _parse_role(raw: dict) -> EntityRoleMatch:
         exclude_unique_id_suffixes=tuple(raw.get("exclude_unique_id_suffixes", ())),
         unique_id_suffixes=tuple(raw.get("unique_id_suffixes", ())),
         identified_by=(
-            _parse_identified_by(identified_by_raw) if identified_by_raw is not None else None
+            _parse_identified_by(identified_by_raw, role_name)
+            if identified_by_raw is not None
+            else None
         ),
     )
 
@@ -248,11 +263,27 @@ def _validate_identified_by(
             f"{role_name} role declares identified_by with device: child but the pattern has no"
             " sockets.child_models -- no child device is ever folded in to compare against"
         )
-    if UNIQUE_ID_PLACEHOLDER not in rule.identifier:
-        raise ValueError(
-            f"{role_name} role's identified_by.identifier has no {UNIQUE_ID_PLACEHOLDER} -- it"
-            " would not depend on the entity, so it could not tell entities apart"
-        )
+    suffix = rule.unique_id_suffix
+    if suffix is not None:
+        # An entity ends with the stated ending and with each position's
+        # suffix, so one must end the other; otherwise no entity fits both.
+        for position_suffix in role.unique_id_suffixes:
+            if not (position_suffix.endswith(suffix) or suffix.endswith(position_suffix)):
+                raise ValueError(
+                    f"{role_name} role's identified_by.unique_id_suffix {suffix!r} conflicts"
+                    f" with unique_id_suffixes entry {position_suffix!r} -- no unique_id can"
+                    " end with both, so the role could never match"
+                )
+        # With unique_id_suffixes the positional branch never applies the
+        # exclude list (it is only warned about), so it cannot stop a match.
+        excludes = () if role.unique_id_suffixes else role.exclude_unique_id_suffixes
+        for excluded in excludes:
+            if suffix.endswith(excluded):
+                raise ValueError(
+                    f"{role_name} role's identified_by.unique_id_suffix {suffix!r} conflicts"
+                    f" with exclude_unique_id_suffixes entry {excluded!r} -- every entity it"
+                    " confirms would be excluded, so the role could never match"
+                )
     if rule.device == "self" and PARENT_IDENTIFIER_PLACEHOLDER in rule.identifier:
         raise ValueError(
             f"{role_name} role uses {PARENT_IDENTIFIER_PLACEHOLDER} with device: self -- the"
@@ -404,9 +435,9 @@ def _parse_pattern(
     if all_on_off_raw is not None:
         warnings.extend(_warn_if_suffix_fields_conflict("all_on_off", all_on_off_raw))
 
-    on_off = _parse_role(on_off_raw)
-    monitoring = _parse_role(monitoring_raw) if monitoring_raw is not None else None
-    all_on_off = _parse_role(all_on_off_raw) if all_on_off_raw is not None else None
+    on_off = _parse_role(on_off_raw, "on_off")
+    monitoring = _parse_role(monitoring_raw, "monitoring") if monitoring_raw is not None else None
+    all_on_off = _parse_role(all_on_off_raw, "all_on_off") if all_on_off_raw is not None else None
 
     socket_count = sockets_raw["count"]
     _validate_role_suffix_count("on_off", on_off, socket_count)
@@ -425,28 +456,21 @@ def _parse_pattern(
         if role is not None:
             _validate_identified_by(role_name, role, child_models=child_models)
 
-    facilities = parse_facility_rules(
+    own_entries = parse_facility_entries(
         {"host": device_raw.get("facilities", {}), "socket": sockets_raw.get("facilities", {})}
     )
     standard = ob_facility_vocabulary()
     try:
-        outside = sorted(
-            f"{rule.domain}.{rule.key}"
-            for rule in facilities
-            if (rule.domain, rule.key) not in vocabulary.ids
-        )
-        if outside:
-            raise ValueError(
-                f"{', '.join(outside)} not in the {integration_domain} vocabulary: a model's own"
-                " rule may only change an id the integration offers"
-            )
-        # The model's own rules first (a repeat within them), then the rules the
-        # socket will really use: a model rule mapping a second entity to a
-        # facility the integration's defaults already map would otherwise load,
-        # and the facility would silently vanish at `_without_clashes`.
-        check_rules(facilities, standard)
-        compiled = effective_rules(vocabulary.defaults, overrides=facilities)
-        check_rules(compiled.values(), standard)
+        # The model's own entries first (a repeat or an overlap within them),
+        # then the entries the socket will really use: a model entry mapping a
+        # second entity to a facility the integration's already maps would
+        # otherwise load, and the facility would silently vanish at
+        # `_without_clashes`. A model's entry that replaces the integration's
+        # of the same name is laid over it first, so it never overlaps the
+        # entry it replaces.
+        check_entries(own_entries, standard)
+        compiled = effective_entries(vocabulary.entries, overrides=own_entries)
+        check_entries(compiled, standard)
     except ValueError as err:
         raise ValueError(f"facilities: {err}") from err
     if on_off.domain != standard[ON_OFF].domain:
@@ -470,8 +494,7 @@ def _parse_pattern(
         sw_version=sw_version,
         child_models=child_models,
         default_socket_name=default_socket_name,
-        facility_rules=MappingProxyType(compiled),
-        vocabulary=vocabulary.ids,
+        entries=compiled,
     )
 
 

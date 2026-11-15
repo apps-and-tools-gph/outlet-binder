@@ -2,7 +2,7 @@
 # OB's vocabulary: every reading and control OB can name for an Appliance, in
 # OB's own words and the same for every brand. An integration's
 # vocabulary_and_defaults.yaml (device_patterns/<integration>/) lists the entities
-# it offers and says which of them is which of these.
+# it offers, says how to recognise each, and says which of them is which of these.
 #
 # How to read the file:
 #   the domain:        the group an entry sits under: the kind of HA entity it
@@ -12,7 +12,8 @@
 #                      socket it is plugged into.
 #   the key:           the facility's key: `ha_` or `ob_`, then lowercase words
 #                      joined by `_`. `ha_<name>`: HA itself defines the name (a
-#                      device class name: power, energy, voltage, current).
+#                      device class name: power, energy, voltage, current,
+#                      apparent_power, reactive_power, frequency, power_factor).
 #                      `ob_<name>`: the name is OB's own. Either prefix means the
 #                      key never equals an HA or integration word. An
 #                      integration's vocabulary_and_defaults.yaml names it as an
@@ -31,25 +32,28 @@
 #
 # How an integration's vocabulary_and_defaults.yaml uses this list
 # (device_patterns/<integration>/vocabulary_and_defaults.yaml). Under
-# `vocabulary:` it lists every entity id the integration offers, grouped by the
-# HA domain of the entity. Each id is the integration's own name for the entity:
-# its registry `translation_key`, the same in every language. Beside an id is its
-# default, which may be left out:
+# `vocabulary:` it lists every entity the integration offers that OB lists,
+# grouped by the HA domain of the entity. The domains are sorted alphabetically,
+# and so are the entries within each. Each entry's key is its name: the
+# `<name>` in `<integration>_<name>`, written by a person and so the same in every
+# language. The entry states the facts that recognise the entity: a required
+# `unique_id_suffix` (what its `unique_id` ends with) and an optional
+# `device_class`. Beside them is its default, which may be left out:
 #   socket: <key>      the entity is one a CO Socket has, and an Appliance
 #                      mirrors it as this facility, a key from this list in the
 #                      same domain. If the facility's `entity_id_name` differs
-#                      from the integration's id, an Appliance gets two entities:
+#                      from the entry's name, an Appliance gets two entities:
 #                      one under OB's name (the stable one for automations) and
 #                      one under the integration's.
-#   device             the entity exists only at the CO level, on the plug
+#   device: true       the entity exists only at the CO level, on the plug
 #                      itself. A CO Socket has no such facility, so an Appliance
 #                      never mirrors it.
-#   nothing            the integration offers the id and OB has no name for it
-#                      yet: the entity is offered under
-#                      `<integration>_<id>`, and OB raises a Repairs issue.
-# An entity whose id is not in the vocabulary at all is offered the same way, with
-# a Repairs issue of its own. A model's pattern can replace a default for that
-# model alone, with `device.facilities` and `sockets.facilities` of its own.
+#   nothing            the integration offers the entity and OB has no name for
+#                      it: the entity is offered under `<integration>_<name>`.
+# An enabled entity that no entry recognises gets no OB entity, and OB raises a
+# Repairs issue for it. A model's pattern can replace an entry for that model
+# alone, or add entries of its own, with `device.facilities` and
+# `sockets.facilities`.
 #
 # An entity_id_name must not start with `<integration>_` for any integration HA
 # bundles (`energy_today` would read as the `energy` integration's `today`):
@@ -80,6 +84,11 @@ facilities:
       display_name: Overload protection
 
   sensor:
+    ha_apparent_power:
+      # Apparent power, in volt-amperes (HA device class: apparent_power).
+      entity_id_name: apparent_power
+      display_name: Apparent power
+
     ob_auto_off_at:
       # When the auto-off timer will switch the socket off (a time).
       entity_id_name: auto_off_at
@@ -95,6 +104,11 @@ facilities:
       entity_id_name: energy
       display_name: Energy
 
+    ha_frequency:
+      # Mains frequency, in hertz (HA device class: frequency).
+      entity_id_name: frequency
+      display_name: Frequency
+
     ob_on_since:
       # Since when the socket has been on (a time).
       entity_id_name: on_since
@@ -104,6 +118,16 @@ facilities:
       # Power drawn right now, in watts (HA device class: power).
       entity_id_name: power
       display_name: Power
+
+    ha_power_factor:
+      # The ratio of real to apparent power (HA device class: power_factor).
+      entity_id_name: power_factor
+      display_name: Power factor
+
+    ha_reactive_power:
+      # Reactive power, in volt-amperes reactive (HA device class: reactive_power).
+      entity_id_name: reactive_power
+      display_name: Reactive power
 
     ob_this_month_energy:
       # Energy used this month (HA device class: energy).

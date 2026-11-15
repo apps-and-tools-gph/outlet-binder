@@ -11,33 +11,33 @@ switches). Names follow docs/DECISIONS.md, _A CO Socket's facilities are found
 and named live_:
 
 - the OB-named entity, for a facility the pattern's rules map to a standard name;
-- the vendor-named entity, from the entity's `translation_key`, unless that
-  equals the standard name;
-- nothing for a host-only entity, a disabled one, one with no
-  `translation_key`, or one from another integration (a user's `switch_as_x`
-  wrapper is not the socket's).
+- the vendor-named entity, `<integration>_<name>` from the entry's YAML key,
+  unless that equals the standard name;
+- nothing for a host-only entity, a disabled one, an unlisted one, or one from
+  another integration (a user's `switch_as_x` wrapper is not the socket's).
+
+An entity is found by the facts its entry states: HA domain, `unique_id` ending
+and, optionally, device class. The entity registry's `translation_key` plays no
+part.
 
 The on/off entity is the pattern's `on_off` role, never a file entry, and has no
 vendor-named entity: its vendor name is the socket's own name on a strip.
 
-An entity whose id has no rule is a *gap*, reported beside the mirrors: its
-id is in the pattern's vocabulary but has no default, or it is not in the
-vocabulary at all. It still gets the vendor-named entity.
+An enabled entity of the integration that no entry recognises is a *gap*,
+reported beside the mirrors. It gets no OB entity at all.
 """
 
 from collections import defaultdict
 from collections.abc import Iterable, Mapping
 from dataclasses import dataclass, replace
-from enum import StrEnum
 
 from .discovery import CoPattern, expected_identifiers
-from .facility_rules import ON_OFF, FacilityRule, StandardFacility
+from .facility_rules import ON_OFF, FacilityEntry, StandardFacility
 from .identifiers import (
     FacilityName,
     HaDeviceRegistryId,
     HaEntityDottedId,
     HaEntityRegistryId,
-    VendorFacilityKey,
 )
 from .repairs import stale_issue_ids
 
@@ -55,14 +55,16 @@ class RegistryDevice:
 @dataclass(frozen=True, kw_only=True)
 class RegistryEntity:
     """One entity registry row, reduced to what naming a facility needs.
-    `disabled` is true for any `disabled_by`, whoever set it."""
+    `device_class` is the registry's `device_class`, else its
+    `original_device_class`. `disabled` is true for any `disabled_by`, whoever
+    set it."""
 
     id: HaEntityRegistryId
     entity_id: HaEntityDottedId
     unique_id: str | None
     domain: str
     platform: str
-    translation_key: VendorFacilityKey | None
+    device_class: str | None
     original_name: str | None
     device_id: HaDeviceRegistryId | None
     disabled: bool
@@ -91,45 +93,25 @@ class FacilityClash:
     id_suffix: str
 
 
-class GapKind(StrEnum):
-    """Why an entity has no rule. The value is the suffix of the Repairs
-    issue's translation key (`facility_<value>`)."""
-
-    NO_DEFAULT = "no_default"
-    NOT_IN_VOCABULARY = "not_in_vocabulary"
-
-    @property
-    def translation_key(self) -> str:
-        return f"facility_{self.value}"
-
-    @property
-    def log_reason(self) -> str:
-        """What the log line says is missing. A match on every member, so a
-        new kind without wording fails the type check."""
-        match self:
-            case GapKind.NO_DEFAULT:
-                return "has no default in its vocabulary file"
-            case GapKind.NOT_IN_VOCABULARY:
-                return "is not in its vocabulary file"
-
-
 @dataclass(frozen=True, kw_only=True, order=True)
 class FacilityGap:
-    """An entity id of `integration_domain`, in HA domain `domain`, that the
-    pattern has no rule for (#681)."""
+    """An enabled entity of `integration_domain` on a socket's device that the
+    pattern's vocabulary does not list. Described by facts only, since OB names
+    nothing it has not been told about."""
 
     integration_domain: str
+    entity_registry_id: HaEntityRegistryId
+    entity_id: HaEntityDottedId
     domain: str
-    key: VendorFacilityKey
-    kind: GapKind
+    device_class: str | None
 
 
 @dataclass(frozen=True)
 class SocketFacilities:
     """What a socket gives an Appliance. `clashes` lists each id that two or
     more sources would have produced; none of those is in `mirrors`, since
-    nothing guesses which source is meant. `gaps` lists each id the socket's
-    entities have that the pattern has no rule for."""
+    nothing guesses which source is meant. `gaps` lists each enabled entity of
+    the socket's device that the pattern's vocabulary does not list."""
 
     mirrors: tuple[SocketFacility, ...]
     clashes: tuple[FacilityClash, ...]
@@ -138,20 +120,33 @@ class SocketFacilities:
 
 # The Repairs issues for gaps have their own id namespace, so pruning stale ones
 # (`stale_gap_issue_ids`) can never delete another `outlet_binder` issue, the
-# near-miss ones included. The `.` between the parts is not in a domain or an
-# id, so two gaps never share an issue id.
+# near-miss ones included. The `.` between the parts is not in a domain or in an
+# entity registry id, and a registry id is one entity's, so two gaps never share
+# an issue id.
 FACILITY_GAP_ISSUE_PREFIX = "facility_gap_"
+
+# The key of the gap issue's text in strings.json.
+FACILITY_GAP_TRANSLATION_KEY = "facility_not_in_vocabulary"
+
+# What the text says for an entity with no device class. A placeholder must be a
+# string, and a bare "None" would read as a device class.
+NO_DEVICE_CLASS = "none"
 
 
 def gap_issue_id(gap: FacilityGap) -> str:
-    return f"{FACILITY_GAP_ISSUE_PREFIX}{gap.integration_domain}.{gap.domain}.{gap.key}"
+    return f"{FACILITY_GAP_ISSUE_PREFIX}{gap.integration_domain}.{gap.entity_registry_id}"
 
 
 def gap_placeholders(gap: FacilityGap) -> dict[str, str]:
     """Translation placeholders for a gap's Repairs issue. HA renders a raw
     `{name}` with no error if a key is missing, so
     tests/test_facility_gap_repairs.py checks them against strings.json."""
-    return {"integration": gap.integration_domain, "domain": gap.domain, "id": str(gap.key)}
+    return {
+        "integration": gap.integration_domain,
+        "entity_id": str(gap.entity_id),
+        "domain": gap.domain,
+        "device_class": gap.device_class or NO_DEVICE_CLASS,
+    }
 
 
 def stale_gap_issue_ids(
@@ -238,53 +233,59 @@ def socket_facilities(
     gaps: set[FacilityGap] = set()
     device_id = socket_device_id(pattern, host=host, on_off_entity=on_off_entity, devices=devices)
     if device_id is not None:
-        rules = pattern.facility_rules
         for entity in entities:
             if (
                 entity.device_id == device_id
                 and entity.platform == pattern.integration_domain
                 and not entity.disabled
                 and entity.id != on_off_entity.id
-                and entity.translation_key is not None
             ):
+                entry = _entry_of(entity, pattern.entries)
+                if entry is None:
+                    gaps.add(_gap_of(entity, pattern))
+                    continue
                 mirrors.extend(
                     _mirrors_of(
-                        entity, rules, standard, pattern.integration_domain, pattern.manufacturer
+                        entity, entry, standard, pattern.integration_domain, pattern.manufacturer
                     )
                 )
-                gap = _gap_of(entity, entity.translation_key, rules, pattern)
-                if gap is not None:
-                    gaps.add(gap)
     return replace(_without_clashes(mirrors), gaps=tuple(sorted(gaps)))
 
 
-def _gap_of(
-    entity: RegistryEntity,
-    key: VendorFacilityKey,
-    rules: Mapping[tuple[str, VendorFacilityKey], FacilityRule],
-    pattern: CoPattern,
-) -> FacilityGap | None:
-    if (entity.domain, key) in rules:
-        return None
-    in_vocabulary = (entity.domain, key) in pattern.vocabulary
+def _entry_of(entity: RegistryEntity, entries: Iterable[FacilityEntry]) -> FacilityEntry | None:
+    """The entry that recognises `entity`. The loader refuses entries that one
+    entity could satisfy together, so there is at most one."""
+    return next(
+        (
+            e
+            for e in entries
+            if e.recogniser.recognises(
+                domain=entity.domain, unique_id=entity.unique_id, device_class=entity.device_class
+            )
+        ),
+        None,
+    )
+
+
+def _gap_of(entity: RegistryEntity, pattern: CoPattern) -> FacilityGap:
     return FacilityGap(
         integration_domain=pattern.integration_domain,
+        entity_registry_id=entity.id,
+        entity_id=entity.entity_id,
         domain=entity.domain,
-        key=key,
-        kind=GapKind.NO_DEFAULT if in_vocabulary else GapKind.NOT_IN_VOCABULARY,
+        device_class=entity.device_class,
     )
 
 
 def _mirrors_of(
     entity: RegistryEntity,
-    rules: Mapping[tuple[str, VendorFacilityKey], FacilityRule],
+    entry: FacilityEntry,
     standard: Mapping[FacilityName, StandardFacility],
     integration_domain: str,
     manufacturer: str,
 ) -> list[SocketFacility]:
-    key = entity.translation_key
-    assert key is not None
-    rule = rules.get((entity.domain, key))
+    key = entry.recogniser.name
+    rule = entry.rule
     if rule is not None and rule.host_only:
         return []
     found: list[SocketFacility] = []

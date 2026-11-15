@@ -1,99 +1,142 @@
 # yaml-language-server: $schema=../../schemas/vocabulary_and_defaults_schema.yaml
-# Every entity id the TP-Link plugs and strips OB has patterns for (KP105, KP115,
-# KP303, P304M) can offer, and what OB makes of each. How to read the file, and
-# what each facility is: device_identification/ob_facility_vocabulary.yaml.
+# Every entity the TP-Link plugs and strips OB has patterns for (KP105, KP115,
+# KP303, P304M) can offer, how OB recognises it, and what OB makes of each. How to
+# read the file, and what each facility is:
+# device_identification/ob_facility_vocabulary.yaml.
 #
-# The id is TP-Link's kasa feature id, which the tplink integration stores as the
-# entity's `translation_key` (homeassistant/components/tplink/entity.py). It is
-# listed under the HA domain of its entity.
+# An entry's key is its name: the `<name>` in `<integration>_<name>`, which this
+# file's author chooses. It is listed under the HA domain of its entity. The
+# keys below are TP-Link's kasa feature ids, which the tplink integration also
+# stores as the entity's `translation_key`
+# (homeassistant/components/tplink/entity.py); OB does not read that.
 #
-# What follows an id is its default, and may be left out:
-#   device                the plug's or strip's own, not a socket's. An Appliance
+# OB recognises an entity by what the entry states:
+#   unique_id_suffix      what the entity's `unique_id` ends with. Required. The
+#                         tplink integration builds it as <device id>_<feature
+#                         id>, with four exceptions that end differently
+#                         (_current_a, _current_power_w, _today_energy_kwh,
+#                         _total_energy_kwh).
+#   device_class          an HA device class the entity must also have. Optional.
+#
+# What else an entry says is its default, and may be left out:
+#   device: true          the plug's or strip's own, not a socket's. An Appliance
 #                         never mirrors it.
 #   socket: <facility>    a socket has it, and an Appliance mirrors it as that
 #                         facility from OB's facility vocabulary.
-#   nothing               TP-Link offers it and OB has no name for it yet. The
-#                         Appliance still gets the vendor-named entity, and OB
-#                         raises a Repairs issue saying the default is missing.
+#   nothing               TP-Link offers it and OB has no name for it. The
+#                         Appliance still gets the entity as
+#                         `<integration>_<name>`.
+#
+# An enabled tplink entity on a socket's device that no entry recognises gets no
+# OB entity, and OB raises a Repairs issue saying the file does not list it.
 vocabulary:
   binary_sensor:
     # Whether the plug is connected to TP-Link's cloud.
-    cloud_connection: device
+    cloud_connection:
+      unique_id_suffix: _cloud_connection
+      device: true
 
     # The socket has overheated (a problem flag).
     overheated:
+      unique_id_suffix: _overheated
       socket: ob_overheated
 
     # The socket is overloaded (a problem flag).
     overloaded:
+      unique_id_suffix: _overloaded
       socket: ob_overloaded
 
   button:
     # The plug's restart button.
-    reboot: device
+    reboot:
+      unique_id_suffix: _reboot
+      device: true
 
   number:
     # How many minutes the auto-off timer waits. TP-Link labels it "Turn off in".
     auto_off_minutes:
+      unique_id_suffix: _auto_off_minutes
       socket: ob_auto_off_delay
 
     # The socket's power-protection level. TP-Link labels it "Power protection".
     power_protection_threshold:
+      unique_id_suffix: _power_protection_threshold
       socket: ob_overload_protection
 
   sensor:
     # When the auto-off timer will switch the socket off (a time).
     auto_off_at:
+      unique_id_suffix: _auto_off_at
       socket: ob_auto_off_at
 
     # Energy used this month.
     consumption_this_month:
+      unique_id_suffix: _consumption_this_month
       socket: ob_this_month_energy
 
     # Energy used today, in kWh.
     consumption_today:
+      unique_id_suffix: _today_energy_kwh
       socket: ob_today_energy
 
     # Energy used in total, in kWh.
     consumption_total:
+      unique_id_suffix: _total_energy_kwh
       socket: ha_energy
 
     # Electric current, in amps. Not the same as `current_consumption` below,
     # where "current" means "right now".
     current:
+      unique_id_suffix: _current_a
       socket: ha_current
 
     # Power drawn right now, in watts.
     current_consumption:
+      unique_id_suffix: _current_power_w
       socket: ha_power
 
     # The plug's own clock.
-    device_time: device
+    device_time:
+      unique_id_suffix: _device_time
+      device: true
 
     # Since when the socket has been on (a time).
     on_since:
+      unique_id_suffix: _on_since
       socket: ob_on_since
 
     # The plug's Wi-Fi signal strength.
-    rssi: device
+    rssi:
+      unique_id_suffix: _rssi
+      device: true
 
     # The plug's Wi-Fi signal level, as a number of bars.
-    signal_level: device
+    signal_level:
+      unique_id_suffix: _signal_level
+      device: true
 
     # The Wi-Fi network the plug is on.
-    ssid: device
+    ssid:
+      unique_id_suffix: _ssid
+      device: true
 
     # Voltage.
     voltage:
+      unique_id_suffix: _voltage
       socket: ha_voltage
 
   switch:
     # Whether the auto-off timer is turned on.
     auto_off_enabled:
+      unique_id_suffix: _auto_off_enabled
       socket: ob_auto_off_enabled
 
     # Whether the plug updates its own firmware.
-    auto_update_enabled: device
+    auto_update_enabled:
+      unique_id_suffix: _auto_update_enabled
+      device: true
 
     # The plug's indicator LED.
-    led: device
+    led:
+      unique_id_suffix: _led
+      device: true

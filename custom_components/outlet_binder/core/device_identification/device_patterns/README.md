@@ -33,14 +33,14 @@ version-matching rules a schema description can't carry on its own.
 | `device` | object | required | Whole-device concerns: whether the device has a plug of its own, and its whole-device on/off switch if it has one. |
 | `device.kind` | `PLUG_IN` or `FIXED` | required | PLUG_IN if the device has a plug of its own and can be moved between outlets (a smart plug or power strip); FIXED if it has no plug and stays where it is installed (a smart wall outlet). Always written out, since nothing guesses it. |
 | `device.all_on_off` | [role](#role) | optional | Identifies a whole-device master on/off switch, if the device has one (e.g. a multi-socket power strip's single strip-wide switch), distinct from any individual socket's own on_off. No default; most devices don't have one. |
-| `device.facilities` | object of lists of [host_entity](#host_entity) | optional | This model's own device-level entities, laid over its integration's defaults for this model alone (#211): an entry here replaces the integration's default for the same domain and integration_name, and its id must be one the integration's vocabulary offers. They exist only at the CO level, such as the restart button or the Wi-Fi signal; a CO Socket has no such facility, so an Appliance never mirrors them. They play no part in matching a device. Omit it if the model uses the integration's rules. |
+| `device.facilities` | object of lists of [host_entity](#host_entity) | optional | This model's own device-level entities, laid over its integration's entries for this model alone (#211). An entry whose integration_name the integration's file has replaces that entry whole, recognition and meaning together; any other adds an entity. Each states its own `unique_id_suffix`. They exist only at the CO level, such as the restart button or the Wi-Fi signal; a CO Socket has no such facility, so an Appliance never mirrors them. They play no part in matching a device. Omit it if the model uses the integration's entries. |
 | `sockets` | object | required | Everything about deriving this device's individual CO Sockets. |
 | `sockets.count` | integer | required | How many CO Sockets this device has. A whole number written without a decimal point (3, not 3.0) -- pattern_loader.py rejects 3.0 at load, since a plain `type: integer` accepts any zero-fractional-part number per the JSON Schema spec, but a standard schema-aware editor may not (issue #339). |
 | `sockets.child_models` | list of string | optional | The model string(s) this device's own per-socket child HA devices report, if any (a hub-plus-children device, e.g. a Tapo P304M power strip). Folded into the parent device's entity list before matching. |
 | `sockets.default_name` | string | optional | A regular expression, matched against a Socket's whole name, for the names this device's integration gives its Sockets before anyone renames them (e.g. `Tapo P304M_\d+`). The "Appliances from Socket names" dialog reads it to leave such Sockets out; it plays no part in matching a device. Omit it if the device has no such names. |
 | `sockets.on_off` | [role](#role) | required | Per-socket role identifying the entity that turns one socket on/off. The only match-blocking role: it must resolve to exactly `count` entities or the whole device fails to match. |
 | `sockets.monitoring` | [role](#role) | optional | Per-socket role identifying a socket's usage-tracking entity, if any. Best-effort: silently unresolved if absent/ambiguous, never a reason to reject the device. No default -- a pattern declares it explicitly whenever the device has one. |
-| `sockets.facilities` | object of lists of [socket_facility](#socket_facility) | optional | This model's own socket entities, each mapped to one of OB's facilities, laid over its integration's defaults for this model alone (#211): an entry here replaces the integration's default for the same domain and integration_name, and its id must be one the integration's vocabulary offers. An Appliance mirrors them. They play no part in matching a device. Omit it if the model uses the integration's rules. |
+| `sockets.facilities` | object of lists of [socket_facility](#socket_facility) | optional | This model's own socket entities, laid over its integration's entries for this model alone (#211). An entry whose integration_name the integration's file has replaces that entry whole, recognition and meaning together; any other adds an entity. Each states its own `unique_id_suffix`, and, to be an OB facility, a `facility_name`. An Appliance mirrors them. They play no part in matching a device. Omit it if the model uses the integration's entries. |
 
 ### role
 
@@ -56,21 +56,26 @@ version-matching rules a schema description can't carry on its own.
 
 | Key | Type | Required | Meaning |
 | --- | --- | --- | --- |
-| `integration_name` | string | required | The integration's own name for the entity: its registry `translation_key`, e.g. `rssi`. |
+| `integration_name` | string | required | The entity's name in this file: the `<name>` in `<integration>_<name>`, e.g. `rssi`. |
+| `unique_id_suffix` | string | required | What the entity's `unique_id` ends with, compared literally. It must name one entity of the device, not a kind of entity. |
+| `device_class` | string | optional | An HA device class the entity must also have, as well as the ending. Optional: the ending alone recognises the entity. |
 
 ### socket_facility
 
 | Key | Type | Required | Meaning |
 | --- | --- | --- | --- |
-| `facility_name` | string | required | The facility's key (`ha_` or `ob_`, then lowercase words); it must be in OB's facility vocabulary, in this domain. When the facility's entity id ending differs from `integration_name`, an Appliance gets two entities for it, one under each name. |
-| `integration_name` | string | required | The integration's own name for the entity: its registry `translation_key`, e.g. `current_consumption`. |
+| `facility_name` | string | optional | The facility's key (`ha_` or `ob_`, then lowercase words); it must be in OB's facility vocabulary, in this domain. When the facility's entity id ending differs from `integration_name`, an Appliance gets two entities for it, one under each name. Without it the entity is offered as `<integration>_<integration_name>` only. |
+| `integration_name` | string | required | The entity's name in this file: the `<name>` in `<integration>_<name>`, e.g. `current_consumption`. |
+| `unique_id_suffix` | string | required | What the entity's `unique_id` ends with, compared literally. It must name one entity of the device, not a kind of entity. |
+| `device_class` | string | optional | An HA device class the entity must also have, as well as the ending. Optional: the ending alone recognises the entity. |
 
 ### identified_by
 
 | Key | Type | Required | Meaning |
 | --- | --- | --- | --- |
 | `device` | `self` or `child` | required | self compares against the matched device's own identifiers; child compares against the identifiers of any of its folded children (needs sockets.child_models). |
-| `identifier` | string | required | A template over {unique_id} (required) and {parent_identifier} (device: child only) -- see device_patterns/README.md. |
+| `identifier` | string | required | A template over {unique_id}, or over {unique_id_stem} when unique_id_suffix is set (exactly one of the two is required), and {parent_identifier} (device: child only) -- see device_patterns/README.md. |
+| `unique_id_suffix` | string | optional | What the entity's unique_id ends with, compared literally. When set, identifier uses {unique_id_stem} (the unique_id without this ending) instead of {unique_id} -- see device_patterns/README.md. |
 
 <!-- END GENERATED -->
 
@@ -155,6 +160,12 @@ device hw="3.1"   -> tries 2.5, then 1.0, then any (2.5 is the highest floor it 
 device hw=None    -> tries any only
 device hw="Rev A" -> tries any only (unparseable -- treated as version zero)
 ```
+
+A pattern file is a complete description of its version. A file for a later
+hardware version lists that version's extra entities itself, in
+`device.facilities` and `sockets.facilities`, each with its own
+`unique_id_suffix`; nothing in the integration's
+[vocabulary file](#vocabulary-files) or in `any.yaml` has to change for it.
 
 ## Pattern content schema
 
@@ -283,11 +294,32 @@ find the entity/entities filling that slot:
   - `device` (required): `self` compares against the matched device's
     own identifiers; `child` compares against the identifiers of any of
     its folded children, so it needs `sockets.child_models`.
-  - `identifier` (required, string): a template over two placeholders,
-    `{unique_id}` (the entity's; required) and `{parent_identifier}` (one
-    of the matched device's own identifiers; `child` only). Anything else
-    in braces is rejected at load time. Device-specific detail, such as
-    the `_` between the two, is written here in the YAML.
+  - `identifier` (required, string): a template over three placeholders:
+    `{unique_id}` (the entity's), `{unique_id_stem}` (the entity's with
+    `unique_id_suffix` taken off its end) and `{parent_identifier}` (one
+    of the matched device's own identifiers; `child` only). A rule uses
+    exactly one of `{unique_id}` and `{unique_id_stem}`: `{unique_id_stem}`
+    if and only if `unique_id_suffix` is set. Anything else in braces is
+    rejected at load time. Device-specific detail, such as the `_`
+    between the two, is written here in the YAML.
+  - `unique_id_suffix` (optional, non-empty string): what the entity's
+    `unique_id` ends with, compared literally. It is for a device whose
+    identifier is a leading part of every one of its entities'
+    `unique_id`s, so that only the ending tells one entity from another.
+    With it, an entity is accepted only if its `unique_id` ends with the
+    suffix and has at least one character before it (the stem), and the
+    device holds the identifier built from that stem. An entity whose
+    `unique_id` does not end with it is not accepted. The suffix is text,
+    never a template, and may hold any character. It is not the role's
+    `unique_id_suffixes`: that lists one ending per socket and sets their
+    order, while this one states a single ending and confirms identity.
+    Because an entity must end with both, a role that lists
+    `unique_id_suffixes` must have each entry end with the stated ending or
+    be ended by it, and, when the role has no `unique_id_suffixes`, the
+    stated ending must not end with any `exclude_unique_id_suffixes` entry
+    (with `unique_id_suffixes` the exclude list is ignored); otherwise the
+    pattern could never match and is refused at load. An empty ending is
+    refused.
 
   On a KP303, the parent's identifier is its MAC, the master switch's
   `unique_id` is exactly that MAC, and each child's identifier is
@@ -303,6 +335,25 @@ find the entity/entities filling that slot:
   without `{parent_identifier}`: each switch's `unique_id` equals its own
   child device's identifier exactly, so the identifier is just
   `{unique_id}`, unlike KP303's `<parent MAC>_<unique_id>`.
+  A Matter plug needs `unique_id_suffix`: its device identifier is
+  `deviceid_<fabric>-<node>-MatterNodeDevice`, and every entity's
+  `unique_id` on that device starts with the same
+  `<fabric>-<node>-MatterNodeDevice`, so the switch is told from the
+  device's other entities only by its ending:
+
+  ```yaml
+  on_off:
+    domain: switch
+    identified_by:
+      device: self
+      unique_id_suffix: "-1-MatterPlug-6-0"
+      identifier: "deviceid_{unique_id_stem}"
+  ```
+
+  Read aloud: the switch's `unique_id` ends with `-1-MatterPlug-6-0`, and
+  the device's identifier is `deviceid_` followed by the rest of it. The
+  ending includes the entity's endpoint id, so one literal ending
+  describes one model's switch, not every Matter device.
   Missing facts fail closed: a device with no identifiers, or an entity
   with no `unique_id`, matches nothing and shows up as a near-miss rather
   than a wrong CO.
@@ -323,12 +374,12 @@ one folded child whose identifier is the template filled in for the socket's
 has only its On/Off entity. Nothing matches by substring.
 
 **An integration's `vocabulary_and_defaults.yaml`** sits directly in its folder,
-beside the Manufacturer folders. It lists every entity id the integration offers
-for the devices OB has patterns for, by the HA domain of the entity, and what OB
-makes of each. The names OB gives them come from OB's facility list,
-`core/device_identification/ob_facility_vocabulary.yaml`, which groups the facilities by
-their HA domain and gives each a key, the `entity_id_name` its entity id ends
-with, and a display name. It is checked against
+beside the Manufacturer folders. It lists every entity the integration offers
+for the devices OB has patterns for, by the HA domain of the entity, how OB
+recognises each, and what OB makes of it. The names OB gives them come from OB's
+facility list, `core/device_identification/ob_facility_vocabulary.yaml`, which groups the
+facilities by their HA domain and gives each a key, the `entity_id_name` its
+entity id ends with, and a display name. It is checked against
 `schemas/ob_facility_vocabulary_schema.yaml`. A key is `ha_<name>` when HA itself
 defines the name (a device class name: `ha_power`, `ha_voltage`, ...) and
 `ob_<name>` when the name is OB's own (`ob_overheated`, ...), so a key never
@@ -337,62 +388,100 @@ integration it comes from, so a mapping to a facility in another domain is
 refused: the Appliance's entity id would otherwise change with the socket it is
 plugged into.
 
-Each id is the integration's own name for the entity: its registry
-`translation_key`, the same in every language. Beside it is its optional
-default:
+Each entry's key is its _name_: the `<name>` in `<integration>_<name>`, written
+by a person, so it is the same in every language and never changes with the
+integration. The entry states the facts that recognise the entity, and OB
+matches an entity on those facts alone (the entity registry's `translation_key`
+is not read):
+
+- `unique_id_suffix` (required): what the entity's `unique_id` ends with,
+  compared literally. It must name one entity of the device, not a kind of
+  entity: a device class alone is too loose, since a strip can have several
+  sensors of one class.
+- `device_class` (optional): an HA device class the entity must also have, read
+  as the registry's `device_class`, else its `original_device_class`.
+
+Beside the facts is the entry's optional default:
 
 - `socket: <facility>`: a CO Socket has the entity, and an Appliance mirrors
   it as that facility, a key from OB's facility vocabulary (`ha_power`, `ob_overheated`,
   ...).
-- `device`: the entity exists only at the CO level, on the plug itself (restart,
-  LED, signal strength, a whole-strip total). A CO Socket has no such facility,
-  so an Appliance never mirrors it.
-- nothing: the integration offers the id and OB has no name for it yet. The
-  Appliance still gets the vendor-named entity, and OB raises a Repairs issue
-  (and a log line) saying the id has no default.
-
-Because a default sits beside its id, a default for an id the integration does not
-offer cannot be written.
+- `device: true`: the entity exists only at the CO level, on the plug itself
+  (restart, LED, signal strength, a whole-strip total). A CO Socket has no such
+  facility, so an Appliance never mirrors it. Where the plug and its socket are
+  one HA device, every plug-level entity needs this, or it raises the Repairs
+  issue below. `socket` and `device` together are refused.
+- nothing: the integration offers the entity and OB has no name for it. The
+  Appliance gets the entity as `<integration>_<name>`, and that is the intended
+  result, not a fault.
 
 ```yaml
 vocabulary:
   sensor:
     current_consumption:
+      unique_id_suffix: _current_power_w
       socket: ha_power
-    rssi: device
+    rssi:
+      unique_id_suffix: _rssi
+      device: true
     humidity:
+      unique_id_suffix: _humidity
+      device_class: humidity
 ```
 
 The file is checked against `schemas/vocabulary_and_defaults_schema.yaml`, and
 then by `facility_loader.py` for what a schema cannot say: every `socket`
 facility is in OB's facility vocabulary and in the facility's domain, `on_off` is never
 mapped (it is the pattern's role, and its domain must be the one OB's facility vocabulary gives it), no
-facility is mapped from two ids, and no id repeats under one domain (a repeated
-YAML key is refused, not read as the last one). `validate_patterns` checks it
-too. The pattern loader skips it, because only
-`<integration>/vocabulary_and_defaults.yaml` is a vocabulary file.
+facility is mapped from two entries, no name repeats under one domain (a repeated
+YAML key is refused, not read as the last one), and **no entity could satisfy
+two entries**: two entries in one domain overlap when one's ending ends with the
+other's (equal endings included) and their device classes are equal or one is
+absent. That check is why an entity has at most one entry and the resolver needs
+no precedence rule. `validate_patterns` checks it too. The pattern loader skips
+it, because only `<integration>/vocabulary_and_defaults.yaml` is a vocabulary
+file.
 
-**Which OB entities a facility gets**, for an enabled entity of the
-integration that has a `translation_key`:
+**Which OB entities an entity gets**, for an enabled entity of the integration
+on the socket's device:
 
 | Case | OB entities |
 | --- | --- |
-| Default `socket`, the facility's `entity_id_name` differs from the id (`current_consumption` → `power`) | `sensor.ob_<appliance>_power` and `sensor.ob_<appliance>_tplink_current_consumption` |
-| Default `socket`, the facility's `entity_id_name` equals the id (`voltage`) | `sensor.ob_<appliance>_voltage` only |
-| No default (`humidity` in the vocabulary), or not in the vocabulary at all | `sensor.ob_<appliance>_tplink_humidity` only, and a Repairs issue |
-| Default `device`, disabled, no `translation_key`, or another integration's entity | none |
+| Entry with `socket`, the facility's `entity_id_name` differs from the name (`current_consumption` → `power`) | `sensor.ob_<appliance>_power` and `sensor.ob_<appliance>_tplink_current_consumption` |
+| Entry with `socket`, the facility's `entity_id_name` equals the name (`voltage`) | `sensor.ob_<appliance>_voltage` only |
+| Entry with no default (`humidity`) | `sensor.ob_<appliance>_tplink_humidity` only |
+| Entry with `device: true`, or a disabled entity, or another integration's entity | none |
+| No entry recognises it | none, and a Repairs issue |
 | The `on_off` role | `switch.ob_<appliance>_on_off` only |
 
 If two sources would give the same entity id, neither is offered.
 
-**A model's own rules** go in its pattern file: `device.facilities` makes ids
-device-level (`device` in the vocabulary file), and `sockets.facilities` gives an
-id a socket facility (`socket: ...`), each as a list of entries. An entry
-there replaces the integration's default for the same domain and
-`integration_name`, for that model alone, and may name only an id the
-integration's vocabulary offers. The loader works out each model's final rules
-once, when the pattern loads: the vocabulary's defaults, then the model's own
-rules.
+**An unlisted entity** (an enabled entity of the integration on a socket's
+device that no entry recognises) gets no OB entity: OB does not invent a name
+for something nobody has looked at. So that nothing goes missing silently, OB
+raises one Repairs issue for it, keyed by its entity registry id, describing it
+by its facts (its HA entity id, domain and device class) and naming nothing. It
+is raised only for a socket an Appliance is plugged into, and clears when the
+entity is listed, disabled or no longer met.
+
+**A model's own entries** go in its pattern file: `device.facilities` lists
+device-level entities, and `sockets.facilities` lists socket entities, each as a
+list of entries that states its own `unique_id_suffix` (and `device_class` if
+needed). A socket entry may add a `facility_name`; without one the entity is
+offered as `<integration>_<name>`. An entry whose `integration_name` the
+integration's file has replaces that entry whole, for that model alone: nothing
+is merged field by field. Any other name adds an entity. The loader works out
+each model's final entries once, when the pattern loads: the integration's
+entries, then the model's own, and refuses the result if two overlap.
+
+A later hardware version gets an additional pattern file beside `any.yaml`
+(a hardware floor such as `1.5-any.yaml`), complete on its own: it does not build
+on `any.yaml`, which is not edited. Its `device.facilities` and
+`sockets.facilities` list that version's extra entities, each with its own
+`unique_id_suffix`, so nothing in the integration's file has to change for it.
+The software half of the filename is reserved for firmware-specific files, such
+as `any-1.5.yaml`. It is parsed but not matched yet, so until it is, only the
+hardware half selects a pattern and such a file is not chosen over `any.yaml`.
 
 ## When a pattern does not match
 

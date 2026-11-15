@@ -48,6 +48,7 @@ from ..domain.appliance_mirrors import ON_OFF_ID_SUFFIX, MirrorSpec, desired_mir
 from ..domain.device_switch import plug_switch_unique_ids
 from ..domain.discovery import CoPattern
 from ..domain.facilities import (
+    FACILITY_GAP_TRANSLATION_KEY,
     FacilityClash,
     FacilityGap,
     SocketFacilities,
@@ -178,9 +179,9 @@ class MirrorSync:
 
     @callback
     def _report_gaps(self, facilities: Mapping[str, SocketFacilities]) -> None:
-        """One Repairs issue and one log line per integration and id the
-        sockets in use have no rule for. An issue goes when a later sync no longer
-        meets its id, as the near-miss issues do (#356)."""
+        """One Repairs issue and one log line per unlisted entity on the sockets
+        in use. An issue goes when a later sync no longer meets its entity, as the
+        near-miss issues do (#356)."""
         gaps = {gap for found in facilities.values() for gap in found.gaps}
         for issue_id in stale_gap_issue_ids(gaps, existing=existing_issue_ids(self._hass)):
             ir.async_delete_issue(self._hass, DOMAIN, issue_id)
@@ -192,16 +193,17 @@ class MirrorSync:
                 is_fixable=False,
                 is_persistent=False,
                 severity=ir.IssueSeverity.WARNING,
-                translation_key=gap.kind.translation_key,
+                translation_key=FACILITY_GAP_TRANSLATION_KEY,
                 translation_placeholders=gap_placeholders(gap),
             )
         for gap in sorted(gaps - self._reported_gaps):
             _LOGGER.warning(
-                "Outlet & Appliance Binding: %s %s.%s %s, so its entity has only the vendor name.",
+                "Outlet & Appliance Binding: %s entity %s (%s, device class %s) is not in the"
+                " integration's vocabulary file, so it has no entity of its own.",
                 gap.integration_domain,
+                gap.entity_id,
                 gap.domain,
-                gap.key,
-                gap.kind.log_reason,
+                gap.device_class,
             )
         self._reported_gaps = gaps
 

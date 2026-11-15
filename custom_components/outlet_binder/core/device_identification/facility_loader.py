@@ -3,13 +3,14 @@ defaults (#681).
 
     device_identification/ob_facility_vocabulary.yaml        OB's facility vocabulary
     device_identification/device_patterns/<integration>/vocabulary_and_defaults.yaml
-                                                             one integration's ids
+                                                             one integration's entries
 
 Both are checked against a JSON Schema first (`ob_facility_vocabulary_schema.yaml`,
 `vocabulary_and_defaults_schema.yaml`, both in `schemas/`), then against the
 rules a schema cannot express: every `socket` facility is in OB's facility vocabulary
 and in its own domain, `ob_on_off` is never mapped (it is the pattern's role,
-not a file entry), and no facility is mapped twice. A model's own rules
+not a file entry), no facility is mapped twice, and no entity could satisfy two
+entries at once (their recognising facts overlap). A model's own entries
 (`device.facilities`, `sockets.facilities`) are checked by the same rules.
 A file that fails raises `ValueError` naming why, rather than loading
 partly: a file that quietly lost entries would rename an Appliance's
@@ -33,6 +34,8 @@ from jsonschema.exceptions import best_match
 
 from ..domain.facility_rules import (
     ON_OFF,
+    EntityRecogniser,
+    FacilityEntry,
     FacilityRule,
     IntegrationVocabulary,
     StandardFacility,
@@ -81,10 +84,10 @@ def vocabulary_paths(directory: Path) -> list[Path]:
 
 def refuse_repeated_keys(path: Path) -> None:
     """Raises ValueError if any mapping in `path` repeats a key. HA's YAML
-    loader only logs a warning and keeps the last, so a repeated id would
-    quietly replace the first one's default and rename an Appliance's
-    entities. Every file that holds facility rules is read through this: the
-    facility vocabulary, the integrations' vocabulary files and the patterns."""
+    loader only logs a warning and keeps the last, so a repeated name would
+    quietly replace the first entry and rename an Appliance's entities. Every
+    file that holds facility rules is read through this: the facility
+    vocabulary, the integrations' vocabulary files and the patterns."""
     try:
         root = yaml.compose(path.read_text(encoding="utf-8"))
     except (OSError, yaml.YAMLError) as err:
@@ -168,61 +171,88 @@ def ob_facility_vocabulary() -> Mapping[FacilityName, StandardFacility]:
     return read_ob_facility_vocabulary(OB_FACILITY_VOCABULARY_PATH)
 
 
-def parse_facility_rules(
-    raw: Mapping[str, Mapping[str, Iterable[Mapping]]],
-) -> tuple[FacilityRule, ...]:
-    """Rules from a `facilities` mapping (`host` and `socket`, each HA domain
-    to its entries) already checked against the schema (here, or by the pattern
-    schema's own copy of the entries). The domain is the group an entry is
-    listed under, and a `host` entry is `host_only` by being in that section."""
-    return tuple(
+def _entry(
+    domain: str,
+    name: str,
+    fields: Mapping,
+    *,
+    host_only: bool = False,
+    facility_name: str | None = None,
+) -> FacilityEntry:
+    """One entry from its YAML fields. It has a rule when it is host-only or names
+    a facility, and none otherwise."""
+    key = VendorFacilityKey(name)
+    rule = (
         FacilityRule(
             domain=domain,
-            key=VendorFacilityKey(entry["integration_name"]),
-            facility_name=FacilityName(entry["facility_name"]) if section == "socket" else None,
-            host_only=section == "host",
+            key=key,
+            facility_name=FacilityName(facility_name) if facility_name else None,
+            host_only=host_only,
         )
-        for section, groups in raw.items()
-        for domain, entries in groups.items()
-        for entry in entries
+        if host_only or facility_name
+        else None
+    )
+    return FacilityEntry(
+        recogniser=EntityRecogniser(
+            domain=domain,
+            name=key,
+            unique_id_suffix=fields["unique_id_suffix"],
+            device_class=fields.get("device_class"),
+        ),
+        rule=rule,
     )
 
 
-def parse_vocabulary(raw: Mapping[str, Mapping[str, object]]) -> IntegrationVocabulary:
+def parse_facility_entries(
+    raw: Mapping[str, Mapping[str, Iterable[Mapping]]],
+) -> tuple[FacilityEntry, ...]:
+    """Entries from a `facilities` mapping (`host` and `socket`, each HA domain
+    to its entries) already checked against the schema (here, or by the pattern
+    schema's own copy of the entries). The domain is the group an entry is
+    listed under, and a `host` entry is `host_only` by being in that section. A
+    `socket` entry without a `facility_name` has a recogniser and no rule."""
+    return tuple(
+        _entry(
+            domain,
+            item["integration_name"],
+            item,
+            host_only=section == "host",
+            facility_name=item.get("facility_name"),
+        )
+        for section, groups in raw.items()
+        for domain, items in groups.items()
+        for item in items
+    )
+
+
+def parse_vocabulary(raw: Mapping[str, Mapping[str, Mapping]]) -> IntegrationVocabulary:
     """The vocabulary in a `vocabulary:` mapping already checked against the
-    schema: each id to its default (nothing, `device` or `socket: facility`).
-    `device` is `host_only`, by being a CO-level id."""
-    ids: set[tuple[str, VendorFacilityKey]] = set()
-    defaults: list[FacilityRule] = []
-    for domain, entries in raw.items():
-        for name, default in entries.items():
-            key = VendorFacilityKey(name)
-            ids.add((domain, key))
-            if default is None:
-                continue
-            if default == "device":
-                defaults.append(FacilityRule(domain=domain, key=key, host_only=True))
-            else:
-                assert isinstance(default, Mapping)
-                defaults.append(
-                    FacilityRule(
-                        domain=domain, key=key, facility_name=FacilityName(default["socket"])
-                    )
-                )
-    return IntegrationVocabulary(ids=frozenset(ids), defaults=tuple(defaults))
+    schema: each entry's name to its recognising facts and its default (nothing,
+    `device: true` or `socket: facility`). `device` is `host_only`, by being a
+    CO-level entity."""
+    return IntegrationVocabulary(
+        entries=tuple(
+            _entry(
+                domain,
+                name,
+                fields,
+                host_only=bool(fields.get("device")),
+                facility_name=fields.get("socket"),
+            )
+            for domain, group in raw.items()
+            for name, fields in group.items()
+        )
+    )
 
 
 def check_rules(
     rules: Iterable[FacilityRule], standard: Mapping[FacilityName, StandardFacility]
 ) -> None:
-    """Raises ValueError for a rule set that would mis-name an entity."""
-    seen: set[tuple[str, VendorFacilityKey]] = set()
+    """Raises ValueError for a rule set that would mis-name an entity. A name
+    listed twice is `check_entries`' check, which sees entries that have no rule."""
     mapped: dict[FacilityName, str] = {}
     for rule in rules:
         where = f"{rule.domain}.{rule.key}"
-        if (rule.domain, rule.key) in seen:
-            raise ValueError(f"{where} is listed more than once")
-        seen.add((rule.domain, rule.key))
         if rule.facility_name is None:
             continue
         if rule.facility_name == ON_OFF:
@@ -248,6 +278,32 @@ def check_rules(
         mapped[rule.facility_name] = where
 
 
+def check_entries(
+    entries: Iterable[FacilityEntry], standard: Mapping[FacilityName, StandardFacility]
+) -> None:
+    """Raises ValueError for an entry list that would mis-name or lose an
+    entity: a name listed twice in one domain, a rule `check_rules` refuses, or
+    two entries one entity could satisfy at once. The last makes the resolver
+    need no precedence rule, since an entity then has at most one entry."""
+    entries = tuple(entries)
+    seen: set[tuple[str, VendorFacilityKey]] = set()
+    for entry in entries:
+        name = (entry.recogniser.domain, entry.recogniser.name)
+        if name in seen:
+            raise ValueError(f"{name[0]}.{name[1]} is listed more than once")
+        seen.add(name)
+    check_rules((e.rule for e in entries if e.rule is not None), standard)
+    for index, first in enumerate(entries):
+        for second in entries[index + 1 :]:
+            a, b = first.recogniser, second.recogniser
+            if a.overlaps(b):
+                raise ValueError(
+                    f"{a.domain}.{a.name} (unique_id ending {a.unique_id_suffix!r}) and"
+                    f" {b.domain}.{b.name} (unique_id ending {b.unique_id_suffix!r}) could both"
+                    " recognise one entity: make their endings, or their device classes, differ"
+                )
+
+
 def load_vocabulary_file(path: Path) -> IntegrationVocabulary:
     """One integration's vocabulary and defaults, fully checked. Raises
     ValueError, naming the file and the reason, if it is malformed."""
@@ -256,7 +312,7 @@ def load_vocabulary_file(path: Path) -> IntegrationVocabulary:
     # error names its own file, not this one.
     standard = ob_facility_vocabulary()
     try:
-        check_rules(vocabulary.defaults, standard)
+        check_entries(vocabulary.entries, standard)
     except ValueError as err:
         raise ValueError(f"{path}: {err}") from err
     return vocabulary

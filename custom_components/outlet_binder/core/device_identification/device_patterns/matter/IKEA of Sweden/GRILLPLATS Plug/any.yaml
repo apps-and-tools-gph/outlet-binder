@@ -1,0 +1,20 @@
+# yaml-language-server: $schema=../../../../schemas/device_pattern_schema.yaml
+# identified_by states the switch's own ending (endpoint 1, MatterPlug): every
+# entity on the device shares the rest of its unique_id, so a shorter ending
+# would be passed by all of them.
+#
+# device_class: power picks the live power sensor from the other measurements,
+# which are sensors too (apparent power, reactive power, voltage, current).
+device:
+  kind: PLUG_IN
+sockets:
+  count: 1
+  on_off:
+    domain: switch
+    identified_by:
+      device: self
+      unique_id_suffix: "-1-MatterPlug-6-0"
+      identifier: "deviceid_{unique_id_stem}"
+  monitoring:
+    domain: sensor
+    device_class: power
